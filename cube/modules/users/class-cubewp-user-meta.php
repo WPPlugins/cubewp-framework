@@ -38,9 +38,8 @@ class CubeWp_User_Meta {
                 $fieldBox[$SingleFieldOption['name']] = $SingleFieldOption;
                 if(isset($sub_fields[$SingleFieldOption['name']]) && !empty($sub_fields[$SingleFieldOption['name']])){
                     foreach($sub_fields[$SingleFieldOption['name']] as $sub_field){
-                        $SubFieldOption[] = $fieldOptions[$sub_field];
+                        $fieldBox[$SingleFieldOption['name']]['sub_fields'][] = $fieldOptions[$sub_field];
                     }
-                    $fieldBox[$SingleFieldOption['name']]['sub_fields'] = $SubFieldOption;
                 }
             }
         }

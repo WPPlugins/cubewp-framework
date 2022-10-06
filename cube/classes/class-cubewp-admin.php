@@ -70,6 +70,7 @@ class CubeWp_Admin {
               display: block;
            }
         </style>';
+        
     }
 
     /**

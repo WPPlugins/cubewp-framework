@@ -55,7 +55,7 @@ class CubeWp_Frontend_Text_Field extends CubeWp_Frontend {
 
         $output .= '</div>';
 
-        $output = apply_filters("cubewp/posttype/{$args['name']}/field", $output, $args);
+        $output = apply_filters("cubewp/frontend/{$args['name']}/field", $output, $args);
 
         return $output;
     }

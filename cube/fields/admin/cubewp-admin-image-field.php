@@ -56,7 +56,8 @@ class CubeWp_Admin_Image_Field extends CubeWp_Admin {
 		$output .= $this->cwp_field_wrap_end($args);
 
         
-        return $output;
+        
+        return apply_filters("cubewp/admin/{$args['name']}/field", $output, $args);
     }
     
 }

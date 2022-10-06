@@ -93,7 +93,7 @@ class CubeWp_Taxonomy_Custom_Fields {
                 'required' => true,
         );
         $field_settings['field_types'] = array(
-                'label' => esc_html__('Field Types', 'cubewp-framework'),
+                'label' => esc_html__('Field Type', 'cubewp-framework'),
                 'name' => 'cwp_tax_fields[type]',
                 'type' => 'dropdown',
                 'options' => self::cwp_taxonomy_field_types(),

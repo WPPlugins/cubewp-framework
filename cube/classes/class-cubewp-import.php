@@ -21,7 +21,7 @@ class CubeWp_Import {
         add_action('wp_ajax_cwp_import_data', array($this, 'cwp_import_data_callback'));
         add_action('wp_ajax_cwp_import_dummy_data', array($this, 'cwp_import_dummy_data_callback'));
         if(isset($_GET['import']) && $_GET['import'] == 'success') {
-            new CubeWp_Admin_Notice(esc_html__('Data Imported Successfully', 'cubewp-framework'));
+            new CubeWp_Admin_Notice("cubewp-import-success", esc_html__('Data Imported Successfully', 'cubewp-framework'), 'success', false);
         }
     }
         

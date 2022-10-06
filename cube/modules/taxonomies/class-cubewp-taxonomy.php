@@ -234,7 +234,7 @@ class CubeWp_taxonomy {
     ?>
         <div class="postbox">
             <div class="postbox-header">
-                <h2><span><?php esc_html_e('Options', 'cubewp-framework'); ?></span></h2>
+                <h2><span><?php esc_html_e('Advanced Settings', 'cubewp-framework'); ?></span></h2>
             </div>
             <div class="inside">
                 <div class="main">
@@ -265,7 +265,7 @@ class CubeWp_taxonomy {
                                 'value'          =>    $CWPterm['show_admin_column'],
                                 'label'          =>    esc_html__('Show Admin Column', 'cubewp-framework'),
                                 'options'        =>    array( 0 => 'False', 1 => 'True' ),
-                                'description'    =>    esc_html__( '(default: false) Whether to allow automatic creation of taxonomy columns on associated post-types.', 'cubewp-framework' )
+                                'description'    =>    esc_html__( '(default: true) Whether to allow automatic creation of taxonomy columns on associated post-types.', 'cubewp-framework' )
                             ));
 
                             echo apply_filters('cubewp/admin/taxonomy/dropdown/field', '', array(
@@ -274,7 +274,7 @@ class CubeWp_taxonomy {
                                 'value'          =>    $CWPterm['hierarchical'],
                                 'label'          =>    esc_html__('Hierarchical', 'cubewp-framework'),
                                 'options'        =>    array( 0 => 'False', 1 => 'True' ),
-                                'description'    =>    esc_html__( '(default: false) Whether the taxonomy can have parent-child relationships.', 'cubewp-framework' )
+                                'description'    =>    esc_html__( '(default: true) Whether the taxonomy can have parent-child relationships.', 'cubewp-framework' )
                             ));
 
                             echo apply_filters('cubewp/admin/taxonomy/dropdown/field', '', array(
@@ -325,6 +325,7 @@ class CubeWp_taxonomy {
                                 'name'           =>    'cwp[CWPterm][slug]',
                                 'value'          =>    $CWPterm['slug'],
                                 'label'          =>    esc_html__('Taxonomy Slug', 'cubewp-framework'),
+                                'placeholder'    =>    esc_html__('Enter taxonomy slug', 'cubewp-framework'),
                                 'required'       =>    true,
                                 'extra_attrs'    =>    'maxlength=30' . isset($CWPterm['slug']) && !empty($CWPterm['slug']) ? 'readonly' : '',
                                 'tooltip'        =>    'Give a slug for this taxonomy. Which will be used to get this taxonomy data',
@@ -335,6 +336,7 @@ class CubeWp_taxonomy {
                                 'name'           =>    'cwp[CWPterm][name]',
                                 'value'          =>    $CWPterm['name'],
                                 'label'          =>    esc_html__('Plural Label', 'cubewp-framework'),
+                                'placeholder'    =>    esc_html__('Enter taxonomy plural label', 'cubewp-framework'),
                                 'required'       =>    true,
                                 'tooltip'        =>    'Give a name for this taxonomy. Enter taxonomy name with "s" at the end',
                             ));
@@ -344,6 +346,7 @@ class CubeWp_taxonomy {
                                 'name'           =>    'cwp[CWPterm][singular]',
                                 'value'          =>    $CWPterm['singular'],
                                 'label'          =>    esc_html__('Singular Label', 'cubewp-framework'),
+                                'placeholder'    =>    esc_html__('Enter taxonomy singular label', 'cubewp-framework'),
                                 'required'       =>    true,
                                 'tooltip'        =>    'Give a name for this taxonomy. Enter taxonomy name without "s" at the end',
                             ));
@@ -428,7 +431,7 @@ class CubeWp_taxonomy {
         } else {
             $button_label = __('Save', 'cubewp-framework');
         }
-        return '<input type="submit" class="cwp-save-button cwp-save-edit-post-button" name="Save" value="'. esc_html($button_label) .'" />';
+        return '<input type="submit" class="cwp-save-button cwp-save-edit-post-button button button-primary button-large" name="Save" value="'. esc_html($button_label) .'" />';
     }
 
 }

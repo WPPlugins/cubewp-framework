@@ -87,7 +87,7 @@ class CubeWp_Metabox {
         $sub_fields   = get_post_meta( $groupID, '_cwp_group_sub_fields', true );
         $sub_fields   = isset($sub_fields) && !empty($sub_fields) ? json_decode($sub_fields, true) : array();
         $fieldOptions = CWP()->get_custom_fields( 'post_types' );
-
+        
         $fieldBox = array();
         if(isset($fields) && !empty($fields)){
             $fields = explode(",",$fields);
@@ -102,13 +102,12 @@ class CubeWp_Metabox {
                 $fieldBox[$SingleFieldOption['name']] = $SingleFieldOption;
                 if(isset($sub_fields[$SingleFieldOption['name']]) && !empty($sub_fields[$SingleFieldOption['name']])){
                     foreach($sub_fields[$SingleFieldOption['name']] as $sub_field){
-                        $SubFieldOption[] = $fieldOptions[$sub_field];
+                        $fieldBox[$SingleFieldOption['name']]['sub_fields'][] = $fieldOptions[$sub_field];
                     }
-                    $fieldBox[$SingleFieldOption['name']]['sub_fields'] = $SubFieldOption;
                 }
+                
             }
         }
-        
         return $fieldBox;
     }
         

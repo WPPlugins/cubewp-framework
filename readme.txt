@@ -5,7 +5,7 @@ Tags: custom fields, custom post types, custom taxonomies, cpt, meta boxes, cust
 Requires at least: 4.3
 Requires PHP: 5.6
 Tested up to: 6.0.2
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 
 CubeWP is an end-to-end dynamic content framework for WordPress
@@ -35,17 +35,6 @@ Go beyond creating post types, fields, and taxonomies and create search and filt
 * Relationship Fields: Post Types, Taxonomy or Users (Posts & Users)
 * One-Click Export & Import
 * Display Custom Post Types on Map (ex. Archive Page)
-
-
-#### Create any type of metadata or custom fields in WordPress
-
-That's right – any type. No matter where you need to insert custom data and features, CubeWP's WordPress custom fields have your back, and with infinite options to boot.
-
-** Data types you can customize:**
-* Posts
-* Pages
-* Custom post types
-* Taxonomies
 
 
 
@@ -113,4 +102,11 @@ To getting started with the plugin, please go to [Documentation](https://support
 
 == Changelog ==
 
-= 1.0.0 - 2022-09-30
+= 1.0.0 - 2022-09-30 
+
+Plug released.
+
+
+= 1.0.1 - 2022-10-05
+
+- Several minor UI/UX fixes

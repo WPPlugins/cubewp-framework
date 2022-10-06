@@ -53,7 +53,7 @@
 	padding: 0 12px;
 	width: 100%;
 }
-input[type=date], input[type=datetime-local], input[type=datetime], input[type=email], input[type=month], input[type=number], input[type=password], input[type=search], input[type=tel], input[type=text], input[type=time], input[type=url], input[type=week] {
+input[type=date], input[type=datetime-local], input[type=datetime], input[type=email], input[type=month], input[type=number], input[type=password], input[type=search], input[type=tel], .postbox-container input[type=text], input[type=time], input[type=url], input[type=week] {
 	width: 100%
 }
 .cwp-add-form-feild {
@@ -223,6 +223,19 @@ input[type=date], input[type=datetime-local], input[type=datetime], input[type=e
 }
 .cubewp-locked-field {
 	position: relative;
+}
+.cwp-add-form-feild tbody tr.conditional-rule td.conditional-rule-field {
+    padding: 0 10px 20px 0;
+}
+.cwp-add-form-feild tbody tr.conditional-rule td.conditional-rule-operator {
+    padding-top: 0px;
+    display: block;
+}
+.cwp-add-form-feild tbody tr.conditional-rule td.conditional-rule-operator select {
+    width: 100%;
+}
+.cwp-add-form-feild tbody tr.conditional-rule td.conditional-rule-value {
+    padding: 0px 0px 10px 0px;
 }
 .cubewp-locked-field:not(.unlocked)::after {
 	background: #0003;

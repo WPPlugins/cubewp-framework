@@ -347,7 +347,7 @@ class CubeWp_Post_Types {
         ?>
         <div class="postbox">
             <div class="postbox-header">
-                <h2><span><?php esc_html_e('Options', 'cubewp-framework'); ?></span></h2>
+                <h2><span><?php esc_html_e('Advanced Settings', 'cubewp-framework'); ?></span></h2>
             </div>
             <div class="inside">
                 <div class="main">
@@ -442,7 +442,7 @@ class CubeWp_Post_Types {
                                 'value'          =>    $postType['has_archive'],
                                 'label'          =>    esc_html__('Has Archive', 'cubewp-framework'),
                                 'options'        =>    array( 0 => 'False', 1 => 'True' ),
-                                'description'    =>    esc_html__( '(default: false) Whether or not the post type will have a post type archive URL.', 'cubewp-framework' )
+                                'description'    =>    esc_html__( '(default: true) Whether or not the post type will have a post type archive URL.', 'cubewp-framework' )
                             ));
 
                             echo apply_filters('cubewp/admin/post_type/dropdown/field', '', array(
@@ -478,7 +478,7 @@ class CubeWp_Post_Types {
                                 'value'          =>    $postType['rewrite'],
                                 'label'          =>    esc_html__('Rewrite', 'cubewp-framework'),
                                 'options'        =>    array( 0 => 'False', 1 => 'True' ),
-                                'description'    =>    esc_html__( '(default: true) Whether or not WordPress should use rewrites for this post type.', 'cubewp-framework' )
+                                'description'    =>    esc_html__( '(default: false) Whether or not WordPress should use rewrites for this post type.', 'cubewp-framework' )
                             ));
 
                             echo apply_filters('cubewp/admin/post_type/text/field', '', array(
@@ -561,8 +561,8 @@ class CubeWp_Post_Types {
                                 'id'             =>    'singular',
                                 'name'           =>    'cwp[postType][singular]',
                                 'value'          =>    $postType['singular'],
-                                'placeholder'    =>    esc_html__('Enter post type singular name', 'cubewp-framework'),
-                                'label'          =>    esc_html__('Singular Name', 'cubewp-framework'),
+                                'placeholder'    =>    esc_html__('Enter post type singular label', 'cubewp-framework'),
+                                'label'          =>    esc_html__('Singular Label', 'cubewp-framework'),
                                 'tooltip'        =>    'Give a name for this Post Type. Enter Post type name without "s" at the end',
                                 'required'       =>    true,
                             ));
@@ -703,9 +703,9 @@ class CubeWp_Post_Types {
      */  
     private static function save_button() {
         if (isset($_GET['action']) && ('edit' == $_GET['action'] && !empty($_GET['postTypeid']))) {
-            return '<input type="hidden" name="action" value="update_post_type"><input type="submit" class="cwp-save-button" name="Save" value="'. esc_html(__('Update', 'cubewp-framework')) .'" />';
+            return '<input type="hidden" name="action" value="update_post_type"><input type="submit" class="cwp-save-button button button-primary button-large" name="Save" value="'. esc_html(__('Update', 'cubewp-framework')) .'" />';
         } else {
-            return '<input type="hidden" name="action" value="save_post_type"><input type="submit" class="cwp-save-button" name="Save" value="'. esc_html(__('Save', 'cubewp-framework')) .'" />';
+            return '<input type="hidden" name="action" value="save_post_type"><input type="submit" class="cwp-save-button button button-primary button-large" name="Save" value="'. esc_html(__('Save', 'cubewp-framework')) .'" />';
         }
     }
     

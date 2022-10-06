@@ -69,23 +69,20 @@ final class CubeWp_Elementor {
 	 */
 	public function is_compatible() {
 		// Check if Elementor installed and activated
-		if ( ! did_action('elementor/loaded')) {
-			$message = sprintf(/* translators: 1: Plugin name 2: Elementor */ esc_html__('"%1$s" requires "%2$s" to be installed and activated.', 'cubewp-framework'), '<strong>' . esc_html__('CubeWP', 'cubewp-framework') . '</strong>', '<strong>' . esc_html__('Elementor', 'cubewp-framework') . '</strong>');
-			new CubeWp_Admin_Notice($message, 'warning');
-		 
+		if ( ! did_action('elementor/loaded')) { 
 			return false;
-		 }
+		}
 		// Check for required Elementor version
 		if ( ! version_compare(ELEMENTOR_VERSION, self::MINIMUM_ELEMENTOR_VERSION, '>=')) {
 			$message = sprintf(/* translators: 1: Plugin name 2: Elementor 3: Required Elementor version */ esc_html__('"%1$s" requires "%2$s" version %3$s or greater.', 'cubewp-framework'), '<strong>' . esc_html__('CubeWP', 'cubewp-framework') . '</strong>', '<strong>' . esc_html__('Elementor', 'cubewp-framework') . '</strong>', self::MINIMUM_ELEMENTOR_VERSION);
-			new CubeWp_Admin_Notice($message, 'warning');
+			new CubeWp_Admin_Notice("elementor-version", $message, 'warning');
 			
 			return false;
 		}
 		// Check for required PHP version
 		if (version_compare(PHP_VERSION, self::MINIMUM_PHP_VERSION, '<')) {
 			$message = sprintf(/* translators: 1: Plugin name 2: PHP 3: Required PHP version */ esc_html__('"%1$s" requires "%2$s" version %3$s or greater.', 'cubewp-framework'), '<strong>' . esc_html__('CubeWP', 'cubewp-framework') . '</strong>', '<strong>' . esc_html__('PHP', 'cubewp-framework') . '</strong>', self::MINIMUM_PHP_VERSION);
-			new CubeWp_Admin_Notice($message, 'warning');
+			new CubeWp_Admin_Notice("elementor-php-version", $message, 'warning');
 			
 			return false;
 		}

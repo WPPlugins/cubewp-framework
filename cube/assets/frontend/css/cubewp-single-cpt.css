@@ -238,8 +238,8 @@ h3.cwp-widget-title {
     width: 100%;
 	margin-bottom: 15px;
 }
-.cwp-cpt-single-user-container .cwp-user-col {
-    padding: 0px 5px;
+.cwp-post-row, .cwp-user-row {
+    width:100%;
 }
 .cwp-cpt-single-user-container .cwp-single-widget.cwp-admin-widget {
     filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.102218));
@@ -463,9 +463,9 @@ h5.cwp-widget-title {
 
 p.cwp-author-uname {
     position: absolute;
-	color: #333333;
     top: -34px;
     font-weight: 700;
+	color: #333333;
     padding: 5px;
     background: #fff;
     text-transform: capitalize;
@@ -567,38 +567,106 @@ ul.cwp-single-category-widget-inner li {
     font-size: 14px;
 }
 
+/*-----CWP Inbox--------*/
+.cwp-cpt-single-messages-form-container h4{
+    width: 100%;
+    margin-bottom: 15px;
+}
+.cwp-cpt-single-messages-form {
+    width: 100%;
+}
+.cwp-cpt-single-messages-form label {
+    width: 100%;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 10px 0;
+    display: block;
+}
+.cwp-cpt-single-messages-form textarea#msg_content {
+    width: 100%;
+    min-height: 145px;
+    padding: 10px 15px;
+    line-height: 20px;
+    border-radius: 5px;
+    border: 1px solid #e0e0e0;
+	font-size: 14px;
+}
+.cwp-cpt-single-messages-form textarea#msg_content:focus-visible {
+	border: 1px solid #007BFF;
+	outline:none;
+}
+button.cwp-message-form-submit-btn {
+    background: #007bff;
+    border: 1px solid #007BFF;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    height: 38px;
+    margin: 20px 10px 20px 0;
+    padding: 0;
+    text-decoration: none;
+    text-shadow: none;
+    width: 100%;
+}
+button.cwp-message-form-submit-btn:hover {
+    background: #2271b1;
+}
+.cwp-popup-alert.alert-success {
+    background: #fff;
+    width: 100%;
+    height: 80px;
+    border-radius: 0 10px 10px 0;
+    box-shadow: 0 1px 5px 0 rgb(234 236 238);
+    margin: 25px 0 0 0;
+    padding: 20px;
+    font-size: 16px;
+	border: 1px solid #e0e0e0;
+	position:relative;
+}
+.cwp-popup-alert.alert-success::before {
+    position: absolute;
+    content: "";
+    top: 0;
+    bottom: 0;
+	left:0;
+    width: 6px;
+    background: #007BFF;
+    border-radius: 6px;
+}
+
 /*-----Responsive---*/
 @media screen and (max-width: 767px) {
-    .cwp-cpt-single-container-outer .cwp-single-fet-img {
-        height: 300px;
-    }
-    .cwp-single-groups .cwp-single-group .cwp-cpt-single-field-container {
-        width: 100% !important;
-    }
-    .cwp-single-groups .cwp-single-group .cwp-cpt-single-field-container img.cwp-cpt-single-gallery-item {
-        height: 120px;
-        width: calc(50% - 20px);
-    }
-    .cwp-single-groups .cwp-single-group .cwp-cpt-single-field-container .cwp-cpt-single-repeating-field-inner {
-        margin: 20px 0;
-    }
-    .cwp-single-title-container {
-        display: inline-block;
-        width: 100%;
-    }
-    .cwp-single-title-container h1.cwp-single-title {
-        font-size: 26px;
-        width: 100%;
-    }
-    .cwp-single-quick-actions {
-        float: right;
-        width: auto;
-        margin-top: 10px;
-    }
-    .cwp-single-quick-actions .cwp-single-widget:first-child {
-        margin-right: 10px;
-    }
-    .cwp-single-save-btns.cwp-single-widget span.cwp-main, .cwp-single-share-btn.cwp-single-widget span.cwp-main {
-        padding: 2px 5px;
-    }
+.cwp-cpt-single-container-outer .cwp-single-fet-img {
+    height: 300px;
+}
+.cwp-single-groups .cwp-single-group .cwp-cpt-single-field-container {
+    width: 100% !important;
+}
+.cwp-single-groups .cwp-single-group .cwp-cpt-single-field-container img.cwp-cpt-single-gallery-item {
+    height: 120px;
+    width: calc(50% - 20px);
+}
+.cwp-single-groups .cwp-single-group .cwp-cpt-single-field-container .cwp-cpt-single-repeating-field-inner {
+    margin: 20px 0;
+}
+.cwp-single-title-container {
+    display: inline-block;
+    width: 100%;
+}
+.cwp-single-title-container h1.cwp-single-title {
+    font-size: 26px;
+    width: 100%;
+}
+.cwp-single-quick-actions {
+    float: right;
+    width: auto;
+    margin-top: 10px;
+}
+.cwp-single-quick-actions .cwp-single-widget:first-child {
+    margin-right: 10px;
+}
+.cwp-single-save-btns.cwp-single-widget span.cwp-main, .cwp-single-share-btn.cwp-single-widget span.cwp-main {
+    padding: 2px 5px;
+}
 }

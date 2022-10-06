@@ -49,7 +49,7 @@ class CubeWp_Search_Builder extends CubeWp_Form_Builder {
         
         self::$FORM_TYPE = 'search_filters';
         self::$Wraper_class = 'cwp-search-filters';
-        self::$Form_title = esc_html__('Search Filter Form Builder','cubewp-framework');
+        self::$Form_title = esc_html__('Search Filter Builder','cubewp-framework');
         self::Builder_Ui();
     }
     
@@ -66,7 +66,7 @@ class CubeWp_Search_Builder extends CubeWp_Form_Builder {
     public function default_wp_fields($empty,$key) {
         $wp_default_fields   =  cubewp_search_default_fields(self::$FORM_TYPE);
         $args = array(
-            'section_title'        =>  esc_html__("Wordpress Default Fields", "cubewp-framework"),
+            'section_title'        =>  esc_html__("WordPress Default Fields", "cubewp-framework"),
             'section_description'  =>  '',
             'section_class'        =>  '',
             'open_close_class'     =>  'open',

@@ -74,6 +74,7 @@ class CubeWp_Admin_Checkbox_Field extends CubeWp_Admin {
         $output .= '<td class="conditional-rule-field">
                     <select name="'.$FieldData['name'].'" '.$FieldData['select_extra_attr'].'>
                     </select>';
+        $output .= '<p>'.esc_html__('This dropdown will only show the previously saved fields.', 'cubewp-framework' ).'</p>';
         $output .= self::cwp_td_end();
         $output .= '<td class="conditional-rule-operator">';
 

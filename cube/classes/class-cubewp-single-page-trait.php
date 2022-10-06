@@ -576,7 +576,7 @@ trait CubeWp_Single_Page_Trait {
 		wp_enqueue_style('loop-style');
 		$args['field_size'] = isset($args['field_size']) ? $args['field_size'] : '';
 		$output = null;
-		if (isset($args['value']) && ! empty($args['value'])) {
+		if (isset($args['value']) && !empty($args['value']) && $args['value'] != 'N/A') {
 			$output .= '<div class="cwp-cpt-single-post-container cwp-cpt-single-field-container '.esc_attr($args['container_class']).' '.esc_attr($args['field_size']).'">
 				<h4>' . $args['label'] . '</h4>';
 			if (is_array($args['value'])) {

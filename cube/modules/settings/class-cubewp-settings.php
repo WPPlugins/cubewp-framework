@@ -18,10 +18,13 @@ class CubeWp_Settings {
 	public function __construct($parent = null) {
 		add_filter('cubewp_settings_params', array($this, '_localization'));
 		add_action('cubewp_settings', array($this, 'cubewp_settings_callback'));
+		add_action( 'settings_saved', array('CubeWp_Settings_Ajax_Hooks', 'cwp_save_default_options'),10,2);
 		new CubeWp_Ajax('', self::$ajax_helper, 'cwp_save_options');
 		new CubeWp_Ajax('', self::$ajax_helper, 'cwp_get_font_attributes');
 		$this->fields = new CubeWp_Settings_Fields();
-
+		if(empty(get_option('cwpOptions'))){
+			do_action( 'settings_saved', 'all',0 );
+		}
 	}
 
 	public static function init() {

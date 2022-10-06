@@ -187,7 +187,7 @@ class CubeWp_Posttype_Custom_Fields_Display extends CubeWp_Posttype_Custom_Field
                                             'value'          =>    $group['name'],
                                             'class'          =>    'cwp-group',
                                             'placeholder'    =>    esc_html__('Type new group name here..', 'cubewp-framework'),
-                                            'label'          =>    esc_html__('Name of group', 'cubewp-framework'),
+                                            'label'          =>    esc_html__('Group Name', 'cubewp-framework'),
                                             'required'       =>    true,
                                             'extra_attrs'    =>    'maxlength=20',
                                             'tooltip'        =>    'Give a name for this group. Which will be used to show grouped data in metaboxes',
@@ -199,7 +199,7 @@ class CubeWp_Posttype_Custom_Fields_Display extends CubeWp_Posttype_Custom_Field
                                             'value'          =>    $group['order'],
                                             'class'          =>    'cwp-group',
                                             'placeholder'    =>    esc_html__('Set group order', 'cubewp-framework'),
-                                            'label'          =>    esc_html__('Order of group', 'cubewp-framework'),
+                                            'label'          =>    esc_html__('Group Order', 'cubewp-framework'),
                                             'required'       =>    true,
                                             'extra_attrs'    =>    'maxlength=20',
                                             'tooltip'        =>    'Give a order number for this group. Which will be used to show in order',
@@ -361,7 +361,7 @@ class CubeWp_Posttype_Custom_Fields_Display extends CubeWp_Posttype_Custom_Field
                 <table>
                     <tbody>';
                     $field_settings['field_label'] = array(
-                                'label' => esc_html__('Label of Field', 'cubewp-framework'),
+                                'label' => esc_html__('Field Label', 'cubewp-framework'),
                                 'name' => 'cwp[fields]['.$FieldData['name'].'][label]',
                                 'type' => 'text',
                                 'id' => '',
@@ -372,7 +372,7 @@ class CubeWp_Posttype_Custom_Fields_Display extends CubeWp_Posttype_Custom_Field
                                 'required'    =>    true,
                             );
                     $field_settings['field_name'] = array(
-                                'label'       => esc_html__('Name of Field', 'cubewp-framework'),
+                                'label'       => esc_html__('Field Name', 'cubewp-framework'),
                                 'name'        => 'cwp[fields]['.$FieldData['name'].'][name]',
                                 'type'        => 'text',
                                 'id'          => '',
@@ -383,7 +383,7 @@ class CubeWp_Posttype_Custom_Fields_Display extends CubeWp_Posttype_Custom_Field
                                 'required'    =>    true,
                             );
                     $field_settings['field_type'] = array(
-                                'label' => esc_html__('Field Types', 'cubewp-framework'),
+                                'label' => esc_html__('Field Type', 'cubewp-framework'),
                                 'name' => 'cwp[fields]['.$FieldData['name'].'][type]',
                                 'id'          => '',
                                 'type' => 'dropdown',
@@ -701,7 +701,7 @@ class CubeWp_Posttype_Custom_Fields_Display extends CubeWp_Posttype_Custom_Field
         $field_settings = array();
         
         $field_settings['field_label'] = array(
-                        'label' => esc_html__('Label of Field', 'cubewp-framework'),
+                        'label' => esc_html__('Field Label', 'cubewp-framework'),
                         'name' => 'cwp[sub_fields]['. $parent_field .']['.$FieldData['name'].'][label]',
                         'type' => 'text',
                         'id' => '',
@@ -712,7 +712,7 @@ class CubeWp_Posttype_Custom_Fields_Display extends CubeWp_Posttype_Custom_Field
                         'required'    =>    true,
         );
         $field_settings['field_name'] = array(
-                        'label' => esc_html__('Name of Field', 'cubewp-framework'),
+                        'label' => esc_html__('Field Name', 'cubewp-framework'),
                         'name' => 'cwp[sub_fields]['. $parent_field .']['.$FieldData['name'].'][name]',
                         'type' => 'text',
                         'id' => '',
@@ -723,7 +723,7 @@ class CubeWp_Posttype_Custom_Fields_Display extends CubeWp_Posttype_Custom_Field
                         'required'    =>    true,
         );
         $field_settings['field_type'] = array(
-                        'label' => esc_html__('Field Types', 'cubewp-framework'),
+                        'label' => esc_html__('Field Type', 'cubewp-framework'),
                         'id' => '',               
                         'name' => 'cwp[sub_fields]['. $parent_field .']['.$FieldData['name'].'][type]',
                         'type' => 'dropdown',
@@ -978,7 +978,7 @@ class CubeWp_Posttype_Custom_Fields_Display extends CubeWp_Posttype_Custom_Field
                 if(isset($terms) && !empty($terms)){
              $html .= '<div class="postbox">
                     <div class="postbox-header">
-                        <h2 class="hndle">'.esc_html__('Condtional With ', 'cubewp-framework').$single->name.esc_html__(' (Optional)', 'cubewp-framework').'</h2>
+                        <h2 class="hndle">'.esc_html__('Conditional with ', 'cubewp-framework').$single->name.esc_html__(' (Optional)', 'cubewp-framework').'</h2>
                     </div>
                     <div class="inside">
                         <div class="main">

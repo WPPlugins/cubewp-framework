@@ -28,6 +28,7 @@ class CubeWp_Admin_Repeater_Field extends CubeWp_Admin {
 	 */
 	public function render_post_repeating_field($output = '', $args = array()) {
 		$args = apply_filters('cubewp/admin/field/parametrs', $args);
+		
 		$output = $this->cwp_field_wrap_start($args);
 		$output .= '<div id="cwp-repeating-field-' . $args['id'] . '" class="cwp-custom-field cwp-repeating-field" data-id="' . $args['id'] . '">';
 		$output .= '<div class="cwp-field">';

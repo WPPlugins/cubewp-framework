@@ -119,6 +119,9 @@ final class CubeWp_Load {
 	    // Frontend Page Builders
 	    add_action('cubewp_loaded', array('CubeWp_Elementor', 'init'));
         add_action('cubewp_loaded', array('CubeWp_Vc_Elements', 'init'));
+        if( ! class_exists( 'CubeWp_Frontend_Load' ) ) {
+            add_action('cubewp_loaded', array('CubeWp_Builder_Pro', 'init'));
+        }
         if (self::is_request('frontend')) {
             self::frontend_includes();
         }
@@ -261,7 +264,6 @@ final class CubeWp_Load {
      */
     public function on_plugins_loaded() {
         do_action('cubewp_loaded');
-        //do_action('cubewp_builder_loaded');
     }
     
 
@@ -364,9 +366,9 @@ final class CubeWp_Load {
         if ( $file != plugin_basename( $this->base ) ) return $plugin_meta;
         $cwp_plugin_meta = array(
             '<a href="https://cubewp.com/store/" target="_blank">Add-Ons</a>',
-            '<a href="https://support.cubewp.com/docs" target="_blank">CubeWP Documentation</a>',
-            '<a href="https://support.cubewp.com/forums/" target="_blank">CubeWP Forum</a>',
-            '<a href="https://support.cubewp.com/docs/developer" target="_blank">Developer Guide</a>',
+            '<a href="https://support.cubewp.com/" target="_blank">CubeWP Documentation</a>',
+            '<a href="https://support.cubewp.com/forums/forum/community/" target="_blank">CubeWP Community</a>',
+            '<a href="https://support.cubewp.com/forums/forum/feedback/" target="_blank">Feedback</a>',
             '<a href="https://www.youtube.com/channel/UCKGX3FHQv7xFylXQZOPOy7w" target="_blank">Video Tutorials</a>',
         );
         $plugin_meta = array_merge($plugin_meta,$cwp_plugin_meta);

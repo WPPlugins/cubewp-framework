@@ -2,8 +2,8 @@
 /**
 * Plugin Name: CubeWP Framework
 * Plugin URI: https://cubewp.com/
-* Description: A Listing framework that helps you to create any listing site easily.
-* Version: 1.0.0
+* Description: CubeWP is an end-to-end dynamic content framework for WordPress to help you save up to 90% of your coding time.
+* Version: 1.0.1
 * Author: CubeWP
 * Author URI: https://cubewp.com
 * Text Domain: cubewp-framework

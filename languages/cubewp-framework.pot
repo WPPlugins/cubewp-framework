@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cubewp-framework\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-23 20:53+0500\n"
+"POT-Creation-Date: 2022-10-06 11:26+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: cland <cubewp@gmail.com>\n"
 "Language-Team: Cridio <contact@cubewp.com>\n"
@@ -32,6 +32,24 @@ msgstr ""
 msgid "bottom"
 msgstr ""
 
+#: cube/classes/class-cubewp-add-on.php:70
+msgid "This CubeWP Add-on requires WordPress 4.0 or higher. Version detected:"
+msgstr ""
+
+#: cube/classes/class-cubewp-add-on.php:75
+msgid "This CubeWP Add-on requires PHP 5.3 or higher. Version detected: "
+msgstr ""
+
+#: cube/classes/class-cubewp-add-on.php:80
+msgid "This CubeWP Add-on requires SQL 5.0 or higher. Version detected: "
+msgstr ""
+
+#: cube/classes/class-cubewp-add-on.php:86
+msgid ""
+"Sorry but your WordPress installation does not reach the minimum requirements "
+"for running this add-on. The following errors were given:"
+msgstr ""
+
 #: cube/classes/class-cubewp-admin-enqueue.php:420
 msgid "Deletion of this post type cannot be undone."
 msgstr ""
@@ -56,45 +74,45 @@ msgstr ""
 msgid "Deletion of these custom field group cannot be undone."
 msgstr ""
 
-#: cube/classes/class-cubewp-admin-enqueue.php:438
+#: cube/classes/class-cubewp-admin-enqueue.php:439
 msgid "Slug already exist"
 msgstr ""
 
-#: cube/classes/class-cubewp-admin-notice.php:74
+#: cube/classes/class-cubewp-admin-notice.php:105
 msgid "Buy Add-Ons"
 msgstr ""
 
-#: cube/classes/class-cubewp-admin-notice.php:84
+#: cube/classes/class-cubewp-admin-notice.php:115
 msgid "Learn what are Custom Post Types."
 msgstr ""
 
-#: cube/classes/class-cubewp-admin-notice.php:87
+#: cube/classes/class-cubewp-admin-notice.php:118
 msgid "Learn what are Taxonomies."
 msgstr ""
 
-#: cube/classes/class-cubewp-admin-notice.php:89
+#: cube/classes/class-cubewp-admin-notice.php:120
 msgid "Watch"
 msgstr ""
 
-#: cube/classes/class-cubewp-admin-notice.php:115
+#: cube/classes/class-cubewp-admin-notice.php:147
 #, php-format
 msgid ""
 "CubeWP requires WordPress version %1$s or higher. You are using version %2$s. "
 "Please upgrade WordPress to use CubeWP."
 msgstr ""
 
-#: cube/classes/class-cubewp-admin-notice.php:121
+#: cube/classes/class-cubewp-admin-notice.php:153
 #, php-format
 msgid ""
 "CubeWP requires PHP version %1$s or higher. You are using version %2$s. Please "
 "<a href=\"%3$s\">upgrade PHP</a> to use CubeWP."
 msgstr ""
 
-#: cube/classes/class-cubewp-admin.php:166
+#: cube/classes/class-cubewp-admin.php:167
 msgid "CubeWP Custom Fields"
 msgstr ""
 
-#: cube/classes/class-cubewp-admin.php:366
+#: cube/classes/class-cubewp-admin.php:367
 msgid "Tool Tip"
 msgstr ""
 
@@ -165,42 +183,35 @@ msgstr ""
 msgid "Hit Get Shortcode"
 msgstr ""
 
-#: cube/classes/class-cubewp-elementor.php:73
-#, php-format
-msgid "\"%1$s\" requires \"%2$s\" to be installed and activated."
-msgstr ""
-
-#: cube/classes/class-cubewp-elementor.php:73
-#: cube/classes/class-cubewp-elementor.php:80
-#: cube/classes/class-cubewp-elementor.php:87
-#: cube/classes/class-cubewp-elementor.php:136
-#: cube/classes/class-cubewp-submenu.php:66
-msgid "CubeWP"
-msgstr ""
-
-#: cube/classes/class-cubewp-elementor.php:73
-#: cube/classes/class-cubewp-elementor.php:80
-msgid "Elementor"
-msgstr ""
-
-#: cube/classes/class-cubewp-elementor.php:80
-#: cube/classes/class-cubewp-elementor.php:87
+#: cube/classes/class-cubewp-elementor.php:77
+#: cube/classes/class-cubewp-elementor.php:84
 #, php-format
 msgid "\"%1$s\" requires \"%2$s\" version %3$s or greater."
 msgstr ""
 
-#: cube/classes/class-cubewp-elementor.php:87
+#: cube/classes/class-cubewp-elementor.php:77
+#: cube/classes/class-cubewp-elementor.php:84
+#: cube/classes/class-cubewp-elementor.php:133
+#: cube/classes/class-cubewp-submenu.php:66
+msgid "CubeWP"
+msgstr ""
+
+#: cube/classes/class-cubewp-elementor.php:77
+msgid "Elementor"
+msgstr ""
+
+#: cube/classes/class-cubewp-elementor.php:84
 msgid "PHP"
 msgstr ""
 
-#: cube/classes/class-cubewp-elementor.php:160
+#: cube/classes/class-cubewp-elementor.php:157
 #: cube/classes/class-cubewp-vc-elements.php:37
 #, php-format
 msgid "%s Class Doesn't Exist."
 msgstr ""
 
 #: cube/classes/class-cubewp-export.php:45
-#: cube/classes/class-cubewp-submenu.php:132
+#: cube/classes/class-cubewp-submenu.php:163
 msgid "CubeWP Export"
 msgstr ""
 
@@ -328,8 +339,8 @@ msgid "Input Class"
 msgstr ""
 
 #: cube/classes/class-cubewp-form-builder.php:413
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:589
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:428
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:604
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:442
 msgid "Container Class"
 msgstr ""
 
@@ -338,8 +349,8 @@ msgid "Display UI"
 msgstr ""
 
 #: cube/classes/class-cubewp-form-builder.php:454
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:893
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:923
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:908
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:938
 #: cube/modules/users/class-cubewp-user-custom-fields.php:73
 #: cube/modules/users/class-cubewp-user-custom-fields.php:97
 msgid "Dropdown"
@@ -376,10 +387,10 @@ msgstr ""
 
 #: cube/classes/class-cubewp-form-builder.php:552
 #: cube/classes/class-cubewp-form-builder.php:557
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:551
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:801
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:391
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:615
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:566
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:816
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:405
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:629
 msgid "Required"
 msgstr ""
 
@@ -388,11 +399,11 @@ msgid "Not required"
 msgstr ""
 
 #: cube/classes/class-cubewp-form-builder.php:579
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:431
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:741
-#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:127
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:432
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:756
+#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:126
 #: cube/modules/users/class-cubewp-user-custom-fields-ui.php:273
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:554
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:568
 msgid "Placeholder"
 msgstr ""
 
@@ -440,7 +451,7 @@ msgstr ""
 #: cube/classes/class-cubewp-saved.php:115 cube/classes/class-cubewp-saved.php:158
 #: cube/classes/class-cubewp-single-cpt.php:169
 #: cube/modules/post-types/class-cubewp-post-types.php:708
-#: cube/modules/taxonomies/class-cubewp-taxonomy.php:429
+#: cube/modules/taxonomies/class-cubewp-taxonomy.php:432
 msgid "Save"
 msgstr ""
 
@@ -471,43 +482,43 @@ msgstr ""
 msgid "Your %s is pending! Please proceed to make it published"
 msgstr ""
 
-#: cube/classes/class-cubewp-frontend.php:296
+#: cube/classes/class-cubewp-frontend.php:297
 msgid "(Enter Coordinates Manually)"
 msgstr ""
 
-#: cube/classes/class-cubewp-frontend.php:350
+#: cube/classes/class-cubewp-frontend.php:351
 msgid "found"
 msgstr ""
 
-#: cube/classes/class-cubewp-frontend.php:352
+#: cube/classes/class-cubewp-frontend.php:353
 msgid "in "
 msgstr ""
 
-#: cube/classes/class-cubewp-frontend.php:355
+#: cube/classes/class-cubewp-frontend.php:356
 msgid "Results"
 msgstr ""
 
-#: cube/classes/class-cubewp-frontend.php:357
+#: cube/classes/class-cubewp-frontend.php:358
 msgid "Result"
 msgstr ""
 
-#: cube/classes/class-cubewp-frontend.php:405
+#: cube/classes/class-cubewp-frontend.php:406
 msgid "Sort By"
 msgstr ""
 
-#: cube/classes/class-cubewp-frontend.php:406
+#: cube/classes/class-cubewp-frontend.php:407
 msgid "Newest"
 msgstr ""
 
-#: cube/classes/class-cubewp-frontend.php:407
+#: cube/classes/class-cubewp-frontend.php:408
 msgid "Oldest"
 msgstr ""
 
-#: cube/classes/class-cubewp-frontend.php:410
+#: cube/classes/class-cubewp-frontend.php:411
 msgid "Low to high"
 msgstr ""
 
-#: cube/classes/class-cubewp-frontend.php:411
+#: cube/classes/class-cubewp-frontend.php:412
 msgid "High to low"
 msgstr ""
 
@@ -516,7 +527,7 @@ msgid "Data Imported Successfully"
 msgstr ""
 
 #: cube/classes/class-cubewp-import.php:50
-#: cube/classes/class-cubewp-submenu.php:126
+#: cube/classes/class-cubewp-submenu.php:157
 msgid "CubeWP Import"
 msgstr ""
 
@@ -533,15 +544,15 @@ msgstr ""
 msgid "Import"
 msgstr ""
 
-#: cube/classes/class-cubewp-import.php:126
+#: cube/classes/class-cubewp-import.php:127
 msgid "The file you are trying to upload is not a .zip file. Please try again."
 msgstr ""
 
-#: cube/classes/class-cubewp-import.php:166
+#: cube/classes/class-cubewp-import.php:167
 msgid "Data imported successfull."
 msgstr ""
 
-#: cube/classes/class-cubewp-import.php:188
+#: cube/classes/class-cubewp-import.php:189
 msgid "Dummy data imported successfully."
 msgstr ""
 
@@ -559,21 +570,17 @@ msgstr ""
 msgid "Success! Your %s has been removed from saved posts."
 msgstr ""
 
-#: cube/classes/class-cubewp-single-cpt.php:197
-msgid "Post Author"
-msgstr ""
-
-#: cube/classes/class-cubewp-single-cpt.php:230
+#: cube/classes/class-cubewp-single-cpt.php:207
 msgid "Tags"
 msgstr ""
 
-#: cube/classes/class-cubewp-single-cpt.php:277
+#: cube/classes/class-cubewp-single-cpt.php:254
 #: cube/classes/class-cubewp-single-page-trait.php:478
 #, php-format
 msgid "Invalid Field Type: %s"
 msgstr ""
 
-#: cube/classes/class-cubewp-single-cpt.php:316
+#: cube/classes/class-cubewp-single-cpt.php:293
 msgid "N/A"
 msgstr ""
 
@@ -589,55 +596,55 @@ msgstr ""
 msgid "Get Directions"
 msgstr ""
 
-#: cube/classes/class-cubewp-single-page-trait.php:629
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:890
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:921
-#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:274
+#: cube/classes/class-cubewp-single-page-trait.php:614
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:905
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:936
+#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:273
 #: cube/modules/users/class-cubewp-user-custom-fields.php:70
 msgid "Image"
 msgstr ""
 
-#: cube/classes/class-cubewp-submenu.php:72 cube/templates/welcome.php:4
+#: cube/classes/class-cubewp-submenu.php:73 cube/templates/welcome.php:4
 msgid "Dashboard"
 msgstr ""
 
-#: cube/classes/class-cubewp-submenu.php:78
+#: cube/classes/class-cubewp-submenu.php:79
 #: cube/classes/page-builders/vc-elements/class-cubewp-vc-posts-widget.php:28
 #: cube/modules/list-tables/class-cubewp-post-types-custom-fields-table.php:48
 msgid "Post Types"
 msgstr ""
 
-#: cube/classes/class-cubewp-submenu.php:84
+#: cube/classes/class-cubewp-submenu.php:85
 #: cube/modules/list-tables/class-cubewp-post-types-custom-fields-table.php:49
 #: cube/modules/list-tables/class-cubewp-post-types-list-table.php:58
 #: cube/modules/list-tables/class-cubewp-taxonomy-custom-fields-table.php:47
 #: cube/modules/search/class-cubewp-search-builder.php:104
-#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:179
+#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:178
 #: cube/templates/welcome.php:62
 msgid "Taxonomies"
 msgstr ""
 
-#: cube/classes/class-cubewp-submenu.php:90 cube/templates/welcome.php:99
+#: cube/classes/class-cubewp-submenu.php:91 cube/templates/welcome.php:99
 msgid "Custom Fields"
 msgstr ""
 
-#: cube/classes/class-cubewp-submenu.php:96
+#: cube/classes/class-cubewp-submenu.php:97
 msgid "Taxonomy Custom Fields"
 msgstr ""
 
-#: cube/classes/class-cubewp-submenu.php:102
+#: cube/classes/class-cubewp-submenu.php:103
 msgid "User Custom Fields"
 msgstr ""
 
-#: cube/classes/class-cubewp-submenu.php:108
+#: cube/classes/class-cubewp-submenu.php:109
 msgid "Search Filter"
 msgstr ""
 
-#: cube/classes/class-cubewp-submenu.php:114 cube/templates/welcome.php:136
-msgid "Search Fields"
+#: cube/classes/class-cubewp-submenu.php:115
+msgid "Search Forms"
 msgstr ""
 
-#: cube/classes/class-cubewp-submenu.php:120
+#: cube/classes/class-cubewp-submenu.php:151
 msgid "CubeWP Settings"
 msgstr ""
 
@@ -653,9 +660,9 @@ msgstr ""
 #: cube/classes/page-builders/elementor-widgets/class-cubewp-elementor-posts-widget.php:62
 #: cube/includes/widgets/class-cubewp-posts-widget.php:102
 #: cube/includes/widgets/class-cubewp-posts-widget.php:140
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:487
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:502
 #: cube/modules/search/class-cubewp-search-builder.php:171
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:328
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:342
 msgid "Select Post Type"
 msgstr ""
 
@@ -666,7 +673,7 @@ msgstr ""
 
 #: cube/classes/page-builders/elementor-widgets/class-cubewp-elementor-posts-widget.php:72
 #: cube/classes/page-builders/vc-elements/class-cubewp-vc-posts-widget.php:51
-#: cube/functions/fields-helper.php:163
+#: cube/functions/fields-helper.php:180
 #: cube/includes/widgets/class-cubewp-posts-widget.php:98
 #: cube/includes/widgets/class-cubewp-posts-widget.php:121
 #: cube/includes/widgets/class-cubewp-terms-widget.php:85
@@ -843,8 +850,8 @@ msgstr ""
 #: cube/classes/page-builders/vc-elements/class-cubewp-vc-taxonomy-widget.php:31
 #: cube/includes/widgets/class-cubewp-terms-widget.php:89
 #: cube/includes/widgets/class-cubewp-terms-widget.php:126
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:500
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:341
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:515
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:355
 msgid "Select Taxonomy"
 msgstr ""
 
@@ -970,7 +977,7 @@ msgid "Hide Empty Terms"
 msgstr ""
 
 #: cube/classes/page-builders/elementor-widgets/class-cubewp-elementor-taxonomy-widget.php:128
-#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:275
+#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:274
 msgid "Color"
 msgstr ""
 
@@ -1003,11 +1010,15 @@ msgstr ""
 msgid "View Less"
 msgstr ""
 
-#: cube/fields/admin/cubewp-admin-checkbox-field.php:96
+#: cube/fields/admin/cubewp-admin-checkbox-field.php:77
+msgid "This dropdown will only show the previously saved fields."
+msgstr ""
+
+#: cube/fields/admin/cubewp-admin-checkbox-field.php:97
 msgid "Put here value to compare"
 msgstr ""
 
-#: cube/fields/admin/cubewp-admin-checkbox-field.php:100
+#: cube/fields/admin/cubewp-admin-checkbox-field.php:101
 msgid ""
 "For user field you need to add user ID and for Date_picker you need to add date "
 "in strtotime."
@@ -1056,11 +1067,11 @@ msgstr ""
 msgid "Insert image"
 msgstr ""
 
-#: cube/fields/admin/cubewp-admin-repeater-field.php:71
+#: cube/fields/admin/cubewp-admin-repeater-field.php:72
 msgid "Add Row"
 msgstr ""
 
-#: cube/fields/admin/cubewp-admin-taxonomy-field.php:72
+#: cube/fields/admin/cubewp-admin-taxonomy-field.php:87
 #, php-format
 msgid "%s (WP Core)"
 msgstr ""
@@ -1075,7 +1086,7 @@ msgstr ""
 
 #: cube/fields/frontend/cubewp-frontend-file-field.php:41
 #: cube/fields/frontend/cubewp-frontend-image-field.php:15
-#: cube/functions/fields-helper.php:181
+#: cube/functions/fields-helper.php:198
 msgid "is not acceptable in this field."
 msgstr ""
 
@@ -1111,90 +1122,102 @@ msgstr ""
 #: cube/modules/post-types/class-cubewp-post-types.php:122
 #: cube/modules/post-types/class-cubewp-post-types.php:265
 #: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:89
-#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:38
+#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:37
 #: cube/modules/taxonomies/class-cubewp-taxonomy.php:176
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:27
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:26
 msgid "Add New"
 msgstr ""
 
 #: cube/fields/frontend/cubewp-frontend-terms-field.php:362
-#: cube/fields/frontend/cubewp-frontend-terms-field.php:398
+#: cube/fields/frontend/cubewp-frontend-terms-field.php:400
 msgid "Choose your option"
 msgstr ""
 
-#: cube/functions/admin-functions.php:59
+#: cube/functions/admin-functions.php:63
 msgid "Home"
 msgstr ""
 
-#: cube/functions/admin-functions.php:1131
+#: cube/functions/admin-functions.php:521
+msgid "Post Author"
+msgstr ""
+
+#: cube/functions/admin-functions.php:1315
 msgid "Username"
 msgstr ""
 
-#: cube/functions/admin-functions.php:1137
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:883
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:917
+#: cube/functions/admin-functions.php:1321
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:898
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:932
 #: cube/modules/users/class-cubewp-user-custom-fields.php:63
 #: cube/modules/users/class-cubewp-user-custom-fields.php:92
 msgid "Email"
 msgstr ""
 
-#: cube/functions/admin-functions.php:1143 cube/functions/admin-functions.php:1205
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:885
+#: cube/functions/admin-functions.php:1327 cube/functions/admin-functions.php:1390
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:900
 #: cube/modules/users/class-cubewp-user-custom-fields.php:65
 msgid "Password"
 msgstr ""
 
-#: cube/functions/admin-functions.php:1149
+#: cube/functions/admin-functions.php:1333
 msgid "Confirm Password"
 msgstr ""
 
-#: cube/functions/admin-functions.php:1155
+#: cube/functions/admin-functions.php:1339
 msgid "Website"
 msgstr ""
 
-#: cube/functions/admin-functions.php:1160
+#: cube/functions/admin-functions.php:1344
 msgid "Display Name"
 msgstr ""
 
-#: cube/functions/admin-functions.php:1165
+#: cube/functions/admin-functions.php:1349
 msgid "Nickname"
 msgstr ""
 
-#: cube/functions/admin-functions.php:1170
+#: cube/functions/admin-functions.php:1354
 msgid "First Name"
 msgstr ""
 
-#: cube/functions/admin-functions.php:1175
+#: cube/functions/admin-functions.php:1359
 msgid "Last Name"
 msgstr ""
 
-#: cube/functions/admin-functions.php:1180
+#: cube/functions/admin-functions.php:1364
 msgid "Biographical Info"
 msgstr ""
 
-#: cube/functions/admin-functions.php:1199
+#: cube/functions/admin-functions.php:1384
 msgid "Username/Email"
 msgstr ""
 
-#: cube/functions/fields-helper.php:170
+#: cube/functions/fields-helper.php:187
 msgid "Content"
 msgstr ""
 
-#: cube/functions/fields-helper.php:177
+#: cube/functions/fields-helper.php:194
 #: cube/modules/post-types/class-cubewp-post-types.php:639
 msgid "Featured Image"
 msgstr ""
 
-#: cube/functions/fields-helper.php:201 cube/functions/fields-helper.php:216
+#: cube/functions/fields-helper.php:221 cube/functions/fields-helper.php:236
 msgid "Keyword"
 msgstr ""
 
-#: cube/functions/fields-helper.php:206
+#: cube/functions/fields-helper.php:226
 msgid "Search"
 msgstr ""
 
-#: cube/functions/fields-helper.php:655
+#: cube/functions/fields-helper.php:728
 msgid "Select Options"
+msgstr ""
+
+#: cube/functions/fields-helper.php:843
+msgid "Sorry! Security Verification Failed."
+msgstr ""
+
+#: cube/functions/fields-helper.php:905
+msgid "No Result Found."
 msgstr ""
 
 #: cube/functions/settings/cubewp-default-options.php:14
@@ -1229,89 +1252,105 @@ msgstr ""
 msgid "Minimum radius for google address field on search and filter."
 msgstr ""
 
-#: cube/functions/settings/cubewp-default-options.php:47
+#: cube/functions/settings/cubewp-default-options.php:50
 msgid "Default Radius"
 msgstr ""
 
-#: cube/functions/settings/cubewp-default-options.php:49
+#: cube/functions/settings/cubewp-default-options.php:52
 msgid "Default radius for google address field on search and filter."
 msgstr ""
 
-#: cube/functions/settings/cubewp-default-options.php:54
+#: cube/functions/settings/cubewp-default-options.php:60
 msgid "Maximum Radius"
 msgstr ""
 
-#: cube/functions/settings/cubewp-default-options.php:56
+#: cube/functions/settings/cubewp-default-options.php:62
 msgid "Maximum radius for google address field on search and filter."
 msgstr ""
 
-#: cube/functions/settings/cubewp-default-options.php:61
+#: cube/functions/settings/cubewp-default-options.php:70
 msgid "Radius Unit"
 msgstr ""
 
-#: cube/functions/settings/cubewp-default-options.php:63
+#: cube/functions/settings/cubewp-default-options.php:72
 msgid "Mile"
 msgstr ""
 
-#: cube/functions/settings/cubewp-default-options.php:64
+#: cube/functions/settings/cubewp-default-options.php:73
 msgid "Kilometre"
 msgstr ""
 
-#: cube/functions/settings/cubewp-default-options.php:67
+#: cube/functions/settings/cubewp-default-options.php:76
 msgid "Unit of radius for google address field on search and filter."
 msgstr ""
 
-#: cube/functions/settings/cubewp-default-options.php:73
+#: cube/functions/settings/cubewp-default-options.php:85
 msgid "Map"
 msgstr ""
 
-#: cube/functions/settings/cubewp-default-options.php:79
-msgid "Set Map Default Zoom Level"
-msgstr ""
-
-#: cube/functions/settings/cubewp-default-options.php:80
-msgid "Write Value Between 1 - 18 For Default Zoom Level"
-msgstr ""
-
-#: cube/functions/settings/cubewp-default-options.php:86
+#: cube/functions/settings/cubewp-default-options.php:91
 msgid "Google Map & Places API Key"
 msgstr ""
 
-#: cube/functions/settings/cubewp-default-options.php:87
+#: cube/functions/settings/cubewp-default-options.php:92
 msgid ""
 "Get your Google Maps API Key here. <br> https://developers.google.com/maps/"
 "documentation/javascript/get-api-key"
 msgstr ""
 
-#: cube/functions/settings/cubewp-default-options.php:95
+#: cube/functions/settings/cubewp-default-options.php:100
 msgid "Map Type"
 msgstr ""
 
-#: cube/functions/settings/cubewp-default-options.php:106
+#: cube/functions/settings/cubewp-default-options.php:111
 msgid "Mapbox Token"
 msgstr ""
 
-#: cube/functions/settings/cubewp-default-options.php:107
+#: cube/functions/settings/cubewp-default-options.php:112
 msgid "Put here MapBox token, If you leave it empty then Google map will work"
 msgstr ""
 
-#: cube/functions/settings/cubewp-default-options.php:108
+#: cube/functions/settings/cubewp-default-options.php:113
 msgid ""
 "Get your Mapbox Key here.<br>https://account.mapbox.com/access-tokens/create"
 msgstr ""
 
-#: cube/functions/settings/cubewp-default-options.php:117
+#: cube/functions/settings/cubewp-default-options.php:122
 msgid "Mapbox Map Style Id"
 msgstr ""
 
-#: cube/functions/settings/cubewp-default-options.php:118
+#: cube/functions/settings/cubewp-default-options.php:123
 msgid "Type Your Custom Style ID"
 msgstr ""
 
-#: cube/functions/settings/cubewp-default-options.php:119
+#: cube/functions/settings/cubewp-default-options.php:124
 msgid ""
 "Type how you want the Mapbox map to show. Only use YOUR_USERNAME/YOUR_STYLE_ID "
 "No slashes before and after."
+msgstr ""
+
+#: cube/functions/settings/cubewp-default-options.php:132
+msgid "Set Map Default Zoom Level"
+msgstr ""
+
+#: cube/functions/settings/cubewp-default-options.php:133
+msgid "Write Value Between 1 - 18 For Default Zoom Level"
+msgstr ""
+
+#: cube/functions/settings/cubewp-default-options.php:139
+msgid "Set Map Default Latitude"
+msgstr ""
+
+#: cube/functions/settings/cubewp-default-options.php:140
+msgid "Write Valid Latitude For Default Map."
+msgstr ""
+
+#: cube/functions/settings/cubewp-default-options.php:146
+msgid "Set Map Default Longitude"
+msgstr ""
+
+#: cube/functions/settings/cubewp-default-options.php:147
+msgid "Write Valid Longitude For Default Map."
 msgstr ""
 
 #: cube/importer/parsers.php:42 cube/importer/parsers.php:63
@@ -1724,6 +1763,8 @@ msgstr ""
 
 #: cube/modules/list-tables/class-cubewp-post-types-custom-fields-table.php:45
 #: cube/modules/list-tables/class-cubewp-user-custom-fields-table.php:43
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:190
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:130
 msgid "Group Name"
 msgstr ""
 
@@ -1731,8 +1772,8 @@ msgstr ""
 #: cube/modules/list-tables/class-cubewp-user-custom-fields-table.php:45
 #: cube/modules/post-types/class-cubewp-post-types.php:575
 #: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:213
-#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:108
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:154
+#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:107
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:153
 msgid "Description"
 msgstr ""
 
@@ -1755,13 +1796,16 @@ msgstr ""
 
 #: cube/modules/list-tables/class-cubewp-post-types-list-table.php:55
 #: cube/modules/list-tables/class-cubewp-taxonomies-list-table.php:55
-msgid "Plural Name"
+#: cube/modules/post-types/class-cubewp-post-types.php:555
+#: cube/modules/taxonomies/class-cubewp-taxonomy.php:338
+msgid "Plural Label"
 msgstr ""
 
 #: cube/modules/list-tables/class-cubewp-post-types-list-table.php:56
 #: cube/modules/list-tables/class-cubewp-taxonomies-list-table.php:56
 #: cube/modules/post-types/class-cubewp-post-types.php:565
-msgid "Singular Name"
+#: cube/modules/taxonomies/class-cubewp-taxonomy.php:348
+msgid "Singular Label"
 msgstr ""
 
 #: cube/modules/list-tables/class-cubewp-post-types-list-table.php:57
@@ -1848,12 +1892,8 @@ msgid "Custom Post Types"
 msgstr ""
 
 #: cube/modules/post-types/class-cubewp-post-types.php:350
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:443
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:752
 #: cube/modules/taxonomies/class-cubewp-taxonomy.php:237
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:284
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:565
-msgid "Options"
+msgid "Advanced Settings"
 msgstr ""
 
 #: cube/modules/post-types/class-cubewp-post-types.php:361
@@ -1941,7 +1981,7 @@ msgstr ""
 
 #: cube/modules/post-types/class-cubewp-post-types.php:445
 msgid ""
-"(default: false) Whether or not the post type will have a post type archive URL."
+"(default: true) Whether or not the post type will have a post type archive URL."
 msgstr ""
 
 #: cube/modules/post-types/class-cubewp-post-types.php:452
@@ -1979,7 +2019,8 @@ msgstr ""
 
 #: cube/modules/post-types/class-cubewp-post-types.php:481
 msgid ""
-"(default: true) Whether or not WordPress should use rewrites for this post type."
+"(default: false) Whether or not WordPress should use rewrites for this post "
+"type."
 msgstr ""
 
 #: cube/modules/post-types/class-cubewp-post-types.php:489
@@ -2028,13 +2069,8 @@ msgstr ""
 msgid "Enter post type plural label"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-post-types.php:555
-#: cube/modules/taxonomies/class-cubewp-taxonomy.php:337
-msgid "Plural Label"
-msgstr ""
-
 #: cube/modules/post-types/class-cubewp-post-types.php:564
-msgid "Enter post type singular name"
+msgid "Enter post type singular label"
 msgstr ""
 
 #: cube/modules/post-types/class-cubewp-post-types.php:574
@@ -2079,7 +2115,7 @@ msgid "Create New Post Type"
 msgstr ""
 
 #: cube/modules/post-types/class-cubewp-post-types.php:706
-#: cube/modules/taxonomies/class-cubewp-taxonomy.php:427
+#: cube/modules/taxonomies/class-cubewp-taxonomy.php:430
 msgid "Update"
 msgstr ""
 
@@ -2088,14 +2124,20 @@ msgid "More Icons"
 msgstr ""
 
 #: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:83
+#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:32
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:21
 msgid "Custom Fields (Post Types)"
 msgstr ""
 
 #: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:84
+#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:33
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:22
 msgid "Custom Fields (Taxonomies)"
 msgstr ""
 
 #: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:85
+#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:34
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:23
 msgid "Custom Fields (User Roles)"
 msgstr ""
 
@@ -2112,28 +2154,23 @@ msgid "Assign To Post Type"
 msgstr ""
 
 #: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:189
-#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:178
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:130
+#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:177
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:129
 msgid "Type new group name here.."
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:190
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:131
-msgid "Name of group"
-msgstr ""
-
 #: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:201
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:142
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:141
 msgid "Set group order"
 msgstr ""
 
 #: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:202
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:143
-msgid "Order of group"
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:142
+msgid "Group Order"
 msgstr ""
 
 #: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:212
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:153
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:152
 msgid "Write group description to identify the group"
 msgstr ""
 
@@ -2146,394 +2183,402 @@ msgid "Create New Group"
 msgstr ""
 
 #: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:261
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:187
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:186
 msgid "Save Group"
 msgstr ""
 
 #: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:271
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:178
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:177
 msgid "Add New Field"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:338
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:839
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:660
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:699
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:339
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:364
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:704
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:854
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:221
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:516
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:674
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:713
 msgid "Field Label"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:348
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:847
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:670
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:709
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:349
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:375
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:715
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:862
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:232
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:527
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:684
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:723
 msgid "Field Name"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:363
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:689
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:221
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:502
-msgid "Label of Field"
-msgstr ""
-
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:368
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:694
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:369
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:709
 #: cube/modules/users/class-cubewp-user-custom-fields-ui.php:226
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:507
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:521
 msgid "Put your field label here"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:374
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:700
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:232
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:513
-msgid "Name of Field"
-msgstr ""
-
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:379
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:705
-#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:81
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:380
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:720
+#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:80
 #: cube/modules/users/class-cubewp-user-custom-fields-ui.php:237
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:518
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:532
 msgid "Put your field name here"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:385
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:711
-#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:97
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:386
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:726
+#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:96
 #: cube/modules/users/class-cubewp-user-custom-fields-ui.php:243
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:524
-msgid "Field Types"
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:538
+msgid "Field Type"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:396
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:397
 msgid "Do you want to use this field for archive map"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:408
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:409
 msgid "Use for Archive Map"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:411
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:722
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:412
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:737
 #: cube/modules/users/class-cubewp-user-custom-fields-ui.php:254
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:535
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:549
 msgid "description"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:415
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:726
-#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:112
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:416
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:741
+#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:111
 #: cube/modules/users/class-cubewp-user-custom-fields-ui.php:258
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:539
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:553
 msgid "Write description about this field"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:419
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:423
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:730
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:733
-#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:116
-#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:119
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:420
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:424
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:745
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:748
+#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:115
+#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:118
 #: cube/modules/users/class-cubewp-user-custom-fields-ui.php:262
 #: cube/modules/users/class-cubewp-user-custom-fields-ui.php:265
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:543
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:546
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:557
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:560
 msgid "Default Value"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:435
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:744
-#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:130
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:436
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:759
+#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:129
 #: cube/modules/users/class-cubewp-user-custom-fields-ui.php:276
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:557
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:571
 msgid "Put your field placeholder here"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:453
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:762
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:444
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:767
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:284
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:579
+msgid "Options"
+msgstr ""
+
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:454
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:777
 #: cube/modules/users/class-cubewp-user-custom-fields-ui.php:294
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:576
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:590
 msgid "Multiple"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:464
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:773
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:465
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:788
 #: cube/modules/users/class-cubewp-user-custom-fields-ui.php:305
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:587
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:601
 msgid "Multiple Values"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:467
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:776
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:468
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:791
 #: cube/modules/users/class-cubewp-user-custom-fields-ui.php:308
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:590
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:604
 msgid "Select 2"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:478
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:787
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:479
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:802
 #: cube/modules/users/class-cubewp-user-custom-fields-ui.php:319
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:601
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:615
 msgid "Select2 UI"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:481
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:482
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:493
 #: cube/modules/users/class-cubewp-user-custom-fields-ui.php:322
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:333
+msgid "Autocomplete"
+msgstr ""
+
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:496
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:336
 msgid "Filter by Post Types"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:494
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:335
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:509
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:349
 msgid "Filter by Taxonomy"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:506
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:347
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:521
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:361
 msgid "Please select taxonomy"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:509
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:350
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:524
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:364
 msgid "Filter by role"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:515
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:356
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:530
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:370
 msgid "Select User Role"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:522
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:363
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:537
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:377
 msgid "Field Appearance"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:527
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:368
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:542
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:382
 msgid "Select"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:528
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:369
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:543
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:383
 msgid "Multi Select"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:529
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:894
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:924
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:370
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:544
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:909
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:939
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:384
 #: cube/modules/users/class-cubewp-user-custom-fields.php:74
 #: cube/modules/users/class-cubewp-user-custom-fields.php:98
 msgid "Checkbox"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:539
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:790
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:380
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:604
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:554
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:805
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:394
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:618
 msgid "Validation"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:558
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:561
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:808
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:811
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:398
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:401
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:622
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:625
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:573
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:576
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:823
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:826
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:412
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:415
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:636
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:639
 msgid "Validation error message"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:571
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:820
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:410
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:634
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:586
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:835
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:424
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:648
 msgid "ID"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:576
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:825
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:415
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:639
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:591
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:840
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:429
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:653
 msgid "ID for css"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:580
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:829
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:419
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:643
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:595
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:844
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:433
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:657
 msgid "Class"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:585
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:834
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:424
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:648
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:600
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:849
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:438
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:662
 msgid "Class for css"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:594
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:433
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:609
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:447
 msgid "Container Class for css"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:598
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:437
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:613
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:451
 msgid "Conditional Logic"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:613
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:452
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:628
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:466
 msgid "Show this field if"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:622
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:461
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:637
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:475
 msgid "Has any value"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:623
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:462
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:638
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:476
 msgid "Has no value"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:624
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:463
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:639
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:477
 msgid "Value is equal to"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:625
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:464
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:640
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:478
 msgid "Value is not equal to"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:644
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:730
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:659
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:744
 msgid "Sub Fields"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:650
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:736
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:665
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:750
 msgid "Add Sub Field"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:881
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:915
-#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:272
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:896
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:930
+#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:271
 #: cube/modules/users/class-cubewp-user-custom-fields.php:61
 #: cube/modules/users/class-cubewp-user-custom-fields.php:90
 msgid "Text"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:882
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:916
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:897
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:931
 #: cube/modules/users/class-cubewp-user-custom-fields.php:62
 #: cube/modules/users/class-cubewp-user-custom-fields.php:91
 msgid "Number"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:884
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:918
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:899
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:933
 #: cube/modules/users/class-cubewp-user-custom-fields.php:64
 #: cube/modules/users/class-cubewp-user-custom-fields.php:93
 msgid "Url"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:886
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:919
-#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:273
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:901
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:934
+#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:272
 #: cube/modules/users/class-cubewp-user-custom-fields.php:66
 #: cube/modules/users/class-cubewp-user-custom-fields.php:94
 msgid "Textarea"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:887
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:902
 #: cube/modules/users/class-cubewp-user-custom-fields.php:67
 msgid "Wysiwyg Editor"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:888
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:903
 #: cube/modules/users/class-cubewp-user-custom-fields.php:68
 msgid "oEmbed"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:889
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:920
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:904
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:935
 #: cube/modules/users/class-cubewp-user-custom-fields.php:69
 #: cube/modules/users/class-cubewp-user-custom-fields.php:95
 msgid "File"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:891
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:906
 #: cube/modules/users/class-cubewp-user-custom-fields.php:71
 msgid "Gallery"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:892
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:922
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:907
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:937
 #: cube/modules/users/class-cubewp-user-custom-fields.php:72
 #: cube/modules/users/class-cubewp-user-custom-fields.php:96
 msgid "switch"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:895
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:925
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:910
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:940
 #: cube/modules/users/class-cubewp-user-custom-fields.php:75
 #: cube/modules/users/class-cubewp-user-custom-fields.php:99
 msgid "Radio Button"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:896
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:926
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:911
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:941
 #: cube/modules/users/class-cubewp-user-custom-fields.php:76
 #: cube/modules/users/class-cubewp-user-custom-fields.php:100
 msgid "Google Address"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:897
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:912
 #: cube/modules/users/class-cubewp-user-custom-fields.php:77
 msgid "Date Picker"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:898
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:913
 #: cube/modules/users/class-cubewp-user-custom-fields.php:78
 msgid "Date Time Picker"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:899
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:914
 #: cube/modules/users/class-cubewp-user-custom-fields.php:79
 msgid "Time Picker"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:900
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:915
 #: cube/modules/users/class-cubewp-user-custom-fields.php:80
 msgid "Post"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:901
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:916
 #: cube/modules/users/class-cubewp-user-custom-fields.php:81
 msgid "Taxonomy"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:902
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:917
 msgid "User"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:903
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:918
 #: cube/modules/users/class-cubewp-user-custom-fields.php:82
 msgid "Repeating Field"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:966
-msgid "Condtional With "
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:981
+msgid "Conditional with "
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:966
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:981
 msgid " (Optional)"
 msgstr ""
 
-#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:987
+#: cube/modules/post-types/class-cubewp-posttype-custom-fields-display.php:1002
 msgid "Ignore this if you want to show this group's fields with all terms"
 msgstr ""
 
@@ -2550,11 +2595,11 @@ msgid "Search Form Builder"
 msgstr ""
 
 #: cube/modules/search/class-cubewp-search-builder.php:52
-msgid "Search Filter Form Builder"
+msgid "Search Filter Builder"
 msgstr ""
 
 #: cube/modules/search/class-cubewp-search-builder.php:69
-msgid "Wordpress Default Fields"
+msgid "WordPress Default Fields"
 msgstr ""
 
 #: cube/modules/search/class-cubewp-search-builder.php:129
@@ -2562,6 +2607,7 @@ msgid "Active Fields"
 msgstr ""
 
 #: cube/modules/settings/class-cubewp-settings-ajax-hooks.php:16
+#: cube/modules/settings/class-cubewp-settings-ajax-hooks.php:90
 msgid "Invalid User Session."
 msgstr ""
 
@@ -2634,75 +2680,60 @@ msgstr ""
 msgid "Font Color"
 msgstr ""
 
-#: cube/modules/settings/class-cubewp-settings.php:65
+#: cube/modules/settings/class-cubewp-settings.php:68
 msgid "CubeWP Logo"
 msgstr ""
 
-#: cube/modules/settings/class-cubewp-settings.php:157
+#: cube/modules/settings/class-cubewp-settings.php:160
 msgid "Save settings"
 msgstr ""
 
-#: cube/modules/settings/class-cubewp-settings.php:160
+#: cube/modules/settings/class-cubewp-settings.php:163
 msgid "Reset section"
 msgstr ""
 
-#: cube/modules/settings/class-cubewp-settings.php:163
+#: cube/modules/settings/class-cubewp-settings.php:166
 msgid "Reset all"
 msgstr ""
 
-#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:32
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:21
-msgid "Post Types Field Groups"
+#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:36
+msgid "All Fields (Taxonomies)"
 msgstr ""
 
-#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:33
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:22
-msgid "Taxonomies Fields"
-msgstr ""
-
-#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:34
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:23
-msgid "Users Field Groups"
-msgstr ""
-
-#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:37
-msgid "Custom Fields For Taxonomies"
-msgstr ""
-
-#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:75
+#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:74
 msgid "Title of Field"
 msgstr ""
 
-#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:85
+#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:84
 msgid "Slug of Field"
 msgstr ""
 
-#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:91
+#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:90
 msgid "Put your field slug here"
 msgstr ""
 
-#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:152
+#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:151
 msgid "Save Taxonomy Field"
 msgstr ""
 
-#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:164
+#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:163
 msgid "Select Taxonomy For This Field"
 msgstr ""
 
-#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:195
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:118
+#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:194
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:117
 msgid "Field Settings"
 msgstr ""
 
-#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:256
+#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:255
 msgid "Edit Taxonomy Field"
 msgstr ""
 
-#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:258
+#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:257
 msgid "Create New Taxonomy Field"
 msgstr ""
 
-#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:267
+#: cube/modules/taxonomies/class-cubewp-taxonomy-custom-fields.php:266
 msgid "Save field"
 msgstr ""
 
@@ -2762,12 +2793,12 @@ msgstr ""
 
 #: cube/modules/taxonomies/class-cubewp-taxonomy.php:268
 msgid ""
-"(default: false) Whether to allow automatic creation of taxonomy columns on "
+"(default: true) Whether to allow automatic creation of taxonomy columns on "
 "associated post-types."
 msgstr ""
 
 #: cube/modules/taxonomies/class-cubewp-taxonomy.php:277
-msgid "(default: false) Whether the taxonomy can have parent-child relationships."
+msgid "(default: true) Whether the taxonomy can have parent-child relationships."
 msgstr ""
 
 #: cube/modules/taxonomies/class-cubewp-taxonomy.php:286
@@ -2784,44 +2815,52 @@ msgstr ""
 msgid "Taxonomy Slug"
 msgstr ""
 
-#: cube/modules/taxonomies/class-cubewp-taxonomy.php:346
-msgid "Singular Label"
+#: cube/modules/taxonomies/class-cubewp-taxonomy.php:328
+msgid "Enter taxonomy slug"
 msgstr ""
 
-#: cube/modules/taxonomies/class-cubewp-taxonomy.php:371
+#: cube/modules/taxonomies/class-cubewp-taxonomy.php:339
+msgid "Enter taxonomy plural label"
+msgstr ""
+
+#: cube/modules/taxonomies/class-cubewp-taxonomy.php:349
+msgid "Enter taxonomy singular label"
+msgstr ""
+
+#: cube/modules/taxonomies/class-cubewp-taxonomy.php:374
 msgid "Save Your Taxonomy"
 msgstr ""
 
-#: cube/modules/taxonomies/class-cubewp-taxonomy.php:383
+#: cube/modules/taxonomies/class-cubewp-taxonomy.php:386
 msgid "Assign Post Type"
 msgstr ""
 
-#: cube/modules/taxonomies/class-cubewp-taxonomy.php:401
+#: cube/modules/taxonomies/class-cubewp-taxonomy.php:404
 msgid "+Add New Post Type"
 msgstr ""
 
-#: cube/modules/taxonomies/class-cubewp-taxonomy.php:418
+#: cube/modules/taxonomies/class-cubewp-taxonomy.php:421
 msgid "Edit Taxonomy"
 msgstr ""
 
-#: cube/modules/taxonomies/class-cubewp-taxonomy.php:420
+#: cube/modules/taxonomies/class-cubewp-taxonomy.php:423
 msgid "Create New Taxonomy"
 msgstr ""
 
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:26
-msgid "User Custom Field Groups"
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:25
+msgid "All Groups (User Roles)"
 msgstr ""
 
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:46
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:48
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:45
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:47
 msgid "Edit User Group"
 msgstr ""
 
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:83
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:82
 msgid "Save User Groups"
 msgstr ""
 
-#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:95
+#: cube/modules/users/class-cubewp-user-custom-fields-ui.php:94
 msgid "Group Relation With User Role"
 msgstr ""
 
@@ -2856,104 +2895,43 @@ msgstr ""
 msgid "Post Types Overview"
 msgstr ""
 
-#: cube/templates/welcome.php:157
-msgid "Single Post Type"
+#: cube/templates/welcome.php:136
+msgid "Search Fields"
 msgstr ""
 
-#: cube/templates/welcome.php:178 cube/templates/welcome.php:211
-#: cube/templates/welcome.php:247
-msgid "Unlock this advance feature"
-msgstr ""
-
-#: cube/templates/welcome.php:181 cube/templates/welcome.php:256
-msgid " See in action"
-msgstr ""
-
-#: cube/templates/welcome.php:190 cube/templates/welcome.php:421
-msgid "Frontend Post Submission"
-msgstr ""
-
-#: cube/templates/welcome.php:214
-msgid "See in action"
-msgstr ""
-
-#: cube/templates/welcome.php:223 cube/templates/welcome.php:420
-msgid "Pricing Plans"
-msgstr ""
-
-#: cube/templates/welcome.php:249
-msgid "Cubewp Payments Required"
-msgstr ""
-
-#: cube/templates/welcome.php:252
-msgid "Woo Commerce Required"
-msgstr ""
-
-#: cube/templates/welcome.php:412
-msgid "Pages Setup Overview"
-msgstr ""
-
-#: cube/templates/welcome.php:416
-msgid "Signup"
-msgstr ""
-
-#: cube/templates/welcome.php:417
-msgid "Signin"
-msgstr ""
-
-#: cube/templates/welcome.php:418
-msgid "User Profile"
-msgstr ""
-
-#: cube/templates/welcome.php:419
-msgid "User Dashboard"
-msgstr ""
-
-#: cube/templates/welcome.php:424
-msgid "Status"
-msgstr ""
-
-#: cube/templates/welcome.php:495
-msgid "Want to unlock advance features?"
-msgstr ""
-
-#: cube/templates/welcome.php:496
-msgid "View all extensions"
-msgstr ""
-
-#: cube/templates/welcome.php:501
+#: cube/templates/welcome.php:310
 msgid "CubeWP Add-ons"
 msgstr ""
 
-#: cube/templates/welcome.php:507 cube/templates/welcome.php:518
-#: cube/templates/welcome.php:529 cube/templates/welcome.php:540
-#: cube/templates/welcome.php:551 cube/templates/welcome.php:562
+#: cube/templates/welcome.php:316 cube/templates/welcome.php:327
+#: cube/templates/welcome.php:338 cube/templates/welcome.php:349
+#: cube/templates/welcome.php:360 cube/templates/welcome.php:371
 msgid "Frontend Pro "
 msgstr ""
 
-#: cube/templates/welcome.php:507 cube/templates/welcome.php:518
-#: cube/templates/welcome.php:529 cube/templates/welcome.php:540
-#: cube/templates/welcome.php:551 cube/templates/welcome.php:562
+#: cube/templates/welcome.php:316 cube/templates/welcome.php:327
+#: cube/templates/welcome.php:338 cube/templates/welcome.php:349
+#: cube/templates/welcome.php:360 cube/templates/welcome.php:371
 msgid "1.0"
 msgstr ""
 
-#: cube/templates/welcome.php:508 cube/templates/welcome.php:519
-#: cube/templates/welcome.php:530 cube/templates/welcome.php:541
-#: cube/templates/welcome.php:552 cube/templates/welcome.php:563
+#: cube/templates/welcome.php:317 cube/templates/welcome.php:328
+#: cube/templates/welcome.php:339 cube/templates/welcome.php:350
+#: cube/templates/welcome.php:361 cube/templates/welcome.php:372
 msgid "Premium"
 msgstr ""
 
-#: cube/templates/welcome.php:510 cube/templates/welcome.php:521
-#: cube/templates/welcome.php:532 cube/templates/welcome.php:543
-#: cube/templates/welcome.php:554 cube/templates/welcome.php:565
+#: cube/templates/welcome.php:319 cube/templates/welcome.php:330
+#: cube/templates/welcome.php:341 cube/templates/welcome.php:352
+#: cube/templates/welcome.php:363 cube/templates/welcome.php:374
 msgid ""
 "Manage your contacts more effectively with HubSpot an all-in-one sales and "
 "marketing platform. With the HubSpot Add-On, you can automatically send form "
 "entries to your."
 msgstr ""
 
-#: cube/templates/welcome.php:511 cube/templates/welcome.php:522
-#: cube/templates/welcome.php:533 cube/templates/welcome.php:544
-#: cube/templates/welcome.php:555 cube/templates/welcome.php:566
+#: cube/templates/welcome.php:320 cube/templates/welcome.php:331
+#: cube/templates/welcome.php:342 cube/templates/welcome.php:353
+#: cube/templates/welcome.php:364 cube/templates/welcome.php:375
 msgid "Purchase this Extension"
 msgstr ""

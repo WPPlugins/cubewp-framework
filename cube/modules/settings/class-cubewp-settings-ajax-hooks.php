@@ -8,7 +8,7 @@ class CubeWp_Settings_Ajax_Hooks {
     protected $opt_name = 'cwpOption';
 
     
-    public static function cwp_save_options() {
+    public static function cwp_save_options( $reset = '' ) {
         
         if (!is_user_logged_in() || !is_admin() || !current_user_can('manage_options')) {
             $res = json_encode(array(
@@ -82,6 +82,42 @@ class CubeWp_Settings_Ajax_Hooks {
         die($res);
     }
     
+    public static function cwp_save_default_options( $reset = '', $resetID = 0 ) {
+        
+        if (!is_user_logged_in() || !is_admin() || !current_user_can('manage_options')) {
+            $res = json_encode(array(
+                'status' => 'error',
+                'html'   => esc_html__('Invalid User Session.', 'cubewp-framework'),
+            ));
+            die($res);
+        }
+        
+        if($reset == 'all'){
+            $options = require CWP_PLUGIN_PATH . 'cube/functions/settings/cubewp-default-options.php';
+            foreach($options as $option){
+                if($reset == 'all' || ($reset == 'section' && $resetID == $option['id'])){
+                    foreach($option['fields'] as $field){
+                        if(isset($values[$field['id']]) && is_array($values[$field['id']])){
+                            foreach($values[$field['id']] as $key => $val){
+                                if(isset($values[$field['id']][$key] )){
+                                    $values[$field['id']][$key] = isset($field['default'][$key]) ? $field['default'][$key] : '';
+                                }
+                            }
+                        }else{
+                            if(isset($field['id'])){
+                                $values[$field['id']] = isset($field['default']) ? $field['default'] : '';
+                            }
+                        }
+                    }
+                }
+            }
+        }
+      
+        if (isset($values) && !empty($values) && is_array($values)) {
+            update_option('cwpOptions', $values);
+        }
+    }
+
     public function cwp_get_font_attributes(){
         
         $font_family            = isset($_POST['font_family']) ? sanitize_text_field($_POST['font_family']) : '';

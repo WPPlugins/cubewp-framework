@@ -52,8 +52,8 @@ class CubeWp_Taxonomies_List_Table extends WP_List_Table{
     public function get_columns(){
         $columns = array(
             'cb'              =>   '<input type="checkbox" />',
-            'plural_name'     =>   esc_html__('Plural Name', 'cubewp-framework'),
-            'singular_name'   =>   esc_html__('Singular Name', 'cubewp-framework'),
+            'plural_name'     =>   esc_html__('Plural Label', 'cubewp-framework'),
+            'singular_name'   =>   esc_html__('Singular Label', 'cubewp-framework'),
             'slug'            =>   esc_html__('Slug', 'cubewp-framework'),
             'post_types'      =>   esc_html__('Post types', 'cubewp-framework'),
             
