@@ -1,15 +1,14 @@
-=== CubeWP - The Most Advanced WordPress Dynamic Content Framework ===
+=== CubeWP - The Most Advanced End-to-End WordPress Dynamic Content Framework ===
 Contributors: Emraan Cheema
 Donate link: NA
 Tags: custom fields, custom post types, custom taxonomies, cpt, meta boxes, custom field, post type, taxonomy, meta, admin, advanced, custom, edit, field, file, image, magic fields, post types, more fields, post, repeater, simple fields, text, textarea, type, cms, fields post
 Requires at least: 4.3
 Requires PHP: 5.6
 Tested up to: 6.0.2
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv2 or later
 
-CubeWP is an end-to-end dynamic content framework for WordPress
-to help you save up to 90% of your coding time.
+CubeWP is an end-to-end dynamic content framework for WordPress to help you save up to 90% of your coding time.
 
 == Description ==
 
@@ -26,9 +25,9 @@ Go beyond creating post types, fields, and taxonomies and create search and filt
 * Custom Post Types
 * Custom Taxonomies Types
 * Custom Fields
-** Post Type Custom Fields
-** Taxonomy Custom Fields
-** User Custom Fields
+- Post Type Custom Fields
+- Taxonomy Custom Fields
+- User Custom Fields
 * Custom Filters
 * Custom Search
 * Repeatable Field Groups (Users & Post Types)
@@ -100,6 +99,7 @@ To getting started with the plugin, please go to [Documentation](https://support
 1. Media Fields
 1. Post Taxonomy Fields
 
+
 == Changelog ==
 
 = 1.0.0 - 2022-09-30 
@@ -110,3 +110,14 @@ Plug released.
 = 1.0.1 - 2022-10-05
 
 - Several minor UI/UX fixes
+
+= 1.0.2 2022-10-06
+
+* New: Date Picker field type added in repeating fields.
+* New: Time Picker field type added In repeating field.
+* New: Post field type added In repeating field.
+* New: Share and save post button's On/Off option added in theme settings.
+* Tweak: Re-arrangment of CubeWP Settings.
+* Tweak: UI/UX.
+* Fix: Typos in custom fields and post types.
+* Fix: Multiple repeating fields mix in one due to array break.

@@ -26,7 +26,15 @@ $settings['general'] = array(
 			 'publish' => 'No',
 		  ),
 		  'default' => 'pending',
-	   ),
+	   )
+	)
+ );
+
+$settings['search_filters'] = array(
+	'title'  => __('Search & Filters', 'cubewp-framework'),
+	'id'     => 'search_filters',
+	'icon'   => 'dashicons-filter',
+	'fields' => array(
 	   array(
 		  'id'      => 'google_address_radius',
 		  'type'    => 'switch',
@@ -150,5 +158,75 @@ $settings['map'] = array(
 	   ),
 	)
 );
+$settings['single'] = array(
+	'title'  => __('Single Post', 'cubewp-framework'),
+	'id'     => 'single',
+	'fields' => array(
+        array(
+		  'id'      => 'post_type_save_button',
+		  'type'    => 'switch',
+		  'title'   => __('Post Type Save Button', 'cubewp-framework'),
+		  'default' => '1',
+		  'desc'    => __('Gives you a button on single page to save post type.', 'cubewp-framework'),
+	   ),
+        array(
+		  'id'      => 'post_type_share_button',
+		  'type'    => 'switch',
+		  'title'   => __('Post Type Share Button', 'cubewp-framework'),
+		  'default' => '1',
+		  'desc'    => __('Gives you a button on single page to share post type.', 'cubewp-framework'),
+	   ),
+        array(
+		  'id'      => 'twitter_share',
+		  'type'    => 'switch',
+		  'title'   => __('Post Type Twitter Share', 'cubewp-framework'),
+		  'default' => '1',
+		  'desc'    => __('By enabling this option, you can share post type on twitter.', 'cubewp-framework'),
+          'required' => array(
+              array('post_type_share_button', 'equals', '1')
+              )
+	   ),
+        array(
+		  'id'      => 'facebook_share',
+		  'type'    => 'switch',
+		  'title'   => __('Post Type Facebook Share', 'cubewp-framework'),
+		  'default' => '1',
+		  'desc'    => __('By enabling this option, you can share post type on facebook.', 'cubewp-framework'),
+          'required' => array(
+              array('post_type_share_button', 'equals', '1')
+              )
+	   ),
+        array(
+		  'id'      => 'pinterest_share',
+		  'type'    => 'switch',
+		  'title'   => __('Post Type Pinterest Share', 'cubewp-framework'),
+		  'default' => '1',
+		  'desc'    => __('By enabling this option, you can share post type on pinterest.', 'cubewp-framework'),
+          'required' => array(
+              array('post_type_share_button', 'equals', '1')
+              )
+	   ),
+        array(
+		  'id'      => 'linkedin_share',
+		  'type'    => 'switch',
+		  'title'   => __('Post Type LinkedIn Share', 'cubewp-framework'),
+		  'default' => '1',
+		  'desc'    => __('By enabling this option, you can share post type on linkedIn.', 'cubewp-framework'),
+          'required' => array(
+              array('post_type_share_button', 'equals', '1')
+              )
+	   ),
+        array(
+		  'id'      => 'reddit_share',
+		  'type'    => 'switch',
+		  'title'   => __('Post Type Reddit Share', 'cubewp-framework'),
+		  'default' => '1',
+		  'desc'    => __('By enabling this option, you can share post type on reddit.', 'cubewp-framework'),
+          'required' => array(
+              array('post_type_share_button', 'equals', '1')
+              )
+	   ),
+	)
+ );
 
 return $settings;

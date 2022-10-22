@@ -201,3 +201,93 @@ label.custom-checkbox-container {
     margin-top: 10px;
     border-radius: 5px;
 }
+
+/*------Date Picker Fields--------------*/
+.cwp-ui-datepicker .ui-datepicker {
+    background: #ffffff;
+    border: 1px solid #dddddd !important;
+    border-radius: 5px;
+    box-shadow: 0 8px 10px 0 rgb(0 0 0 / 52%);
+    padding: 20px;
+    width: 20%;
+    font-size: 12px;
+}
+.cwp-ui-datepicker .ui-datepicker .ui-datepicker-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 0;
+    border: 0;
+    background: unset;
+    font-weight: normal;
+}
+.cwp-ui-datepicker .ui-datepicker .ui-datepicker-header a.ui-datepicker-prev,
+.cwp-ui-datepicker .ui-datepicker .ui-datepicker-header a.ui-datepicker-next {
+    color: #0b91ea;
+    cursor: pointer;
+    margin-bottom: 15px;
+    position: relative;
+    width: 50%;
+    left: unset;
+    top: unset;
+    height: unset;
+    font-size: 14px;
+    border: 0;
+}
+.cwp-ui-datepicker .ui-datepicker .ui-datepicker-header a.ui-datepicker-prev span,
+.cwp-ui-datepicker .ui-datepicker .ui-datepicker-header a.ui-datepicker-next span {
+    display: block;
+    text-indent: unset;
+    margin: 0;
+    position: relative;
+    left: unset;
+    top: unset;
+    background: unset;
+    background-image: unset;
+    width: unset;
+    height: unset;
+}
+.cwp-ui-datepicker .ui-datepicker .ui-datepicker-header .ui-datepicker-title {
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+    margin-bottom: 15px;
+    width: 100%;
+    line-height: unset;
+}
+.cwp-ui-datepicker .ui-datepicker .ui-datepicker-header .ui-datepicker-title select {
+    cursor: pointer;
+}
+.cwp-ui-datepicker .ui-datepicker table.ui-datepicker-calendar {
+    width: 100%;
+}
+.cwp-ui-datepicker .ui-datepicker tbody tr td {
+    text-align: center;
+}
+.cwp-ui-datepicker .ui-datepicker .ui-datepicker-buttonpane.ui-widget-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+.cwp-ui-datepicker .ui-datepicker .ui-datepicker-buttonpane.ui-widget-content button {
+    cursor: pointer;
+}
+.cwp-ui-datepicker .ui-datepicker .ui-datepicker-header .ui-datepicker-title .ui-datepicker-year,
+.cwp-ui-datepicker .ui-datepicker .ui-datepicker-header .ui-datepicker-title .ui-datepicker-month {
+    border: 1px solid #dcd7ca;
+    height: 25px;
+    padding: 0 5px;
+    width: 30%;
+    font-size: 14px;
+    line-height: 20px;
+    border-radius: 5px;
+}
+.cwp-ui-datepicker .ui-datepicker .ui-timepicker-div .ui_tpicker_hour .ui_tpicker_hour_slider select,
+.cwp-ui-datepicker .ui-datepicker .ui-timepicker-div .ui_tpicker_minute .ui_tpicker_minute_slider select,
+.cwp-ui-datepicker .ui-datepicker .ui-timepicker-div .ui_tpicker_second .ui_tpicker_second_slider select {
+    padding: 7px;
+    max-width: 100%;
+    width: 100%;
+    min-width: 60px;
+}		

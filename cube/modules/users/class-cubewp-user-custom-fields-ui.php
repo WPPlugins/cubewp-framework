@@ -225,7 +225,7 @@ class CubeWp_User_Custom_Fields_UI extends CubeWp_User_Custom_Fields{
                     'class' => 'field-label',
                     'placeholder' => esc_html__('Put your field label here', 'cubewp-framework'),
                     'value' => $FieldData['label'],
-                    'extra_attrs' =>    'maxlength=20 ',
+                    'extra_attrs' =>    'maxlength=30 ',
                     'required'    =>    true,
                 );
         $field_settings['field_name'] = array(
@@ -520,7 +520,7 @@ class CubeWp_User_Custom_Fields_UI extends CubeWp_User_Custom_Fields{
                         'class' => 'field-label',
                         'placeholder' => esc_html__('Put your field label here', 'cubewp-framework'),
                         'value' => $FieldData['label'],
-                        'extra_attrs' =>    'maxlength=20 ',
+                        'extra_attrs' =>    'maxlength=30 ',
                         'required'    =>    true,
         );
         $field_settings['field_name'] = array(

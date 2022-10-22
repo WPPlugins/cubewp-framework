@@ -198,14 +198,13 @@ button .dashicons {
     align-items: center;
 }
 #cwpform-builder .cubewp-builder-container .cubewp-builder-area .cubewp-builder-sections .cubewp-builder-section .cubewp-builder-section-fields .cubewp-builder-group-widget .cubewp-builder-group-widget-mover {
-    height: 34px;
+    height: 20px;
     width: 36px;
 }
-#cwpform-builder .cubewp-builder-container .cubewp-builder-area .cubewp-builder-sections .cubewp-builder-section .cubewp-builder-section-fields .cubewp-builder-group-widget .cubewp-builder-group-widget-mover img {
-    height: 100%;
-    width: 100%;
+#cwpform-builder .cubewp-builder-container .cubewp-builder-area .cubewp-builder-sections .cubewp-builder-section .cubewp-builder-section-fields .cubewp-builder-group-widget .cubewp-builder-group-widget-mover svg {
     cursor: move;
 }
+
 #cwpform-builder .cubewp-builder-container .cubewp-builder-area .cubewp-builder-sections .cubewp-builder-section .cubewp-builder-section-fields .cubewp-builder-group-widget .cubewp-builder-group-widget-actions {
     cursor: pointer;
     margin-left: auto;
@@ -512,7 +511,7 @@ button .dashicons {
     width: 100%;
     z-index: 1;
 }
-#cwpform-builder .cubewp-builder-sidebar .cubewp-builder-sidebar-groups-widgets .cubewp-builder-section-fields .cubewp-builder-group-widget .cubewp-builder-group-widget-mover img {
+#cwpform-builder .cubewp-builder-sidebar .cubewp-builder-sidebar-groups-widgets .cubewp-builder-section-fields .cubewp-builder-group-widget .cubewp-builder-group-widget-mover svg {
     display: none;
 }
 #cwpform-builder .cubewp-builder-container .cubewp-builder-area .cubewp-single-layout-builder-container {

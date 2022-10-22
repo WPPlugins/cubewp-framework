@@ -30,6 +30,7 @@ class CubeWp_Admin_Post_Field {
      */
     public function render_post_field( $output = '', $args = array() ) {
         $args   =  apply_filters( 'cubewp/admin/field/parametrs', $args );
+		
         if($args['appearance'] == 'select'){
             $args['type'] = 'dropdown';
         } else if($args['appearance'] == 'multi_select'){
@@ -51,6 +52,7 @@ class CubeWp_Admin_Post_Field {
 		    }
 		    $args['options']     = $options;
 		    $args['class']       = $args['class'] . ' cubewp-remote-options ';
+			$args['extra_attrs'] = isset($args['extra_attrs']) ? $args['extra_attrs'] : '';
 		    $args['extra_attrs'] = $args['extra_attrs'] . ' data-dropdown-type="post" data-dropdown-values="' . $args['filter_post_types'] . '" ';
 	    } else {
 		    $query_args = array(
@@ -68,7 +70,6 @@ class CubeWp_Admin_Post_Field {
 		    }
 		    $args['options'] = $options;
 	    }
-
 	    return apply_filters("cubewp/admin/post/{$args['type']}/field", '', $args);
     }
     

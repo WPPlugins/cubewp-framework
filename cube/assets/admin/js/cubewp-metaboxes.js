@@ -399,20 +399,27 @@ function cwp_conditional_fields() {
         });
     }
 }
-function cwp_repreating_fields_county(thisObj){
-    if(jQuery('.cwp-repeating-field .cwp-repeating-field').length > 0){
-        thisObj.closest('.cwp-repeating-field').find('.cwp-repeating-field').each(function(i, obj) {
-            jQuery(this).find('.cwp-repeating-count .count').text( Number(i) + 1 );
+
+
+jQuery(document).ready(function () {
+    cubewp_init_resources();
+});
+
+function cwp_repreating_fields_county(thisObj) {
+    if (jQuery('.cwp-repeating-field .cwp-repeating-field').length > 0) {
+        thisObj.closest('.cwp-repeating-field').find('.cwp-repeating-field').each(function (i, obj) {
+            jQuery(this).find('.cwp-repeating-count .count').text(Number(i) + 1);
         });
+        cubewp_init_resources();
     }
 }
 
 function cubewp_init_select2(selects) {
     selects.each(function () {
         var $this = jQuery(this),
-        placeholder = $this.attr('placeholder'),
-        dropdown_type = $this.attr('data-dropdown-type'),
-        dropdown_values = $this.attr('data-dropdown-values');
+            placeholder = $this.attr('placeholder'),
+            dropdown_type = $this.attr('data-dropdown-type'),
+            dropdown_values = $this.attr('data-dropdown-values');
 
         if (!$this.hasClass('cubewp-remote-options')) {
             jQuery(this).select2({
@@ -420,7 +427,7 @@ function cubewp_init_select2(selects) {
                 placeholder: placeholder,
                 minimumResultsForSearch: 10
             });
-        }else {
+        } else {
             jQuery(this).select2({
                 width: '100%',
                 placeholder: placeholder,
@@ -456,81 +463,110 @@ function cubewp_init_select2(selects) {
     })
 }
 
-jQuery( document ).ready(function() {
-    
-    var cwp_select2 = jQuery(".cwp-select2 select");
-    // Initializing Select2 On Select2 UI Dropdowns
+function cubewp_init_date_pickers(data_pickers) {
+    data_pickers.each(function () {
+        var thisObj = jQuery(this),
+            args = {
+            dateFormat: 'd/m/yy',
+            altField: thisObj.find('input[type="hidden"]'),
+            altFormat: 'yy-mm-dd',
+            changeYear: true,
+            yearRange: "-100:+100",
+            changeMonth: true,
+            showButtonPanel: true,
+            firstDay: '0',
+            beforeShow: function (input, datepicker) {
+                setTimeout(function () {
+                    datepicker.dpDiv.find('.ui-datepicker-current')
+                        .click(function () {
+                            jQuery(input).datepicker('setDate', new Date());
+                        });
+                }, 1);
+                return {};
+            }
+        };
+        thisObj.find('input[type="text"]').datepicker(args);
+    });
+}
+
+function cubewp_init_time_pickers(time_pickers) {
+    time_pickers.each(function () {
+        var thisObj = jQuery(this),
+            args = {
+                timeFormat: 'HH:mm:ss',
+                altField: thisObj.find('input[type="hidden"]'),
+                altFieldTimeOnly: false,
+                altTimeFormat: 'HH:mm:ss',
+                showButtonPanel: true,
+                controlType: 'select',
+                oneLine: true,
+                timeOnly: true,
+            };
+        thisObj.find('input[type="text"]').timepicker(args);
+    });
+}
+
+function cubewp_init_date_time_pickers(date_time_pickers) {
+    date_time_pickers.each(function () {
+        var thisObj = jQuery(this),
+            args = {
+                dateFormat: 'd/m/yy',
+                timeFormat: 'HH:mm:ss',
+                altField: thisObj.find('input[type="hidden"]'),
+                altFieldTimeOnly: false,
+                altFormat: 'yy-mm-dd',
+                altTimeFormat: 'HH:mm:ss',
+                changeYear: true,
+                yearRange: "-100:+100",
+                changeMonth: true,
+                showButtonPanel: true,
+                firstDay: '0',
+                controlType: 'select',
+                oneLine: true
+            };
+        thisObj.find('input[type="text"]').datetimepicker(args);
+    });
+}
+
+function cubewp_init_resources() {
+    var cwp_select2 = jQuery(".cwp-select2 select"),
+        data_pickers = jQuery(".cwp-date-picker"),
+        time_pickers = jQuery(".cwp-time-picker"),
+        date_time_pickers = jQuery(".cwp-date-time-picker");
+
+    /**
+     * Initializing Select2 On Select2 UI Dropdowns
+     */
     if (cwp_select2.length > 0) {
         cubewp_init_select2(cwp_select2);
     }
-    
-    if(jQuery(".cwp-date-picker").length > 0 ){
-        jQuery(".cwp-date-picker").each(function() {
-            var thisObj = jQuery(this);
-            var args = { 
-                dateFormat:			'd/m/yy',
-                altField:			thisObj.find('input[type="hidden"]'),
-                altFormat:			'yy-mm-dd',
-                changeYear:			true,
-                yearRange:			"-100:+100",
-                changeMonth:		        true,
-                showButtonPanel:	        true,
-                firstDay:			'0',
-                beforeShow: function(input, datepicker) {
-                    setTimeout(function() {
-                        datepicker.dpDiv.find('.ui-datepicker-current')
-                            .click(function() {
-                                jQuery(input).datepicker('setDate', new Date());
-                            });
-                    }, 1);
-                    return {};
-                }
-            };
-            thisObj.find('input[type="text"]').datepicker(args);
-        });
+
+    /**
+     * Initializing Date Pickers
+     */
+    if (data_pickers.length > 0) {
+        cubewp_init_date_pickers(data_pickers);
     }
-    
-    if(jQuery(".cwp-date-time-picker").length > 0 ){
-        jQuery(".cwp-date-time-picker").each(function() {
-            var thisObj = jQuery(this);
-            var args = {
-                dateFormat:		'd/m/yy',
-                timeFormat:		'HH:mm:ss',
-                altField:		thisObj.find('input[type="hidden"]'),
-                altFieldTimeOnly:	false,
-                altFormat:		'yy-mm-dd',
-                altTimeFormat:		'HH:mm:ss',
-                changeYear:		true,
-                yearRange:		"-100:+100",
-                changeMonth:		true,
-                showButtonPanel:	true,
-                firstDay:		'0',
-                controlType: 		'select',
-                oneLine:		true
-            };
-            thisObj.find('input[type="text"]').datetimepicker(args);
-        });
+
+    /**
+     * Initializing Time Pickers
+     */
+    if (time_pickers.length > 0) {
+        cubewp_init_time_pickers(time_pickers);
     }
-    
-    if(jQuery(".cwp-time-picker").length > 0 ){
-        jQuery(".cwp-time-picker").each(function() {
-            var thisObj = jQuery(this);
-            var args = {
-                    timeFormat:		'HH:mm:ss',
-                    altField:		thisObj.find('input[type="hidden"]'),
-                    altFieldTimeOnly:	false,
-                    altTimeFormat:	'HH:mm:ss',
-                    showButtonPanel:	true,
-                    controlType: 	'select',
-                    oneLine:		true,
-                    timeOnly:		true,
-            };
-            thisObj.find('input[type="text"]').timepicker(args);
-        });
+
+    /**
+     * Initializing Date And Time Pickers
+     */
+    if (date_time_pickers.length > 0) {
+        cubewp_init_date_time_pickers(date_time_pickers);
     }
-    
-    if( jQuery('body > #ui-datepicker-div').length > 0 ) {
-        jQuery('body > #ui-datepicker-div').wrap('<div class="cwp-ui-datepicker" />');
+
+    /**
+     * Wrapping Pickers In .cwp-ui-datepicker
+     */
+    var pickers_wrapper = jQuery('body > #ui-datepicker-div');
+    if (pickers_wrapper.length > 0) {
+        pickers_wrapper.wrap('<div class="cwp-ui-datepicker" />');
     }
-    
-});
+}

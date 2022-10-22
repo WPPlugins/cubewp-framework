@@ -78,7 +78,7 @@ class CubeWp_Post_Types_List_Table extends WP_List_Table{
     * @return string
     */
     function column_plural_name( $item ) {
-        $title = '<strong>' . $item['plural_name'] . '</strong>';
+        $title = sprintf( '<a href="%s"><strong>' . $item['plural_name'] . '</strong></a>', CubeWp_Submenu::_page_action('cubewp-post-types','edit', '&postTypeid='.$item['slug'], '&_wpnonce='.wp_create_nonce( 'cwp_edit_post_type' )));
         $actions = [
             'edit' => sprintf( '<a href="%s">'. esc_html__('Edit', 'cubewp-framework') .'</a>', CubeWp_Submenu::_page_action('cubewp-post-types','edit', '&postTypeid='.$item['slug'], '&_wpnonce='.wp_create_nonce( 'cwp_edit_post_type' ))),
             

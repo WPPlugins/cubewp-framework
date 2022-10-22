@@ -445,7 +445,7 @@ trait CubeWp_Single_Page_Trait {
 		$output = '<div class="cwp-cpt-single-time_picker cwp-cpt-single-field-container '.esc_attr($args['container_class']).' '.esc_attr($args['field_size']).'">
             <h4>' . $args['label'] . '</h4>
             <div class="cwp-cpt-single-time_picker">
-                <p>' . date_i18n(get_option('time_format'), $args['value']) . '</p>
+			<p>' . date_i18n(get_option('time_format'), strtotime($args['value'])) . '</p>
             </div>
         </div>';
 
@@ -544,6 +544,7 @@ trait CubeWp_Single_Page_Trait {
 		if (isset($args['value']) && ! empty($args['value'])) {
 			$output .= '<div class="cwp-cpt-single-user-container cwp-cpt-single-field-container '.esc_attr($args['container_class']).' '.esc_attr($args['field_size']).'">
 				<h4>' . $args['label'] . '</h4>';
+            $output .= '<div class="cwp-row cwp-user-row">';
 			if (is_array($args['value'])) {
 				foreach ($args['value'] as $user_id) {
 					$output .= '<div class="cwp-col-md-6 cwp-user-col">';
@@ -558,7 +559,8 @@ trait CubeWp_Single_Page_Trait {
 	                $output .= '</div>';
 				}
 			}
-			$output .= '</div>';
+			$output .= '</div>
+            </div>';
 		}
 
 		return apply_filters('cubewp/singlecpt/field/user', $output, $args);
@@ -579,6 +581,7 @@ trait CubeWp_Single_Page_Trait {
 		if (isset($args['value']) && !empty($args['value']) && $args['value'] != 'N/A') {
 			$output .= '<div class="cwp-cpt-single-post-container cwp-cpt-single-field-container '.esc_attr($args['container_class']).' '.esc_attr($args['field_size']).'">
 				<h4>' . $args['label'] . '</h4>';
+            $output .= '<div class="cwp-row cwp-post-row">';
 			if (is_array($args['value'])) {
 				foreach ($args['value'] as $post_id) {
 					$output .= CubeWp_frontend_grid_HTML($post_id);
@@ -586,7 +589,8 @@ trait CubeWp_Single_Page_Trait {
 			}else{
 				$output .= CubeWp_frontend_grid_HTML($args['value']);
 			}
-			$output .= '</div>';
+			$output .= '</div>
+            </div>';
 		}
 
 		return apply_filters('cubewp/singlecpt/field/post', $output, $args);
@@ -630,7 +634,7 @@ trait CubeWp_Single_Page_Trait {
 	 * @since  1.0.0
      */
     public static function get_post_share_button($post_id = '') {
-        
+        global $cwpOptions;
         if (!empty($postid)) self::$post_id = $postid;
           $site_url   = get_site_url();
           $site_title = get_bloginfo();
@@ -645,7 +649,6 @@ trait CubeWp_Single_Page_Trait {
           $pinterest      = 'https://pinterest.com/pin/create/button/?url=' . esc_url($site_url) . '&media=' . esc_attr($post_thumbnail) . '&description=' . esc_attr($site_title);
           $linkedin       = 'http://www.linkedin.com/shareArticle?mini=true&url=' . esc_url($site_url);
           $reddit         = 'https://www.reddit.com/login?dest=https%3A%2F%2Fwww.reddit.com%2Fsubmit%3Ftitle%3D' . esc_attr($site_title) . '%26url%3D' . esc_url($site_url);
-
         echo '
         <div class="cwp-single-share-btn cwp-single-widget">
             <span class="cwp-main">
@@ -655,23 +658,33 @@ trait CubeWp_Single_Page_Trait {
                 <span class="cwp-share-text">Share</span>
             </span>
             <div class="cwp-share-modal" style="display:none;">
-                <ul class="cwp-share-options">
-                    <li style="background-color: #4099FF;">
-                        '. CubeWp_Single_Page_Trait::get_twitter_svg(esc_url($twitterURL)) .'
-                    </li>
-                    <li style="background-color: #3b5998;">
-                        '. CubeWp_Single_Page_Trait::get_facebook_svg(esc_url($facebookURL)) .'
-                    </li>
-                    <li style="background-color: #C92228;">
-                        '. CubeWp_Single_Page_Trait::get_pinterest_svg(esc_url($pinterest)) .'
-                    </li>
-                    <li style="background-color: #0077B5;">
-                        '. CubeWp_Single_Page_Trait::get_linkedIn_svg(esc_url($linkedin)) .'
-                    </li>
-                    <li style="background-color: #fe6239;">
-                        '. CubeWp_Single_Page_Trait::get_reddit_svg(esc_url($reddit)) .'
-                    </li>
-                </ul>
+                <ul class="cwp-share-options">';
+                    if($cwpOptions['twitter_share']=='1'){
+                        echo '<li style="background-color: #4099FF;">
+                            '. CubeWp_Single_Page_Trait::get_twitter_svg(esc_url($twitterURL)) .'
+                        </li>';
+                    }
+                    if($cwpOptions['facebook_share']=='1'){
+                        echo '<li style="background-color: #3b5998;">
+                            '. CubeWp_Single_Page_Trait::get_facebook_svg(esc_url($facebookURL)) .'
+                        </li>';
+                    }
+                    if($cwpOptions['pinterest_share']=='1'){
+                        echo '<li style="background-color: #C92228;">
+                            '. CubeWp_Single_Page_Trait::get_pinterest_svg(esc_url($pinterest)) .'
+                        </li>';
+                    }
+                    if($cwpOptions['linkedin_share']=='1'){
+                        echo '<li style="background-color: #0077B5;">
+                            '. CubeWp_Single_Page_Trait::get_linkedIn_svg(esc_url($linkedin)) .'
+                        </li>';
+                    }
+                    if($cwpOptions['reddit_share']=='1'){
+                        echo '<li style="background-color: #fe6239;">
+                            '. CubeWp_Single_Page_Trait::get_reddit_svg(esc_url($reddit)) .'
+                        </li>';
+                    }
+            echo '</ul>
             </div>
         </div>';
    }

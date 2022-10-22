@@ -402,10 +402,8 @@ if ( ! function_exists("is_cubewp_post_saved")) {
  * @since  1.0.0
  */
 if ( ! function_exists("get_post_save_button")) {
-	function get_post_save_button() {
+	function get_post_save_button($post_id) {
 		$isSaved = '';
-		global $post;
-		$post_id = $post->ID;
 		if (class_exists('CubeWp_Saved')) {
 			$SavedClass = CubeWp_Saved::is_cubewp_post_saved($post_id, false, true);
 		} else {
@@ -455,7 +453,7 @@ if ( ! function_exists("CubeWp_frontend_grid_HTML")) {
                              alt="<?php echo get_the_post_thumbnail_caption($post_id); ?>">
                     </a>
                     <div class="cwp-archive-save">
-						<?php get_post_save_button(); ?>
+						<?php get_post_save_button($post_id); ?>
                     </div>
                 </div>
                 <div class="cwp-post-content-container">

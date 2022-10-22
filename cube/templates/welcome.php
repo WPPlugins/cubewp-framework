@@ -43,7 +43,7 @@
 	<h1><?php echo esc_html__("Post Types Overview", "cubewp-framework"); ?></h1>
 	<div class="cwp-post-type-overview">
 		
-		<div class="cwp-post-type-overview-left-side">
+		<div class="cwp-post-type-overview-left-side" style="width:100%">
 <div class="cubewp-add-new-posttype"><a href="?page=cubewp-post-types&action=new" class="cwp-prev-ad-btn">+ Add New Post Type</a></div>
 			<div class="cwp-post-type-overview-left-container">
 
@@ -153,6 +153,7 @@
 							}
 						} ?>
 					</div>
+                <?php /*
 					<div class="cwp-post-type-overview-left-side-inner <?php if ( !class_exists('CubeWp_Frontend_Load') ) { ?>cwp-post-type-overview-left-side-inner-pro<?php }else{ ?>cwp-post-type-overview-left-side-inner-pro-active<?php } ?>">
 						<div><h6 class="cwp-review-option-name"><?php echo esc_html__("Single Post Type", "cubewp-framework"); ?></h6></div>
 						<?php 
@@ -409,7 +410,7 @@
 					
 					
 				</div>
-				<h1><?php echo esc_html__("Pages Setup Overview", "cubewp-framework"); ?></h1>
+				<?php /* <h1><?php echo esc_html__("Pages Setup Overview", "cubewp-framework"); ?></h1>
 				<div class="cwp-post-type-overview-left-container">
 					<div class="cwp-post-type-overview-left-side-inner cwp-post-type-overview-left-side-inner-header">
 						<div>&nbsp;</div>
@@ -494,7 +495,7 @@
 		<div class="cwp-post-type-overview-right-side">
 			<h1><?php echo esc_html__("Want to unlock advance features?", "cubewp-framework"); ?></h1>
 			<a href="" class="cwp-view-extentions"><?php echo esc_html__("View all extensions", "cubewp-framework"); ?></a>
-		</div>
+		</div>*/ ?>
 	</div>
 <?php }else{ ?>
 	<div class="cwp-all-plugis-outer">

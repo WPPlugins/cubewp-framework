@@ -71,6 +71,7 @@ class CubeWp_Frontend_Repeater_Field extends CubeWp_Frontend {
                                             if($fieldArgs['type'] == 'radio' || $fieldArgs['type'] == 'checkbox' || ($fieldArgs['type'] == 'dropdown' && $fieldArgs['multiple'] == true)){
                                                 $fieldArgs['custom_name']    =  'cwp_user_register[custom_fields]['. $args['name'] .'][' . $fieldArgs['name'] . '][{{row-count-placeholder}}]';
                                             }
+                                            
                                             $output .= apply_filters("cubewp/frontend/{$fieldArgs['type']}/field", '', $fieldArgs);
                                         }
                                     }
@@ -180,6 +181,9 @@ class CubeWp_Frontend_Repeater_Field extends CubeWp_Frontend {
                                             if($fieldArgs['type'] == 'radio' || $fieldArgs['type'] == 'checkbox' || ($fieldArgs['type'] == 'dropdown' && $fieldArgs['multiple'] == true)){
                                                 $fieldArgs['custom_name']    =  'cwp_user_form[cwp_meta]['. $args['name'] .'][' . $fieldArgs['name'] . '][{{row-count-placeholder}}]';
                                             }
+                                            if ($fieldArgs['type'] == 'post' && ($fieldArgs['appearance'] == 'multi_select' || $fieldArgs['appearance'] == 'checkbox')) {
+                                                $fieldArgs['custom_name']    =  'cwp_user_form[cwp_meta]['. $args['name'] .'][' . $fieldArgs['name'] . '][{{row-count-placeholder}}]';
+                                            }
                                             $output .= apply_filters("cubewp/frontend/{$fieldArgs['type']}/field", '', $fieldArgs);
                                         }
                                     }
@@ -215,6 +219,9 @@ class CubeWp_Frontend_Repeater_Field extends CubeWp_Frontend {
                                                     $sub_field['lng'] = $args['value'][$i][$fieldArgs['name'] . '_lng'];
                                                 }
                                                 if($sub_field['type'] == 'radio' || $sub_field['type'] == 'checkbox' || ($sub_field['type'] == 'dropdown' && $sub_field['multiple'] == true)){
+                                                    $sub_field['custom_name']    =  'cwp_user_form[cwp_meta]['. $args['name'] .'][' . $sub_field['name'] . '][{{row-count-placeholder}}]';
+                                                }
+                                                if ($sub_field['type'] == 'post' && ($sub_field['appearance'] == 'multi_select' || $sub_field['appearance'] == 'checkbox')) {
                                                     $sub_field['custom_name']    =  'cwp_user_form[cwp_meta]['. $args['name'] .'][' . $sub_field['name'] . '][{{row-count-placeholder}}]';
                                                 }
                                                 $output .= apply_filters( "cubewp/frontend/{$sub_field['type']}/field", '', $sub_field );

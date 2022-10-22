@@ -61,7 +61,7 @@ class CubeWp_User_Custom_Fields{
         $field_types['text']                = esc_html__('Text', 'cubewp-framework');
         $field_types['number']              = esc_html__('Number', 'cubewp-framework');
         $field_types['email']               = esc_html__('Email', 'cubewp-framework');
-        $field_types['url']                 = esc_html__('Url', 'cubewp-framework');
+        $field_types['url']                 = esc_html__('URL', 'cubewp-framework');
         $field_types['password']            = esc_html__('Password', 'cubewp-framework');
         $field_types['textarea']            = esc_html__('Textarea', 'cubewp-framework');
         $field_types['wysiwyg_editor']      = esc_html__('Wysiwyg Editor', 'cubewp-framework');
@@ -69,7 +69,7 @@ class CubeWp_User_Custom_Fields{
         $field_types['file']                = esc_html__('File', 'cubewp-framework');
         $field_types['image']               = esc_html__('Image', 'cubewp-framework');
         $field_types['gallery']             = esc_html__('Gallery', 'cubewp-framework');
-        $field_types['switch']              = esc_html__('switch', 'cubewp-framework');
+        $field_types['switch']              = esc_html__('Switch', 'cubewp-framework');
         $field_types['dropdown']            = esc_html__('Dropdown', 'cubewp-framework');
         $field_types['checkbox']            = esc_html__('Checkbox', 'cubewp-framework');
         $field_types['radio']               = esc_html__('Radio Button', 'cubewp-framework');
@@ -90,13 +90,15 @@ class CubeWp_User_Custom_Fields{
         $field_types['text']           = esc_html__('Text', 'cubewp-framework');
         $field_types['number']         = esc_html__('Number', 'cubewp-framework');
         $field_types['email']          = esc_html__('Email', 'cubewp-framework');
-        $field_types['url']            = esc_html__('Url', 'cubewp-framework');
+        $field_types['url']            = esc_html__('URL', 'cubewp-framework');
         $field_types['textarea']       = esc_html__('Textarea', 'cubewp-framework');
         $field_types['file']           = esc_html__('File', 'cubewp-framework');
-        $field_types['switch']         = esc_html__('switch', 'cubewp-framework');
+        $field_types['switch']         = esc_html__('Switch', 'cubewp-framework');
         $field_types['dropdown']       = esc_html__('Dropdown', 'cubewp-framework');
         $field_types['checkbox']       = esc_html__('Checkbox', 'cubewp-framework');
         $field_types['radio']          = esc_html__('Radio Button', 'cubewp-framework');
+        $field_types['date_picker']    = esc_html__('Date Picker', 'cubewp-framework');
+        $field_types['time_picker']    = esc_html__('Time Picker', 'cubewp-framework');
         $field_types['google_address'] = esc_html__('Google Address', 'cubewp-framework');
         
         return apply_filters('cwp_user_custom_sub_field_types', $field_types);

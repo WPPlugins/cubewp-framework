@@ -66,7 +66,7 @@ class CubeWp_Taxonomy_Custom_Fields_Table extends WP_List_Table{
     * @return string
     */
     function column_field_name( $item ) {
-        $title = '<strong>' . $item['field_name'] . '</strong>';
+        $title = sprintf( '<a href="%s"><strong>' . $item['field_name'] . '</strong></a>', CubeWp_Submenu::_page_action('taxonomy-custom-fields','edit', '&fieldid='.$item['field_slug'], '&_wpnonce='.wp_create_nonce( 'cwp_edit_tax_field' )));
         $actions = [
             'edit' => sprintf( '<a href="%s">'. esc_html__('Edit', 'cubewp-framework') .'</a>', CubeWp_Submenu::_page_action('taxonomy-custom-fields','edit', '&fieldid='.$item['field_slug'], '&_wpnonce='.wp_create_nonce( 'cwp_edit_tax_field' ))),
             'delete' => sprintf( '<a href="%s">'. esc_html__('Delete', 'cubewp-framework') .'</a>', CubeWp_Submenu::_page_action('taxonomy-custom-fields','delete', '&fieldid='.$item['field_slug'], '&_wpnonce='.wp_create_nonce( 'cwp_delete_tax_field' ))),

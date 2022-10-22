@@ -333,11 +333,13 @@ class CubeWp_Admin_Enqueue{
             
         }
         
-        if ( $pagenow == 'post.php' || $pagenow == 'post-new.php' ) {
-            self::enqueue_script( 'jquery-ui-datepicker' );
-            self::enqueue_script( 'cwp-timepicker' );
-            self::enqueue_style( 'cwp-timepicker' );
-        }
+        if ( $pagenow == 'post.php' || $pagenow == 'post-new.php' || $pagenow == 'user-new.php' || $pagenow == 'user-edit.php' || $pagenow == 'profile.php' ) {
+			self::enqueue_script( 'jquery-ui-datepicker' );
+			self::enqueue_script( 'cwp-timepicker' );
+			self::enqueue_style( 'cwp-timepicker' );
+			self::enqueue_style('select2');
+			self::enqueue_script('select2');
+		}
         
         if ( $pagenow == 'term.php' || $pagenow == 'edit-tags.php' ) {
             self::enqueue_style('cubewp-custom-fields');

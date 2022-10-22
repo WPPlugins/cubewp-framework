@@ -348,7 +348,7 @@ class CubeWp_Form_Builder {
 		$output .= '<div id="cwpform-field-' . esc_attr($field["name"]) . '" class="cubewp-builder-group-widget cubewp-expand-container ' . esc_attr($field_size) . '">';
             $output .= '<div class="cubewp-builder-group-widget-row-wrapper">';
                 $output .= '<div class="cubewp-builder-group-widget-mover">';
-                    $output .= '<img src="' . CWP_PLUGIN_URI . "cube/assets/admin/images/sortable.png" . '" alt="' . esc_html__("Move Field", 'cubewp-framework') . '">';
+				$output .= '<svg xmlns="SVG namespace" width="20px" height="20px" viewBox="0 0 320 512" fill="currentColor"><path d="M40 352c-22.1 0-40 17.9-40 40l0 48c0 22.1 17.9 40 40 40l48 0c22.1 0 40-17.9 40-40l0-48c0-22.1-17.9-40-40-40l-48 0zm192 0c-22.1 0-40 17.9-40 40l0 48c0 22.1 17.9 40 40 40l48 0c22.1 0 40-17.9 40-40l0-48c0-22.1-17.9-40-40-40l-48 0zM40 320l48 0c22.1 0 40-17.9 40-40l0-48c0-22.1-17.9-40-40-40l-48 0c-22.1 0-40 17.9-40 40l0 48c0 22.1 17.9 40 40 40zM232 192c-22.1 0-40 17.9-40 40l0 48c0 22.1 17.9 40 40 40l48 0c22.1 0 40-17.9 40-40l0-48c0-22.1-17.9-40-40-40l-48 0zM40 160l48 0c22.1 0 40-17.9 40-40l0-48c0-22.1-17.9-40-40-40L40 32C17.9 32 0 49.9 0 72l0 48c0 22.1 17.9 40 40 40zM232 32c-22.1 0-40 17.9-40 40l0 48c0 22.1 17.9 40 40 40l48 0c22.1 0 40-17.9 40-40l0-48c0-22.1-17.9-40-40-40l-48 0z"/></svg>';
                 $output .= '</div>';
         		$output .= '<img src="' . CWP_PLUGIN_URI . "cube/assets/admin/images/fields/" . $type_icon . ".png" . '" alt="' . esc_html__("Field Type Icon", 'cubewp-framework') . '" class="cubewp-builder-group-widget-type-icon">';
         		$output .= '<p class="cubewp-builder-group-widget-title" title="' . esc_html($field["label"]) . '">' . esc_html($field["label"]) . '</p>';

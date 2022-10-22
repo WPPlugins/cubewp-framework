@@ -219,10 +219,15 @@ class CubeWp_Single_Cpt {
      * @since  1.0.0
      */
     public static function get_post_sidebar() {
-	    return '<div class="cwp-single-left-side">
+        $output='<div class="cwp-single-left-side">
     	    ' . self::field_author() . '
-    	    ' . self::get_post_sidebar_tags() . '
-	    </div>';
+            </div>';
+        if(!empty(self::get_post_sidebar_tags())){
+            $output .='<div class="cwp-single-left-side">
+                ' . self::get_post_sidebar_tags() . '
+            </div>';
+        }
+	    return $output;
     }
 	
 	/**

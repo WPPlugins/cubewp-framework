@@ -1,6 +1,6 @@
 <?php
 get_header();
-global $cubewp_frontend;
+global $cubewp_frontend,$cwpOptions;
 $single = $cubewp_frontend->single();
 wp_enqueue_style('single-cpt-styles');
 do_action('cubewp_single_page_notification', get_the_ID());
@@ -13,8 +13,14 @@ do_action('cubewp_single_page_notification', get_the_ID());
                     <div class="cwp-single-title-container">
                         <h1 class="cwp-single-title"><?php echo get_the_title(get_the_ID()); ?></h1>
                         <div class="cwp-single-quick-actions">
-                            <?php $single->get_post_share_button(get_the_ID()); ?>
-                            <?php $single->get_post_save_button(); ?>
+                            <?php
+                            if($cwpOptions['post_type_share_button']=='1'){
+                                $single->get_post_share_button(get_the_ID());
+                            }?>
+                            <?php
+                            if($cwpOptions['post_type_save_button']=='1'){
+                                $single->get_post_save_button();
+                            }?>
                         </div>
                     </div>
 					<?php

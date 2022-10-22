@@ -93,19 +93,20 @@ class CubeWp_Metabox {
             $fields = explode(",",$fields);
             
             foreach($fields as $field){
-                $SingleFieldOption = $fieldOptions[$field];
-                
-                if(isset($SingleFieldOption['sub_fields']) && !empty($SingleFieldOption)){
-                    unset($SingleFieldOption['sub_fields']);
-                }
-                
-                $fieldBox[$SingleFieldOption['name']] = $SingleFieldOption;
-                if(isset($sub_fields[$SingleFieldOption['name']]) && !empty($sub_fields[$SingleFieldOption['name']])){
-                    foreach($sub_fields[$SingleFieldOption['name']] as $sub_field){
-                        $fieldBox[$SingleFieldOption['name']]['sub_fields'][] = $fieldOptions[$sub_field];
+                if (isset($fieldOptions[$field])) {
+                    $SingleFieldOption = $fieldOptions[$field];
+                    
+                    if(isset($SingleFieldOption['sub_fields']) && !empty($SingleFieldOption)){
+                        unset($SingleFieldOption['sub_fields']);
+                    }
+                    
+                    $fieldBox[$SingleFieldOption['name']] = $SingleFieldOption;
+                    if(isset($sub_fields[$SingleFieldOption['name']]) && !empty($sub_fields[$SingleFieldOption['name']])){
+                        foreach($sub_fields[$SingleFieldOption['name']] as $sub_field){
+                            $fieldBox[$SingleFieldOption['name']]['sub_fields'][] = $fieldOptions[$sub_field];
+                        }
                     }
                 }
-                
             }
         }
         return $fieldBox;

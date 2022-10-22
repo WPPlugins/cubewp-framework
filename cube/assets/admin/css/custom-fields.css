@@ -230,12 +230,14 @@ input[type=date], input[type=datetime-local], input[type=datetime], input[type=e
 .cwp-add-form-feild tbody tr.conditional-rule td.conditional-rule-operator {
     padding-top: 0px;
     display: block;
+	vertical-align: top;
 }
 .cwp-add-form-feild tbody tr.conditional-rule td.conditional-rule-operator select {
     width: 100%;
 }
 .cwp-add-form-feild tbody tr.conditional-rule td.conditional-rule-value {
     padding: 0px 0px 10px 0px;
+	vertical-align: top;
 }
 .cubewp-locked-field:not(.unlocked)::after {
 	background: #0003;

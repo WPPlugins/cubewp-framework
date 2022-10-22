@@ -68,7 +68,7 @@ class CubeWp_Post_Types_Custom_Fields_Table extends WP_List_Table{
     * @return string
     */
     function column_group_name( $item ) {
-        $title = '<strong>' . $item['group_name'] . '</strong>';
+        $title = sprintf( '<a href="%s"><strong>' . $item['group_name'] . '</strong></a>', CubeWp_Submenu::_page_action('custom-fields','edit', '&groupid='.absint( $item['ID']), '&_wpnonce='.wp_create_nonce( 'cwp_edit_group' )));
         $actions = [
             'edit' => sprintf( '<a href="%s">'. esc_html__('Edit', 'cubewp-framework') .'</a>', CubeWp_Submenu::_page_action('custom-fields','edit', '&groupid='.absint( $item['ID']), '&_wpnonce='.wp_create_nonce( 'cwp_edit_group' ))),
             'delete' => sprintf( '<a href="%s">'. esc_html__('Delete', 'cubewp-framework') .'</a>', CubeWp_Submenu::_page_action('custom-fields','delete', '&groupid='.absint( $item['ID']), '&_wpnonce='.wp_create_nonce( 'cwp_delete_group' ))),

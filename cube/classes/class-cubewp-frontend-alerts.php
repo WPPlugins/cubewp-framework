@@ -32,7 +32,7 @@ class CubeWp_Frontend_Alerts{
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
-        if ( ! isset($_SESSION['cubewp_added_post_view'][$post_id])) {
+        if ( ! isset($_SESSION['cubewp_added_post_view']) || ! is_array($_SESSION['cubewp_added_post_view'])) {
             $post_views_count += 1;
             if ( ! is_array($_SESSION['cubewp_added_post_view'])) {
                 $_SESSION['cubewp_added_post_view'] = array();

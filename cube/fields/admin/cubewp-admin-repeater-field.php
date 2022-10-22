@@ -58,6 +58,10 @@ class CubeWp_Admin_Repeater_Field extends CubeWp_Admin {
 						if ($sub_field['type'] == 'radio' || $sub_field['type'] == 'checkbox' || ($sub_field['type'] == 'dropdown' && (isset($sub_field['multiple']) && $sub_field['multiple'] == true))) {
 							$sub_field['custom_name'] = 'cwp_meta[' . $args['name'] . '][' . $sub_field['name'] . '][' . uniqid() . ']';
 						}
+						if ($sub_field['type'] == 'post' && ($sub_field['appearance'] == 'multi_select' || $sub_field['appearance'] == 'checkbox')) {
+							$sub_field['custom_name'] = 'cwp_meta[' . $args['name'] . '][' . $sub_field['name'] . '][' . uniqid() . ']';
+						}
+
 						$output .= apply_filters("cubewp/admin/post/{$sub_field['type']}/field", '', $sub_field);
 					}
 					$output .= '</tbody>
@@ -121,6 +125,9 @@ class CubeWp_Admin_Repeater_Field extends CubeWp_Admin {
 					$sub_field_options['custom_name_lng'] = 'cwp_meta[' . $field_options['name'] . '][' . $sub_field_options['name'] . '_lng' . '][]';
 				}
 				if ($sub_field_options['type'] == 'radio' || $sub_field_options['type'] == 'checkbox' || ($sub_field_options['type'] == 'dropdown' && $sub_field_options['multiple'] == true)) {
+					$sub_field_options['custom_name'] = 'cwp_meta[' . $field_options['name'] . '][' . $sub_field_options['name'] . '][' . uniqid() . ']';
+				}
+				if ($sub_field_options['type'] == 'post' && ($sub_field_options['appearance'] == 'multi_select' || $sub_field_options['appearance'] == 'checkbox')) {
 					$sub_field_options['custom_name'] = 'cwp_meta[' . $field_options['name'] . '][' . $sub_field_options['name'] . '][' . uniqid() . ']';
 				}
 				$output .= apply_filters("cubewp/admin/post/{$sub_field_options['type']}/field", '', $sub_field_options);
