@@ -102,6 +102,7 @@ final class CubeWp_Load {
         add_action('init', array($this, 'init'), 0);
         add_filter('template_include', array($this, 'custom_post_type_template'));
         add_filter( 'plugin_row_meta', array( $this, 'plugin_view_info' ), 80, 3 );
+        add_action('admin_init', array('CubeWp_Add_Ons', 'init'), 9);
     }
     
     /**
@@ -147,7 +148,6 @@ final class CubeWp_Load {
         self::load_plugin_textdomain();
         // Set Cubewp settings.
         self::cwp_get_option();
-        add_action('init', array('CubeWp_Add_Ons', 'init'), 9);
     }
     
         

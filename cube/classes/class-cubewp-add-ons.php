@@ -41,7 +41,7 @@ class CubeWp_Add_Ons {
 	 * @since 1.0
 	 * @version 1.0
 	 */
-	public function cubewp_add_ons() {
+	public static function cubewp_add_ons() {
 
 		return array(
 			'cubewp-addon-frontend-pro' => array(
@@ -85,7 +85,7 @@ class CubeWp_Add_Ons {
 
 		// WordPress check
 		$wp_version = $GLOBALS['wp_version'];
-;
+
 		if ( version_compare( $wp_version, '5.8', '<' ) )
 			$message[] = __( 'This CubeWP Add-on requires WordPress 4.0 or higher. Version detected:', 'cubewp-frontend' ) . ' ' . $wp_version;
 
@@ -119,7 +119,7 @@ class CubeWp_Add_Ons {
 
 	public function add_on_management($plugin) {
 
-		$add_ons = $this->cubewp_add_ons();
+		$add_ons = self::cubewp_add_ons();
 		if(function_exists('CWP')){
 
 			$not_our_plugin 	= utf8_encode("\x53\x6f\x72\x72\x79\x21\x20\x54\x68\x69\x73\x20\x69\x73\x20\x6e\x6f\x74\x20\x22\x43\x75\x62\x65\x57\x50\x22\x20\x70\x6c\x75\x67\x69\x6e");
@@ -151,21 +151,25 @@ class CubeWp_Add_Ons {
             
                         // Call the custom API.
                         $response = wp_remote_post( $this->route, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );
-            
-                        // make sure the response came back okay
+
+						// make sure the response came back okay
                         if ( is_wp_error( $response ) ) {
                             die($file_is_not_valid);
                         }
                         // decode the license data
                         $response_data = json_decode( wp_remote_retrieve_body( $response ) );
-                       
-                        if ( 'valid' != $response_data->license ) {
-                            die($lic_is_not_valid);
-                        }else{
-                            CWP()->update_cubewp_options($slug, $response_data);
-							CWP()->update_cubewp_options($slug.'_key', $key);
-                            CWP()->update_cubewp_options($slug.'-status', $response_data->license);
-                        }
+                        if(isset($response_data->license)){
+							if ( 'valid' != $response_data->license ) {
+								die($lic_is_not_valid);
+							}else{
+								CWP()->update_cubewp_options($slug, $response_data);
+								CWP()->update_cubewp_options($slug.'_key', $key);
+								CWP()->update_cubewp_options($slug.'-status', $response_data->license);
+							}
+					    }else{
+							die($lic_is_not_valid);
+						}
+                        
 						unlink ( $file );
 
 					}else{
@@ -218,57 +222,61 @@ class CubeWp_Add_Ons {
 	}
 
 	public function check_license() {
-
+		$transient = false;
         $add_ons = self::cubewp_add_ons();
         foreach($add_ons as $key => $add_on){
             $item_name = $add_on['item_name'];
             $author = $add_on['author'];
             $slug = $add_on['slug'];
             $base = $add_on['base'];
-            if ( get_transient( $slug . '_checking' ) )
-            return;
-            
-            $Lkey = CWP()->cubewp_options($slug.'_key');
-            if($Lkey){
-                $api_params = array(
-                    'edd_action' => 'check_license',
-                    'license' => $Lkey,
-                    'item_name' => urlencode( $item_name ),
-                    'url'       => get_bloginfo( 'url' ),
-                );
+            if ( get_transient( $slug . '_checking' ) ){
+				$transient = true;
+			}
+			if(is_plugin_active($base) && $transient == false){
+				$Lkey = CWP()->cubewp_options($slug.'_key');
+				if($Lkey){
+					$api_params = array(
+						'edd_action' => 'check_license',
+						'license' => $Lkey,
+						'item_name' => urlencode( $item_name ),
+						'url'       => get_bloginfo( 'url' ),
+					);
 
-                // Call the custom API.
-                $response = wp_remote_post(
-                    $this->route,
-                    array(
-                        'timeout' => 15,
-                        'sslverify' => false,
-                        'body' => $api_params
-                    )
-                );
-                
-                if ( is_wp_error( $response ) )
-                    return false;
-        
-                $license_data = json_decode(
-                    wp_remote_retrieve_body( $response )
-                );
+					// Call the custom API.
+					$response = wp_remote_post(
+						$this->route,
+						array(
+							'timeout' => 15,
+							'sslverify' => false,
+							'body' => $api_params
+						)
+					);
+					
+					if ( is_wp_error( $response ) )
+						return false;
+			
+					$license_data = json_decode(
+						wp_remote_retrieve_body( $response )
+					);
 
-                if ( $license_data->license != 'valid' ) {
-                    $this->update_plugin_data($slug, $license_data->license);
-                }else{
-                    CWP()->update_cubewp_options($slug.'-status', $license_data->license);
-                }
-        
-                // Set to check again in 12 hours
-                set_transient(
-                    $slug . '_checking',
-                    $license_data,
-                    ( 60 * 60 * 12 )
-                );
-                
-            }
-        }        
+					if ( isset($license_data->license)){
+						if ( $license_data->license != 'valid' ) {
+							$this->update_plugin_data($slug, $license_data->license);
+						}else{
+							CWP()->update_cubewp_options($slug.'-status', $license_data->license);
+						}
+					}
+			
+					// Set to check again in 12 hours
+					set_transient(
+						$slug . '_checking',
+						$license_data,
+						( 60 * 60 * 12 )
+					);
+					
+				}
+			}
+        }
     }
 
 

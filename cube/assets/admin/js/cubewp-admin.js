@@ -1,11 +1,47 @@
 jQuery(document).ready(function () {
     
+    if (jQuery(".cubwp-welcome").length > 0) {
+        jQuery('.Section-Faqs').click(function(e) {
+            var currentAttrValue = jQuery(this).attr('href');
+
+            if (jQuery(e.target).is('.active')) {
+                close_accordion_section();
+            } else {
+                close_accordion_section();
+
+                jQuery(this).addClass('active');
+                jQuery('.Faqs ' + currentAttrValue).slideDown(300).addClass('open');
+            }
+
+            e.preventDefault();
+        });
+    }
+
+    if (jQuery(".cubwp-welcome").length > 0) {
+        jQuery(document).on('click', '.cubwp-welcome .cwpform-shortcode', function (e) {
+                var $this = jQuery(this),
+                    temp_text = document.createElement("input");
+                if ($this.find('.inner').hasClass('copy-to-clipboard')) {
+                    temp_text.value = $this.find('.inner').clone().children().remove().end().text();
+                    document.body.appendChild(temp_text);
+                    temp_text.select();
+                    document.execCommand("copy");
+                    document.body.removeChild(temp_text);
+                }
+        });
+    }
+
     if (jQuery(".cubewp_page_cubewp-post-types").length > 0) {
         disable_rewrite_slug();
         jQuery(document).on('change', 'select#rewrite', function (event) {
             disable_rewrite_slug();
         });
     }
+
+    function close_accordion_section() {
+        jQuery('.Faqs .Section-Faqs').removeClass('active');
+        jQuery('.Faqs .Faqs-section-content').slideUp(300).removeClass('open');
+    };
 
     function disable_rewrite_slug() {
         jQuery('input#rewrite_slug').parents('tr').hide();

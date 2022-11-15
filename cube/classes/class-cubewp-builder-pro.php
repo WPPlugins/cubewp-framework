@@ -34,15 +34,15 @@ class CubeWp_Builder_Pro {
         wp_enqueue_style('cwp-form-builder');
         if( current_cubewp_page() == 'cubewp_user_registration_form'){
             $page_header="User Signup Form Builder";
-            $background_image_src = CWP_PLUGIN_URI.'cube/assets/admin/images/single-layout-screen.png';
+            $background_image_src = CWP_PLUGIN_URI.'cube/assets/admin/images/form-builder-screen.png';
         }
         elseif( current_cubewp_page() == 'cubewp_user_profile_form'){
             $page_header="User Profile Form Builder";
-            $background_image_src = CWP_PLUGIN_URI.'cube/assets/admin/images/single-layout-screen.png';
+            $background_image_src = CWP_PLUGIN_URI.'cube/assets/admin/images/form-builder-screen.png';
         }
         elseif( current_cubewp_page() == 'cubewp_post_types_form'){
             $page_header="Post Types Form Builder";
-            $background_image_src = CWP_PLUGIN_URI.'cube/assets/admin/images/single-layout-screen.png';
+            $background_image_src = CWP_PLUGIN_URI.'cube/assets/admin/images/form-builder-screen.png';
         }
         elseif( current_cubewp_page() == 'cubewp_single_layout'){
             $page_header="Post Types Single Layout Builder";
@@ -50,7 +50,7 @@ class CubeWp_Builder_Pro {
         }
         elseif( current_cubewp_page() == 'cubewp_user_dashboard'){
             $page_header="User Dashboard Builder";
-            $background_image_src = CWP_PLUGIN_URI.'cube/assets/admin/images/single-layout-screen.png';
+            $background_image_src = CWP_PLUGIN_URI.'cube/assets/admin/images/user-dashboard-screen.png';
         }
         echo'<div id="cubewp-title-bar">
 			<h1>'.$page_header.'</h1>
@@ -71,7 +71,7 @@ class CubeWp_Builder_Pro {
                     <div class="cube-subscription-active-options">
                         <ul class="list-options-subscription-form">
                             <li><span class="dashicons dashicons-yes"></span>Single Layout Builder</li>
-                            <li><span class="dashicons dashicons-yes"></span>Archive Layout Builder</li>
+                            <li><span class="dashicons dashicons-yes"></span>Shortcodes for Archive Layout</li>
                             <li><span class="dashicons dashicons-yes"></span>User Signup Form Builder</li>
                             <li><span class="dashicons dashicons-yes"></span>User Profile Form Builder</li>
                             <li><span class="dashicons dashicons-yes"></span>Advanced Search Fields Builder</li>
@@ -85,7 +85,7 @@ class CubeWp_Builder_Pro {
                             <img src="'.CWP_PLUGIN_URI.'cube/assets/admin/images/cube-logo.png" alt="">
                         </div>
                         <div class="cubewp-subscription-download">
-                            <a href="https://cubewp.com/product-details/"><span class="dashicons dashicons-star-filled"></span> Download Frontend Pro Now</a>
+                            <a href="https://cubewp.com/cubewp-frontend-pro/" target="_blank"><span class="dashicons dashicons-star-filled"></span> Download Frontend Pro Now</a>
                             <span class="cube-award-option"><span class="dashicons dashicons-awards"></span>30-Day Money-Back Guarantee</span>
                         </div>
                     </div>
