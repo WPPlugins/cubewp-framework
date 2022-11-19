@@ -102,7 +102,7 @@ class CubeWp_Admin_Notice {
 				<img src="' . CWP_PLUGIN_URI . 'cube/assets/admin/images/logo.png" alt="image" />
 			</div>
 			<div class="float-right cwp-update-plugin-btn">
-				<a target="_blank" href="http://cubewp.com/store">' . esc_attr__( 'Buy Add-Ons', 'cubewp-framework' ) . '</a>
+				<a target="_blank" href="https://cubewp.com/store">' . esc_attr__( 'Buy Add-Ons', 'cubewp-framework' ) . '</a>
 			</div>
 			<div class="clearfix"></div>';
 			$notice_ui .= '</div>';

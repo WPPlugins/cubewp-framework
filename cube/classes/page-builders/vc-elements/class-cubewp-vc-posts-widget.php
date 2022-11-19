@@ -225,12 +225,11 @@ class CubeWp_VC_Posts_Widget {
 		) );
 		$posts  = $query->cubewp_post_query();
 		$return = array();
-		if ( $posts->have_posts() ) {
-			while ( $posts->have_posts() ) {
-				$posts->the_post();
-				$return[ get_the_title() . ' [' . get_the_ID() . ']' ] = get_the_ID();
-			}
-		}
+		if ( have_posts() ) :
+            while ( have_posts() ) : the_post();
+                $return[ get_the_ID() ] = get_the_title() . ' [' . get_the_ID() . ']';
+            endwhile;
+        endif;
 
 		return $return;
 	}

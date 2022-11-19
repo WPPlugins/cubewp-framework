@@ -489,7 +489,7 @@ trait CubeWp_Single_Page_Trait {
 	 * @return string html
 	 * @since  1.0.0
 	 */
-	private static function field_repeating_field($args = array()) {
+	public static function field_repeating_field($args = array()) {
 		$args['field_size'] = isset($args['field_size']) ? $args['field_size'] : '';
         $values = $args['value'];
 		$output = '';
@@ -527,7 +527,7 @@ trait CubeWp_Single_Page_Trait {
 	private static function field_terms($args = array()) {
 		$args['field_size'] = isset($args['field_size']) ? $args['field_size'] : '';
 		$output = null;
-		if (isset($args['value']) && ! empty($args['value']) && is_array($args['value']) ) {
+		if (isset($args['value']) && ! empty($args['value'])) {
 			$output = '<div class="cwp-cpt-single-category-container cwp-cpt-single-field-container '.esc_attr($args['container_class']).' '.esc_attr($args['field_size']).'">';
 			$output .= '<h4>' . $args['label'] . '</h4>';
 			$output .= '<ul class="cwp-single-category-widget-inner">';
@@ -604,7 +604,6 @@ trait CubeWp_Single_Page_Trait {
 	 * @since  1.0.0
 	 */
 	private static function field_post($args = array()) {
-		wp_enqueue_style('loop-style');
 		$args['field_size'] = isset($args['field_size']) ? $args['field_size'] : '';
 		$output = null;
 		if (isset($args['value']) && !empty($args['value']) && $args['value'] != 'N/A') {

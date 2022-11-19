@@ -223,6 +223,7 @@ class CubeWp_User_Custom_Fields_UI extends CubeWp_User_Custom_Fields{
             'filter_user_roles'         =>   '',
             'appearance'              =>   '',
             'options'                 =>   '',
+            'char_limit'              =>   '',
             'multiple'                =>   0,
             'select2_ui'              =>   0,
             'auto_complete'           =>   0,
@@ -357,6 +358,17 @@ class CubeWp_User_Custom_Fields_UI extends CubeWp_User_Custom_Fields{
                     'default_value' => $FieldData['default_value'],
                     'tr_class' => 'field-options-row conditional-field',
                     'tr_extra_attr' => 'data-equal="dropdown,checkbox,radio"',
+                );
+        $field_settings['field_char_limit'] = array(
+                    'label' => esc_html__('Character Limit', 'cubewp-framework'),
+                    'name' => 'cwp[fields]['.$FieldData['name'].'][char_limit]',
+                    'type' => 'text',
+                    'placeholder' => esc_html__('Put your field character limit here', 'cubewp-framework'),
+                    'value' => $FieldData['char_limit'],
+                    'tr_class' => 'conditional-field',
+                    'class' => 'field-placeholder',
+                    'id' => '',
+                    'tr_extra_attr' => 'data-equal="text,textarea,number,email,url,password"',
                 );
         $field_settings['field_multiple_values'] = array(
                     'label' => esc_html__('Multiple', 'cubewp-framework'),
@@ -567,6 +579,7 @@ class CubeWp_User_Custom_Fields_UI extends CubeWp_User_Custom_Fields{
             'default_value'        =>   '',
             'placeholder'          =>   '',
             'options'              =>   '',
+            'char_limit'           =>   '',
             'multiple'             =>   0,
             'select2_ui'           =>   0,
             'required'             =>   '',
@@ -655,6 +668,17 @@ class CubeWp_User_Custom_Fields_UI extends CubeWp_User_Custom_Fields{
                         'tr_class' => 'field-options-row conditional-field',
                         'tr_extra_attr' => 'data-equal="dropdown,checkbox,radio"',
                         'class' => 'field-options',
+        );
+        $field_settings['field_char_limit'] = array(
+                        'label' => esc_html__('Character Limit', 'cubewp-framework'),
+                        'name' => 'cwp[fields]['.$FieldData['name'].'][char_limit]',
+                        'type' => 'text',
+                        'placeholder' => esc_html__('Put your field character limit here', 'cubewp-framework'),
+                        'value' => $FieldData['char_limit'],
+                        'tr_class' => 'conditional-field',
+                        'class' => 'field-placeholder',
+                        'id' => '',
+                        'tr_extra_attr' => 'data-equal="text,textarea,number,email,url,password"',
         );
          $field_settings['field_multiple_values'] = array(
                         'label' => esc_html__('Multiple', 'cubewp-framework'),

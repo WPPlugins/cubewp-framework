@@ -60,7 +60,9 @@ class CubeWp_Admin_Text_Field extends CubeWp_Admin {
                 $extra_attrs .= ' data-validation_msg="'. $validation_msg .'"';
             }
             $input_attrs['extra_attrs'] = $extra_attrs;
-
+            if (isset($args['char_limit']) && ! empty($args['char_limit']) && is_numeric($args['char_limit'])) {
+                $input_attrs['extra_attrs'] .= ' maxlength="' . $args['char_limit'] . '" ';
+            }
             $output .= cwp_render_text_input( $input_attrs );
 
         $output .= $this->cwp_field_wrap_end($args);

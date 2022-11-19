@@ -25,6 +25,10 @@ class CubeWp_Tag_Gallery extends \Elementor\Core\DynamicTags\Data_Tag {
                ];
 	}
 
+	public function is_settings_required() {
+		return true;
+	}
+
 	protected function register_controls() {
         
 		$options = get_fields_by_type(array('gallery'));

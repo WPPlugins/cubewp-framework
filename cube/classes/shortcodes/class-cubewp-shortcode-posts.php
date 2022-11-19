@@ -68,7 +68,6 @@ class CubeWp_Shortcode_Posts {
 		$posts = $query->cubewp_post_query();
 		ob_start();
 		if ($posts->have_posts()) {
-			wp_enqueue_style('loop-style');
 			?>
             <div class="cwp-row <?php esc_attr_e($row_class); ?>">
 				<?php

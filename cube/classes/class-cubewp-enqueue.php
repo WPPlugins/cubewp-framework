@@ -154,12 +154,6 @@ class CubeWp_Enqueue extends CubeWp_Admin_Enqueue {
 				'version' => CUBEWP_VERSION,
 				'has_rtl' => false,
 			),
-			'loop-style'     => array(
-				'src'     => CWP_PLUGIN_URI . 'cube/assets/frontend/css/loop.css',
-				'deps'    => array(),
-				'version' => CUBEWP_VERSION,
-				'has_rtl' => false,
-			),
 			'archive-cpt-styles'     => array(
 				'src'     => CWP_PLUGIN_URI . 'cube/assets/frontend/css/cubewp-archive-cpt.css',
 				'deps'    => array(),
@@ -235,7 +229,14 @@ class CubeWp_Enqueue extends CubeWp_Admin_Enqueue {
 				'version' => CUBEWP_VERSION,
                 'media'   => 'all',
 				'has_rtl' => false,
-			)
+			),
+			'loop-style'     => array(
+				'src'     => CWP_PLUGIN_URI . 'cube/assets/frontend/css/loop.css',
+				'deps'    => array(),
+				'version' => CUBEWP_VERSION,
+				'media'   => 'all',
+				'has_rtl' => false,
+			),
 		);
 
 		return apply_filters( 'cubewp_enqueue_styles', $assets );

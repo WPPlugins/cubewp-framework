@@ -235,7 +235,6 @@ class CubeWp_Frontend_Search_Filter {
         CubeWp_Enqueue::enqueue_script( 'select2' );
         CubeWp_Enqueue::enqueue_style( 'select2' );
         CubeWp_Enqueue::enqueue_style( 'archive-cpt-styles' );
-        CubeWp_Enqueue::enqueue_style( 'loop-style' );
         CubeWp_Enqueue::enqueue_script( 'jquery-ui-datepicker' );
         CubeWp_Enqueue::enqueue_style( 'frontend-fields' );
 

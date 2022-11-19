@@ -320,7 +320,6 @@ class CubeWp_Single_Cpt {
                     if(count($options)>0){
                         $field_type = $options['type'];
                         $field_label = $options['label'];
-                        
                         if ("google_address" === $field_type) {
                             $lat = $values[$i][$k. '_lat'];
                             $lng = $values[$i][$k. '_lng'];

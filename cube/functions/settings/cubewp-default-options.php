@@ -137,25 +137,57 @@ $settings['map']    = array(
 		),
 	)
 );
+$conditional_options = array();
+if ( did_action( 'elementor/loaded' ) && ! class_exists("CubeWp_Frontend_Load") ) {
+   $pages   = get_pages( array( "fields" => "ids" ) );
+   $options = array();
+   if ( ! empty( $pages ) ) {
+      foreach ( $pages as $page ) {
+         $document = Elementor\Plugin::$instance->documents->get( $page->ID );
+         if ( $document && $document->is_built_with_elementor() && $document->is_editable_by_current_user() ) {
+            $options[ $page->ID ] = $page->post_title;
+         }
+      }
+   }
+   $conditional_options[] = array(
+      'id'      => 'post_type_for_elementor_page',
+      'type'    => 'select',
+      'title'   => __( 'Post-Type For Elementor Single Page', 'cubewp-framework' ),
+      'options' => cwp_post_types(),
+      'desc'    => __( 'Please select post-type for Elementor single page template. If you want to use custom page with multiple post-types please download <a href="https://cubewp.com/cubewp-frontend-pro/" target="_blank">CubeWP Frontend Pro</a>.', 'cubewp-framework' ),
+   );
+   $conditional_options[] = array(
+      'id'      => 'custom_elementor_page',
+      'type'    => 'select',
+      'title'   => __( 'Elementor Single Page', 'cubewp-framework' ),
+      'options' => $options,
+      'desc'    => __( 'Please select Elementor single page template.', 'cubewp-framework' ),
+      'required' => array(
+         array( 'post_type_for_elementor_page', '!=', '' )
+      )
+   );
+}
+
 $settings['post_settings'] = array(
 	'title'  => __( 'Post Settings', 'cubewp-framework' ),
 	'id'     => 'post_settings',
-	'fields' => array(
-		array(
+	'fields' => array_merge(
+		$conditional_options, array(
+			array(
 			'id'      => 'post_type_save_button',
 			'type'    => 'switch',
 			'title'   => __( 'Post Save Button', 'cubewp-framework' ),
 			'default' => '1',
 			'desc'    => __( 'Gives you a button on single page to save post type.', 'cubewp-framework' ),
-		),
-		array(
+			),
+			array(
 			'id'      => 'post_type_share_button',
 			'type'    => 'switch',
 			'title'   => __( 'Post Share Button', 'cubewp-framework' ),
 			'default' => '1',
 			'desc'    => __( 'Gives you a button on single page to share post type.', 'cubewp-framework' ),
-		),
-		array(
+			),
+			array(
 			'id'       => 'twitter_share',
 			'type'     => 'switch',
 			'title'    => __( 'Post Twitter Share', 'cubewp-framework' ),
@@ -164,8 +196,8 @@ $settings['post_settings'] = array(
 			'required' => array(
 				array( 'post_type_share_button', 'equals', '1' )
 			)
-		),
-		array(
+			),
+			array(
 			'id'       => 'facebook_share',
 			'type'     => 'switch',
 			'title'    => __( 'Post Facebook Share', 'cubewp-framework' ),
@@ -174,8 +206,8 @@ $settings['post_settings'] = array(
 			'required' => array(
 				array( 'post_type_share_button', 'equals', '1' )
 			)
-		),
-		array(
+			),
+			array(
 			'id'       => 'pinterest_share',
 			'type'     => 'switch',
 			'title'    => __( 'Post Pinterest Share', 'cubewp-framework' ),
@@ -184,28 +216,29 @@ $settings['post_settings'] = array(
 			'required' => array(
 				array( 'post_type_share_button', 'equals', '1' )
 			)
-		),
-		array(
-			'id'       => 'linkedin_share',
-			'type'     => 'switch',
-			'title'    => __( 'Post LinkedIn Share', 'cubewp-framework' ),
-			'default'  => '1',
-			'desc'     => __( 'By enabling this option, you can share post on linkedIn.', 'cubewp-framework' ),
-			'required' => array(
-				array( 'post_type_share_button', 'equals', '1' )
-			)
-		),
-		array(
-			'id'       => 'reddit_share',
-			'type'     => 'switch',
-			'title'    => __( 'Post Reddit Share', 'cubewp-framework' ),
-			'default'  => '1',
-			'desc'     => __( 'By enabling this option, you can share post on reddit.', 'cubewp-framework' ),
-			'required' => array(
-				array( 'post_type_share_button', 'equals', '1' )
-			)
-		),
-	)
+			),
+			array(
+				'id'       => 'linkedin_share',
+				'type'     => 'switch',
+				'title'    => __( 'Post LinkedIn Share', 'cubewp-framework' ),
+				'default'  => '1',
+				'desc'     => __( 'By enabling this option, you can share post on linkedIn.', 'cubewp-framework' ),
+				'required' => array(
+					array( 'post_type_share_button', 'equals', '1' )
+				)
+			),
+			array(
+				'id'       => 'reddit_share',
+				'type'     => 'switch',
+				'title'    => __( 'Post Reddit Share', 'cubewp-framework' ),
+				'default'  => '1',
+				'desc'     => __( 'By enabling this option, you can share post on reddit.', 'cubewp-framework' ),
+				'required' => array(
+					array( 'post_type_share_button', 'equals', '1' )
+				)
+			),
+		)
+	 )
 );
 
 return $settings;

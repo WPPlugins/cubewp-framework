@@ -5,7 +5,7 @@ Tags: custom fields, custom post types, custom taxonomies, acf, meta box, custom
 Requires at least: 5.0
 Requires PHP: 7.0
 Tested up to: 6.1
-Stable tag: 1.0.4
+Stable tag: 1.0.5
 License: GPLv2 or later
 
 CubeWP is an end-to-end dynamic content framework for WordPress to help you shrink time and cut cost of development up to 90%.
@@ -271,12 +271,17 @@ To getting started with the plugin, please go to [Documentation](https://support
 == Frequently Asked Questions ==
 
 == Screenshots ==
-1. Text Fields
-1. Basic Fields
-1. Advanced Fields
-1. File Image Upload Fields
-1. Media Fields
-1. Post Taxonomy Fields
+
+1. CubeWP Dashboard
+2. Edit Post Type
+3. New Post Type
+4. Create New Taxonomy
+5. All Post Type Custom Fields Groups
+6. All Taxonomies Custom Fields Groups
+7. All Users role Custom Fields Groups
+8. Edit Custom Fields Group
+9. New taxonomies
+10. User role Groups
 
 
 == Changelog ==
@@ -326,3 +331,12 @@ Plug released.
 * New: Forget password feature added
 * New: Help content added in CubeWP dashboard
 * Fix: UI change of custom fields builder
+
+= 1.0.5 2022-11-15
+
+* New: "Single Post" Dynamic data compatibility with Elementor(Free) dynamic tags.
+* New: "Custom Fields" Dynamic data compatibility with Elementor(Free) dynamic tags.
+* New: Elementor(Free) settings to set Template (CubeWP Single Page), Post type and post to preview while creating dynamic page for post type single page.
+* New: Character limit option added in custom fields.
+* Tweak: Ui & UX changes
+

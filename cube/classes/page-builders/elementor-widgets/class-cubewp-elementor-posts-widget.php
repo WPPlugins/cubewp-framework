@@ -233,19 +233,18 @@ class CubeWp_Elementor_Posts_Widget extends Widget_Base {
 		) );
 		$posts  = $query->cubewp_post_query();
 		$return = array();
-		if ( $posts->have_posts() ) {
-			while ( $posts->have_posts() ) {
-				$posts->the_post();
-				$return[ get_the_ID() ] = get_the_title() . ' [' . get_the_ID() . ']';
-			}
-		}
+		if ( have_posts() ) :
+            while ( have_posts() ) : the_post();
+                $return[ get_the_ID() ] = get_the_title() . ' [' . get_the_ID() . ']';
+            endwhile;
+        endif;
 
 		return $return;
 	}
 
 	protected function render() {
 		$settings   = $this->get_settings_for_display();
-		$taxonomies = $settings[ 'taxonomy-' . $settings['posttype'] ];
+		$taxonomies = isset($settings[ 'taxonomy-' . $settings['posttype'] ]) ? $settings[ 'taxonomy-' . $settings['posttype'] ]: array();
 		$args       = array(
 			'posttype'       => $settings['posttype'],
 			'taxonomy'       => $taxonomies,

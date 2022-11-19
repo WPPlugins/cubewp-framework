@@ -5,9 +5,9 @@
 .cwp-filtered-results {
     align-items: center;
     display: flex;
-    height: 20px;
+    height: 30px;
     justify-content: flex-end;
-    margin: 15px 0px;
+    margin: 0 0 15px 0px;
     padding: 0;
 }
 

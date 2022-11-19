@@ -125,7 +125,7 @@ trait CubeWp_Builder_Ui {
 			$widgets_ui .= '<div id="group-' . rand(000000, 999999) . '" class="cubewp-builder-section cubewp-expand-container">';
 			$widgets_ui .= '<div class="cubewp-builder-section-header">';
 			$widgets_ui .= '<h3>' . esc_html(get_the_title($group)) . '</h3>';
-			$widgets_ui .= '<span class="cubewp-pro-tag">' . esc_html__("Pro", "cubewp-framework") . '</span>';
+			$widgets_ui .= '<a href="https://cubewp.com/cubewp-frontend-pro/" target="_blank"><span class="cubewp-pro-tag">' . esc_html__("PRO", "cubewp-framework") . '</span></a>';
 			$widgets_ui .= '</div>';
 			$widgets_ui .= '</div>';
 		}

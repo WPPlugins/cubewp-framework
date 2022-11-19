@@ -60,6 +60,8 @@ jQuery(document).ready(function ($){
 
     jQuery('.duplicate-field').click(function (e){
         e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
         var e_this = jQuery(this);
         var field_id = e_this.data('field_id');
         var field_type = e_this.data('field_type');
@@ -209,19 +211,26 @@ jQuery(document).ready(function ($){
         cwp_find_sub_fields();
     });
     
-    jQuery(document).on('click', '.field-actions .remove-field', function () {
+    jQuery(document).on('click', '.field-actions .remove-field', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
         jQuery(this).closest('.cwp-field-set').slideUp(500, function() {
             jQuery(this).remove();
             cwp_find_group_field();
         });
     });
     
-    jQuery(document).on('click', '.field-actions .edit-field', function () {
-        jQuery(this).closest('.cwp-field-set').find('.cwp-collapsible-inner').slideToggle(300);
-        if(jQuery(this).closest('.parent-field-header').hasClass('closed')){
-            jQuery(this).closest('.parent-field-header').removeClass('closed');
+    jQuery(document).on('click', '.parent-field-header', function () {
+        var $this = jQuery(this),
+            icon = $this.find(".field-actions .edit-field .dashicons");
+        $this.closest('.cwp-field-set').find('.cwp-collapsible-inner').slideToggle(300);
+        if($this.hasClass('closed')){
+            $this.removeClass('closed');
+            icon.css("transform", "rotate(-180deg)");
         }else{
-            jQuery(this).closest('.parent-field-header').addClass('closed');
+            $this.addClass('closed');
+            icon.css("transform", "rotate(0deg)");
         }
     });
     
