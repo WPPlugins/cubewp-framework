@@ -559,6 +559,9 @@ trait CubeWp_Builder_Ui {
 	 * @since  1.0.0
 	 */
 	protected static function builder_form_settings_btn($FormType) {
+		if ( (! cubewp_check_if_elementor_active() || cubewp_check_if_elementor_active(true)) && $FormType == 'single_layout') {
+			return '';
+		}
 		$setting_text = esc_html__("Form Settings", "cubewp-framework");
 		if ($FormType == 'single_layout') {
 		   $setting_text = esc_html__("Single Page Settings", "cubewp-framework");

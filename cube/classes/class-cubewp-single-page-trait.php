@@ -500,7 +500,6 @@ trait CubeWp_Single_Page_Trait {
 					$output .= '<div class="cwp-cpt-single-repeating-field-inner hggfhgfh">';
 					foreach ($values[$i] as $k => $value) {
 						$field_type = $value['type'];
-
 						if (method_exists(__CLASS__, 'field_' . $field_type)) {
 							$output .= call_user_func('self::field_' . $field_type, $value);
 						} else {
@@ -569,7 +568,6 @@ trait CubeWp_Single_Page_Trait {
 	private static function field_user($args = array()) {
 		$args['field_size'] = isset($args['field_size']) ? $args['field_size'] : '';
 		$output = null;
-        //cwp_pre($args);
 		if (isset($args['value']) && ! empty($args['value'])) {
 			$output .= '<div class="cwp-cpt-single-user-container cwp-cpt-single-field-container '.esc_attr($args['container_class']).' '.esc_attr($args['field_size']).'">
 				<h4>' . $args['label'] . '</h4>';

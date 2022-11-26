@@ -59,27 +59,28 @@ class CubeWp_Frontend_Alerts{
 	        if( $payment_status == 'pending' && $paid_submission == 'yes' && $plan_price > 0 ){
 		        $payment_status = apply_filters('cubewp_check_post_payment_status', '', $plan_id, $post_id);
 	        }
-
-            ?>
-            <div class="cubewp-post-author-actions">
-            <?php if (!empty($submit_edit_page)) { ?>
-                <a href="<?php echo esc_url(add_query_arg(array('pid' => $post_id), get_permalink($submit_edit_page))); ?>">
-                    <button class="cube-post-edit-btn">
-                        <?php esc_html_e("Edit", "cubewp-framework"); ?>
-                    </button>
-                </a>
-            <?php } ?>
-                <?php if($payment_status == 'pending') { ?>
-                    <button class="cwp-pay-publish-btn" data-pid="<?php echo absint($post_id); ?>">
-	                    <?php esc_html_e("Pay & Publish", "cubewp-framework"); ?>
-                    </button>
-                <?php }else if($post_admin_approved != 'pending' && $postStatus == 'pending'){ ?>
-                    <button class="cwp-publish-btn" data-pid="<?php echo absint($post_id); ?>">
-                        <?php esc_html_e("Publish", "cubewp-framework"); ?>
-                    </button>
+            if(!empty($submit_edit_page) || $payment_status == 'pending' || ($post_admin_approved != 'pending' && $postStatus == 'pending')){
+                ?>
+                <div class="cubewp-post-author-actions">
+                <?php if (!empty($submit_edit_page)) { ?>
+                    <a href="<?php echo esc_url(add_query_arg(array('pid' => $post_id), get_permalink($submit_edit_page))); ?>">
+                        <button class="cube-post-edit-btn">
+                            <?php esc_html_e("Edit", "cubewp-framework"); ?>
+                        </button>
+                    </a>
                 <?php } ?>
-            </div>
-            <?php
+                    <?php if($payment_status == 'pending') { ?>
+                        <button class="cwp-pay-publish-btn" data-pid="<?php echo absint($post_id); ?>">
+                            <?php esc_html_e("Pay & Publish", "cubewp-framework"); ?>
+                        </button>
+                    <?php }else if($post_admin_approved != 'pending' && $postStatus == 'pending'){ ?>
+                        <button class="cwp-publish-btn" data-pid="<?php echo absint($post_id); ?>">
+                            <?php esc_html_e("Publish", "cubewp-framework"); ?>
+                        </button>
+                    <?php } ?>
+                </div>
+                <?php
+            }
         }
     }
 

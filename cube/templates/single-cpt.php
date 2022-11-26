@@ -15,8 +15,11 @@ if (is_cubewp_single_page_builder_active($post_type)) {
                  <?php echo wp_kses_post($single->get_post_featured_image()) ?>
                 <div class="cwp-row cwp-cpt-single-content">
                     <div class="cwp-col-12 cwp-col-lg-8">
-                        <div class="cwp-single-title-container">
+                        <div class="cwp-single-title-container cwp-row">
+                          <div class="cwp-col-12 cwp-col-lg-8">
                             <h1 class="cwp-single-title"><?php echo get_the_title(get_the_ID()); ?></h1>
+                          </div>
+                          <div class="cwp-col-12 cwp-col-lg-4">
                             <div class="cwp-single-quick-actions">
                                 <?php
                                 if($cwpOptions['post_type_share_button']=='1'){
@@ -27,6 +30,7 @@ if (is_cubewp_single_page_builder_active($post_type)) {
                                     $single->get_post_save_button();
                                 }?>
                             </div>
+                          </div>
                         </div>
                         <?php
                         $post_dsc = get_the_content(get_the_ID());

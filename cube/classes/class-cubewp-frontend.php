@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * CubeWp_frontend
  */
-class CubeWp_frontend {
+class CubeWp_Frontend {
     
     const FSAH = 'CubeWp_Search_Ajax_Hooks';
     public static $Load = null;

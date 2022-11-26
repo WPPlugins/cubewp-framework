@@ -145,7 +145,7 @@ class CubeWp_Sanitize {
      * @return   array    $field_type    type of field.
      */
 
-    public function custom_field_type( $field = '' , $fields_of) {
+    public function custom_field_type( $field = '' , $fields_of = '') {
     
         if(!$field){
             return;

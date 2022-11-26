@@ -63,7 +63,7 @@ class CubeWp_Single_Cpt {
      */
     public static function cubewp_post_metas($postid='') {
         if (!empty($postid)) self::$post_id = $postid;
-		$output = array();
+		$args = array();
         if (is_array(self::$groups)){
             foreach (self::$groups as $group) {
                 $fields = cwp_get_fields_by_group_id( $group );
@@ -283,7 +283,7 @@ class CubeWp_Single_Cpt {
             $values = get_post_meta( self::$post_id, $meta_key, true );
             if (is_array($values)) {
                 $value  = self::get_repeating_Fields_value($values);
-             }
+            }
         }else{
             $value = get_post_meta( self::$post_id, $meta_key, true );
             if ("google_address" === $field_type) {
@@ -343,7 +343,7 @@ class CubeWp_Single_Cpt {
         }
     }
 	
-	/**
+		/**
 	 * Method get_post_groups_callback
 	 *
 	 * @return string html
@@ -355,9 +355,19 @@ class CubeWp_Single_Cpt {
         foreach (self::$groups as $group) {
 	    	$fields = cwp_get_fields_by_group_id( $group );
             if (!empty($fields) && is_array($fields)) {
-	            $output .= '<div class="cwp-single-group">';
-    	            $output .= self::get_post_group_fields_callback($fields);
-	            $output .= '</div>';
+                $show_section=false;
+                foreach ($fields as $field) {
+                    $value=get_post_meta(self::$post_id,$field,true);
+                    if(!empty($value)){
+                        $show_section=true;
+                        break;
+                    }
+                }
+                if($show_section){
+		            $output .= '<div class="cwp-single-group">';
+                    $output .= self::get_post_group_fields_callback($fields);
+		            $output .= '</div>';
+                }
             }
         }
         return $output;

@@ -5,7 +5,7 @@ Tags: custom fields, custom post types, custom taxonomies, acf, meta box, custom
 Requires at least: 5.0
 Requires PHP: 7.0
 Tested up to: 6.1
-Stable tag: 1.0.5
+Stable tag: 1.0.6
 License: GPLv2 or later
 
 CubeWP is an end-to-end dynamic content framework for WordPress to help you shrink time and cut cost of development up to 90%.
@@ -286,25 +286,37 @@ To getting started with the plugin, please go to [Documentation](https://support
 
 == Changelog ==
 
-= 1.0.0 - 2022-09-30 
+= 1.0.6 2022-11-19
 
-Plug released.
+* New: Post-to-Post, Post-to-User and User-to-Post relationship fields feature added.
+* New: Custom fields (Post,user,taxonomy) added to REST API under default WP route as post type > cubewp_post_meta, user meta > cubewp_user_meta and term meta > cubewp_term_meta.
+* New: Options for archive page available in CubeWP settings.
+* New: File validation option available in repeating fields.
+* New: Character limit option added in custom fields.
+* Fix: Elementor single post template override issue.
+* Fix: Elementor(Free) single post preview dropdown data.
+* Fix: Multi-Dropdown meta update on empty value.
+* Tweak: Custom fields required field error.
+* Tweak: Author box and tags box seprated on single post with CubeWP Frontend PRO default view.
+* Tweak: Ui & UX changes.
 
+= 1.0.5 2022-11-15
 
-= 1.0.1 - 2022-10-05
+* New: "Single Post" Dynamic data compatibility with Elementor(Free) dynamic tags.
+* New: "Custom Fields" Dynamic data compatibility with Elementor(Free) dynamic tags.
+* New: Elementor(Free) settings to set Template (CubeWP Single Page), Post type and post to preview while creating dynamic page for post type single page.
+* New: Character limit option added in custom fields.
+* Tweak: Ui & UX changes
 
-- Several minor UI/UX fixes
+= 1.0.4 2022-11-08
 
-= 1.0.2 2022-10-06
-
-* New: Date Picker field type added in repeating fields.
-* New: Time Picker field type added In repeating field.
-* New: Post field type added In repeating field.
-* New: Share and save post button's On/Off option added in theme settings.
-* Tweak: Re-arrangment of CubeWP Settings.
-* Tweak: UI/UX.
-* Fix: Typos in custom fields and post types.
-* Fix: Multiple repeating fields mix in one due to array break.
+* New: Duplicate/Clone feature for custom fields groups and fields.
+* New: Media validation added for File, Image and Gallery field type.
+* New: New field Types added (Range & color picker)
+* New: Login template
+* New: Forget password feature added
+* New: Help content added in CubeWP dashboard
+* Fix: UI change of custom fields builder
 
 = 1.0.3 2022-10-22
 
@@ -322,21 +334,21 @@ Plug released.
 * Fix: Conditional field with conditional rule "has no value"
 * Fix: File Field type required with Gutenberg editor.
 
-= 1.0.4 2022-11-08
+= 1.0.2 2022-10-06
 
-* New: Duplicate/Clone feature for custom fields groups and fields.
-* New: Media validation added for File, Image and Gallery field type.
-* New: New field Types added (Range & color picker)
-* New: Login template
-* New: Forget password feature added
-* New: Help content added in CubeWP dashboard
-* Fix: UI change of custom fields builder
+* New: Date Picker field type added in repeating fields.
+* New: Time Picker field type added In repeating field.
+* New: Post field type added In repeating field.
+* New: Share and save post button's On/Off option added in theme settings.
+* Tweak: Re-arrangment of CubeWP Settings.
+* Tweak: UI/UX.
+* Fix: Typos in custom fields and post types.
+* Fix: Multiple repeating fields mix in one due to array break.
 
-= 1.0.5 2022-11-15
+= 1.0.1 - 2022-10-05
 
-* New: "Single Post" Dynamic data compatibility with Elementor(Free) dynamic tags.
-* New: "Custom Fields" Dynamic data compatibility with Elementor(Free) dynamic tags.
-* New: Elementor(Free) settings to set Template (CubeWP Single Page), Post type and post to preview while creating dynamic page for post type single page.
-* New: Character limit option added in custom fields.
-* Tweak: Ui & UX changes
+- Several minor UI/UX fixes
 
+= 1.0.0 - 2022-09-30 
+
+Plug released.

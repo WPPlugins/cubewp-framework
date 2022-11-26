@@ -256,6 +256,23 @@ class CubeWp_Metabox {
 
                     $singleFieldOptions = isset($fieldOptions[$_key]) ? $fieldOptions[$_key] : array(); 
 
+                    $val = $value;
+                    if ( ( $singleFieldOptions['type'] == 'post' && $singleFieldOptions['relationship'] ) && is_array( $singleFieldOptions ) && count( $singleFieldOptions ) > 0 ) {
+                        if ( ! is_array( $val ) ) {
+                            $val = array( $val );
+                        }
+                        if ( ! empty($val) && count($val) > 0) {
+                            (new CubeWp_Relationships)->save_relationship( $post_id, $val, $_key, 'PTP' );
+                        }
+                    }else if ( ( $singleFieldOptions['type'] == 'user' && $singleFieldOptions['relationship'] ) && is_array( $singleFieldOptions ) && count( $singleFieldOptions ) > 0 ) {
+                        if ( ! is_array( $val ) ) {
+                            $val = array( $val );
+                        }
+                        if ( ! empty($val) && count($val) > 0) {
+                            (new CubeWp_Relationships)->save_relationship( $post_id, $val, $_key, 'PTU' );
+                        }
+                    }
+
                     if(is_array($singleFieldOptions) && count($singleFieldOptions) > 0 && $singleFieldOptions['type'] == 'repeating_field' ){
 
                         $arr = array();

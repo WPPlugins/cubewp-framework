@@ -56,9 +56,11 @@ class CubeWp_Admin {
 
             add_filter( 'post_updated_messages', array( $this, 'cubewp_updated_post_type_messages' ) );
 
-            add_action( 'elementor/documents/register_controls', array($this,'register_elementor_document_control'), 10);
+            if (cubewp_check_if_elementor_active() && ! cubewp_check_if_elementor_active(true)) {
+                add_action( 'elementor/documents/register_controls', array($this, 'register_elementor_document_control' ), 10 );
+            }
 
-            if (did_action( 'elementor/loaded' ) && class_exists("CubeWp_Frontend_Load")) {
+            if (cubewp_check_if_elementor_active() && ! cubewp_check_if_elementor_active(true) && class_exists("CubeWp_Frontend_Load")) {
                 add_action('admin_init', array($this, 'cubewp_import_custom_single_page_to_frontend'), 10);
             }
             
@@ -325,19 +327,18 @@ class CubeWp_Admin {
     public static function get_post_type_posts( $post_types ) {
         $query  = new CubeWp_Query( array(
             'post_type'      => $post_types,
-            'fields'         => 'ids',
             'posts_per_page' => 10
         ) );
         $posts  = $query->cubewp_post_query();
         $return = array();
-        if ( have_posts() ) :
-            while ( have_posts() ) : the_post();
+        if ( $posts->have_posts() ) :
+            while ( $posts->have_posts() ) : $posts->the_post();
                 $return[ get_the_ID() ] = get_the_title() . ' [' . get_the_ID() . ']';
             endwhile;
-
+    
             $return['manual_id'] = esc_html__("Enter ID Manually", "cubewp-framework");
         endif;
- 
+    
         return $return;
     }
 

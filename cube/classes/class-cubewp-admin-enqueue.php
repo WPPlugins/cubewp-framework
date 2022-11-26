@@ -450,7 +450,12 @@ class CubeWp_Admin_Enqueue{
                     'existing_taxonomies'    =>   self::get_registered_taxonomies(),
                 );
 				break;
-
+			case 'cubewp-metaboxes':
+				$params = array(
+					'confirm_remove_relation' =>   esc_html__("Are you sure? You want to remove this relation.", "cubewp-framework"),
+					'remove_relation_nonce'   =>   wp_create_nonce("cubewp_remove_nonce")
+							);
+				break;
             case 'cubewp-custom-fields':
                 $params = array(
                     'url'   => admin_url( 'admin-ajax.php' ),

@@ -430,6 +430,45 @@ function cwp_conditional_fields() {
 
 
 jQuery(document).ready(function () {
+    var delete_relation = jQuery('.cubewp-delete-relation');
+    if (delete_relation.length > 0) {
+        delete_relation.on('click', function (event) {
+            event.preventDefault();
+            var $this = jQuery(this),
+                parent = $this.closest('.cubewp-post-relation'),
+                relation_id   = $this.attr('data-relation-id'),
+                relation_of   = $this.attr('data-relation-of'),
+                relation_with = $this.attr('data-relation-with');
+            if ( ! parent.hasClass('cubewp-active-ajax')) {
+                if (confirm(cubewp_metaboxes_params.confirm_remove_relation)) {
+                    parent.addClass('cubewp-active-ajax');
+                    jQuery.ajax({
+                        type: 'POST',
+                        url: cwp_vars_params.ajax_url,
+                        data: {
+                            action: 'cubewp_remove_relation',
+                            'relation_id': relation_id,
+                            'relation_of': relation_of,
+                            'relation_with': relation_with,
+                            'nonce': cubewp_metaboxes_params.remove_relation_nonce
+                        },
+                        dataType : 'json',
+                        success: function (resp) {
+                            if (resp.status === 'success') {
+                                parent.slideUp(function () {
+                                    parent.remove();
+                                });
+                            }else {
+                                alert(resp.msg);
+                                parent.removeClass('cubewp-active-ajax');
+                            }
+                        }
+                    });
+                }
+            }
+        });
+    }
+
     cubewp_init_resources();
 });
 

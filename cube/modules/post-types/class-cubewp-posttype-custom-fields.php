@@ -33,11 +33,13 @@ class CubeWp_Posttype_Custom_Fields {
         $html = '';
         $counter = 1;
         foreach ($fields as $field) {
-            $SingleFieldOption = $fieldOptions[$field];
-            $SingleFieldOption['sub_fields'] = $sub_fields;
-            $SingleFieldOption['counter'] = $counter;
-            $counter++;
-            $html .= CubeWp_Posttype_Custom_Fields_Display::add_new_field($SingleFieldOption);
+            if($field){
+                $SingleFieldOption = $fieldOptions[$field];
+                $SingleFieldOption['sub_fields'] = $sub_fields;
+                $SingleFieldOption['counter'] = $counter;
+                $counter++;
+                $html .= CubeWp_Posttype_Custom_Fields_Display::add_new_field($SingleFieldOption);
+            }
         }
         return $html;
     }
@@ -198,52 +200,53 @@ class CubeWp_Posttype_Custom_Fields {
         $field_names  = $sub_field_names = array();
         if (isset($_POST['cwp']['fields'])) {
             $fields = CubeWp_Sanitize_Custom_Fields($_POST['cwp']['fields'],'post_types');
-
             foreach ($fields as $field) {
-                $field['group_id'] = $post_id;
-                if(isset($field['options']) && !empty($field['options']) && is_array($field['options'])){
-                    $field['options'] = json_encode(array_filter($field['options']));
-                }
-                if(isset($field['default_option']) && !empty($field['default_option'])){
-                    $field['default_value'] = $field['default_option'];
-                }
-                
-                if(isset($_POST['cwp']['sub_fields'][$field['name']]) && $field['type'] == 'repeating_field'){
+                if(!empty( $field ) && isset($field['name'])){
+                    $field['group_id'] = $post_id;
+                    if(isset($field['options']) && !empty($field['options']) && is_array($field['options'])){
+                        $field['options'] = json_encode(array_filter($field['options']));
+                    }
+                    if(isset($field['default_option']) && !empty($field['default_option'])){
+                        $field['default_value'] = $field['default_option'];
+                    }
                     
-                    $sub_fields_data = CubeWp_Sanitize_Custom_Fields($_POST['cwp']['sub_fields'][$field['name']],'post_types');
-                    $sub_fields = array();
-                    foreach ($sub_fields_data as $sub_field){
-                        $sub_field['group_id'] = $post_id;
-                        if(isset($sub_field['options']) && !empty($sub_field['options']) && is_array($sub_field['options'])){
-                            $sub_field['options'] = json_encode(array_filter($sub_field['options']));
-                        }
-                        if(isset($sub_field['default_option']) && !empty($sub_field['default_option'])){
-                            $sub_field['default_value'] = $sub_field['default_option'];
+                    if(isset($_POST['cwp']['sub_fields'][$field['name']]) && $field['type'] == 'repeating_field'){
+                        
+                        $sub_fields_data = CubeWp_Sanitize_Custom_Fields($_POST['cwp']['sub_fields'][$field['name']],'post_types');
+                        $sub_fields = array();
+                        foreach ($sub_fields_data as $sub_field){
+                            $sub_field['group_id'] = $post_id;
+                            if(isset($sub_field['options']) && !empty($sub_field['options']) && is_array($sub_field['options'])){
+                                $sub_field['options'] = json_encode(array_filter($sub_field['options']));
+                            }
+                            if(isset($sub_field['default_option']) && !empty($sub_field['default_option'])){
+                                $sub_field['default_value'] = $sub_field['default_option'];
+                            }
+                            
+                            $sub_field_names[$field['name']][] = $sub_field['name'];
+                            self::set_option($sub_field['name'], $sub_field);
+                            $sub_fields[] = $sub_field['name'];
                         }
                         
-                        $sub_field_names[$field['name']][] = $sub_field['name'];
-                        self::set_option($sub_field['name'], $sub_field);
-                        $sub_fields[] = $sub_field['name'];
+                        $field['sub_fields'] = implode(',', $sub_fields);
                     }
                     
-                    $field['sub_fields'] = implode(',', $sub_fields);
-                }
-                
-                
-                if($field['type'] == 'google_address' && isset($field['map_use']) && $field['map_use'] == '1'){
-                    $mapMeta = $field['name'];
-                    if(!empty($groupTypes)){
-                        $groupTypes = explode(',',$groupTypes);
-                        $mapMeta = array();
-                        foreach($groupTypes as $type){
-                            $mapMeta[$type] = $field['name'];
-                            self::set_option('cwp_map_meta', $mapMeta);
+                    
+                    if($field['type'] == 'google_address' && isset($field['map_use']) && $field['map_use'] == '1'){
+                        $mapMeta = $field['name'];
+                        if(!empty($groupTypes)){
+                            $groupTypes = explode(',',$groupTypes);
+                            $mapMeta = array();
+                            foreach($groupTypes as $type){
+                                $mapMeta[$type] = $field['name'];
+                                self::set_option('cwp_map_meta', $mapMeta);
+                            }
                         }
                     }
+                    
+                    $field_names[] = $field['name'];
+                    self::set_option($field['name'], $field);
                 }
-                
-                $field_names[] = $field['name'];
-                self::set_option($field['name'], $field);
             }
         }
         

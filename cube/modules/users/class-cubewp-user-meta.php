@@ -136,6 +136,23 @@ class CubeWp_User_Meta {
                 
                 $_key = str_replace('cwp-', '', $key);
                 $singleFieldOptions = isset($fieldOptions[$_key]) ? $fieldOptions[$_key] : array(); 
+                $_val = $value;
+                if ( ( $singleFieldOptions['type'] == 'post' && $singleFieldOptions['relationship'] ) && is_array( $singleFieldOptions ) && count( $singleFieldOptions ) > 0 ) {
+                    if ( ! is_array( $_val ) ) {
+                        $_val = array( $_val );
+                    }
+                    if ( ! empty($_val) && count($_val) > 0) {
+                        (new CubeWp_Relationships)->save_relationship( $user_id, $_val, $_key, 'UTP' );
+                    }
+                }else if ( ( $singleFieldOptions['type'] == 'user' && $singleFieldOptions['relationship'] ) && is_array( $singleFieldOptions ) && count( $singleFieldOptions ) > 0 ) {
+                    if ( ! is_array( $_val ) ) {
+                        $_val = array( $_val );
+                    }
+                    if ( ! empty($_val) && count($_val) > 0) {
+                        (new CubeWp_Relationships)->save_relationship( $user_id, $_val, $_key, 'UTU' );
+                    }
+                }
+
                 if(!empty($singleFieldOptions) && isset($singleFieldOptions['type']) && $singleFieldOptions['type'] == 'repeating_field' ){
                     $arr = array();
                     foreach($value as $_key => $_val){

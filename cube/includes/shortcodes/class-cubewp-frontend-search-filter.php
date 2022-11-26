@@ -265,12 +265,17 @@ class CubeWp_Frontend_Search_Filter {
         $sorting_fields = array();
         $post_type =   !empty($type) ? $type : _get_post_type();
         $cwp_search_filters = CWP()->get_form('search_filters');
-        
+        global $cwpOptions;
+        $archive_filters = isset($cwpOptions['archive_filters']) ? $cwpOptions['archive_filters'] : '';
+        $show_filters = true;
+        if (is_archive() && ! $archive_filters) {
+            $show_filters = false;
+        }
 
         self::get_filters_wrap_start($type,$page_num);
         self::get_hidden_field_if_tax();
         
-        if(!empty($cwp_search_filters[$post_type]['fields']) && count($cwp_search_filters[$post_type]['fields'])>0){
+        if(!empty($cwp_search_filters[$post_type]['fields']) && count($cwp_search_filters[$post_type]['fields'])>0 && $show_filters){
             if(isset($cwp_search_filters[$post_type]['fields']) && !empty($cwp_search_filters[$post_type]['fields'])){
                 foreach ($cwp_search_filters[$post_type]['fields'] as $field_name => $search_filter) {
                     if(($search_filter['type'] == 'number' || $search_filter['type'] == 'date_picker') && isset($search_filter['sorting']) && $search_filter['sorting'] == 1){
@@ -296,33 +301,55 @@ class CubeWp_Frontend_Search_Filter {
      * @since  1.0.0
      */
     public static function get_shortcode_filters($type='',$page_num=''){
-
-        /* Calling all css and JS files for filters */
-       self::get_filters_style_scripts();
-
+        global $cwpOptions;
+              /* Calling all css and JS files for filters */
+             self::get_filters_style_scripts();
+        
+        $archive_map = isset($cwpOptions['archive_map']) ? $cwpOptions['archive_map'] : 1;
+        $archive_filters = isset($cwpOptions['archive_filters']) ? $cwpOptions['archive_filters'] : 1;
+        $archive_sort_filter = isset($cwpOptions['archive_sort_filter']) ? $cwpOptions['archive_sort_filter'] : 1;
+        $archive_layout = isset($cwpOptions['archive_layout']) ? $cwpOptions['archive_layout'] : 1;
+        $archive_found_text = isset($cwpOptions['archive_found_text']) ? $cwpOptions['archive_found_text'] : 1;
+        
+        $filter_area_cols = 'cwp-col-md-2';
+        if ( ! $archive_filters) {
+           $filter_area_cols = 'cwp-hide';
+        }
+        $content_area_cols = 'cwp-col-md-7';
+        if ( ! $archive_filters && $archive_map) {
+           $content_area_cols = 'cwp-col-md-9';
+        }else if ( ! $archive_map && $archive_filters) {
+           $content_area_cols = 'cwp-col-md-10';
+        }else if ( ! $archive_map && ! $archive_filters) {
+           $content_area_cols = 'cwp-col-md-12';
+        }
         $type =   !empty($type) ? $type : _get_post_type();
         ob_start();
         ?>
         <div class="cwp-container cwp-archive-container">
             <div class="cwp-row">
-                <div class="cwp-col-md-2 cwp-archive-sidebar-filters-container">
+                <div class="<?php esc_attr_e($filter_area_cols); ?> cwp-archive-sidebar-filters-container">
                     <?php echo do_shortcode('[cwpFilterFields type='.$type.']') ?>
                 </div>
-                <div class="cwp-col-md-7 cwp-archive-content-container">
+                <div class="<?php esc_attr_e($content_area_cols); ?> cwp-archive-content-container">
                     <div class="cwp-archive-content-listing">
                         <div class="cwp-breadcrumb-results">
-                            <div class="cwp-filtered-results">
-                                <?php echo do_shortcode('[cwpFilterResultCount]') ?>
-                                <?php echo do_shortcode('[cwpFilterSorting]') ?>
-                                <?php echo do_shortcode('[cwpFilterListSwitcher]') ?>
-                            </div>
+                        <?php if ($archive_sort_filter || $archive_layout || $archive_found_text) { ?>
+                                <div class="cwp-filtered-results">
+                                    <?php if ($archive_found_text) {echo do_shortcode('[cwpFilterResultCount]'); } ?>
+                                    <?php if ($archive_sort_filter) {echo do_shortcode('[cwpFilterSorting]'); } ?>
+                                    <?php if ($archive_layout) {echo do_shortcode('[cwpFilterListSwitcher]'); } ?>
+                                </div>
+                        <?php } ?>
                         </div>
                         <?php echo do_shortcode('[cwpFilterResults]') ?>
                     </div>
                 </div>
+            <?php if ($archive_map) { ?>
                 <div class="cwp-col-md-3 cwp-archive-content-map">
                     <?php echo do_shortcode('[cwpFilterMap]') ?>
                 </div>
+        <?php } ?>
             </div>
         </div>
         <?php

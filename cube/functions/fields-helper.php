@@ -739,11 +739,13 @@ if ( ! function_exists("cwp_render_multi_dropdown_input")) {
 				} else if ($key == $attrs['value']) {
 					$s = 'selected';
 				}
-				$html .= '<option ' . $s . ' value="' . esc_attr($key) . '">' . esc_html($val) . '</option>';
+				if ( ! empty($key)) {
+					$html .= '<option ' . $s . ' value="' . esc_attr($key) . '">' . esc_html($val) . '</option>';
+				}
 			}
 		}
 		$html .= '</select>';
-
+		$html .= '<input type="hidden" name="' . $attrs['name'] . '[]" value="">';
 		return $html;
 	}
 }
@@ -868,9 +870,31 @@ if ( ! function_exists("cubewp_dynamic_options")) {
 				}
 			} else if ($dropdown_type == 'user') {
 				$query_args = array(
+					'search' => "*{$keyword}*",
 					'role__in'       => array($dropdown_values),
-					'search'         => $keyword,
-					'search_columns' => 'display_name'
+					'search_columns' => array(
+						'user_login',
+						'user_nicename',
+						'display_name'
+					),
+					'meta_query' => array(
+						'relation' => 'OR',
+						array(
+							'key' => 'first_name',
+							'value' => $keyword,
+							'compare' => 'LIKE'
+						),
+						array(
+							'key' => 'last_name',
+							'value' => $keyword,
+							'compare' => 'LIKE'
+						),
+						array(
+							'key' => 'nickname',
+							'value' => $keyword,
+							'compare' => 'LIKE'
+						)
+					)
 				);
 				$users      = get_users($query_args);
 				if ( ! empty($users) && is_array($users)) {

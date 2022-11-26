@@ -175,7 +175,9 @@ a {
     padding: 15px 15px;
 	background: #FDFDFD;
 }
-
+.parent-field.cwp-field-set.cwp-add-form-feild.cwp-required-container .parent-field-header.field-header {
+    border-color: red;
+}
 .cwp-group-fields .field-header .field-title {
 	width: calc(100% - 190px);
 	flex-grow: 1;
@@ -208,6 +210,11 @@ a {
     padding: 15px 20px;
 	font-size: 14px;
     font-weight: bold;
+}
+.cwp-group-fields .cwp-field-set .cwp-collapsible-inner table tr td .field-options-table td:first-child {
+    background: unset;
+    border: unset;
+    cursor: move;
 }
 .cwp-group-fields .cwp-field-set .cwp-collapsible-inner tr:first-child td:first-child, .cwp-group-fields .cwp-field-set .cwp-collapsible-inner tr:first-child td {
     padding-top: 30px;

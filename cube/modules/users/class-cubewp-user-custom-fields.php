@@ -291,4 +291,114 @@ class CubeWp_User_Custom_Fields{
         CWP()->update_custom_fields( 'user', $options);
     }
     
+    /**
+     * Method cubewp_user_metas
+     *
+     * @param int $postid
+     *
+     * @return array
+     * @since  1.0.0
+     */
+    public static function cubewp_user_metas() {
+		$output = array();
+        $groups = cwp_get_groups_by_user_role(cwp_get_current_user_roles());
+        if (is_array($groups)){
+            foreach ($groups as $group) {
+                $fields = cwp_get_user_fields_by_group_id( $group );
+                if (!empty($fields) && is_array($fields)) {
+                    foreach ($fields as $field) {
+                        $field = get_user_field_options($field);
+                        $field_type = isset( $field["type"] ) ? $field["type"] : "";
+                        $meta_key   = isset( $field["name"] ) ? $field["name"] : "";
+                        if (empty($field_type) || empty($meta_key)) continue;
+                        $label = isset( $field["label"] ) ? $field["label"] : "";
+                        $value = self::get_single_meta_value($meta_key,$field_type);
+                        $args[$meta_key] = array(
+                            'type'                  =>    $field_type,
+                            'meta_key'              =>    $meta_key,
+                            'meta_value'            =>    $value,
+                            'label'                 =>    $label,
+                        );
+                    }
+                }
+            }
+        }
+        return $args;
+    }
+
+    /**
+     * Method get_single_meta_value
+     *
+     * @param string $meta_key
+     * @param string $field_type
+     *
+     * @return array
+     * @since  1.0.0
+     */
+    public static function get_single_meta_value($meta_key='',$field_type=''){
+        $userid = get_current_user_id();
+        if($field_type == 'repeating_field'){
+            $values = get_user_meta( $userid, $meta_key, true );
+            if (is_array($values)) {
+                $value  = self::get_repeating_Fields_value($values);
+            }
+        }else{
+            $value = get_user_meta( $userid, $meta_key, true );
+            if ("google_address" === $field_type) {
+                $lat = get_user_meta( $userid, $meta_key. '_lat', true );
+                $lng = get_user_meta( $userid, $meta_key. '_lng', true );
+                $value = array(
+                    'address' => $value,
+                    'lat' => $lat,
+                    'lng' => $lng
+                );
+            }
+        }
+        if(empty($value)){
+            return '';
+        }
+        return $value;
+    }
+    	
+	/**
+	 * Method get_repeating_Fields_value
+	 *
+	 * @param array $values
+	 *
+	 * @return array
+     * @since  1.0.0
+	 */
+	private static function get_repeating_Fields_value($values) {
+        $value = array();
+        if(isset($values) && !empty($values)){
+            for($i = 0; $i < count($values); $i++){
+                
+                foreach ($values[$i] as $k=> $subValue) {
+                    $options = get_user_field_options($k);
+                    if(count($options)>0){
+                        $field_type = $options['type'];
+                        $field_label = $options['label'];
+                        if ("google_address" === $field_type) {
+                            $lat = $values[$i][$k. '_lat'];
+                            $lng = $values[$i][$k. '_lng'];
+                            
+                            $subValue = array(
+                                'address' => $subValue,
+                                'lat' => $lat,
+                                'lng' => $lng
+                            );
+                        }
+                        $value[$i][$k] = array(
+                            'type'                  =>    $field_type,
+                            'container_class'       =>    "",
+                            'label'                 =>    $field_label,
+                            'value'                 =>    $subValue,
+                        );
+                    }
+                }
+            }
+            return $value;
+        }
+    }
+
 }

@@ -595,7 +595,7 @@ class CubeWp_Form_Builder {
         $output .= '</div>';
         $output .= '<div class="cwpform-setting-fields">';
 
-        if ( $form_type == 'single_layout' ) {
+        if ( $form_type == 'single_layout' && cubewp_check_if_elementor_active() && ! cubewp_check_if_elementor_active(true) ) {
             $output .= self::cubewp_single_layout_builder_settings( $form_fields );
         } else {
             $output .= self::cubewp_form_builders_settings( $form_fields, $form_type );
@@ -614,30 +614,28 @@ class CubeWp_Form_Builder {
 
     public static function cubewp_single_layout_builder_settings( $form_fields ) {
         $output = '';
-        if ( did_action( 'elementor/loaded' ) ) {
-            $output             .= '<div class="cwpform-setting-field">';
-            $output             .= '<label>' . esc_html__( "Single Page Template", "cubewp-framework" ) . '</label>';
-            $pages              = get_pages( array( "fields" => "ids" ) );
-            $options['default'] = __( "Use Default Template", "cubewp-framework" );
-            if ( ! empty( $pages ) ) {
-                foreach ( $pages as $page ) {
-                    $document = Elementor\Plugin::$instance->documents->get( $page->ID );
-                    if ( $document && $document->is_built_with_elementor() && $document->is_editable_by_current_user() ) {
-                        $options[ $page->ID ] = $page->post_title;
-                    }
+        $output             .= '<div class="cwpform-setting-field">';
+        $output             .= '<label>' . esc_html__( "Single Page Template", "cubewp-framework" ) . '</label>';
+        $pages              = get_pages( array( "fields" => "ids" ) );
+        $options['default'] = __( "Use Default Template", "cubewp-framework" );
+        if ( ! empty( $pages ) ) {
+            foreach ( $pages as $page ) {
+                $document = Elementor\Plugin::$instance->documents->get( $page->ID );
+                if ( $document && $document->is_built_with_elementor() && $document->is_editable_by_current_user() ) {
+                    $options[ $page->ID ] = $page->post_title;
                 }
             }
-            $input_attrs = array(
-                'class'       => 'form-field',
-                'name'        => 'single_page',
-                'value'       => isset( $form_fields['single_page'] ) ? $form_fields['single_page'] : 'default',
-                'options'     => $options,
-                'extra_attrs' => 'data-name="single_page"',
-            );
-            $output      .= cwp_render_dropdown_input( $input_attrs );
-            $output      .= '<p>' . esc_html__( "Note: If you use the custom template the CubeWP Single Layout Builder will be overwritten.", "cubewp-framework" ) . '</p>';
-            $output      .= '</div>';
         }
+        $input_attrs = array(
+            'class'       => 'form-field',
+            'name'        => 'single_page',
+            'value'       => isset( $form_fields['single_page'] ) ? $form_fields['single_page'] : 'default',
+            'options'     => $options,
+            'extra_attrs' => 'data-name="single_page"',
+        );
+        $output      .= cwp_render_dropdown_input( $input_attrs );
+        $output      .= '<p>' . esc_html__( "Note: If you use the custom template the CubeWP Single Layout Builder will be overwritten.", "cubewp-framework" ) . '</p>';
+        $output      .= '</div>';
 
         return $output;
     }

@@ -150,7 +150,7 @@ class CubeWp_Admin_Dropdwon_Field extends CubeWp_Admin {
         if(isset($options['label']) && !empty($options['label'])){
             foreach($options['label'] as $key => $label){
                 $value = isset($options['value'][$key]) ? $options['value'][$key] : '';
-                if( $label && $value ){
+                if( $label || $value ){
                     $checked = '';
                     if( $value == $FieldData['default_value'] ){
                         $checked = 'checked';

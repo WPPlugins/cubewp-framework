@@ -34,6 +34,7 @@ jQuery(document).ready(function ($){
             jQuery('#poststuff #post-body .cwp-group-fields .cwp-group-fields-content').append(response.data);
             var new_field = jQuery('.parent-field.cwp-field-set').last();
             new_field.find('.field-counter').find('span').text(jQuery("#poststuff #post-body .cwp-group-fields .cwp-group-fields-content .parent-field.cwp-field-set").length);
+            new_field.find('.duplicate-field').remove();
             cwp_update_custom_field_type();
             cwp_find_group_field();
             cwp_find_sub_fields();
@@ -93,6 +94,11 @@ jQuery(document).ready(function ($){
                         name  = ethis.attr('name');
                     ethis.attr('name',name.replace(field_id,field_id+id));
                 });
+                new_field.find('textarea').each(function(){
+                    var ethis = jQuery(this),
+                        name  = ethis.attr('name');
+                    ethis.attr('name',name.replace(field_id,field_id+id));
+                });
                 new_field.find('select').each(function(){
                     var ethis = jQuery(this),
                         name  = ethis.attr('name');
@@ -105,6 +111,11 @@ jQuery(document).ready(function ($){
                     ethis.find('.field-title .field-slug').html(sub_field_id+id);
                     ethis.find('input.field-name').val(sub_field_id+id);
                     ethis.find('input').each(function(){
+                        var ethis = jQuery(this),
+                            name  = ethis.attr('name');
+                        ethis.attr('name',name.replace(sub_field_id,sub_field_id+id));
+                    });
+                    ethis.find('textarea').each(function(){
                         var ethis = jQuery(this),
                             name  = ethis.attr('name');
                         ethis.attr('name',name.replace(sub_field_id,sub_field_id+id));

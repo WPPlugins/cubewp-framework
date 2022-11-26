@@ -25,6 +25,13 @@ class CubeWp_Search_Ajax_Hooks{
      * @since  1.0.0
      */
     public static function cwp_search_filters_ajax_content(){
+        global $cwpOptions;
+        $archive_map = isset($cwpOptions['archive_map']) ? $cwpOptions['archive_map'] : 1;
+        $archive_filters = isset($cwpOptions['archive_filters']) ? $cwpOptions['archive_filters'] : 1;
+        $grid_class = 'cwp-col-12 cwp-col-md-6';
+        if ( ! $archive_map || ! $archive_filters) {
+            $grid_class = 'cwp-col-12 cwp-col-md-4';
+        }
         $latLng = array();
         $post_data = CubeWp_Sanitize_text_Array($_POST);
         
@@ -54,7 +61,7 @@ class CubeWp_Search_Ajax_Hooks{
                         if(!empty(self::cwp_map_lat_lng(get_the_ID()))){
                             $latLng[] = self::cwp_map_lat_lng(get_the_ID());
                         }
-                        echo apply_filters('cubewp/frontend/loop/grid/html', CubeWp_frontend_grid_HTML(get_the_ID()));
+                        echo apply_filters('cubewp/frontend/loop/grid/html', CubeWp_frontend_grid_HTML(get_the_ID(),$grid_class));
                     endwhile;
                     ?>
                 </div>

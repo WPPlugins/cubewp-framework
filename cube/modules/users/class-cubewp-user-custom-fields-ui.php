@@ -228,6 +228,7 @@ class CubeWp_User_Custom_Fields_UI extends CubeWp_User_Custom_Fields{
             'select2_ui'              =>   0,
             'auto_complete'           =>   0,
             'required'                =>   '',
+            'relationship'            =>   0,
             'validation_msg'          =>   '',
             'id'                      =>   'cwp_field_'. rand(10000000,1000000000000),
             'class'                   =>   '',
@@ -332,7 +333,7 @@ class CubeWp_User_Custom_Fields_UI extends CubeWp_User_Custom_Fields{
                     'name' => 'cwp[fields]['.$FieldData['name'].'][file_types]',
                     'type' => 'text',
                     'id'          => '',
-                    'placeholder' => esc_html__('Enter Allowed File Types. EG: (image/png,text/plain)', 'cubewp-framework'),
+                    'placeholder' => esc_html__('Enter Allowed File Types. EG: (text/plain,application/zip)', 'cubewp-framework'),
                     'value' => $FieldData['file_types'],
                     'tr_class' => 'conditional-field',
                     'class' => 'field-file-types',
@@ -453,14 +454,31 @@ class CubeWp_User_Custom_Fields_UI extends CubeWp_User_Custom_Fields{
                     'tr_class' => 'conditional-field',
                     'tr_extra_attr' => 'data-equal="user"',
                 );
+        $field_settings['field_relationship'] = array(
+                    'label' => esc_html__('Relationship', 'cubewp-framework'),
+                    'name' => 'cwp[fields]['.$FieldData['name'].'][relationship]',
+                    'value' => '1',
+                    'placeholder' => '',
+                    'type' => 'text',
+                    'checked' => $FieldData['relationship'],
+                    'type_input' => 'checkbox',
+                    'class' => 'field-required-checkbox checkbox cwp-switch-check',
+                    'id' => 'field-relation-'. str_replace('cwp_field_', '', $FieldData['name']),
+                    'tr_class' => 'conditional-field',
+                    'tr_extra_attr' => 'data-equal="post"',
+                    'extra_label' => esc_html__('Relationship', 'cubewp-framework'),
+                    'tooltip'     =>   "Enable a complex relationship for a two-way connection between post-to-post or post-to-user. 
+                                When the user selects a value in this field, it will create a relation with the selected value, whether it is post or user,
+                                and a relationship field will appear on the selected post or user edit page.",
+                );
         $field_settings['field_appearance'] = array(
                     'label' => esc_html__('Field Appearance', 'cubewp-framework'),
                     'name' => 'cwp[fields]['.$FieldData['name'].'][appearance]',
                     'type' => 'dropdown',
                     'id'          => '',
                     'options' => array(
-                        'select'        =>   __('Select', 'cubewp-framework'),
-                        'multi_select'  =>   __('Multi Select', 'cubewp-framework'),
+                        'select'        =>   __('Dropdown', 'cubewp-framework'),
+                        'multi_select'  =>   __('Multi Dropdown', 'cubewp-framework'),
                         'checkbox'      =>   __('Checkbox', 'cubewp-framework'),
                     ),
                     'value' => $FieldData['appearance'],
@@ -468,7 +486,9 @@ class CubeWp_User_Custom_Fields_UI extends CubeWp_User_Custom_Fields{
                     'option-class' => 'form-option option',
                     'class' => 'field-appearance',
                     'tr_class' => 'conditional-field',
-                    'tr_extra_attr' => 'data-equal="post,user,taxonomy"',
+                    'tr_extra_attr' => 'data-equal="post,taxonomy"',
+                    'required'    =>    true,
+                    'validation_msg'    =>  esc_html__('Please select appearance', 'cubewp-framework'),
                 );
         $field_settings['field_validation'] = array(
                     'label' => esc_html__('Validation', 'cubewp-framework'),
@@ -582,6 +602,10 @@ class CubeWp_User_Custom_Fields_UI extends CubeWp_User_Custom_Fields{
             'char_limit'           =>   '',
             'multiple'             =>   0,
             'select2_ui'           =>   0,
+            'auto_complete'        =>   0,
+            'filter_post_types'    =>   '',
+            'file_types'     =>   '',
+            'appearance'           =>   '',
             'required'             =>   '',
             'validation_msg'       =>   '',
             'id'                   =>   'cwp_field_'. rand(10000000,1000000000000),
@@ -646,6 +670,17 @@ class CubeWp_User_Custom_Fields_UI extends CubeWp_User_Custom_Fields{
                         'class' => 'field-default-value',
                         'id' => '',
                         'tr_extra_attr' => 'data-equal="text,textarea,number,email,url"',
+        );
+        $field_settings['field_file_types'] = array(
+                        'label' => esc_html__('File Types', 'cubewp-framework'),
+                        'name' => 'cwp[fields]['.$FieldData['name'].'][file_types]',
+                        'type' => 'text',
+                        'id'          => '',
+                        'placeholder' => esc_html__('Enter Allowed File Types. EG: (text/plain,application/zip)', 'cubewp-framework'),
+                        'value' => $FieldData['file_types'],
+                        'tr_class' => 'conditional-field',
+                        'class' => 'field-file-types',
+                        'tr_extra_attr' => 'data-equal="gallery,file,image"',
         );
         $field_settings['field_placeholder'] = array(
                         'label' => esc_html__('Placeholder', 'cubewp-framework'),

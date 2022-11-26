@@ -42,7 +42,7 @@ class CubeWp_Pagination{
      * @return string html
      * @since  1.0.0
      */
-    public function cubewp_archive_pagination( $output = '', array $args ) {
+    public function cubewp_archive_pagination( $output = '', $args = array() ) {
         extract($args);
         $this->total_posts     = isset($total_posts) ? $total_posts : '';
         $this->archive_page    = isset($archive) ? $archive : '';

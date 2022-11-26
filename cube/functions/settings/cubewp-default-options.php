@@ -137,35 +137,79 @@ $settings['map']    = array(
 		),
 	)
 );
+
+$settings['archive_settings']    = array(
+	'title'  => __( 'Archive Settings', 'cubewp-framework' ),
+	'id'     => 'archive_settings',
+	'icon'   => 'dashicons-archive',
+	'fields' => array(
+	   array(
+		  'id'      => 'archive_map',
+		  'title'   => __( 'Map on Archive', 'cubewp-framework' ),
+		  'desc'    => __( 'You can easily on/off map on archive page.' ),
+		  'type'    => 'switch',
+		  'default' => '1',
+	   ),
+	   array(
+		  'id'      => 'archive_filters',
+		  'title'   => __( 'Filters on Archive', 'cubewp-framework' ),
+		  'desc'    => __( 'You can easily on/off filters on archive page.' ),
+		  'type'    => 'switch',
+		  'default' => '1',
+	   ),
+	   array(
+		  'id'      => 'archive_sort_filter',
+		  'title'   => __( 'Sorting filter on Archive', 'cubewp-framework' ),
+		  'desc'    => __( 'You can easily on/off sorting filter on archive page.' ),
+		  'type'    => 'switch',
+		  'default' => '1',
+	   ),
+	   array(
+		  'id'      => 'archive_layout',
+		  'title'   => __( 'Layout switcher on Archive', 'cubewp-framework' ),
+		  'desc'    => __( 'You can easily on/off layout switcher on archive page.' ),
+		  'type'    => 'switch',
+		  'default' => '1',
+	   ),
+	   array(
+		  'id'      => 'archive_found_text',
+		  'title'   => __( 'Found Text on Archive', 'cubewp-framework' ),
+		  'desc'    => __( 'You can easily on/off found text on archive page.' ),
+		  'type'    => 'switch',
+		  'default' => '1',
+	   ),
+	)
+ );
+ 
 $conditional_options = array();
-if ( did_action( 'elementor/loaded' ) && ! class_exists("CubeWp_Frontend_Load") ) {
-   $pages   = get_pages( array( "fields" => "ids" ) );
-   $options = array();
-   if ( ! empty( $pages ) ) {
-      foreach ( $pages as $page ) {
-         $document = Elementor\Plugin::$instance->documents->get( $page->ID );
-         if ( $document && $document->is_built_with_elementor() && $document->is_editable_by_current_user() ) {
-            $options[ $page->ID ] = $page->post_title;
-         }
-      }
-   }
-   $conditional_options[] = array(
-      'id'      => 'post_type_for_elementor_page',
-      'type'    => 'select',
-      'title'   => __( 'Post-Type For Elementor Single Page', 'cubewp-framework' ),
-      'options' => cwp_post_types(),
-      'desc'    => __( 'Please select post-type for Elementor single page template. If you want to use custom page with multiple post-types please download <a href="https://cubewp.com/cubewp-frontend-pro/" target="_blank">CubeWP Frontend Pro</a>.', 'cubewp-framework' ),
-   );
-   $conditional_options[] = array(
-      'id'      => 'custom_elementor_page',
-      'type'    => 'select',
-      'title'   => __( 'Elementor Single Page', 'cubewp-framework' ),
-      'options' => $options,
-      'desc'    => __( 'Please select Elementor single page template.', 'cubewp-framework' ),
-      'required' => array(
-         array( 'post_type_for_elementor_page', '!=', '' )
-      )
-   );
+if ( cubewp_check_if_elementor_active() && ! cubewp_check_if_elementor_active(true) && ! class_exists("CubeWp_Frontend_Load") ) {
+   	$pages   = get_pages( array( "fields" => "ids" ) );
+   	$options = array();
+   	if ( ! empty( $pages ) ) {
+		foreach ( $pages as $page ) {
+			$document = Elementor\Plugin::$instance->documents->get( $page->ID );
+			if ( $document && $document->is_built_with_elementor() && $document->is_editable_by_current_user() ) {
+				$options[ $page->ID ] = $page->post_title;
+			}
+		}
+   	}
+   	$conditional_options[] = array(
+		'id'      => 'post_type_for_elementor_page',
+		'type'    => 'select',
+		'title'   => __( 'Post-Type For Elementor Single Page', 'cubewp-framework' ),
+		'options' => cwp_post_types(),
+		'desc'    => __( 'Please select post-type for Elementor single page template. If you want to use custom page with multiple post-types please download <a href="https://cubewp.com/cubewp-frontend-pro/" target="_blank">CubeWP Frontend Pro</a>.', 'cubewp-framework' ),
+   	);
+   	$conditional_options[] = array(
+		'id'      => 'custom_elementor_page',
+		'type'    => 'select',
+		'title'   => __( 'Elementor Single Page', 'cubewp-framework' ),
+		'options' => $options,
+		'desc'    => __( 'Please select Elementor single page template.', 'cubewp-framework' ),
+		'required' => array(
+			array( 'post_type_for_elementor_page', '!=', '' )
+		)
+   	);
 }
 
 $settings['post_settings'] = array(

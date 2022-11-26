@@ -251,7 +251,7 @@
     border-style: solid;
     -webkit-appearance: none;
     white-space: nowrap;
-    border-color: #00306f;
+    border-color: #e0e0e0;
 }
 #cwp-options-form #cubewp-settings-tabs-content .cwp-switch-options label:first-of-type {
     border-top-left-radius: 4px;
@@ -264,6 +264,12 @@
 #cwp-options-form #cubewp-settings-tabs-content .cwp-switch-options label.selected {
     background-color: #00306f;
     color: #fff;
+    border-color: #00306f;
+}
+#cwp-options-form #cubewp-settings-tabs-content .cwp-switch-options label.cb-disable.selected {
+    background-color: #e0e0e0;
+    color: #000;
+    border-color: #e0e0e0;
 }
 #cwp-options-form #cubewp-settings-tabs-content .wp-picker-container button span {
     display: none;
