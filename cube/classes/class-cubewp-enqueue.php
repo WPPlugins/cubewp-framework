@@ -101,6 +101,11 @@ class CubeWp_Enqueue extends CubeWp_Admin_Enqueue {
 				'deps'    => array( 'jquery' ),
 				'version' => CUBEWP_VERSION,
 			),
+			'cwp-tabs'     => array(
+				'src'     => CWP_PLUGIN_URI . 'cube/assets/frontend/js/cwp-tabs.js',
+				'deps'    => array( 'jquery' ),
+				'version' => CUBEWP_VERSION,
+			),
 			'cwp-timepicker'         => array(
 				'src'     => CWP_PLUGIN_URI . 'cube/assets/lib/timepicker/jquery-ui-timepicker-addon.min.js',
 				'deps'    => array( 'jquery-ui-datepicker' ),
@@ -160,6 +165,12 @@ class CubeWp_Enqueue extends CubeWp_Admin_Enqueue {
 				'version' => CUBEWP_VERSION,
 				'has_rtl' => false,
 			),
+			'author-style'     => array(
+                'src'     => CWP_PLUGIN_URI . 'cube/assets/frontend/css/cwp-author.css',
+                'deps'    => array(),
+                'version' => CUBEWP_VERSION,
+                'has_rtl' => false,
+      		),
 			'cwp-map-cluster'        => array(
 				'src'     => CWP_PLUGIN_URI . 'cube/assets/frontend/css/map-cluster.css',
 				'deps'    => array( 'cwp-leaflet-css' ),

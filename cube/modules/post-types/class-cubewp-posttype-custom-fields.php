@@ -22,7 +22,7 @@ class CubeWp_Posttype_Custom_Fields {
      * @return array
      * @since  1.0.0
      */
-    protected static function get_fields($fields = array(), $sub_fields = array()) {
+    public static function get_fields($fields = array(), $sub_fields = array()) {
         if (!$fields) {
             return;
         }
@@ -336,25 +336,27 @@ class CubeWp_Posttype_Custom_Fields {
      * @return array
      * @since  1.0.0
      */
-    protected static function get_group() {
+    public static function get_group($GroupID = 0) {
         if (isset($_GET['action']) && ('edit' == $_GET['action'] && !empty($_GET['groupid']))) {
             $GroupID = sanitize_text_field($_GET['groupid']);
-            $GroupData = get_post($GroupID);
-            if (is_null($GroupData)) {
-                echo "Group does not exists or was deleted";
-                exit;
-            }
-            $group['id']              = $GroupID;
-            $group['fields']          = get_post_meta($GroupID, '_cwp_group_fields', true);
-            $group['sub_fields']      = get_post_meta($GroupID, '_cwp_group_sub_fields', true);
-            $group['types']           = get_post_meta($GroupID, '_cwp_group_types');
-            $group['terms']           = get_post_meta($GroupID, '_cwp_group_terms');
-            $group['user_role']       = get_post_meta($GroupID, '_cwp_group_user_role', true);
-            $group['order']           = get_post_meta($GroupID, '_cwp_group_order', true);
-            $group['name']            = $GroupData->post_title;
-            $group['description']     = $GroupData->post_content;
-            return $group;
         }
+        if($GroupID == 0) return;
+
+        $GroupData = get_post($GroupID);
+        if (is_null($GroupData)) {
+            echo "Group does not exists or was deleted";
+            exit;
+        }
+        $group['id']              = $GroupID;
+        $group['fields']          = get_post_meta($GroupID, '_cwp_group_fields', true);
+        $group['sub_fields']      = get_post_meta($GroupID, '_cwp_group_sub_fields', true);
+        $group['types']           = get_post_meta($GroupID, '_cwp_group_types');
+        $group['terms']           = get_post_meta($GroupID, '_cwp_group_terms');
+        $group['user_role']       = get_post_meta($GroupID, '_cwp_group_user_role', true);
+        $group['order']           = get_post_meta($GroupID, '_cwp_group_order', true);
+        $group['name']            = $GroupData->post_title;
+        $group['description']     = $GroupData->post_content;
+        return $group;
     }
     
 }

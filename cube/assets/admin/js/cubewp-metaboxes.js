@@ -77,7 +77,7 @@ jQuery(document).ready(function ($){
         thisObj.hide();
     });
     
-    jQuery(document).on('change', '.switch input[class="switch-field"]', function () {
+    jQuery(document).on('change', '.cwp-switch.cwp-js-switch input[class="cwp-switch-field"]', function () {
         if(jQuery(this).is(":checked")){
             jQuery(this).closest('label').find('input[type="hidden"]').val('Yes').trigger("input");
         }else{

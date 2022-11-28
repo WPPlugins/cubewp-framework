@@ -231,6 +231,7 @@ class CubeWp_Frontend_Search_Filter {
      * @since  1.0.0
      */
     private static function get_filters_style_scripts(){
+        
         CubeWp_Enqueue::enqueue_script( 'cwp-search-filters' );
         CubeWp_Enqueue::enqueue_script( 'select2' );
         CubeWp_Enqueue::enqueue_style( 'select2' );

@@ -22,6 +22,9 @@ a {
 .size-3-4 {
 	width: calc(75% - 30px) !important;
 }
+.cwp-cpt-single-container-outer{
+    width:100%;
+}
 .cwp-single-fet-img {
 	background-position: center;
 	background-repeat: no-repeat;

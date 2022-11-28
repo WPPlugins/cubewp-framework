@@ -195,7 +195,13 @@ class CubeWp_Submenu {
                     'position' => null,
                 );
                 $options = wp_parse_args($options, $defaults);
-
+                if ($options['id'] == 'cubewp-single-layout') {
+                    global $cwpOptions;
+                    $is_cubewp_single = (isset($cwpOptions['cubewp_singular']) && ! empty($cwpOptions['cubewp_singular'])) ? $cwpOptions['cubewp_singular'] : '';
+                    if ( ! $is_cubewp_single) {
+                       continue;
+                    }
+                }
                 if (is_null($options['parent'])) {
                     add_menu_page( $options['title'], $options['title'], $options['capability'], $options['callback'], array($this, 'submenu_page_callback'), $options['icon'], $options['position']);
                 } else {

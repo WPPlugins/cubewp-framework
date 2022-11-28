@@ -224,11 +224,13 @@ class CubeWp_User_Custom_Fields_UI extends CubeWp_User_Custom_Fields{
             'appearance'              =>   '',
             'options'                 =>   '',
             'char_limit'              =>   '',
+            'admin_size'              =>   '1/1',
             'multiple'                =>   0,
             'select2_ui'              =>   0,
             'auto_complete'           =>   0,
             'required'                =>   '',
             'relationship'            =>   0,
+            'rest_api'                =>   0,
             'validation_msg'          =>   '',
             'id'                      =>   'cwp_field_'. rand(10000000,1000000000000),
             'class'                   =>   '',
@@ -385,34 +387,6 @@ class CubeWp_User_Custom_Fields_UI extends CubeWp_User_Custom_Fields{
                     'tr_extra_attr' => 'data-equal="dropdown"',
                     'extra_label' => esc_html__('Multiple Values', 'cubewp-framework'),
                 );
-        $field_settings['field_select2_ui'] = array(
-                    'label' => esc_html__('Select 2', 'cubewp-framework'),
-                    'name' => 'cwp[fields]['.$FieldData['name'].'][select2_ui]',
-                    'value' => '1',
-                    'placeholder' => '',
-                    'type' => 'text',
-                    'checked' => $FieldData['select2_ui'],
-                    'type_input' => 'checkbox',
-                    'class' => 'field-multiple-checkbox checkbox',
-                    'id' => 'field-select-ui-'. str_replace('cwp_field_', '', $FieldData['name']),
-                    'tr_class' => 'conditional-field',
-                    'tr_extra_attr' => 'data-equal="dropdown"',
-                    'extra_label' => esc_html__('Select2 UI', 'cubewp-framework'),
-                );
-        $field_settings['field_autocomplete_ui'] = array(
-                    'label' => esc_html__('Autocomplete', 'cubewp-framework'),
-                    'name' => 'cwp[fields]['.$FieldData['name'].'][auto_complete]',
-                    'value' => '1',
-                    'placeholder' => '',
-                    'type' => 'text',
-                    'checked' => $FieldData['auto_complete'],
-                    'type_input' => 'checkbox',
-                    'class' => 'field-multiple-checkbox checkbox',
-                    'id' => 'field-auto_complete-'. str_replace('cwp_field_', '', $FieldData['name']),
-                    'tr_class' => 'conditional-field',
-                    'tr_extra_attr' => 'data-equal="post,user,taxonomy"',
-                    'extra_label' => esc_html__('Autocomplete', 'cubewp-framework'),
-                );
         $field_settings['field_filter_post_types'] = array(
                     'label' => esc_html__('Filter by Post Types', 'cubewp-framework'),
                     'name' => 'cwp[fields]['.$FieldData['name'].'][filter_post_types]',
@@ -454,23 +428,6 @@ class CubeWp_User_Custom_Fields_UI extends CubeWp_User_Custom_Fields{
                     'tr_class' => 'conditional-field',
                     'tr_extra_attr' => 'data-equal="user"',
                 );
-        $field_settings['field_relationship'] = array(
-                    'label' => esc_html__('Relationship', 'cubewp-framework'),
-                    'name' => 'cwp[fields]['.$FieldData['name'].'][relationship]',
-                    'value' => '1',
-                    'placeholder' => '',
-                    'type' => 'text',
-                    'checked' => $FieldData['relationship'],
-                    'type_input' => 'checkbox',
-                    'class' => 'field-required-checkbox checkbox cwp-switch-check',
-                    'id' => 'field-relation-'. str_replace('cwp_field_', '', $FieldData['name']),
-                    'tr_class' => 'conditional-field',
-                    'tr_extra_attr' => 'data-equal="post"',
-                    'extra_label' => esc_html__('Relationship', 'cubewp-framework'),
-                    'tooltip'     =>   "Enable a complex relationship for a two-way connection between post-to-post or post-to-user. 
-                                When the user selects a value in this field, it will create a relation with the selected value, whether it is post or user,
-                                and a relationship field will appear on the selected post or user edit page.",
-                );
         $field_settings['field_appearance'] = array(
                     'label' => esc_html__('Field Appearance', 'cubewp-framework'),
                     'name' => 'cwp[fields]['.$FieldData['name'].'][appearance]',
@@ -489,6 +446,53 @@ class CubeWp_User_Custom_Fields_UI extends CubeWp_User_Custom_Fields{
                     'tr_extra_attr' => 'data-equal="post,taxonomy"',
                     'required'    =>    true,
                     'validation_msg'    =>  esc_html__('Please select appearance', 'cubewp-framework'),
+                );
+        $field_settings['field_select2_ui'] = array(
+                    'label' => esc_html__('Select2 UI', 'cubewp-framework'),
+                    'name' => 'cwp[fields]['.$FieldData['name'].'][select2_ui]',
+                    'value' => '1',
+                    'placeholder' => '',
+                    'type' => 'text',
+                    'checked' => $FieldData['select2_ui'],
+                    'type_input' => 'checkbox',
+                    'class' => 'field-multiple-checkbox checkbox cwp-switch-check',
+                    'id' => 'field-select-ui-'. str_replace('cwp_field_', '', $FieldData['name']),
+                    'tr_class' => 'conditional-field',
+                    'tr_extra_attr' => 'data-equal="dropdown,post,taxonomy"',
+                    'extra_label' => esc_html__('Select2 UI', 'cubewp-framework'),
+                    'tooltip'     =>   "This option will add select2 UI js on your dropdown field only",
+                );
+        $field_settings['field_autocomplete_ui'] = array(
+                    'label' => esc_html__('Autocomplete (Ajax)', 'cubewp-framework'),
+                    'name' => 'cwp[fields]['.$FieldData['name'].'][auto_complete]',
+                    'value' => '1',
+                    'placeholder' => '',
+                    'type' => 'text',
+                    'checked' => $FieldData['auto_complete'],
+                    'type_input' => 'checkbox',
+                    'class' => 'field-multiple-checkbox checkbox cwp-switch-check',
+                    'id' => 'field-auto_complete-'. str_replace('cwp_field_', '', $FieldData['name']),
+                    'tr_class' => 'conditional-field',
+                    'tr_extra_attr' => 'data-equal="post,user,taxonomy"',
+                    'extra_label' => esc_html__('Autocomplete', 'cubewp-framework'),
+                    'tooltip'     =>   "If you enable this option, Then field will appear as text and it will fetch result on user input.",
+                );
+        $field_settings['field_relationship'] = array(
+                    'label' => esc_html__('Relationship', 'cubewp-framework'),
+                    'name' => 'cwp[fields]['.$FieldData['name'].'][relationship]',
+                    'value' => '1',
+                    'placeholder' => '',
+                    'type' => 'text',
+                    'checked' => $FieldData['relationship'],
+                    'type_input' => 'checkbox',
+                    'class' => 'field-relation-checkbox checkbox cwp-switch-check',
+                    'id' => 'field-relation-'. str_replace('cwp_field_', '', $FieldData['name']),
+                    'tr_class' => 'conditional-field',
+                    'tr_extra_attr' => 'data-equal="post"',
+                    'extra_label' => esc_html__('Relationship', 'cubewp-framework'),
+                    'tooltip'     =>   "Enable a complex relationship for a two-way connection between post-to-post or post-to-user. 
+                                When the user selects a value in this field, it will create a relation with the selected value, whether it is post or user,
+                                and a relationship field will appear on the selected post or user edit page.",
                 );
         $field_settings['field_validation'] = array(
                     'label' => esc_html__('Validation', 'cubewp-framework'),
@@ -546,6 +550,35 @@ class CubeWp_User_Custom_Fields_UI extends CubeWp_User_Custom_Fields{
                     'class' => 'field-container-class',
                     'placeholder' => esc_html__('Container Class for css', 'cubewp-framework'),
                     'value' => $FieldData['container_class'],
+                );
+        $field_settings['field_admin_size'] = array(
+                    'label' => esc_html__('Metabox Field Size', 'cubewp-framework'),
+                    'name' => 'cwp[fields]['.$FieldData['name'].'][admin_size]',
+                    'id'          => '',
+                    'type' => 'dropdown',
+                    'options' => array(
+                        '1/1' => esc_html__("1/1", "cubewp-framework"),
+                        '1/2' => esc_html__("1/2", "cubewp-framework"),
+                    ),
+                    'placeholder' => '',
+                    'value' => $FieldData['admin_size'],
+                    'option-class' => 'form-option option',
+                    'class' => 'field-admin-size',
+                );
+        $field_settings['field_rest_api'] = array(
+                    'label' => esc_html__('Show in REST API', 'cubewp-framework'),
+                    'name' => 'cwp[fields]['.$FieldData['name'].'][rest_api]',
+                    'value' => '1',
+                    'placeholder' => '',
+                    'type' => 'text',
+                    'id'          => '',
+                    'checked' => $FieldData['rest_api'],
+                    'type_input' => 'checkbox',
+                    'class' => 'field-rest_api-checkbox checkbox cwp-switch-check',
+                    'id' => 'field-rest_api-'. str_replace('cwp_field_', '', $FieldData['name']),
+                    'tr_class' => '',
+                    'tr_extra_attr' => 'data-not_equal=""',
+                    'extra_label' => esc_html__('Show in REST API', 'cubewp-framework'),
                 );
         $field_settings['field_conditional'] = array(
                     'label' => esc_html__('Conditional Logic', 'cubewp-framework'),

@@ -87,7 +87,12 @@ class CubeWp_Admin_Text_Field extends CubeWp_Admin {
         }else{
             $output = self::cwp_tr_start($FieldData);
         }
-        
+        $class = explode(' ', $FieldData['class']);
+        $is_switch = false;
+        if (in_array('cwp-switch-check', $class)) {
+            $is_switch = true;
+            $FieldData['class'] .= ' cwp-switch-field ';
+        }
         $tooltip = isset($FieldData['tooltip']) && !empty($FieldData['tooltip']) ? $FieldData['tooltip'] : '';        
         $required = isset($FieldData['required']) && !empty($FieldData['required']) ? $FieldData['required'] : '';        
         $output .= self::cwp_td_start().self::cwp_label( $FieldData['id'], $FieldData['label'], $required, $tooltip ).self::cwp_td_end();
@@ -135,7 +140,17 @@ class CubeWp_Admin_Text_Field extends CubeWp_Admin {
         }else {
             $input = cwp_render_text_input($input_attrs);
         }
-        $output .= self::cwp_td_start().$extraInput.$input.$extraLabel.self::cwp_td_end();
+        if ($is_switch) {
+            $extraLabel = '<label class="cwp-switch" for="'. $FieldData['id'] .'">
+                  ' . $extraInput . '
+                  ' . $input . '
+                  <span class="cwp-switch-slider"></span>
+                  <span class="cwp-switch-text-no">' . esc_html__("No", "cubewp-framework") . '</span>
+                  <span class="cwp-switch-text-yes">' . esc_html__("Yes", "cubewp-framework") . '</span></label>';
+            $output .= self::cwp_td_start().$extraLabel.self::cwp_td_end();
+         }else {
+            $output .= self::cwp_td_start().$extraInput.$input.$extraLabel.self::cwp_td_end();
+         }
         $output .= self::cwp_tr_end();
         return $output;
     }

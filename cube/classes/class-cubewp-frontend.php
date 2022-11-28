@@ -19,10 +19,14 @@ class CubeWp_Frontend {
     
     const FSAH = 'CubeWp_Search_Ajax_Hooks';
     public static $Load = null;
+    public static $post_type = '';
+    public static $taxonomy = '';
     
     public function __construct( ) {
         $this->include_fields();
         add_filter('cubewp/frontend/field/parametrs', array($this, 'frontend_field_parameters'), 10, 1);
+        add_action('cubewp_loaded', array('CubeWp_Frontend_Alerts', 'init'), 10);
+        add_action('cubewp_loaded', array('CubeWp_Frontend_Templates', 'init'), 10);
         add_action('cubewp_loaded', array('CubeWp_Saved', 'init'), 10);
         add_action('cubewp_loaded', array('CubeWp_Pagination', 'init'), 10);
         add_action('cubewp_loaded', array('CubeWp_Frontend_Search_Fields', 'init'), 10);
@@ -430,6 +434,67 @@ class CubeWp_Frontend {
         );
         echo cwp_render_dropdown_input( $input_attrs );
     }
+
+    /**
+     * Method is_cubewp_single
+     *
+     * @return bool
+     * @since  1.0.7
+     */
+    public static function is_cubewp_single() {
+		$get_CustomTypes = CWP_types();
+        if (is_array($get_CustomTypes) && !empty($get_CustomTypes) && count($get_CustomTypes)!=0) {
+            foreach ($get_CustomTypes as $single_cpt) {
+                self::$post_type = $single_cpt['slug'];
+                // Custom Single Page
+                if (is_singular( $single_cpt['slug'] )):
+                    return true;
+                endif;
+            }
+        }
+        return false;
+	}
+
+    /**
+     * Method is_cubewp_archive
+     *
+     * @return bool
+     * @since  1.0.7
+     */
+    public static function is_cubewp_archive() {
+		$get_CustomTypes = CWP_types();
+        if (is_array($get_CustomTypes) && !empty($get_CustomTypes) && count($get_CustomTypes)!=0) {
+            foreach ($get_CustomTypes as $single_cpt) {
+                self::$post_type = $single_cpt['slug'];
+                // Custom Single Page
+                if (is_post_type_archive( $single_cpt['slug'] )):
+                    return true;
+                endif;
+            }
+        }
+        return false;
+	}
+
+    /**
+     * Method is_cubewp_taxonomy
+     *
+     *
+     * @return bool
+     * @since  1.0.7
+     */
+    public static function is_cubewp_taxonomy() {
+		$get_CustomTax = CWP_custom_taxonomies();
+        if (is_array($get_CustomTax) && !empty($get_CustomTax) && count($get_CustomTax)!=0) {
+            foreach ($get_CustomTax as $single_tax) {
+                self::$taxonomy = $single_tax['slug'];
+                // Custom Taxonomy Page
+                if ($single_tax['public'] == true && is_tax( $single_tax['slug'] )):
+                    return true;
+                endif;
+            }
+        }
+        return false;
+	}
         
     /**
      * Method init

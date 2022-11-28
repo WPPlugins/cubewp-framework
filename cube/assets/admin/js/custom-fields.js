@@ -52,6 +52,7 @@ jQuery(document).ready(function ($){
             jQuery('#poststuff #post-body .cwp-group-fields .cwp-group-fields-content').append(response.data);
             var new_field = jQuery('.parent-field.cwp-field-set').last();
             new_field.find('.field-counter').find('span').text(jQuery("#poststuff #post-body .cwp-group-fields .cwp-group-fields-content .parent-field.cwp-field-set").length);
+            new_field.find('.duplicate-field').remove();
             cwp_update_custom_field_type();
             cwp_find_group_field();
             cwp_find_sub_fields();
@@ -197,17 +198,17 @@ jQuery(document).ready(function ($){
     
     jQuery(document).on('change', '.field-required-checkbox', function () {
         if(jQuery(this).is(":checked")){
-            jQuery(this).parent().parent().next('.validation-msg-row').show(300);
+            jQuery(this).closest('.conditional-field').next('.validation-msg-row').show(300);
         }else{
-            jQuery(this).parent().parent().next('.validation-msg-row').hide(300);
+            jQuery(this).closest('.conditional-field').next('.validation-msg-row').hide(300);
         }
     });
     
     jQuery(document).on('change', '.field-conditional', function () {
         if(jQuery(this).is(":checked")){
-            jQuery(this).parent().parent().next('.conditional-rule').show(300);
+            jQuery(this).closest('.conditional-field').next('.conditional-rule').show(300);
         }else{
-            jQuery(this).parent().parent().next('.conditional-rule').hide(300);
+            jQuery(this).closest('.conditional-field').next('.conditional-rule').hide(300);
         }
     });
     

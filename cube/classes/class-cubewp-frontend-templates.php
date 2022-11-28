@@ -17,12 +17,28 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class CubeWp_Frontend_Templates {
     
-    private $post_type = '';
     private $elementor_template = false;
     
     public function __construct( ) {
+		global $cwpOptions;
+		if (empty($cwpOptions)) {
+			$cwpOptions = get_option('cwpOptions');
+		}
+		$is_cubewp_single = (isset($cwpOptions['cubewp_singular']) && ! empty($cwpOptions['cubewp_singular'])) ? $cwpOptions['cubewp_singular'] : 0;
+		$is_cubewp_archive = (isset($cwpOptions['cubewp_archive']) && ! empty($cwpOptions['cubewp_archive'])) ? $cwpOptions['cubewp_archive'] : 0;
+		$is_cubewp_author = (isset($cwpOptions['show_author_template']) && ! empty($cwpOptions['show_author_template'])) ? $cwpOptions['show_author_template'] : 0;
         add_filter( 'elementor/theme/need_override_location', [ $this, 'elementor_template_include' ], 10, 2 );
-        add_filter('template_include', array($this, 'cubewp_custom_templates'), 9999);
+		if ($is_cubewp_single) {
+			add_filter('single_template', array($this, 'cubewp_single_template'), 49,3);
+		}
+		if ($is_cubewp_archive) {
+			add_filter('archive_template', array($this, 'cubewp_archive_template'), 49,3);
+			add_filter('search_template', array($this, 'cubewp_archive_template'), 49,3);
+            add_filter('taxonomy_template', array($this, 'cubewp_taxonomy_template'), 49,3);
+		}
+        if ($is_cubewp_author) {
+            add_filter('author_template', array($this, 'cubewp_author_template'), 50,3);
+        }
     }
 
     /**
@@ -45,7 +61,7 @@ class CubeWp_Frontend_Templates {
      * @since  1.0.5
      */
     private function theme_single_post_template() {
-        $post_type = $this->post_type;
+        $post_type = CubeWp_Frontend::$post_type;
         if (file_exists(get_template_directory() . '/single-' . $post_type . '.php')){
              return true;
          }
@@ -59,57 +75,72 @@ class CubeWp_Frontend_Templates {
      * @since  1.0.5
      */
     private function theme_archive_template() {
-        $post_type = $this->post_type;
+        $post_type = CubeWp_Frontend::$post_type;
         if (file_exists(get_template_directory() . '/archive-' . $post_type . '.php')){
              return true;
          }
         return false;
     }
-        
+
     /**
-     * Method custom_post_type_template
+     * Method theme_taxonomy_template
      *
-     * @param string $template
-     *
-     * @return string
-     * @since  1.0.0
+     * @return bool
+     * @since  1.0.5
      */
-    public function cubewp_custom_templates($template = '') {
-        $get_CustomTypes = CWP_types();
-
-        if (is_array($get_CustomTypes) && !empty($get_CustomTypes) && count($get_CustomTypes)!=0) {
-            foreach ($get_CustomTypes as $single_cpt) {
-                $this->post_type = $single_cpt['slug'];
-
-                // Custom Single Page
-                if(is_singular($single_cpt['slug'])){
-                    if(!$this->elementor_template && !$this->theme_single_post_template()){
-                        return $this->cubewp_single_template();
-                    }
-                }elseif(is_archive()){
-                    if(!$this->elementor_template && !$this->theme_archive_template()){
-                        return $this->cubewp_archive_template();
-                    }
-                }
-            }
-        }
-        return $template;
+    private function theme_taxonomy_template() {
+        $taxonomy = CubeWp_Frontend::$taxonomy;
+        if (file_exists(get_template_directory() . '/taxonomy-' . $taxonomy . '.php')){
+             return true;
+         }
+        return false;
     }
 
     /**
      * Method cubewp_single_template
      *
      */
-    public static function cubewp_single_template() {
-        return CWP_PLUGIN_PATH . 'cube/templates/single-cpt.php';
+    public function cubewp_single_template($template = '',$type = '',$templates = '') {
+        if(!$this->elementor_template){
+            if(CubeWp_Frontend::is_cubewp_single() && !$this->theme_single_post_template()){
+                return CWP_PLUGIN_PATH . 'cube/templates/single-cpt.php';
+            }
+        }
+        return $template;
     }
 
     /**
      * Method init
      *
      */
-    public static function cubewp_archive_template() {
-        return CWP_PLUGIN_PATH . 'cube/templates/archive-cpt.php';
+    public function cubewp_archive_template($template = '',$type = '',$templates = '') {
+        if(!$this->elementor_template){
+            if(CubeWp_Frontend::is_cubewp_archive() && !$this->theme_archive_template()){
+                return CWP_PLUGIN_PATH . 'cube/templates/archive-cpt.php';
+            }
+        }
+        return $template;
+    }
+
+    /**
+     * Method init
+     *
+     */
+    public function cubewp_taxonomy_template($template = '',$type = '',$templates = '') {
+        if(!$this->elementor_template){
+            if(CubeWp_Frontend::is_cubewp_taxonomy() && !$this->theme_taxonomy_template()){
+                return CWP_PLUGIN_PATH . 'cube/templates/archive-cpt.php';
+            }
+        }
+        return $template;
+    }
+
+    /**
+     * Method init
+     *
+     */
+    public function cubewp_author_template($template = '',$type = '',$templates = '') {
+        return CWP_PLUGIN_PATH . 'cube/templates/author.php';
     }
         
     /**

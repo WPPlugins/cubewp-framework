@@ -143,41 +143,63 @@ $settings['archive_settings']    = array(
 	'id'     => 'archive_settings',
 	'icon'   => 'dashicons-archive',
 	'fields' => array(
-	   array(
-		  'id'      => 'archive_map',
-		  'title'   => __( 'Map on Archive', 'cubewp-framework' ),
-		  'desc'    => __( 'You can easily on/off map on archive page.' ),
-		  'type'    => 'switch',
-		  'default' => '1',
-	   ),
-	   array(
-		  'id'      => 'archive_filters',
-		  'title'   => __( 'Filters on Archive', 'cubewp-framework' ),
-		  'desc'    => __( 'You can easily on/off filters on archive page.' ),
-		  'type'    => 'switch',
-		  'default' => '1',
-	   ),
-	   array(
-		  'id'      => 'archive_sort_filter',
-		  'title'   => __( 'Sorting filter on Archive', 'cubewp-framework' ),
-		  'desc'    => __( 'You can easily on/off sorting filter on archive page.' ),
-		  'type'    => 'switch',
-		  'default' => '1',
-	   ),
-	   array(
-		  'id'      => 'archive_layout',
-		  'title'   => __( 'Layout switcher on Archive', 'cubewp-framework' ),
-		  'desc'    => __( 'You can easily on/off layout switcher on archive page.' ),
-		  'type'    => 'switch',
-		  'default' => '1',
-	   ),
-	   array(
-		  'id'      => 'archive_found_text',
-		  'title'   => __( 'Found Text on Archive', 'cubewp-framework' ),
-		  'desc'    => __( 'You can easily on/off found text on archive page.' ),
-		  'type'    => 'switch',
-		  'default' => '1',
-	   ),
+		array(
+			'id'      => 'cubewp_archive',
+			'title'   => __( 'CubeWP Archive', 'cubewp-framework' ),
+			'desc'    => __( 'You can easily on/off CubeWP custom archive page.' ),
+			'type'    => 'switch',
+			'default' => '1',
+		),
+		array(
+			'id'      => 'archive_map',
+			'title'   => __( 'Map on Archive', 'cubewp-framework' ),
+			'desc'    => __( 'You can easily on/off map on archive page.' ),
+			'type'    => 'switch',
+			'default' => '1',
+			'required' => array(
+				array( 'cubewp_archive', 'equals', '1' )
+			)
+		),
+		array(
+			'id'      => 'archive_filters',
+			'title'   => __( 'Filters on Archive', 'cubewp-framework' ),
+			'desc'    => __( 'You can easily on/off filters on archive page.' ),
+			'type'    => 'switch',
+			'default' => '1',
+			'required' => array(
+				array( 'cubewp_archive', 'equals', '1' )
+			)
+		),
+		array(
+			'id'      => 'archive_sort_filter',
+			'title'   => __( 'Sorting filter on Archive', 'cubewp-framework' ),
+			'desc'    => __( 'You can easily on/off sorting filter on archive page.' ),
+			'type'    => 'switch',
+			'default' => '1',
+			'required' => array(
+				array( 'cubewp_archive', 'equals', '1' )
+			)
+		),
+		array(
+			'id'      => 'archive_layout',
+			'title'   => __( 'Layout switcher on Archive', 'cubewp-framework' ),
+			'desc'    => __( 'You can easily on/off layout switcher on archive page.' ),
+			'type'    => 'switch',
+			'default' => '1',
+			'required' => array(
+				array( 'cubewp_archive', 'equals', '1' )
+			)
+		),
+		array(
+			'id'      => 'archive_found_text',
+			'title'   => __( 'Found Text on Archive', 'cubewp-framework' ),
+			'desc'    => __( 'You can easily on/off found text on archive page.' ),
+			'type'    => 'switch',
+			'default' => '1',
+			'required' => array(
+				array( 'cubewp_archive', 'equals', '1' )
+			)
+		),
 	)
  );
  
@@ -199,6 +221,9 @@ if ( cubewp_check_if_elementor_active() && ! cubewp_check_if_elementor_active(tr
 		'title'   => __( 'Post-Type For Elementor Single Page', 'cubewp-framework' ),
 		'options' => cwp_post_types(),
 		'desc'    => __( 'Please select post-type for Elementor single page template. If you want to use custom page with multiple post-types please download <a href="https://cubewp.com/cubewp-frontend-pro/" target="_blank">CubeWP Frontend Pro</a>.', 'cubewp-framework' ),
+			'required' => array(
+				array( 'cubewp_singular', 'equals', '1' )
+			)
    	);
    	$conditional_options[] = array(
 		'id'      => 'custom_elementor_page',
@@ -216,50 +241,63 @@ $settings['post_settings'] = array(
 	'title'  => __( 'Post Settings', 'cubewp-framework' ),
 	'id'     => 'post_settings',
 	'fields' => array_merge(
-		$conditional_options, array(
+		array(
 			array(
-			'id'      => 'post_type_save_button',
-			'type'    => 'switch',
-			'title'   => __( 'Post Save Button', 'cubewp-framework' ),
-			'default' => '1',
-			'desc'    => __( 'Gives you a button on single page to save post type.', 'cubewp-framework' ),
+				'id'      => 'cubewp_singular',
+				'title'   => __( 'CubeWP Single Page', 'cubewp-framework' ),
+				'desc'    => __( 'You can easily on/off CubeWP custom single page.' ),
+				'type'    => 'switch',
+				'default' => '1',
 			),
 			array(
-			'id'      => 'post_type_share_button',
-			'type'    => 'switch',
-			'title'   => __( 'Post Share Button', 'cubewp-framework' ),
-			'default' => '1',
-			'desc'    => __( 'Gives you a button on single page to share post type.', 'cubewp-framework' ),
+				'id'      => 'post_type_save_button',
+				'type'    => 'switch',
+				'title'   => __( 'Post Save Button', 'cubewp-framework' ),
+				'default' => '1',
+				'desc'    => __( 'Gives you a button on single page to save post type.', 'cubewp-framework' ),
+				'required' => array(
+					array( 'cubewp_singular', 'equals', '1' )
+				)
 			),
 			array(
-			'id'       => 'twitter_share',
-			'type'     => 'switch',
-			'title'    => __( 'Post Twitter Share', 'cubewp-framework' ),
-			'default'  => '1',
-			'desc'     => __( 'By enabling this option, you can share post on twitter.', 'cubewp-framework' ),
-			'required' => array(
-				array( 'post_type_share_button', 'equals', '1' )
-			)
+				'id'      => 'post_type_share_button',
+				'type'    => 'switch',
+				'title'   => __( 'Post Share Button', 'cubewp-framework' ),
+				'default' => '1',
+				'desc'    => __( 'Gives you a button on single page to share post type.', 'cubewp-framework' ),
+				'required' => array(
+					array( 'cubewp_singular', 'equals', '1' )
+				)
 			),
 			array(
-			'id'       => 'facebook_share',
-			'type'     => 'switch',
-			'title'    => __( 'Post Facebook Share', 'cubewp-framework' ),
-			'default'  => '1',
-			'desc'     => __( 'By enabling this option, you can share post on facebook.', 'cubewp-framework' ),
-			'required' => array(
-				array( 'post_type_share_button', 'equals', '1' )
-			)
+				'id'       => 'twitter_share',
+				'type'     => 'switch',
+				'title'    => __( 'Post Twitter Share', 'cubewp-framework' ),
+				'default'  => '1',
+				'desc'     => __( 'By enabling this option, you can share post on twitter.', 'cubewp-framework' ),
+				'required' => array(
+					array( 'post_type_share_button', 'equals', '1' )
+				)
 			),
 			array(
-			'id'       => 'pinterest_share',
-			'type'     => 'switch',
-			'title'    => __( 'Post Pinterest Share', 'cubewp-framework' ),
-			'default'  => '1',
-			'desc'     => __( 'By enabling this option, you can share post on pinterest.', 'cubewp-framework' ),
-			'required' => array(
-				array( 'post_type_share_button', 'equals', '1' )
-			)
+				'id'       => 'facebook_share',
+				'type'     => 'switch',
+				'title'    => __( 'Post Facebook Share', 'cubewp-framework' ),
+				'default'  => '1',
+				'desc'     => __( 'By enabling this option, you can share post on facebook.', 'cubewp-framework' ),
+				'required' => array(
+					array( 'post_type_share_button', 'equals', '1' )
+				)
+			),
+			array(
+				'id'       => 'pinterest_share',
+				'type'     => 'switch',
+				'title'    => __( 'Post Pinterest Share', 'cubewp-framework' ),
+				'default'  => '1',
+				'desc'     => __( 'By enabling this option, you can share post on pinterest.', 'cubewp-framework' ),
+				'required' => array(
+					array( 'post_type_share_button', 'equals', '1' )
+				)
 			),
 			array(
 				'id'       => 'linkedin_share',
@@ -280,6 +318,95 @@ $settings['post_settings'] = array(
 				'required' => array(
 					array( 'post_type_share_button', 'equals', '1' )
 				)
+			),
+		),$conditional_options
+	)
+);
+$settings['author_settings'] = array(
+	'title'  => __( 'Author Settings', 'cubewp-framework' ),
+	'id'     => 'author_settings',
+	'fields' => array_merge(
+		$conditional_options, array(
+			array(
+			'id'      => 'show_author_template',
+			'type'    => 'switch',
+			'title'   => __( 'Author Page Template', 'cubewp-framework' ),
+			'default' => '0',
+			'desc'    => __( 'If you have your author page template by any theme or plugin then you do not need to enable this option, Otherwise you can enable cubewp Author page template ', 'cubewp-framework' ),
+			),
+			array(
+				'id'      => 'author_banner_image',
+				'type'    => 'media',
+				'title'   => __( 'CubeWP Author Banner Image', 'cubewp-framework' ),
+				'default' => '',
+				'desc'    => __( 'Please upload banner image for author page.', 'cubewp-framework' ),
+				'required' => array(
+					array( 'show_author_template', 'equals', '1' )
+				)
+			),
+			array(
+			'id'      => 'author_share_button',
+			'type'    => 'switch',
+			'title'   => __( 'Author Share Button', 'cubewp-framework' ),
+			'default' => '1',
+			'desc'    => __( 'Gives you a share button on author page.', 'cubewp-framework' ),
+			'required' => array(
+				array( 'show_author_template', 'equals', '1' )
+			)
+			),
+			array(
+			'id'       => 'author_edit_profile',
+			'type'     => 'switch',
+			'title'    => __( 'Author Edit Profile', 'cubewp-framework' ),
+			'default'  => '1',
+			'desc'     => __( 'By enabling this option, author can edit profile from author page.', 'cubewp-framework' ),
+			'required' => array(
+				array( 'show_author_template', 'equals', '1' )
+			)
+			),
+			array(
+				'id'       => 'profile_page',
+				'type'     => 'pages',
+				'title'    => __('User Profile Form Page', 'cubewp'),
+				'subtitle' => __('This must be an URL.', 'cubewp'),
+				'validate' => 'url',
+				'desc'     => __('Select the page used for the User Profile Form (Page must include the Profile Form Shortcode)', 'cubewp'),
+				'default'  => '',
+				'required' => array(
+					array( 'show_author_template', 'equals', '1' )
+				)
+		   ),
+		   array(
+			'id'       => 'author_contact_info',
+			'type'     => 'switch',
+			'title'    => __( 'Author Contact Info', 'cubewp-framework' ),
+			'default'  => '1',
+			'desc'     => __( 'By enabling this option, author contact info will be visible on author page.', 'cubewp-framework' ),
+			'required' => array(
+				array( 'show_author_template', 'equals', '1' )
+			)
+			),
+		   array(
+			'id'       => 'author_post_types',
+			'type'     => 'select',
+			'multi'   =>  true,
+			'title'    => __( 'Select Post types', 'cubewp-reviews' ),
+			'subtitle' => '',
+			'desc'     => __( 'Tabs for above selected post types will be added other than all posts tab on author page.', 'cubewp-reviews' ),
+			'options'  => cwp_post_types(),
+			'required' => array(
+				array( 'show_author_template', 'equals', '1' )
+			)
+		   ),
+			array(
+			'id'       => 'author_custom_fields',
+			'type'     => 'switch',
+			'title'    => __( 'Author Custom FIeld', 'cubewp-framework' ),
+			'default'  => '1',
+			'desc'     => __( 'By enabling this option, author custom fields will be shown on author page.', 'cubewp-framework' ),
+			'required' => array(
+				array( 'show_author_template', 'equals', '1' )
+			)
 			),
 		)
 	 )

@@ -519,6 +519,7 @@ if ( ! function_exists("get_user_details")) {
 		$user_login = get_the_author_meta("user_login", $user_id);
 		$user_email = get_the_author_meta("user_email", $user_id);
 		$user_url   = get_the_author_meta("user_url", $user_id);
+		$author_page_url=get_author_posts_url($user_id);
 		ob_start();
 		?>
         <div class="cwp-single-widget cwp-admin-widget">
@@ -527,8 +528,8 @@ if ( ! function_exists("get_user_details")) {
                      alt="<?php esc_html__("Post Author", "cubewp") ?>"/>
             </div>
             <div class="cwp-single-author-detail">
-                <div class="cwp-single-author-name">
-					<?php echo get_the_author_meta("display_name", $user_id) ?>
+				<div class="cwp-single-author-name">
+                    <a href="<?php echo esc_url($author_page_url) ?>"><?php echo get_the_author_meta("display_name", $user_id) ?></a>
                 </div>
                 <ul>
                     <li class="cwp-author-username"><p class="cwp-author-uname"><?php echo esc_html($user_login) ?></p>
@@ -678,6 +679,22 @@ if ( ! function_exists("cwp_get_groups_by_post_type")) {
 		);
 
 		return get_posts($args);
+	}
+}
+
+/**
+ * cwp_get_groups_by_post_id
+ *
+ * @param string $post_id Group Post id
+ *
+ * @return array $allGroups List of Group ID's.
+ */
+if ( ! function_exists("cwp_get_groups_by_post_id")) {
+	function cwp_get_groups_by_post_id($post_id = 0) {
+		if ($post_id == 0) return;
+
+        $post_type = get_post_type( $post_id );
+        return cwp_get_groups_by_post_type( $post_type );
 	}
 }
 
@@ -898,7 +915,7 @@ if ( ! function_exists("get_field_options")) {
  * @since  1.0.0
  */
 if ( ! function_exists("get_field_value")) {
-	function get_field_value($field = '', $postID = 0) {
+	function get_field_value($field = '', $render = false , $postID = 0) {
 		if (empty($field)) {
 			return;
 		}
@@ -910,7 +927,7 @@ if ( ! function_exists("get_field_value")) {
 			}
 		}
 
-	   	if ($postID != 0 && !CWP()->is_cubewp_display( 'is_singular' ) ) {
+	   	if ($postID != 0 && !CubeWp_Frontend::is_cubewp_single() ) {
 			CubeWp_Single_Cpt::$post_id = $postID;
 	   	}
 
@@ -933,8 +950,125 @@ if ( ! function_exists("get_field_value")) {
 		if ($field_type == 'date_time_picker') {
 			$value = wp_date(get_option('date_format') . ' H:i:s', $value);
 		}
+		if ($render == true) {
+			if( $field_type == 'terms'){
+				$value = render_taxonomy_value($value);
+			}
+			if( $field_type == 'post'){
+				$value = render_post_value($value);
+			}
+			if( $field_type == 'user'){
+				$value = render_user_value($value);
+			}
+			if( $field_type == 'image' || $field_type == 'gallery'){
+				$value = render_media_value($value);
+			}
+			if( $field_type == 'file'){
+				$value = render_file_value($value);
+			}
+		}
 		
 		return $value;
+	}
+}
+
+if ( ! function_exists("render_taxonomy_value")) {
+	function render_taxonomy_value($value = 0) {
+		$output = '';
+		if (is_array($value)) {
+			foreach ($value as $terms) {
+				$terms = get_term($terms);
+				if ( ! empty($terms)) {
+					$output .= '<a href="' . get_term_link( $terms ) . '">
+							<p>' . $terms->name . '</p>
+						</a>';
+				}
+			}
+		}else {
+			$value = (int) $value;
+			$terms = get_term($value);
+			if ( ! empty($terms)) {
+				$output .= '<a href="' . get_term_link($terms) . '">
+						<p>' . $terms->name . '</p>
+					</a>';
+			}
+		}
+		return $output;
+	}
+}
+
+if ( ! function_exists("render_post_value")) {
+	function render_post_value($value = '') {
+		$output = '';
+		if (is_array($value)) {
+			foreach ($value as $post_id) {
+					$output .= '<a href="' . get_the_permalink( $post_id ) . '">
+							<p>' . get_the_title( $post_id ) . '</p>
+						</a>';
+			}
+		}else {
+			if ( ! empty($value)) {
+				$output .= '<a href="' . get_the_permalink( $value ) . '">
+							<p>' . get_the_title( $value ) . '</p>
+						</a>';
+			}
+		}
+		return $output;
+	}
+}
+
+if ( ! function_exists("render_user_value")) {
+	function render_user_value($value = '') {
+		$output = '';
+		if (is_array($value)) {
+			foreach ($value as $user_id) {
+				$output .= '<a href="' . get_the_author_meta("user_url", $user_id) . '">
+						<p>' . get_the_author_meta("user_login", $user_id) . '</p>
+					</a>';
+			}
+		}else {
+			if ( ! empty($value)) {
+				$output .= '<a href="' . get_the_author_meta("user_url", $value) . '">
+							<p>' . get_the_author_meta("user_login", $value) . '</p>
+						</a>';
+			}
+		}
+		return $output;
+	}
+}
+
+if ( ! function_exists("render_file_value")) {
+	function render_file_value($value = '') {
+		$output = '';
+		if (!empty($value)) {
+			$fileItemURL = wp_get_attachment_url($value);
+			if ( ! empty($value)) {
+				$output .= '<a href="' . esc_url($fileItemURL) . '" download>' . esc_html__('Download File', 'cubewp-framework') . '</a>';
+			}
+		}
+		return $output;
+	}
+}
+
+if ( ! function_exists("render_media_value")) {
+	function render_media_value($value = '') {
+		$output = '';
+		if (is_array($value)) {
+			$output .= '<div class="cwp-cpt-single-gallery">';
+			foreach ($value as $galleryItemID) {
+				$galleryItemURL     = wp_get_attachment_url($galleryItemID);
+				$output .= '<img src="' . esc_url($galleryItemURL) . '" alt="Gallery Imag" class="cwp-cpt-single-gallery-item">';
+			}
+			$output .= '</div>';
+		}else{
+			if ( ! empty($value)) {
+				$imageURL     = wp_get_attachment_url($value);
+				if (isset($value) && !empty ($imageURL)) {
+					$output .= '<img src="' . esc_url($imageURL) . '" alt="image" class="cwp-cpt-single-image-item">';
+				}
+			}
+		}
+		return $output;
 	}
 }
 
@@ -1290,6 +1424,28 @@ if ( ! function_exists("cwp_get_current_user_roles")) {
 }
 
 /**
+ * Method cwp_get_user_roles_by_id
+ * * @param int $user_id
+ *
+ * @return array
+ * @since  1.0.0
+ */
+if ( ! function_exists("cwp_get_user_roles_by_id")) {
+	function cwp_get_user_roles_by_id($user_id) {
+		if ( ! $user_id) {
+			return;
+		}
+		$user_data = get_userdata($user_id);
+		if (!empty($user_data)) {
+			$user_role = ( array ) $user_data->roles;
+			return $user_role[0];
+		} else {
+			return array();
+		}
+	}
+}
+
+/**
  * Method cwp_get_user_roles
  *
  * @return array
@@ -1585,12 +1741,12 @@ if ( ! function_exists( 'is_cubewp_single_page_builder_active' ) ) {
 						return true;
 					}
 				}
-			}else {
-				$single_page_settings = get_single_page_settings( $post_type );
-				if ( isset( $single_page_settings["single_page"] ) && ! empty( $single_page_settings["single_page"] ) && is_numeric( $single_page_settings["single_page"] ) ) {
-					return true;
-				}
+		}else {
+			$single_page_settings = get_single_page_settings( $post_type );
+			if ( isset( $single_page_settings["single_page"] ) && ! empty( $single_page_settings["single_page"] ) && is_numeric( $single_page_settings["single_page"] ) ) {
+				return true;
 			}
+		}
  
 	   return false;
 	}
@@ -1743,8 +1899,9 @@ if ( ! function_exists("cubewp_single_page_template")) {
  
        return $post_templates;
     }
- 
-    add_filter( 'theme_page_templates', 'cubewp_single_page_template', 11, 4 );
+	if ( cubewp_check_if_elementor_active() && !cubewp_check_if_elementor_active(true)) {
+    	add_filter( 'theme_page_templates', 'cubewp_single_page_template', 11, 4 );
+	}
 }
  
 if ( ! function_exists("cubewp_single_page_template_output")) {
@@ -1755,6 +1912,31 @@ if ( ! function_exists("cubewp_single_page_template_output")) {
  
        return $page_template;
     }
- 
-    add_filter( 'page_template', 'cubewp_single_page_template_output',200 );
+	if ( cubewp_check_if_elementor_active() && !cubewp_check_if_elementor_active(true)) {
+    	add_filter( 'page_template', 'cubewp_single_page_template_output',200 );
+	}
+}
+
+if ( ! function_exists('cwp_alert_ui')) {
+    function cwp_alert_ui( $alert_content = '', $alert_type = 'error' ) {
+        $alert_class = 'cwp-alert-danger';
+        if ( $alert_type == 'success' ) {
+        $alert_class = 'cwp-alert-success';
+        } else if ( $alert_type == 'warning' ) {
+        $alert_class = 'cwp-alert-warning';
+        } else if ( $alert_type == 'info' ) {
+        $alert_class = 'cwp-alert-info';
+        }
+        $alert_content = ! empty($alert_content) ? '<div class="cwp-alert-content">' . $alert_content . '</div>' : '';
+    
+        return '<div class="cwp-alert ' . esc_attr( $alert_class ) . '">
+        <h6 class="cwp-alert-heading">' . $alert_type . '!</h6>
+            ' . $alert_content . '
+            <button type="button" class="cwp-alert-close">
+                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"></path>
+                </svg>
+            </button>
+        </div>';
+    }
 }

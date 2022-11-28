@@ -299,26 +299,30 @@ class CubeWp_User_Custom_Fields{
      * @return array
      * @since  1.0.0
      */
-    public static function cubewp_user_metas() {
-		$output = array();
-        $groups = cwp_get_groups_by_user_role(cwp_get_current_user_roles());
+    public static function cubewp_user_metas($userid = 0, $rest_data = false) {
+        $user_role = $userid != 0 ? cwp_get_user_roles_by_id($userid) : cwp_get_current_user_roles();
+		$args = array();
+        $groups = cwp_get_groups_by_user_role($user_role);
         if (is_array($groups)){
             foreach ($groups as $group) {
                 $fields = cwp_get_user_fields_by_group_id( $group );
                 if (!empty($fields) && is_array($fields)) {
                     foreach ($fields as $field) {
                         $field = get_user_field_options($field);
-                        $field_type = isset( $field["type"] ) ? $field["type"] : "";
-                        $meta_key   = isset( $field["name"] ) ? $field["name"] : "";
-                        if (empty($field_type) || empty($meta_key)) continue;
-                        $label = isset( $field["label"] ) ? $field["label"] : "";
-                        $value = self::get_single_meta_value($meta_key,$field_type);
-                        $args[$meta_key] = array(
-                            'type'                  =>    $field_type,
-                            'meta_key'              =>    $meta_key,
-                            'meta_value'            =>    $value,
-                            'label'                 =>    $label,
-                        );
+                        $field_rest_permission = $rest_data == true && isset( $field["rest_api"] ) ? $field["rest_api"] : 0;
+                        if($field_rest_permission || $rest_data == false){
+                            $field_type = isset( $field["type"] ) ? $field["type"] : "";
+                            $meta_key   = isset( $field["name"] ) ? $field["name"] : "";
+                            if (empty($field_type) || empty($meta_key)) continue;
+                            $label = isset( $field["label"] ) ? $field["label"] : "";
+                            $value = self::get_single_meta_value($meta_key,$field_type, $userid);
+                            $args[$meta_key] = array(
+                                'type'                  =>    $field_type,
+                                'meta_key'              =>    $meta_key,
+                                'meta_value'            =>    $value,
+                                'label'                 =>    $label,
+                            );
+                        }
                     }
                 }
             }
@@ -335,8 +339,8 @@ class CubeWp_User_Custom_Fields{
      * @return array
      * @since  1.0.0
      */
-    public static function get_single_meta_value($meta_key='',$field_type=''){
-        $userid = get_current_user_id();
+    public static function get_single_meta_value($meta_key='',$field_type='', $userid = 0){
+        $userid = $userid != 0 ? $userid : get_current_user_id();
         if($field_type == 'repeating_field'){
             $values = get_user_meta( $userid, $meta_key, true );
             if (is_array($values)) {

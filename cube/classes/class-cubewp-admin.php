@@ -584,7 +584,15 @@ class CubeWp_Admin {
      * @since  1.0.0
      */
     public static function cwp_conditional_attributes($args = array()) {
-        if(isset($args['conditional']) && 
+		$size_class = 'cwp-field-size-full';
+		if (isset($args['admin_size']) && !empty($args['admin_size'])) {
+			if ($args['admin_size'] == '1/2') {
+				$size_class = 'cwp-field-size-two';
+			}elseif ($args['admin_size'] == '1/3') {
+				$size_class = 'cwp-field-size-three';
+			}
+		}
+		if(isset($args['conditional']) &&
            !empty($args['conditional']) && 
            !empty($args['conditional_field']))
         {
@@ -593,14 +601,17 @@ class CubeWp_Admin {
             $attr .= 'data-field="'.$args['conditional_field'].'"';
             $attr .= 'data-operator="'.$args['conditional_operator'].'"';
             $attr .= 'data-value="'.$condi_val.'"';
-            $attr .= 'class="conditional-logic '.$args['conditional_field'].$args['conditional_value'].' '.$args['container_class'].'"';
+            $attr .= 'class="' . $size_class . ' conditional-logic '.$args['conditional_field'].$args['conditional_value'].' '.$args['container_class'].'"';
             return $attr;
         }elseif(!empty($args['container_class'])){
             $args['container_attrs'] = isset($args['container_attrs']) ? $args['container_attrs'] : '';
-            $attr = 'class="'.$args['container_class'].'"';
+            $attr = 'class="' . $size_class . ' '.$args['container_class'].'"';
             $attr .= ' '. $args['container_attrs'] . ' ';
             return $attr;
-           }
+		}else {
+			return 'class="' . $size_class . '"';
+		}
+
         return '';
     }
     

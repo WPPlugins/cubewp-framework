@@ -20,7 +20,7 @@ final class CubeWp_Load {
      *
      * @var string
      */
-    public static $CubeWp_version = '1.0';
+    public static $CubeWp_version = '1.0.7';
     
     /**
      * Wordpress required version.
@@ -134,8 +134,6 @@ final class CubeWp_Load {
      */
     public function frontend_includes() {
         add_action('cubewp_loaded', array('CubeWp_Frontend', 'init'), 9);
-        add_action('cubewp_loaded', array('CubeWp_Frontend_Templates', 'init'), 9);
-        add_action('cubewp_loaded', array('CubeWp_Frontend_Alerts', 'init'), 9);
     }
     
     /**
@@ -312,34 +310,7 @@ final class CubeWp_Load {
 				return ( ! is_admin() || defined( 'DOING_AJAX' ) ) && ! defined( 'DOING_CRON' );
 		}
 	}
-        
-    /**
-     * Method is_cubewp_display
-     *
-     * @param string $is is_archive, is_singular
-     *
-     * @return bool
-     * @since  1.0.0
-     */
-    public function is_cubewp_display($is) {
-		$get_CustomTypes = CWP_types();
-        if(self::is_request('frontend')):
-        if (is_array($get_CustomTypes) && !empty($get_CustomTypes) && count($get_CustomTypes)!=0) {
-            foreach ($get_CustomTypes as $single_cpt) {
-                // Custom Single Page
-                if ($is($single_cpt['slug'])):
-                    return true;
-                endif;
-                // Custom Archive Page
-                if ($is($single_cpt['slug'])):
-                    return true;
-                endif;
-            }
-        }
-        endif;
-        return false;
-	}
-        
+
     /**
      * Method is_admin_screen
      *

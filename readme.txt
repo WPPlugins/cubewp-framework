@@ -5,7 +5,7 @@ Tags: custom fields, custom post types, custom taxonomies, acf, meta box, custom
 Requires at least: 5.0
 Requires PHP: 7.0
 Tested up to: 6.1
-Stable tag: 1.0.6
+Stable tag: 1.0.7
 License: GPLv2 or later
 
 CubeWP is an end-to-end dynamic content framework for WordPress to help you shrink time and cut cost of development up to 90%.
@@ -285,6 +285,19 @@ To getting started with the plugin, please go to [Documentation](https://support
 
 
 == Changelog ==
+
+= 1.0.7 2022-11-26
+
+* New: Custom Fields (Post type, Users) group's enbale/disable option
+* New: Show in REST API option added for each field
+* New: Shortcode for each custom field (Post-type), [cubewp_post_field field=YOUR FIELD NAME]
+* New: Metabox layout option for each custom field
+* New: Author page template included (Optional)
+* New: Author page options included in CubeWP Settings
+* New: Archive page template on/off option in CubeWP Settings (If you creating your own template you can switch it off)
+* New: Single page template on/off option in CubeWP Settings  (If you creating your own template you can switch it off)
+* Update: Switch UI Complete change
+* Tweak: Custom fields, Metabox UI improved
 
 = 1.0.6 2022-11-19
 

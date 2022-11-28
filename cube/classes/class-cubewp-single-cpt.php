@@ -61,17 +61,25 @@ class CubeWp_Single_Cpt {
      * @return array
      * @since  1.0.0
      */
-    public static function cubewp_post_metas($postid='') {
+    public static function cubewp_post_metas($postid='', $rest_data = false) {
         if (!empty($postid)) self::$post_id = $postid;
 		$args = array();
-        if (is_array(self::$groups)){
-            foreach (self::$groups as $group) {
-                $fields = cwp_get_fields_by_group_id( $group );
-                if (!empty($fields) && is_array($fields)) {
-                    foreach ($fields as $field) {
-                        $field = get_field_options($field);
+        $groups = !isset(self::$groups) || empty(self::$groups) ? cwp_get_groups_by_post_id(self::$post_id) : self::$groups;
+        if (is_array($groups)) $groups = array_reverse($groups);
+        foreach ($groups as $group) {
+            $fields = cwp_get_fields_by_group_id( $group );
+            if (!empty($fields) && is_array($fields)) {
+                foreach ($fields as $field) {
+                    $field = get_field_options($field);
+                    $field_rest_permission = $rest_data == true && isset( $field["rest_api"] ) ? $field["rest_api"] : 0;
+                    if($field_rest_permission || $rest_data == false){
                         $field_type = isset( $field["type"] ) ? $field["type"] : "";
                         $meta_key   = isset( $field["name"] ) ? $field["name"] : "";
+                        if($field_type == 'taxonomy'){
+                            if(isset($field) && count($field)>0 && !empty($field['filter_taxonomy'])){
+                                $field_type = 'terms';
+                            }
+                        }
                         if (empty($field_type) || empty($meta_key)) continue;
                         $label = isset( $field["label"] ) ? $field["label"] : "";
                         $value = self::get_single_meta_value($meta_key,$field_type);
@@ -249,7 +257,8 @@ class CubeWp_Single_Cpt {
             $value = self::get_single_meta_value($meta_key,$field_type);
             $args = array(
                 'type'                  =>    $field_type,
-                'container_class'       =>    isset( $field["container_class"] ) ? $field["container_class"] : "",
+                'container_class'       =>    isset( $options["container_class"] ) ? $options["container_class"] : "",
+                'class'                 =>    isset( $options["class"] ) ? $options["class"] : '',
                 'value'                 =>    $value,
                 'label'                 =>    $label,
             );
@@ -333,6 +342,7 @@ class CubeWp_Single_Cpt {
                         $value[$i][$k] = array(
                             'type'                  =>    $field_type,
                             'container_class'       =>    "",
+                            'class'                 =>    "",
                             'label'                 =>    $field_label,
                             'value'                 =>    $subValue,
                         );

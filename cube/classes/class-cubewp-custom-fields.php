@@ -24,7 +24,7 @@ class CubeWp_Custom_Fields {
     const CFUM = 'CubeWp_User_Meta';
 
     public function __construct() {
-        
+
         //For display custom fields of post types
         self::PostType_Fields();
         
@@ -173,5 +173,5 @@ class CubeWp_Custom_Fields {
         add_action('user_register', array(self::CFUM, 'cwp_save_user_fields'));
 	    add_action('profile_update', array(self::CFUM, 'cwp_save_user_fields'));
     }
-    
+
 }

@@ -40,13 +40,7 @@ class CubeWp_Rest_API {
 	 */
 	public static function get_post_meta( $object ) {
 		$post_id   = $object['id'];
-		$post_type = get_post_type( $post_id );
-		if ( ! $post_type ) {
-			return [];
-		}
-		$groups = cwp_get_groups_by_post_type( $post_type );
-		CubeWp_Single_Cpt::$groups = $groups;
-		$fields = CubeWp_Single_Cpt::cubewp_post_metas($post_id);
+		$fields = CubeWp_Single_Cpt::cubewp_post_metas($post_id,true);
 		return $fields;
 	}
 
@@ -161,7 +155,12 @@ class CubeWp_Rest_API {
 	 * @return array
 	 */
 	public static function get_user_meta( $object ) {
-		return CubeWp_User_Custom_Fields::cubewp_user_metas();
+		$user_id   = $object['id'];
+		if ( ! $user_id ) {
+			return [];
+		}
+
+		return CubeWp_User_Custom_Fields::cubewp_user_metas($user_id,true);
 	}
 
 	/**
