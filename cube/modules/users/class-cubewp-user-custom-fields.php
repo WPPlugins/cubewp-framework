@@ -64,10 +64,8 @@ class CubeWp_User_Custom_Fields{
         if (!$sub_fields) {
             return;
         }
-        
         $sub_fields    = json_decode($sub_fields, true);
         $fieldOptions  = CWP()->get_custom_fields( 'user' );
-        
         $html = '';
         if(isset($sub_fields[$parent_field]) && !empty($sub_fields[$parent_field])){
             foreach ($sub_fields[$parent_field] as $sub_field) {
@@ -346,6 +344,9 @@ class CubeWp_User_Custom_Fields{
             if (is_array($values)) {
                 $value  = self::get_repeating_Fields_value($values);
             }
+        }elseif($field_type == 'dropdown' || $field_type == 'radio' || $field_type == 'checkbox'){
+            $value = get_user_meta( $userid, $meta_key, true );
+            $value = render_multi_value($meta_key, $value, 'user');
         }else{
             $value = get_user_meta( $userid, $meta_key, true );
             if ("google_address" === $field_type) {

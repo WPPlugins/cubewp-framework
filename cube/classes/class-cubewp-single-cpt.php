@@ -288,6 +288,9 @@ class CubeWp_Single_Cpt {
             return '';
         }elseif($field_type == 'taxonomy'){
             $value = get_the_terms( self::$post_id, $meta_key );
+        }elseif($field_type == 'dropdown' || $field_type == 'radio' || $field_type == 'checkbox'){
+            $value = get_post_meta( self::$post_id, $meta_key, true );
+            $value = render_multi_value($meta_key, $value);
         }elseif($field_type == 'repeating_field'){
             $values = get_post_meta( self::$post_id, $meta_key, true );
             if (is_array($values)) {

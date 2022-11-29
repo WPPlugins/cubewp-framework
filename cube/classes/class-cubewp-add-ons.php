@@ -67,7 +67,7 @@ class CubeWp_Add_Ons {
 				'base' => 'cubewp-addon-inbox/cubewp-inbox.php',
 				'path' => plugin_dir_path( dirname(dirname(__DIR__)) ).'cubewp-addon-inbox/cube/',
 				'load' => CUBEWP.'_Inbox_Load',
-			),
+			)
 		);
 
 	}

@@ -649,6 +649,7 @@ class CubeWp_Post_Types {
                         'editor'          => esc_html__('Editor', 'cubewp-framework'),
                         'thumbnail'       => esc_html__('Featured Image', 'cubewp-framework'),
                         'author'          => esc_html__('Author', 'cubewp-framework'),
+                        'excerpt'         => esc_html__('Excerpt', 'cubewp-framework'),
                     );
                     $html = '<tr>
                         <td class="text-left">

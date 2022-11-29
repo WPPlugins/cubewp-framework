@@ -117,47 +117,6 @@ span.cwp-main.cwp-saved-post svg:first-child {
 span.cwp-main.cwp-save-post svg:nth-child(2) {
 	display: none;
 }
-/* .cwp-share-modal {
-    position: absolute;
-    bottom: -108px;
-    right: 0px;
-    z-index: 999;
-	padding: 10px 0;
-}
-.cwp-single-share-btn.cwp-single-widget:hover .cwp-share-modal {
-    display: block !important;
-}
-ul.cwp-share-options {
-    display: flex;
-    padding: 20px;
-    background: #fff;
-	box-shadow: 0px 1px 3px #00000033;
-    border-radius: 5px;
-    margin: 0px;
-}
-.cwp-share-modal ul:before {
-    border-left: 8px solid rgba(0, 0, 0, 0);
-    border-right: 8px solid rgba(0, 0, 0, 0);
-    border-bottom: 9px solid #dedede;
-    top: 0px;
-    content: "";
-    position: absolute;
-    right: 19px;
-}
-.cwp-share-modal ul.cwp-share-options li {
-	text-align: center;
-    padding: 6px;
-    border-radius: 5px;
-    margin: 10px;
-    list-style: none;
-}
-.cwp-share-modal ul.cwp-share-options li a {
-    color: #ffffff;
-}
-.cwp-share-modal ul.cwp-share-options li svg {
-    max-width: unset;
-    display: block;
-} */
 
 .cwp-single-des {
     background: #ffffff;
@@ -166,7 +125,13 @@ ul.cwp-share-options {
 	box-shadow: 0px 1px 3px #00000033;
     font-size: 16px;
     margin: 0 0 25px;
-    padding: 15px 25px;
+    padding: 20px 25px;
+}
+.cwp-single-des > p {
+    font-size: 16px;
+    line-height: 1.5em;
+    margin-bottom: 5px;
+    color: #222222;
 }
 .cwp-single-group {
     background: #ffffff;

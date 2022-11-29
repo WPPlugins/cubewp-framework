@@ -82,51 +82,7 @@ jQuery(document).ready(function ($){
                 cwp_find_group_field();
                 cwp_find_sub_fields();
                 cwp_fields_sortable();
-                var id = new Date().getTime().toString(20);
-                var new_field = jQuery('.parent-field.cwp-field-set').last();
-                new_field.addClass('duplicate-field-' +field_id);
-                new_field.find('.parent-field-header').find('.field-slug').html(field_id+id);
-                new_field.find('.parent-fields').find('input.field-name').val(field_id+id);
-                jQuery('.duplicate-field-' +field_id).find('.duplicate-field').remove();
-                new_field.find('.field-counter').find('span').text(jQuery("#poststuff #post-body .cwp-group-fields .cwp-group-fields-content .parent-field.cwp-field-set").length);                
-                
-                new_field.find('input').each(function(){
-                    var ethis = jQuery(this),
-                        name  = ethis.attr('name');
-                    ethis.attr('name',name.replace(field_id,field_id+id));
-                });
-                new_field.find('textarea').each(function(){
-                    var ethis = jQuery(this),
-                        name  = ethis.attr('name');
-                    ethis.attr('name',name.replace(field_id,field_id+id));
-                });
-                new_field.find('select').each(function(){
-                    var ethis = jQuery(this),
-                        name  = ethis.attr('name');
-                    ethis.attr('name',name.replace(field_id,field_id+id));
-                });
-                new_field.find('.sub-fields .cwp-field-set').each(function(){
-                    var ethis = jQuery(this);
-                    
-                    var sub_field_id = ethis.find('.field-title .field-slug').html();
-                    ethis.find('.field-title .field-slug').html(sub_field_id+id);
-                    ethis.find('input.field-name').val(sub_field_id+id);
-                    ethis.find('input').each(function(){
-                        var ethis = jQuery(this),
-                            name  = ethis.attr('name');
-                        ethis.attr('name',name.replace(sub_field_id,sub_field_id+id));
-                    });
-                    ethis.find('textarea').each(function(){
-                        var ethis = jQuery(this),
-                            name  = ethis.attr('name');
-                        ethis.attr('name',name.replace(sub_field_id,sub_field_id+id));
-                    });
-                    ethis.find('select').each(function(){
-                        var ethis = jQuery(this),
-                            name  = ethis.attr('name');
-                        ethis.attr('name',name.replace(sub_field_id,sub_field_id+id));
-                    });
-                });
+                cwp_custom_field_duplicate(field_id);
             }
         });
     });
@@ -441,4 +397,52 @@ function cwp_conditional_fields(){
             conditional_field.append(conditional_fields_options);
         });
     }
+}
+
+function cwp_custom_field_duplicate(field_id){
+    var id = new Date().getTime().toString(20);
+    var new_field = jQuery('.parent-field.cwp-field-set').last();
+    new_field.addClass('duplicate-field-' +field_id);
+    new_field.find('.parent-field-header').find('.field-slug').html(field_id+id);
+    new_field.find('.parent-fields').find('input.field-name').val(field_id+id);
+    jQuery('.duplicate-field-' +field_id).find('.duplicate-field').remove();
+    new_field.find('.field-counter').find('span').text(jQuery("#poststuff #post-body .cwp-group-fields .cwp-group-fields-content .parent-field.cwp-field-set").length);                
+    
+    new_field.find('input').each(function(){
+        var ethis = jQuery(this),
+            name  = ethis.attr('name');
+        ethis.attr('name',name.replace(field_id,field_id+id));
+    });
+    new_field.find('textarea').each(function(){
+        var ethis = jQuery(this),
+            name  = ethis.attr('name');
+        ethis.attr('name',name.replace(field_id,field_id+id));
+    });
+    new_field.find('select').each(function(){
+        var ethis = jQuery(this),
+            name  = ethis.attr('name');
+        ethis.attr('name',name.replace(field_id,field_id+id));
+    });
+    new_field.find('.sub-fields .cwp-field-set').each(function(){
+        var ethis = jQuery(this);
+        
+        var sub_field_id = ethis.find('.field-title .field-slug').html();
+        ethis.find('.field-title .field-slug').html(sub_field_id+id);
+        ethis.find('input.field-name').val(sub_field_id+id);
+        ethis.find('input').each(function(){
+            var ethis = jQuery(this),
+                name  = ethis.attr('name');
+            ethis.attr('name',name.replace(sub_field_id,sub_field_id+id));
+        });
+        ethis.find('textarea').each(function(){
+            var ethis = jQuery(this),
+                name  = ethis.attr('name');
+            ethis.attr('name',name.replace(sub_field_id,sub_field_id+id));
+        });
+        ethis.find('select').each(function(){
+            var ethis = jQuery(this),
+                name  = ethis.attr('name');
+            ethis.attr('name',name.replace(sub_field_id,sub_field_id+id));
+        });
+    });
 }

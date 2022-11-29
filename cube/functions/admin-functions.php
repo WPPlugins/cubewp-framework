@@ -1072,6 +1072,24 @@ if ( ! function_exists("render_media_value")) {
 	}
 }
 
+if ( ! function_exists("render_multi_value")) {
+	function render_multi_value($key = '', $value = '', $type = 'post-type') {
+		$label = '';
+		if(empty($key) || empty($value)) return;
+		if($type == 'post-type') $field = get_field_options($key);
+		if($type == 'user') $field = get_user_field_options($key);
+		if(empty($field)) return;
+		$options = json_decode($field['options'], true);
+        if(isset($options['value']) && !empty($options['value'])){
+            $key = array_search($value, $options['value']);
+        }
+		if(isset($options['label']) && !empty($options['label'])){
+            $label = $options['label'][$key];
+        }
+		return $label;
+	}
+}
+
 if ( ! function_exists("cubewp_is_elementor_editing")) {
 	function cubewp_is_elementor_editing() {
 		if(!is_admin()){

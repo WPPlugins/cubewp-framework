@@ -6,6 +6,7 @@ Requires at least: 5.0
 Requires PHP: 7.0
 Tested up to: 6.1
 Stable tag: 1.0.7
+Beta tag: 1.0.8-beta1
 License: GPLv2 or later
 
 CubeWP is an end-to-end dynamic content framework for WordPress to help you shrink time and cut cost of development up to 90%.
