@@ -325,26 +325,25 @@ $settings['post_settings'] = array(
 $settings['author_settings'] = array(
 	'title'  => __( 'Author Settings', 'cubewp-framework' ),
 	'id'     => 'author_settings',
-	'fields' => array_merge(
-		$conditional_options, array(
-			array(
+	'fields' => array(
+		array(
 			'id'      => 'show_author_template',
 			'type'    => 'switch',
 			'title'   => __( 'Author Page Template', 'cubewp-framework' ),
 			'default' => '0',
 			'desc'    => __( 'If you have your author page template by any theme or plugin then you do not need to enable this option, Otherwise you can enable cubewp Author page template ', 'cubewp-framework' ),
-			),
-			array(
-				'id'      => 'author_banner_image',
-				'type'    => 'media',
-				'title'   => __( 'CubeWP Author Banner Image', 'cubewp-framework' ),
-				'default' => '',
-				'desc'    => __( 'Please upload banner image for author page.', 'cubewp-framework' ),
-				'required' => array(
-					array( 'show_author_template', 'equals', '1' )
-				)
-			),
-			array(
+		),
+		array(
+			'id'      => 'author_banner_image',
+			'type'    => 'media',
+			'title'   => __( 'CubeWP Author Banner Image', 'cubewp-framework' ),
+			'default' => '',
+			'desc'    => __( 'Please upload banner image for author page.', 'cubewp-framework' ),
+			'required' => array(
+				array( 'show_author_template', 'equals', '1' )
+			)
+		),
+		array(
 			'id'      => 'author_share_button',
 			'type'    => 'switch',
 			'title'   => __( 'Author Share Button', 'cubewp-framework' ),
@@ -353,8 +352,8 @@ $settings['author_settings'] = array(
 			'required' => array(
 				array( 'show_author_template', 'equals', '1' )
 			)
-			),
-			array(
+		),
+		array(
 			'id'       => 'author_edit_profile',
 			'type'     => 'switch',
 			'title'    => __( 'Author Edit Profile', 'cubewp-framework' ),
@@ -363,20 +362,20 @@ $settings['author_settings'] = array(
 			'required' => array(
 				array( 'show_author_template', 'equals', '1' )
 			)
-			),
-			array(
-				'id'       => 'profile_page',
-				'type'     => 'pages',
-				'title'    => __('User Profile Form Page', 'cubewp'),
-				'subtitle' => __('This must be an URL.', 'cubewp'),
-				'validate' => 'url',
-				'desc'     => __('Select the page used for the User Profile Form (Page must include the Profile Form Shortcode)', 'cubewp'),
-				'default'  => '',
-				'required' => array(
-					array( 'show_author_template', 'equals', '1' )
-				)
-		   ),
-		   array(
+		),
+		array(
+			'id'       => 'profile_page',
+			'type'     => 'pages',
+			'title'    => __('User Profile Form Page', 'cubewp'),
+			'subtitle' => __('This must be an URL.', 'cubewp'),
+			'validate' => 'url',
+			'desc'     => __('Select the page used for the User Profile Form (Page must include the Profile Form Shortcode)', 'cubewp'),
+			'default'  => '',
+			'required' => array(
+				array( 'show_author_template', 'equals', '1' )
+			)
+		),
+		array(
 			'id'       => 'author_contact_info',
 			'type'     => 'switch',
 			'title'    => __( 'Author Contact Info', 'cubewp-framework' ),
@@ -385,8 +384,8 @@ $settings['author_settings'] = array(
 			'required' => array(
 				array( 'show_author_template', 'equals', '1' )
 			)
-			),
-		   array(
+		),
+		array(
 			'id'       => 'author_post_types',
 			'type'     => 'select',
 			'multi'   =>  true,
@@ -397,8 +396,8 @@ $settings['author_settings'] = array(
 			'required' => array(
 				array( 'show_author_template', 'equals', '1' )
 			)
-		   ),
-			array(
+		),
+		array(
 			'id'       => 'author_custom_fields',
 			'type'     => 'switch',
 			'title'    => __( 'Author Custom FIeld', 'cubewp-framework' ),
@@ -407,9 +406,8 @@ $settings['author_settings'] = array(
 			'required' => array(
 				array( 'show_author_template', 'equals', '1' )
 			)
-			),
-		)
-	 )
+		),
+	)
 );
 
 return $settings;

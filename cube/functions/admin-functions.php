@@ -1939,11 +1939,11 @@ if ( ! function_exists('cwp_alert_ui')) {
     function cwp_alert_ui( $alert_content = '', $alert_type = 'error' ) {
         $alert_class = 'cwp-alert-danger';
         if ( $alert_type == 'success' ) {
-        $alert_class = 'cwp-alert-success';
+        	$alert_class = 'cwp-alert-success';
         } else if ( $alert_type == 'warning' ) {
-        $alert_class = 'cwp-alert-warning';
+        	$alert_class = 'cwp-alert-warning';
         } else if ( $alert_type == 'info' ) {
-        $alert_class = 'cwp-alert-info';
+        	$alert_class = 'cwp-alert-info';
         }
         $alert_content = ! empty($alert_content) ? '<div class="cwp-alert-content">' . $alert_content . '</div>' : '';
     
