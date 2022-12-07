@@ -160,7 +160,7 @@ class CubeWp_Rest_API {
 			return [];
 		}
 
-		return CubeWp_User_Custom_Fields::cubewp_user_metas($user_id,true);
+		return CubeWp_Custom_Fields::cubewp_user_metas($user_id,true);
 	}
 
 	/**

@@ -24,10 +24,8 @@ class CubeWp_Admin_Text_Field extends CubeWp_Admin {
         
         add_filter('cubewp/admin/post/text/field', array($this, 'render_text_field'), 10, 2);
         
-        add_filter('cubewp/admin/posttype/text/customfield', array($this, 'render_text_custom_field'), 10, 2);
+        add_filter('cubewp/admin/text/customfield', array($this, 'render_text_custom_field'), 10, 2);
         add_filter('cubewp/admin/taxonomies/text/customfield', array($this, 'render_text_custom_field'), 10, 2);
-        add_filter('cubewp/admin/user/text/customfield', array($this, 'render_text_custom_field'), 10, 2);
-
     }
         
     /**

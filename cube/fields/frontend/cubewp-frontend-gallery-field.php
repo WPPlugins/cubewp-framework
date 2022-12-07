@@ -68,7 +68,7 @@ class CubeWp_Frontend_Gallery_Field extends CubeWp_Frontend {
 						'class'       => 'form-control ' . $args['class'].' '.$required,
 						'name'        => ! empty($args['custom_name']) ? $args['custom_name'] . '[' . $rand_id . '][]' : $args['name'],
 						'value'       => '',
-						'extra_attrs' => $accept , ' multiple="multiple"',
+						'extra_attrs' => $accept . ' multiple="multiple"',
 					);
 					echo cwp_render_file_input($input_attrs);
 					?>

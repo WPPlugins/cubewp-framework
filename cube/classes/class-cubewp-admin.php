@@ -75,24 +75,24 @@ class CubeWp_Admin {
            isset($cwpOptions['post_type_for_elementor_page']) && !empty($cwpOptions['post_type_for_elementor_page']) &&
            isset($cwpOptions['custom_elementor_page']) && !empty($cwpOptions['custom_elementor_page'])
         ) {
-           $post_type = $cwpOptions['post_type_for_elementor_page'];
-           $single_page_settings = get_single_page_settings( $post_type );
-           if (isset($single_page_settings['single_page'])) {
-              if (empty($single_page_settings['single_page']) || ! is_numeric($single_page_settings['single_page'])) {
-                 $import_to_frontend = true;
-              }else {
-                 if ($single_page_settings['single_page'] != $cwpOptions['custom_elementor_page']) {
+            $post_type = $cwpOptions['post_type_for_elementor_page'];
+            $single_page_settings = get_single_page_settings( $post_type );
+            if (isset($single_page_settings['single_page'])) {
+                if (empty($single_page_settings['single_page']) || ! is_numeric($single_page_settings['single_page'])) {
                     $import_to_frontend = true;
-                 }
-              }
-           }else {
-              $import_to_frontend = true;
-           }
+                }else {
+                    if ($single_page_settings['single_page'] != $cwpOptions['custom_elementor_page']) {
+                        $import_to_frontend = true;
+                    }
+                }
+            }else {
+                $import_to_frontend = true;
+            }
         }
         if ($import_to_frontend) {
-           $form_options = CWP()->get_form( "single_layout" );
-           $form_options[ $cwpOptions['post_type_for_elementor_page'] ]['form']['single_page'] = $cwpOptions['custom_elementor_page'];
-           CWP()->update_form('single_layout', $form_options);
+            $form_options = CWP()->get_form( "single_layout" );
+            $form_options[ $cwpOptions['post_type_for_elementor_page'] ]['form']['single_page'] = $cwpOptions['custom_elementor_page'];
+            CWP()->update_form('single_layout', $form_options);
         }
     }
 
@@ -102,24 +102,24 @@ class CubeWp_Admin {
      */
     public function cubewp_admin_css() {
         echo '<style>
-           #toplevel_page_cube_wp_dashboard .wp-submenu li:nth-child(6) {
-              display: none;
-           }
-           #toplevel_page_cube_wp_dashboard .wp-submenu li:nth-child(7) {
-              display: none;
-           }
-           #toplevel_page_cube_wp_dashboard .wp-submenu li:nth-child(6).current,
-           #toplevel_page_cube_wp_dashboard .wp-submenu li:nth-child(7).current {
-              display: block;
-           }
+            #toplevel_page_cube_wp_dashboard .wp-submenu li:nth-child(6) {
+                display: none;
+            }
+            #toplevel_page_cube_wp_dashboard .wp-submenu li:nth-child(7) {
+                display: none;
+            }
+            #toplevel_page_cube_wp_dashboard .wp-submenu li:nth-child(6).current,
+            #toplevel_page_cube_wp_dashboard .wp-submenu li:nth-child(7).current {
+                display: block;
+            }
         </style>';
         if( ! class_exists( 'CubeWp_Frontend_Load' ) ) {
             echo '<style>
-               .wp-submenu li a[href="admin.php?page=cubewp-user-registration-form"]::after,
-               .wp-submenu li a[href="admin.php?page=cubewp-user-profile-form"]::after,
-               .wp-submenu li a[href="admin.php?page=cubewp-post-types-form"]::after,
-               .wp-submenu li a[href="admin.php?page=cubewp-single-layout"]::after,
-               .wp-submenu li a[href="admin.php?page=cubewp-user-dashboard"]::after
+                .wp-submenu li a[href="admin.php?page=cubewp-user-registration-form"]::after,
+                .wp-submenu li a[href="admin.php?page=cubewp-user-profile-form"]::after,
+                .wp-submenu li a[href="admin.php?page=cubewp-post-types-form"]::after,
+                .wp-submenu li a[href="admin.php?page=cubewp-single-layout"]::after,
+                .wp-submenu li a[href="admin.php?page=cubewp-user-dashboard"]::after
                 {
                     content: "\f160";
                     margin-left:5px;
@@ -138,7 +138,7 @@ class CubeWp_Admin {
                     vertical-align: top;
                     text-align: center;
                     transition: color .1s ease-in;
-               }
+                }
             </style>';
         }
         
@@ -156,18 +156,18 @@ class CubeWp_Admin {
             return null;
         }
         $modules = array(
+            'custom-fields' => 'modules/',
             'post-types' => 'modules/',
+            'users'      => 'modules/',
             'search'     => 'modules/',
             'settings'   => 'modules/',
             'taxonomies' => 'modules/',
-            'users'      => 'modules/',
             'list-tables'=> 'modules/',
             'elementor'  => 'modules/',
             
             'widgets'    => 'includes/',
             'shortcodes' => 'includes/',
         );
-        
         foreach($modules as $module=>$path){
             $file_name = $path.$module.'/class-' .str_replace('_', '-', strtolower($className)).'.php';
             $file = CUBEWP_FILES.$file_name;
@@ -597,10 +597,12 @@ class CubeWp_Admin {
            !empty($args['conditional_field']))
         {
             $condi_val = $args['conditional_operator'] != '!empty' && 'empty' !=  $args['conditional_operator'] ? $args['conditional_value'] : '';
+            $options = get_field_options( $args['conditional_field'] );
             $attr = 'style="display:none"';
             $attr .= 'data-field="'.$args['conditional_field'].'"';
             $attr .= 'data-operator="'.$args['conditional_operator'].'"';
             $attr .= 'data-value="'.$condi_val.'"';
+            $attr .= 'data-field-id="'.$options['id'].'"';
             $attr .= 'class="' . $size_class . ' conditional-logic '.$args['conditional_field'].$args['conditional_value'].' '.$args['container_class'].'"';
             return $attr;
         }elseif(!empty($args['container_class'])){

@@ -179,12 +179,15 @@ a {
     border-color: red;
 }
 .cwp-group-fields .field-header .field-title {
-	width: calc(100% - 190px);
+	width: calc(100% - 172px);
 	flex-grow: 1;
 	margin: 0;
 	font-size: 14px;
 }
-
+.cwp-group-fields .field-header .field-actions {
+    width: 70px;
+    text-align: right;
+}
 .conditional-rule tbody td.conditional-rule-field select {
 	min-width: 250px;
 }

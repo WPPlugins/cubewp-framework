@@ -342,18 +342,21 @@ trait CubeWp_Single_Page_Trait {
 	 * @since  1.0.0
 	 */
 	public static function field_checkbox($args = array()) {
+		
 		$args['field_size'] = isset($args['field_size']) ? $args['field_size'] : '';
 		$output = null;
-        if (! empty($args['value']) && is_array($args['value'])){
+        if (!empty($args['value'])){
 		$output = '<div class="cwp-cpt-single-switch-checkbox cwp-cpt-single-field-container ' . esc_attr($args['container_class']) . ' '.esc_attr($args['field_size']).'">
             <h4>' . $args['label'] . '</h4>';
-			if ( ! empty($args['value']) && is_array($args['value'])) {
-				$output .= '<ul class="' . $args['class'] . '">';
-				foreach ($args['value'] as $feature) {
-					$output .= '<li>' . $feature . '</li>';
-				}
-				$output .= '</ul>';
+			$output .= '<ul class="' . $args['class'] . '">';
+			if (is_array($args['value'])) {
+				foreach ($args['value'] as $checkbox):
+					$output .= '<li>' . esc_html($checkbox) . '</li>';
+				endforeach;
+			} else {
+				$output .= '<li>' . esc_html($args['value']) . '</li>';
 			}
+			$output .= '</ul>';
 		$output .= '</div>';
         }else{
             return '';
@@ -514,6 +517,7 @@ trait CubeWp_Single_Page_Trait {
 					$output .= '<div class="cwp-cpt-single-repeating-field-inner ' . $args['class'] . '">';
 					foreach ($values[$i] as $k => $value) {
 						$field_type = $value['type'];
+						$value['class'] = isset($value['class']) ? $value['class'] : '';
 						if (method_exists(__CLASS__, 'field_' . $field_type)) {
 							$output .= call_user_func('self::field_' . $field_type, $value);
 						} else {
@@ -540,14 +544,14 @@ trait CubeWp_Single_Page_Trait {
 	public static function field_terms($args = array()) {
 		$args['field_size'] = isset($args['field_size']) ? $args['field_size'] : '';
 		$output = null;
-		if (isset($args['value']) && ! empty($args['value'])) {
+		if ((!is_array($args['value']) && isset($args['value']) && !empty($args['value'])) || (is_array($args['value']) && isset($args['value'][0]) && $args['value'][0] != '')) {
 			$output = '<div class="cwp-cpt-single-category-container cwp-cpt-single-field-container '.esc_attr($args['container_class']).' '.esc_attr($args['field_size']).'">';
 			$output .= '<h4>' . $args['label'] . '</h4>';
 			$output .= '<ul class="cwp-single-category-widget-inner ' . $args['class'] . '">';
 				if (is_array($args['value'])) {
 					foreach ($args['value'] as $terms) {
 						$terms = get_term($terms);
-						if ( ! empty($terms)) {
+						if ( ! empty($terms) && !is_wp_error( $terms )) {
 							$output .= '<li>
 			                    <a href="' . get_term_link( $terms ) . '">
 			                        <p>' . $terms->name . '</p>
@@ -762,27 +766,27 @@ trait CubeWp_Single_Page_Trait {
                 <ul class="cwp-share-options">';
                     if($cwpOptions['twitter_share']=='1'){
 	                    $output .= '<li style="background-color: #4099FF;">
-                            '. CubeWp_Single_Page_Trait::get_twitter_svg(esc_url($twitterURL)) .'
+                            '. self::get_twitter_svg(esc_url($twitterURL)) .'
                         </li>';
                     }
                     if($cwpOptions['facebook_share']=='1'){
 	                    $output .= '<li style="background-color: #3b5998;">
-                            '. CubeWp_Single_Page_Trait::get_facebook_svg(esc_url($facebookURL)) .'
+                            '. self::get_facebook_svg(esc_url($facebookURL)) .'
                         </li>';
                     }
                     if($cwpOptions['pinterest_share']=='1'){
 	                    $output .= '<li style="background-color: #C92228;">
-                            '. CubeWp_Single_Page_Trait::get_pinterest_svg(esc_url($pinterest)) .'
+                            '. self::get_pinterest_svg(esc_url($pinterest)) .'
                         </li>';
                     }
                     if($cwpOptions['linkedin_share']=='1'){
 	                    $output .= '<li style="background-color: #0077B5;">
-                            '. CubeWp_Single_Page_Trait::get_linkedIn_svg(esc_url($linkedin)) .'
+                            '. self::get_linkedIn_svg(esc_url($linkedin)) .'
                         </li>';
                     }
                     if($cwpOptions['reddit_share']=='1'){
 	                    $output .= '<li style="background-color: #fe6239;">
-                            '. CubeWp_Single_Page_Trait::get_reddit_svg(esc_url($reddit)) .'
+                            '. self::get_reddit_svg(esc_url($reddit)) .'
                         </li>';
                     }
 	            $output .= '</ul>

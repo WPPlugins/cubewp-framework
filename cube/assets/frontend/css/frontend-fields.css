@@ -58,9 +58,9 @@ input[type="radio"] {
 }
 
 .cwp-frontend-section-container .cwp-field-container p.description {
-    margin: 0;
     font-size: 13px;
-    padding: 5px 0 0 5px;
+    padding: 0 0 0 5px;
+    margin: 0 0 10px 0;
 }
 
 ul.cwp-field-checkbox-container,
@@ -598,18 +598,47 @@ span.cwp-range-number-field-seprator {
 	display: none;
 }
 
+/*Range Picker*/
+.cwp-field-container.cwp-field-range {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+}
+.cwp-field-container.cwp-field-range label {
+    width: 100%;
+}
+.cwp-field-container.cwp-field-range .description {
+    width: 100%;
+}
+.cwp-field-container.cwp-field-range input[type=range] {
+    width: calc(100% - 65px);
+}
+.cwp-field-container.cwp-field-range .cubewp-current-value {
+    width: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
 /*Switch*/
 
 .cwp-switch-container .cwp-switch {
-	display: inline-flex;
-	justify-content: space-evenly;
-	align-items: center;
-	position: relative;
-	border-radius: 6px;
-	overflow: hidden;
-	width: 75px;
-	height: 30px;
- }
+    display: inline-flex !important;
+    justify-content: space-evenly;
+    align-items: center;
+    position: relative;
+    border-radius: 6px;
+    overflow: hidden;
+    width: 75px;
+    height: 30px;
+    line-height: 30px;
+}
  .cwp-switch .cwp-switch-field {
 	position: absolute;
 	top: 0;
@@ -780,9 +809,9 @@ a.ui-datepicker-next {
 
 /*Repeating Field*/
 .cwp-frontend-section-content-container .cwp-field-repeating_field p.description {
-	font-size: 14px;
-	font-weight: 400;
-	margin: 0;
+    font-size: 14px;
+    font-weight: 400;
+    margin: 0 0 10px 0;
 }
 
 .cwp-frontend-form-container .cwp-frontend-section-container .cwp-field-container.cwp-field-repeating_field .cwp-add-new-repeating-field {

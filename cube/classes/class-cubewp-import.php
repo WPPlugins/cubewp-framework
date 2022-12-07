@@ -160,6 +160,7 @@ class CubeWp_Import {
                 $moved = true;
             } else {    
                 $moved = false;
+                wp_send_json( array( 'success' => 'false', 'msg' => esc_html__("There is something wrong, Maybe your directory permission is an issue.", 'cubewp-framework')) );
             }
             if($moved == true && $targetdir != ''){
                 self::cwp_import_cubewp_data($targetdir);
@@ -612,3 +613,4 @@ class CubeWp_Import {
     }
 
 }
+session_write_close();

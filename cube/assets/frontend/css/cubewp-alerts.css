@@ -135,6 +135,13 @@
     border-color: #1e90ff;
     color: #fff;
 }
+button.cube-post-edit-btn {
+    display: flex;
+    align-items: center;
+}
+button.cube-post-edit-btn svg {
+    margin-right: 4px;
+}
 .cubewp-post-author-actions button:hover,
 .cubewp-post-author-actions .cube-post-edit-btn {
     color: #1e90ff;

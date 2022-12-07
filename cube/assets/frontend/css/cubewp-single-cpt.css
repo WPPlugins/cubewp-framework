@@ -358,7 +358,9 @@ img.cwp-cpt-single-gallery-item {
     margin: 15px 25px;
     width: unset !important;
 }
-
+.cwp-single-group .cwp-cpt-single-repeating-field .cwp-cpt-single-repeating-field-inner .cwp-cpt-single-post-container.cwp-cpt-single-field-container {
+    display: block;
+}
 
 .cwp-single-group {
     background: #ffffff;

@@ -77,7 +77,7 @@ jQuery(document).ready(function ($){
         thisObj.hide();
     });
     
-    jQuery(document).on('change', '.cwp-switch.cwp-js-switch input[class="cwp-switch-field"]', function () {
+    jQuery(document).on('change', 'label.cwp-switch input.cwp-switch-field', function () {
         if(jQuery(this).is(":checked")){
             jQuery(this).closest('label').find('input[type="hidden"]').val('Yes').trigger("input");
         }else{
@@ -312,11 +312,9 @@ function cwp_display_groups_meta_by_user_role(){
         if( group_role != '' ){
             var group_role_arr = group_role.split(",");
             if(jQuery.inArray(selected_role, group_role_arr) !== -1){
-                jQuery(thisObj).find("tr").removeClass("hidden");
-                jQuery(thisObj).prev('h2').show(500);
+                jQuery(thisObj).removeClass("cwp-hide");
             }else{
-                jQuery(thisObj).find("tr").addClass("hidden");
-                jQuery(thisObj).prev('h2').hide(500);
+                jQuery(thisObj).addClass("cwp-hide");
             }
         }
     });
@@ -607,7 +605,7 @@ function cubewp_init_range_pickers(range_picker) {
         var thisObj = jQuery(this),
             current_value_input = thisObj.closest("td");
         if (!current_value_input.find('.cubewp-current-value').length) {
-            current_value_input.append("<span class='cubewp-current-value'>" + thisObj.val() + "</span>");
+            current_value_input.prepend("<span class='cubewp-current-value'>" + thisObj.val() + "</span>");
             thisObj.on("input", function () {
                 jQuery(this).closest("td").find(".cubewp-current-value").text(jQuery(this).val());
             });

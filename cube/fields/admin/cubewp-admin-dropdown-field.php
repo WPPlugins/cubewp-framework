@@ -21,12 +21,10 @@ class CubeWp_Admin_Dropdwon_Field extends CubeWp_Admin {
         add_filter('cubewp/admin/post/dropdown/field', array($this, 'render_dropdwon_field'), 10, 2);
         add_filter('cubewp/admin/dashboard/dropdown/field', array($this, 'render_dropdwon_field'), 10, 2);
         
-        add_filter('cubewp/admin/posttype/dropdown/customfield', array($this, 'render_dropdown_custom_field'), 10, 2);
+        add_filter('cubewp/admin/dropdown/customfield', array($this, 'render_dropdown_custom_field'), 10, 2);
         add_filter('cubewp/admin/taxonomies/dropdown/customfield', array($this, 'render_dropdown_custom_field'), 10, 2);
-        add_filter('cubewp/admin/user/dropdown/customfield', array($this, 'render_dropdown_custom_field'), 10, 2);
         
-        add_filter('cubewp/admin/posttype/options/customfield', array($this, 'render_options_custom_field'), 10, 2);
-        add_filter('cubewp/admin/user/options/customfield', array($this, 'render_options_custom_field'), 10, 2);
+        add_filter('cubewp/admin/options/customfield', array($this, 'render_options_custom_field'), 10, 2);
     }
         
     /**

@@ -1,5 +1,14 @@
 <?php
+/**
+ * The template for displaying all cubewp post type's single posts
+ *
+ * @link https://developer.wordpress.org/themes/basics/template-hierarchy/#single-post
+ *
+ * @package Blocksy
+ */
+
 get_header();
+
 do_action('cubewp_single_page_notification', get_the_ID());
 
 $post_type = get_post_type(get_the_ID());
@@ -12,7 +21,7 @@ if (is_cubewp_single_page_builder_active($post_type)) {
     ?>
         <div class="cwp-cpt-single-container-outer">
             <div class="cwp-container">
-                 <?php echo wp_kses_post($single->get_post_featured_image()) ?>
+                 <?php echo $single->get_post_featured_image(); ?>
                 <div class="cwp-row cwp-cpt-single-content">
                     <div class="cwp-col-12 cwp-col-lg-8">
                         <div class="cwp-single-title-container cwp-row">
@@ -36,7 +45,7 @@ if (is_cubewp_single_page_builder_active($post_type)) {
                         $post_dsc = get_the_content(get_the_ID());
                         if(!empty($post_dsc)){
                         ?>
-                        <div class="cwp-single-des"><?php echo the_content(); ?></div>
+                        <div class="cwp-single-des"><?php the_content(); ?></div>
                         <?php } ?>
                         <div class="cwp-single-groups">
                             <?php $single->get_single_content_area(); ?>

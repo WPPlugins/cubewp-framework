@@ -253,6 +253,11 @@ class CubeWp_Single_Cpt {
 			$field_type = isset($options['type']) ? $options['type'] : '';
             $meta_key = isset($options['name']) ? $options['name'] : '';
 			if (empty($field_type) || empty($meta_key)) continue;
+            if($field_type == 'taxonomy'){
+                if(isset($options) && count($options)>0 && !empty($options['filter_taxonomy'])){
+                    $field_type = 'terms';
+                }
+            }
             $label = isset( $options["label"] ) ? $options["label"] : "";
             $value = self::get_single_meta_value($meta_key,$field_type);
             $args = array(
@@ -332,6 +337,7 @@ class CubeWp_Single_Cpt {
                     if(count($options)>0){
                         $field_type = $options['type'];
                         $field_label = $options['label'];
+                        $field_class = $options['class'];
                         if ("google_address" === $field_type) {
                             $lat = $values[$i][$k. '_lat'];
                             $lng = $values[$i][$k. '_lng'];
@@ -341,11 +347,13 @@ class CubeWp_Single_Cpt {
                                 'lat' => $lat,
                                 'lng' => $lng
                             );
+                        }elseif($field_type == 'dropdown' || $field_type == 'radio' || $field_type == 'checkbox'){
+                            $subValue = render_multi_value($k, $subValue);
                         }
                         $value[$i][$k] = array(
                             'type'                  =>    $field_type,
                             'container_class'       =>    "",
-                            'class'                 =>    "",
+                            'class'                 =>    $field_class,
                             'label'                 =>    $field_label,
                             'value'                 =>    $subValue,
                         );
@@ -368,17 +376,10 @@ class CubeWp_Single_Cpt {
         foreach (self::$groups as $group) {
 	    	$fields = cwp_get_fields_by_group_id( $group );
             if (!empty($fields) && is_array($fields)) {
-                $show_section=false;
-                foreach ($fields as $field) {
-                    $value=get_post_meta(self::$post_id,$field,true);
-                    if(!empty($value)){
-                        $show_section=true;
-                        break;
-                    }
-                }
-                if($show_section){
-		            $output .= '<div class="cwp-single-group">';
-                    $output .= self::get_post_group_fields_callback($fields);
+                $fields_ui = self::get_post_group_fields_callback($fields);
+                if(!empty($fields_ui)){
+                    $output .= '<div class="cwp-single-group">';
+                    $output .= $fields_ui;
 		            $output .= '</div>';
                 }
             }

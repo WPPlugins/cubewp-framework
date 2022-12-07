@@ -155,7 +155,7 @@ $settings['archive_settings']    = array(
 			'title'   => __( 'Map on Archive', 'cubewp-framework' ),
 			'desc'    => __( 'You can easily on/off map on archive page.' ),
 			'type'    => 'switch',
-			'default' => '1',
+			'default' => '0',
 			'required' => array(
 				array( 'cubewp_archive', 'equals', '1' )
 			)
@@ -165,7 +165,7 @@ $settings['archive_settings']    = array(
 			'title'   => __( 'Filters on Archive', 'cubewp-framework' ),
 			'desc'    => __( 'You can easily on/off filters on archive page.' ),
 			'type'    => 'switch',
-			'default' => '1',
+			'default' => '0',
 			'required' => array(
 				array( 'cubewp_archive', 'equals', '1' )
 			)

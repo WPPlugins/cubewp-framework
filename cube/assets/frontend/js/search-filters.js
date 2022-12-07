@@ -132,6 +132,11 @@ jQuery(document).ready(function () {
         typingTimer = setTimeout(cwp_search_filters_ajax_content, doneTypingInterval);
     });
 
+    jQuery(document).on('change', '.cwp-field-range input[type="range"]', function () {
+        clearTimeout(typingTimer);
+        typingTimer = setTimeout(cwp_search_filters_ajax_content, doneTypingInterval);
+    });
+
     jQuery(document).on('click', '.cwp-search-filters .clear-filters', function (e) {
         
         var PostType = jQuery(this).closest('.cwp-search-filters').find('.cwp-search-filters-fields input[name="post_type"]').val();

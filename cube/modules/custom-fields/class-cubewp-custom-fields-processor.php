@@ -1,9 +1,9 @@
 <?php
 /**
- * display fields of custom fields.
+ * It process the custom fields output and database storage.
  *
  * @version 1.0
- * @package cubewp/cube/modules/post-types
+ * @package cubewp/cube/classes
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * CubeWp_Posttype_Custom_Fields
  */
-class CubeWp_Posttype_Custom_Fields {
+class CubeWp_Custom_Fields_Processor {
     
     /**
      * Method get_fields
@@ -26,30 +26,32 @@ class CubeWp_Posttype_Custom_Fields {
         if (!$fields) {
             return;
         }
-        
-        $fields       = explode(",", $fields);
-        $fieldOptions = CWP()->get_custom_fields( 'post_types' );
-
         $html = '';
         $counter = 1;
+        if(isJson($fields)){
+            $fields = json_decode($fields, true);
+        }else{
+            $fields = explode(",", $fields);
+        }
+        $fieldOptions = self::get_field_options();
         foreach ($fields as $field) {
             if($field){
                 $SingleFieldOption = $fieldOptions[$field];
                 $SingleFieldOption['sub_fields'] = $sub_fields;
                 $SingleFieldOption['counter'] = $counter;
                 $counter++;
-                $html .= CubeWp_Posttype_Custom_Fields_Display::add_new_field($SingleFieldOption);
+                $html .= CubeWp_Custom_Fields_Markup::add_new_field($SingleFieldOption);
             }
         }
         return $html;
     }
 
-    protected static function get_duplicate_field($field = '') {
+    protected static function get_duplicate_field($field = '',$fields_type = '') {
         if (!$field) {
             return;
         }
         
-        $fieldOptions = CWP()->get_custom_fields( 'post_types' );
+        $fieldOptions = CWP()->get_custom_fields( $fields_type );
         $html = '';
         if(!empty($field)){
             $SingleFieldOption = $fieldOptions[$field];
@@ -57,7 +59,8 @@ class CubeWp_Posttype_Custom_Fields {
                 $SingleFieldOption['sub_fields'] = json_encode(array($SingleFieldOption['name']=>explode(",",$SingleFieldOption['sub_fields'])));
             }
             $SingleFieldOption['label'] = $SingleFieldOption['label'].' - copy';
-            $html .= CubeWp_Posttype_Custom_Fields_Display::add_new_field($SingleFieldOption);
+            $SingleFieldOption['fields_type'] = $fields_type;
+            $html .= CubeWp_Custom_Fields_Markup::add_new_field($SingleFieldOption);
         }
         return $html;
     }
@@ -71,22 +74,65 @@ class CubeWp_Posttype_Custom_Fields {
      * @return string html
      * @since  1.0.0
      */
-    protected static function get_sub_fields($sub_fields = array(), $parent_field = '') {
+    public static function get_sub_fields($sub_fields = array(), $parent_field = '', $fields_type = '') {
         if (!$sub_fields) {
             return;
         }
-        
-        $sub_fields    = json_decode($sub_fields, true);
-        $fieldOptions  = CWP()->get_custom_fields( 'post_types' );
-        
+        $type = empty($fields_type) ? self::get_field_option_name() : $fields_type;
         $html = '';
+        $sub_fields    = json_decode($sub_fields, true);
+        $fieldOptions = CWP()->get_custom_fields( $type );
         if(isset($sub_fields[$parent_field]) && !empty($sub_fields[$parent_field])){
             foreach ($sub_fields[$parent_field] as $sub_field) {
                 $SingleFieldOption          = $fieldOptions[$sub_field];
-                $html .= CubeWp_Posttype_Custom_Fields_Display::add_new_sub_field($SingleFieldOption, $parent_field);
+                $html .= CubeWp_Custom_Fields_Markup::add_new_sub_field($SingleFieldOption, $parent_field);
             }
         }
         return $html;
+    }
+
+    /**
+     * Method process_add_field
+     *
+     * @return object
+     * @since  1.0.0
+     */
+    public static function process_add_field() {
+        check_ajax_referer( 'cubewp_custom_fields_nonce', 'nonce' );
+        if( true )
+            wp_send_json_success(CubeWp_Custom_Fields_Markup::add_new_field());
+        else
+            wp_send_json_error( array( 'error' => $custom_error ) );
+    }
+        
+    /**
+     * Method cwp_add_custom_sub_field
+     *
+     * @return object
+     * @since  1.0.0
+     */
+    public static function process_sub_field(){
+        check_ajax_referer( 'cubewp_custom_fields_nonce', 'nonce' );
+        if( true ){
+            wp_send_json_success(CubeWp_Custom_Fields_Markup::add_new_sub_field(array(), sanitize_text_field($_POST['parent_field'])));
+        }else{
+            wp_send_json_error( array( 'error' => $custom_error ) );
+        }
+    }
+
+    /**
+     * Method cwp_duplicate_posttype_custom_field
+     *
+     * @return object
+     * @since  1.0.0
+     */
+    public static function process_duplicate_field(){
+        check_ajax_referer( 'cubewp_custom_fields_nonce', 'nonce' );
+        if( true ){
+            wp_send_json_success(self::get_duplicate_field($_POST['field_id'], $_POST['fields_type']));
+        }else{
+            wp_send_json_error( array( 'error' => $custom_error ) );
+        }
     }
     
     /**
@@ -128,18 +174,22 @@ class CubeWp_Posttype_Custom_Fields {
     /**
      * Method get_field_options
      *
-     * @param string $fieldID [explicite description]
+     * @return array
+     * @since  1.0.0
+     */
+    public static function get_field_options() {
+        $options = CWP()->get_custom_fields( self::get_field_option_name() );
+        return $options;
+    }
+
+    /**
+     * Method get_field_option_name
      *
      * @return array
      * @since  1.0.0
      */
-    public function get_field_options($fieldID) {
-        if (!$fieldID) {
-            return;
-        }
-        $fieldOptions = CWP()->get_custom_fields( 'post_types' );
-        $SingleFieldOptions = isset($fieldOptions[$fieldID]) ? $fieldOptions[$fieldID] : array();
-        return $SingleFieldOptions;
+    public static function get_field_option_name() {
+        return apply_filters( 'cubewp/custom_fields/type', 'post_types'  );
     }
     
     /**
@@ -195,11 +245,30 @@ class CubeWp_Posttype_Custom_Fields {
                     delete_post_meta($post_id, '_cwp_group_terms');
                 }
             }
+            self::save_custom_fields($_POST['cwp'],$post_id,'post_types');
+        
+            if (!empty($post_id) ) {
+                wp_redirect( CubeWp_Submenu::_page_action('custom-fields') );
+            }
         }
         
+    }
+
+    /**
+     * Method save_custom_fields
+     *
+     * @param array $fields
+     * @param int $post_id
+     * @param string $form_type
+     *
+     * @since  1.0.0
+     */
+    public static function save_custom_fields($POST = array(), $post_id = '', $form_type = ''){
+        if (empty($post_id) ) return;
+
         $field_names  = $sub_field_names = array();
-        if (isset($_POST['cwp']['fields'])) {
-            $fields = CubeWp_Sanitize_Custom_Fields($_POST['cwp']['fields'],'post_types');
+        if (isset($POST['fields'])) {
+            $fields = CubeWp_Sanitize_Custom_Fields($POST['fields'],$form_type);
             foreach ($fields as $field) {
                 if(!empty( $field ) && isset($field['name'])){
                     $field['group_id'] = $post_id;
@@ -209,10 +278,8 @@ class CubeWp_Posttype_Custom_Fields {
                     if(isset($field['default_option']) && !empty($field['default_option'])){
                         $field['default_value'] = $field['default_option'];
                     }
-                    
-                    if(isset($_POST['cwp']['sub_fields'][$field['name']]) && $field['type'] == 'repeating_field'){
-                        
-                        $sub_fields_data = CubeWp_Sanitize_Custom_Fields($_POST['cwp']['sub_fields'][$field['name']],'post_types');
+                    if(isset($POST['sub_fields'][$field['name']]) && $field['type'] == 'repeating_field'){
+                        $sub_fields_data = CubeWp_Sanitize_Custom_Fields($POST['sub_fields'][$field['name']],$form_type);
                         $sub_fields = array();
                         foreach ($sub_fields_data as $sub_field){
                             $sub_field['group_id'] = $post_id;
@@ -227,11 +294,8 @@ class CubeWp_Posttype_Custom_Fields {
                             self::set_option($sub_field['name'], $sub_field);
                             $sub_fields[] = $sub_field['name'];
                         }
-                        
                         $field['sub_fields'] = implode(',', $sub_fields);
                     }
-                    
-                    
                     if($field['type'] == 'google_address' && isset($field['map_use']) && $field['map_use'] == '1'){
                         $mapMeta = $field['name'];
                         if(!empty($groupTypes)){
@@ -243,26 +307,37 @@ class CubeWp_Posttype_Custom_Fields {
                             }
                         }
                     }
-                    
                     $field_names[] = $field['name'];
                     self::set_option($field['name'], $field);
                 }
             }
         }
         
-        if (!empty($post_id)) {
+        if (!empty($post_id) ) {
+            
             $group_fields = get_post_meta($post_id, '_cwp_group_fields', true);
             if(isset($group_fields) && !empty($group_fields)){
-                $group_fields_arr = explode(',', $group_fields);
+                if(isJson($group_fields)){
+                    $group_fields_arr = json_decode($group_fields, true);
+                }else{
+                    $group_fields_arr = explode(",", $group_fields);
+                }
                 self::delete_options( $group_fields_arr, $field_names);
             }
-            
             if(isset($field_names) && !empty($field_names)){
-                new CubeWp_Update_Frontend_Forms(array('group_id'=>$post_id,'existing_fields'=>$field_names));
-                $field_names = implode(",", $field_names);            
+                if(!empty($form_type)){
+                    new CubeWp_Update_Frontend_Forms(array('group_id'=>$post_id,'existing_fields'=>$field_names,'form_type'=>$form_type));
+                }
+                if($form_type == 'user'){
+                    $field_names = json_encode($field_names);
+                }else{
+                    $field_names = implode(",", $field_names);
+                }
                 update_post_meta($post_id, '_cwp_group_fields', $field_names);
             }else{
-                new CubeWp_Update_Frontend_Forms(array('group_id'=>$post_id));
+                if(!empty($form_type)){
+                    new CubeWp_Update_Frontend_Forms(array('group_id'=>$post_id,'form_type'=>$form_type));
+                }
                 delete_post_meta($post_id, '_cwp_group_fields');
             }
             
@@ -276,17 +351,13 @@ class CubeWp_Posttype_Custom_Fields {
                     }
                 }
             }
-
-            if(isset($sub_field_names) && !empty($sub_field_names)){
+            
+            if (isset($sub_field_names) && !empty($sub_field_names)) {
                 update_post_meta($post_id, '_cwp_group_sub_fields', json_encode($sub_field_names) );
             }else{
                 delete_post_meta($post_id, '_cwp_group_sub_fields');
             }
-            
-            wp_redirect( CubeWp_Submenu::_page_action('custom-fields') );
-            
         }
-        
     }
     
     /**
@@ -300,10 +371,10 @@ class CubeWp_Posttype_Custom_Fields {
      */
     public static function set_option($name, $val) {
         if ($name) {
-            $options = CWP()->get_custom_fields( 'post_types' );
+            $options = self::get_field_options();
             $options = $options == '' ? array() : $options;
             $options[$name] = $val;
-            return CWP()->update_custom_fields( 'post_types', $options );
+            return CWP()->update_custom_fields( self::get_field_option_name(), $options );
         } else {
             return false;
         }
@@ -319,7 +390,7 @@ class CubeWp_Posttype_Custom_Fields {
      * @since  1.0.0
      */
     private static function delete_options( $group_fields = array(), $new_fields = array()){
-        $options = CWP()->get_custom_fields( 'post_types' );
+        $options = self::get_field_options();
         if(isset($group_fields) && !empty($group_fields)){
             foreach($group_fields as $group_field){
                 if( (isset($new_fields) && is_array($new_fields) && !in_array($group_field, $new_fields)) || empty($new_fields) ){
@@ -327,7 +398,7 @@ class CubeWp_Posttype_Custom_Fields {
                 }
             }
         }
-        CWP()->update_custom_fields( 'post_types', $options );
+        CWP()->update_custom_fields( self::get_field_option_name(), $options );
     }
     
     /**
@@ -344,18 +415,19 @@ class CubeWp_Posttype_Custom_Fields {
 
         $GroupData = get_post($GroupID);
         if (is_null($GroupData)) {
-            echo "Group does not exists or was deleted";
+            echo "This data does not exists or was deleted";
             exit;
         }
         $group['id']              = $GroupID;
+        $group['slug']            = $GroupData->post_name;
+        $group['name']            = $GroupData->post_title;
+        $group['description']     = $GroupData->post_content;
         $group['fields']          = get_post_meta($GroupID, '_cwp_group_fields', true);
         $group['sub_fields']      = get_post_meta($GroupID, '_cwp_group_sub_fields', true);
         $group['types']           = get_post_meta($GroupID, '_cwp_group_types');
         $group['terms']           = get_post_meta($GroupID, '_cwp_group_terms');
-        $group['user_role']       = get_post_meta($GroupID, '_cwp_group_user_role', true);
+        $group['user_roles']       = get_post_meta($GroupID, '_cwp_group_user_roles', true);
         $group['order']           = get_post_meta($GroupID, '_cwp_group_order', true);
-        $group['name']            = $GroupData->post_title;
-        $group['description']     = $GroupData->post_content;
         return $group;
     }
     

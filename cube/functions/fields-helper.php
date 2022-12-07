@@ -19,6 +19,8 @@ if ( ! defined('ABSPATH')) {
  */
 if ( ! function_exists("cwp_convert_choices_to_array")) {
 	function cwp_convert_choices_to_array($options = array()) {
+		if($options == null || empty($options)) return array();
+
 		if (is_array($options)) {
 			return $options;
 		}
@@ -635,6 +637,7 @@ if ( ! function_exists("cwp_render_checkbox_input")) {
                 <span class="checkmark"></span>
             </label>';
 			}
+			$html .= '<input type="hidden" name="' . $attrs['name'] . '[]" value="">';
 		}
 
 		return $html;

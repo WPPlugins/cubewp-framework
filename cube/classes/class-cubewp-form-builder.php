@@ -241,6 +241,7 @@ class CubeWp_Form_Builder {
                                     'switch',
                                     'google_address',
                                     'radio',
+                                    'range',
                                     'checkbox',
                                     'dropdown',
                                     'number',

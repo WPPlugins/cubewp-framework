@@ -147,9 +147,6 @@ input[type=date],input[type=datetime-local],input[type=datetime], input[type=ema
 	margin: 0;
 	padding: 15px;
 }
-.cwp-group-fields .field-header.closed {
-	border-bottom: none;
-}
 .cwp-group-fields .field-header .field-title {
 	flex-grow: 1;
 	margin: 0;
@@ -224,9 +221,6 @@ input[type=date],input[type=datetime-local],input[type=datetime], input[type=ema
 	justify-content: space-between;
 	margin: 0;
 	padding: 15px;
-}
-.cwp-group-fields .field-header.closed {
-	border-bottom: none;
 }
 .cwp-group-fields .field-header .field-title {
 	flex-grow: 1;
@@ -391,3 +385,19 @@ td.move-option {
  .cwp-switch .cwp-switch-field:checked ~ .cwp-switch-text-yes {
 	color: #000000;
  }
+.cwp-field-range[type=range] {
+    width: calc(100% - 65px);
+    display: inline-block;
+}
+.cubewp-current-value {
+    width: 50px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    background: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0 12px 0 0;
+}

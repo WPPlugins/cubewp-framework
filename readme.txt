@@ -5,7 +5,7 @@ Tags: custom fields, custom post types, custom taxonomies, acf, meta box, custom
 Requires at least: 5.0
 Requires PHP: 7.0
 Tested up to: 6.1
-Stable tag: 1.0.8
+Stable tag: 1.0.9
 License: GPLv2 or later
 
 CubeWP is an end-to-end dynamic content framework for WordPress to help you shrink time and cut cost of development up to 90%.
@@ -285,6 +285,22 @@ To getting started with the plugin, please go to [Documentation](https://support
 
 
 == Changelog ==
+
+= 1.0.8 2022-11-29
+
+* New: Image, Gallery and field added in repeating field (Post-type & users)
+* New: User field type in user custom fields
+* New: Label display instead of value for multi value fields in repeating fields
+* Tweak: Description removed form switch field of search and filter
+* Tweak: By default map and filter options switched off
+* Tweak: Repeating fields class applied on frontend single page template
+* Tweak: Range field UI & UX on frontend
+* Fix: Group of images in gallery were unable to select first time
+* Fix: Validation of conditional required fields issue with Gutenberg
+* Fix: Range field issue with repating field
+* Fix: Value remove issue on unset of all checkboxes in metaboxes
+* Fix: Repating field saving issue
+* Fix: Taxonomy field issue on single page template
 
 = 1.0.8 2022-11-29
 

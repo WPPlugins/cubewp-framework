@@ -16,9 +16,8 @@ class CubeWp_Admin_Textarea_Field extends CubeWp_Admin {
         add_filter('cubewp/admin/post/textarea/field', array($this, 'render_textarea_field'), 10, 2);
         add_filter('cubewp/admin/dashboard/textarea/field', array($this, 'render_textarea_field'), 10, 2);
         
-        add_filter('cubewp/admin/posttype/textarea/customfield', array($this, 'render_textarea_custom_field'), 10, 2);
+        add_filter('cubewp/admin/textarea/customfield', array($this, 'render_textarea_custom_field'), 10, 2);
         add_filter('cubewp/admin/taxonomies/textarea/customfield', array($this, 'render_textarea_custom_field'), 10, 2);
-        add_filter('cubewp/admin/user/textarea/customfield', array($this, 'render_textarea_custom_field'), 10, 2);
     }
         
     /**
