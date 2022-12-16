@@ -99,11 +99,11 @@ class CubeWp_Custom_Fields_Markup
         }
 
         $html .= '   <a class="edit-field" href="javascript:void(0);"><span class="dashicons dashicons-arrow-down-alt2"></span></a>
-                </div>
+            </div>
             </div>
             <div class="cwp-collapsible-inner ' . $hide_class . '">
-                <table class="parent-fields">
-                    <tbody>';
+            <table class="parent-fields">
+            <tbody>';
         $field_settings['field_label'] = array(
             'label' => esc_html__('Field Label', 'cubewp-framework'),
             'name' => 'cwp[fields][' . $FieldData['name'] . '][label]',
@@ -501,9 +501,8 @@ class CubeWp_Custom_Fields_Markup
             'class' => '',
             'select_class' => 'field-appearance',
         );
-        $field_settings = apply_filters('cubewp/custom_fields/single/field/add', $field_settings, $FieldData);
+        $field_settings = apply_filters("cubewp/custom_fields/{$FieldData['fields_type']}/fields", $field_settings, $FieldData);
         foreach ($field_settings as $field_setting) {
-
             $fields = apply_filters("cubewp/admin/{$field_setting['type']}/customfield", '', $field_setting);
             $html .= apply_filters('cubewp/custom_fields/single/field/output', $fields, $field_setting);
         }

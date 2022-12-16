@@ -667,7 +667,6 @@ if ( ! function_exists("current_cubewp_page")) {
 					return str_replace('-', '_', strtolower($callback));
 				}
 			}
-
 			return null;
 		} else {
 			$pos      = strrpos($screen_pieces, "_");
@@ -773,7 +772,7 @@ if ( ! function_exists("cubewp_core_data")) {
 if ( ! function_exists("CubeWp_Sanitize_Custom_Fields")) {
 	function CubeWp_Sanitize_Custom_Fields($input, $fields_of) {
 		$sanitize = new CubeWp_Sanitize();
-		$return   = array();
+		$return   = $input;
 		if ($fields_of == 'post_types') {
 			$return = $sanitize->sanitize_post_type_custom_fields($input);
 		} else if ($fields_of == 'user') {
@@ -796,7 +795,7 @@ if ( ! function_exists("CubeWp_Sanitize_Custom_Fields")) {
 if ( ! function_exists("CubeWp_Sanitize_Fields_Array")) {
 	function CubeWp_Sanitize_Fields_Array($input, $fields_of) {
 		$sanitize = new CubeWp_Sanitize();
-		$return   = array();
+		$return   = $input;
 		if ($fields_of == 'taxonomy') {
 			$return = $sanitize->sanitize_taxonomy_meta($input);
 		} else if ($fields_of == 'post_types') {
@@ -953,11 +952,9 @@ if ( ! function_exists("get_field_value")) {
 				return esc_html__("Please select preview post from the settings below and reload.", "cubewp-framework");
 			}
 		}
-
 	   	if ($postID != 0 && !CubeWp_Frontend::is_cubewp_single() ) {
 			CubeWp_Single_Cpt::$post_id = $postID;
 	   	}
-
 	   	if ( ! is_array($field)) {
 		  	$field = get_field_options($field);
 	   	}
@@ -966,7 +963,6 @@ if ( ! function_exists("get_field_value")) {
 		if ($field_type == 'taxonomy') {
 			$field_type = 'terms';
 		}
-		
 		$value = CubeWp_Single_Cpt::get_single_meta_value($meta_key, $field_type);
 		if ($field_type == 'date_picker') {
 			$value = wp_date(get_option('date_format'), $value);
@@ -1211,7 +1207,7 @@ if ( ! function_exists("get_fields_by_type")) {
 		$allGroups = get_posts($args);
 		if (isset($allGroups) && ! empty($allGroups)) {
 			foreach ($allGroups as $group) {
-				$postCustomFields = new CubeWp_Posttype_Custom_Fields;
+				$postCustomFields = new CubeWp_Custom_Fields_Processor;
 				$group_fields     = $postCustomFields->get_fields_by_group($group);
 				foreach ($group_fields as $group_field) {
 					$options = get_field_options($group_field);
@@ -2001,4 +1997,19 @@ if ( ! function_exists('cwp_alert_ui')) {
             </button>
         </div>';
     }
+}
+
+add_filter( 'cubewp/custom_fields/user/fields', 'fields_update', 9, 2 );
+/**
+ * Method fields_update
+ *
+ * @param array $fields_settings 
+ * @param array $fieldData 
+ *
+ * @return string html
+ * @since  1.0.0
+ */
+ function fields_update($fields_settings = array(), $fieldData = array()) {
+	unset($fields_settings['field_map_use']);
+	return $fields_settings;
 }

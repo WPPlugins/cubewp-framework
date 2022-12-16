@@ -71,7 +71,7 @@ class CubeWp_Frontend_Repeater_Field extends CubeWp_Frontend {
                                             if($fieldArgs['type'] == 'radio' || $fieldArgs['type'] == 'checkbox' || ($fieldArgs['type'] == 'dropdown' && $fieldArgs['multiple'] == true)){
                                                 $fieldArgs['custom_name']    =  'cwp_user_register[custom_fields]['. $args['name'] .'][' . $fieldArgs['name'] . '][{{row-count-placeholder}}]';
                                             }
-                                            
+                                            $fieldArgs = apply_filters("cubewp/frontend/user/repeating_field/args", $fieldArgs);
                                             $output .= apply_filters("cubewp/frontend/{$fieldArgs['type']}/field", '', $fieldArgs);
                                         }
                                     }
@@ -109,6 +109,7 @@ class CubeWp_Frontend_Repeater_Field extends CubeWp_Frontend {
                                                 if($sub_field['type'] == 'radio' || $sub_field['type'] == 'checkbox' || ($sub_field['type'] == 'dropdown' && $sub_field['multiple'] == true)){
                                                     $sub_field['custom_name']    =  'cwp_user_register[custom_fields]['. $args['name'] .'][' . $sub_field['name'] . '][{{row-count-placeholder}}]';
                                                 }
+                                                $sub_field = apply_filters("cubewp/frontend/user/repeating_field/args", $sub_field);
                                                 $output .= apply_filters( "cubewp/frontend/{$sub_field['type']}/field", '', $sub_field );
                                             }
                                         $output .= '</div>
@@ -187,6 +188,7 @@ class CubeWp_Frontend_Repeater_Field extends CubeWp_Frontend {
                                             if ($fieldArgs['type'] == 'gallery') {
                                                 $fieldArgs['custom_name']    =  'cwp_user_form[cwp_meta]['. $args['name'] .'][' . $fieldArgs['name'] . '][{{row-count-placeholder}}]';
                                             }
+                                            $fieldArgs = apply_filters("cubewp/frontend/post/repeating_field/args", $fieldArgs);
                                             $output .= apply_filters("cubewp/frontend/{$fieldArgs['type']}/field", '', $fieldArgs);
                                         }
                                     }
@@ -231,6 +233,7 @@ class CubeWp_Frontend_Repeater_Field extends CubeWp_Frontend {
                                                 if ($sub_field['type'] == 'gallery') {
                                                     $sub_field['custom_name']    =  'cwp_user_form[cwp_meta]['. $args['name'] .'][' . $sub_field['name'] . '][{{row-count-placeholder}}]';
                                                 }
+                                                $sub_field = apply_filters("cubewp/frontend/post/repeating_field/args", $sub_field);
                                                 $output .= apply_filters( "cubewp/frontend/{$sub_field['type']}/field", '', $sub_field );
                                             }
                                         $output .= '</div>
@@ -304,6 +307,7 @@ class CubeWp_Frontend_Repeater_Field extends CubeWp_Frontend {
                                             if($fieldArgs['type'] == 'radio' || $fieldArgs['type'] == 'checkbox' || ($fieldArgs['type'] == 'dropdown' && (isset($fieldArgs['multiple']) && $fieldArgs['multiple'] == true))){
                                                 $fieldArgs['custom_name']    =  'cwp_user_profile[custom_fields]['. $args['name'] .'][' . $fieldArgs['name'] . '][{{row-count-placeholder}}]';
                                             }
+                                            $fieldArgs = apply_filters("cubewp/frontend/profile/repeating_field/args", $fieldArgs);
                                             $output .= apply_filters("cubewp/frontend/{$fieldArgs['type']}/field", '', $fieldArgs);
                                         }
                                     }
@@ -341,6 +345,7 @@ class CubeWp_Frontend_Repeater_Field extends CubeWp_Frontend {
                                                 if($sub_field['type'] == 'radio' || $sub_field['type'] == 'checkbox' || ($sub_field['type'] == 'dropdown' && (isset($sub_field['multiple']) && $sub_field['multiple'] == true))){
                                                     $sub_field['custom_name']    =  'cwp_user_profile[custom_fields]['. $args['name'] .'][' . $sub_field['name'] . '][{{row-count-placeholder}}]';
                                                 }
+                                                $sub_field = apply_filters("cubewp/frontend/profile/repeating_field/args", $sub_field);
                                                 $output .= apply_filters( "cubewp/frontend/{$sub_field['type']}/field", '', $sub_field );
                                             }
                                         $output .= '</div>

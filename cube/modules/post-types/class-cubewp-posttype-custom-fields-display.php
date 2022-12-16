@@ -86,7 +86,7 @@ class CubeWp_Posttype_Custom_Fields_Display extends CubeWp_Custom_Fields_Process
             'fields'       => '',
             'sub_fields'   => '',
             'terms'        => '',
-            'user_role'    => '',
+            'user_roles'    => '',
             'description'  => '',
         );
         $group = wp_parse_args( $group, $defaults );
@@ -252,16 +252,6 @@ class CubeWp_Posttype_Custom_Fields_Display extends CubeWp_Custom_Fields_Process
         }
         return '<input type="submit" class="cwp-custom-fields-group-btn button button-primary button-large cwp-save-button" name="'.$name.'" value="'.__( 'Save Group', 'cubewp-framework' ).'" />';
 	}
-        
-    /**
-     * Method add_new_field_btn
-     *
-     * @return string html
-     * @since  1.0.0
-     */
-    private static function add_new_field_btn() {
-        echo '<a class="button button-primary button-large" href="javascript:void(0);" id="cwp-add-new-field-btn">'. __('Add New Field', 'cubewp-framework') .'</a>';
-    }
         
     /**
      * Method get__types

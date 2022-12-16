@@ -233,7 +233,7 @@ class CubeWp_Admin {
      * @since  1.0.0
      */
     public static function register_elementor_tags($module) {
-        $tags = CubeWp_Posttype_Custom_Fields_Display::cwp_form_field_types();
+        $tags = CubeWp_Custom_Fields_Markup::cwp_form_field_types();
         $module->register_group( 'cubewp-fields', [
         'title' => esc_html__( 'CubeWP Custom Fields', 'cubewp-framework' ),
         ] );

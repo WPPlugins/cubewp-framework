@@ -26,8 +26,11 @@ jQuery(document).ready(function ($){
     cwp_conditional_fields();
     jQuery('#cwp-add-new-field-btn').click(function (e){
         e.preventDefault();
+        var e_this = jQuery(this);
+        var fields_type = e_this.data('fields_type');
         var data = {
             action: 'process_add_field',
+            fields_type: fields_type,
             nonce: cubewp_custom_fields_params.nonce
         };
         jQuery.post(cubewp_custom_fields_params.url, data, function (response){

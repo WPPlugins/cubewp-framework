@@ -268,7 +268,7 @@ class CubeWp_Single_Cpt {
                 'label'                 =>    $label,
             );
 			if(function_exists('cube_' . $field_type)){
-                $output .= call_user_func('cube_' . $field_type, $args);
+                $output .= call_user_func('cube_' . $field_type, $options, $value);
             }else if (method_exists(__CLASS__, 'field_' . $field_type)) {
                 $output .= call_user_func('self::field_' . $field_type, $args);
 			}else {

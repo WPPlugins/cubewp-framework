@@ -5,7 +5,6 @@ class CubeWp_User_Custom_Fields_UI extends CubeWp_Custom_Fields_Processor{
     
     public static function manage_user_fields() {
         add_filter( 'cubewp/custom_fields/type', array(__CLASS__, 'custom_form_name'), 9 );
-        add_filter( 'cubewp/custom_fields/single/field/add', array(__CLASS__, 'fields_update'), 9, 2 );
         self::save_group();
         self::group_display();
         self::add_new_group();
@@ -18,20 +17,6 @@ class CubeWp_User_Custom_Fields_UI extends CubeWp_Custom_Fields_Processor{
      */
     public static function custom_form_name() {
         return 'user';
-    }
-
-    /**
-     * Method fields_update
-     *
-     * @param array $fields_settings 
-     * @param array $fieldData 
-     *
-     * @return string html
-     * @since  1.0.0
-     */
-    public static function fields_update($fields_settings = array(), $fieldData = array()) {
-        unset($fields_settings['field_map_use']);
-        return $fields_settings;
     }
 
     private static function group_display(){
@@ -73,7 +58,6 @@ class CubeWp_User_Custom_Fields_UI extends CubeWp_Custom_Fields_Processor{
     }
          
     public static function edit_group() {
-        
         $group = self::get_group();
         $defaults = array(
             'id'           => '',
@@ -215,10 +199,6 @@ class CubeWp_User_Custom_Fields_UI extends CubeWp_Custom_Fields_Processor{
             </form>
         </div>
     <?php
-    }
-    
-    private static function add_new_field_btn() {
-        echo '<a href="javascript:void(0);" class="button button-primary button-large" id="cwp-add-new-field-btn">'. __('Add New Field', 'cubewp-framework') .'</a>';
     }
     
     private static function save_button() {

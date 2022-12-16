@@ -160,7 +160,7 @@ jQuery(document).ready(function ($){
             data: 'action=cwp_add_repeating_field&id='+ thisObj.data('id'),
             dataType : 'json',
             success: function (resp) {
-                thisObj.closest('.cwp-repeating-field').find('.cwp-repeating-table').append(resp.sub_field_html);
+                var new_row = thisObj.closest('.cwp-repeating-field').find('.cwp-repeating-table').append(resp.sub_field_html);
                 cwp_repreating_fields_county(thisObj);
                 if (typeof wp !== 'undefined' && typeof wp.blocks !== 'undefined') {
                     if (new_row.find(".required").length > 0) {

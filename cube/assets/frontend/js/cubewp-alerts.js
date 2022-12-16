@@ -11,6 +11,21 @@ jQuery(document).ready(function () {
         });
     });
 
+    jQuery(document).on('click', '.cubewp-modal-trigger', function (event) {
+        event.preventDefault();
+        var $this = jQuery(this),
+            target = jQuery($this.attr('data-cubewp-modal'));
+        if (target.length > 0) {
+            target.addClass('shown').fadeIn();
+        }
+    });
+    jQuery(document).on('click', '.cubewp-modal-close', function (event) {
+        event.preventDefault();
+        var $this = jQuery(this),
+            target = $this.closest('.cubewp-modal');
+        target.removeClass('shown').fadeOut();
+    });
+
     var view_all_child_terms = jQuery('.cwp-taxonomy-term-child-terms-see-more');
     if (view_all_child_terms.length > 0) {
         view_all_child_terms.on('click', function (e) {

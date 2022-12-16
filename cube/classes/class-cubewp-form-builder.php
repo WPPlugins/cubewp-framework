@@ -362,44 +362,52 @@ class CubeWp_Form_Builder {
      * @since  1.0.0
      */
     private function cwpform_group_fields( array $field ) {
-        $output      = '<div class="cubewp-builder-group-widget-setting-field">';
-        $output      .= '<label>' . esc_html__( "Label", "cubewp-framework" ) . '</label>';
-        $input_attrs = array(
+        $field_args['label'] = array(
             'class'       => 'group-field field-label',
-            'name'        => 'label',
+            'label'       => esc_html__( "Label", "cubewp-framework" ),
+            'name'       => 'label',
+            'type'       => 'text',
             'value'       => $field['label'],
             'extra_attrs' => 'data-name="label"',
         );
-        $output      .= cwp_render_text_input( $input_attrs );
-        $output      .= '</div>
-        <div class="cubewp-builder-group-widget-setting-field">
-            <label>' . esc_html__( "Input Class", "cubewp-framework" ) . '</label>';
-        $input_attrs = array(
+        $field_args['class'] = array(
             'class'       => 'group-field field-input-class',
-            'name'        => 'class',
+            'label'       => esc_html__( "Input Class", "cubewp-framework" ),
+            'name'       => 'class',
+            'type'       => 'text',
             'value'       => $field['class'],
             'extra_attrs' => 'data-name="class"',
         );
-        $output      .= cwp_render_text_input( $input_attrs );
-        $output      .= '</div>
-        <div class="cubewp-builder-group-widget-setting-field">
-            <label>' . esc_html__( "Container Class", "cubewp-framework" ) . '</label>';
-        $input_attrs = array(
+        $field_args['container_class'] = array(
             'class'       => 'group-field field-container-class',
-            'name'        => 'container_class',
+            'label'       => esc_html__( "Container Class", "cubewp-framework" ),
+            'name'       => 'container_class',
+            'type'       => 'text',
             'value'       => $field['container_class'],
             'extra_attrs' => 'data-name="container_class"',
         );
-        $output      .= cwp_render_text_input( $input_attrs );
-        $output      .= '</div>';
-        $input_attrs = array(
+        $field_args['name'] = array(
             'class'       => 'group-field field-name',
-            'name'        => 'name',
+            'label'       => '',
+            'name'       => 'name',
+            'type'       => 'hidden',
             'value'       => $field['name'],
             'extra_attrs' => 'data-name="name"',
         );
-        $output      .= cwp_render_hidden_input( $input_attrs );
-
+        $input_attrs = apply_filters( 'cubewp/builder/cubes/fields', $field_args, $field );
+        $output = '';
+        foreach($input_attrs as $input_attr){
+            if($input_attr['type'] == 'hidden'){
+                $output .= call_user_func('cwp_render_hidden_input',$input_attr);
+            }else{
+                $output .= '<div class="cubewp-builder-group-widget-setting-field">';
+                if(isset($input_attr['label']) && !empty($input_attr['label'])){
+                    $output .= '<label>' . $input_attr['label'] . '</label>';
+                }
+                $output .= call_user_func('cwp_render_'.$input_attr['type'].'_input',$input_attr);
+                $output .= '</div>';
+            }
+        }
         return $output;
     }
 
@@ -788,7 +796,7 @@ class CubeWp_Form_Builder {
                             <button type="button"
                                     class="cwpform-cancel-section button"><?php esc_html_e( 'Cancel', 'cubewp-framework' ); ?></button>
                             <button type="button"
-                                    class="cwpform-save-section button button-primary"><?php esc_html_e( 'Save', 'cubewp-framework' ); ?></button>
+                                    class="cwpform-save-section button button-primary"><?php esc_html_e( 'Add', 'cubewp-framework' ); ?></button>
                         </div>
                     </form>
                 </div>

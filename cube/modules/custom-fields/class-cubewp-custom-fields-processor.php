@@ -39,6 +39,7 @@ class CubeWp_Custom_Fields_Processor {
                 $SingleFieldOption = $fieldOptions[$field];
                 $SingleFieldOption['sub_fields'] = $sub_fields;
                 $SingleFieldOption['counter'] = $counter;
+                $SingleFieldOption['fields_type'] = self::get_field_option_name();
                 $counter++;
                 $html .= CubeWp_Custom_Fields_Markup::add_new_field($SingleFieldOption);
             }
@@ -98,11 +99,17 @@ class CubeWp_Custom_Fields_Processor {
      * @since  1.0.0
      */
     public static function process_add_field() {
+        $field_options = [];
         check_ajax_referer( 'cubewp_custom_fields_nonce', 'nonce' );
-        if( true )
-            wp_send_json_success(CubeWp_Custom_Fields_Markup::add_new_field());
-        else
+        if( true ){
+            /* TO identify the custom fields type, eg: post-types, user, or any other custom fields type
+            *  like for cubewp forms custom-form.
+            */
+            $field_options['fields_type'] = sanitize_text_field($_POST['fields_type']);
+            wp_send_json_success(CubeWp_Custom_Fields_Markup::add_new_field($field_options));
+        }else{
             wp_send_json_error( array( 'error' => $custom_error ) );
+        }
     }
         
     /**
@@ -129,7 +136,7 @@ class CubeWp_Custom_Fields_Processor {
     public static function process_duplicate_field(){
         check_ajax_referer( 'cubewp_custom_fields_nonce', 'nonce' );
         if( true ){
-            wp_send_json_success(self::get_duplicate_field($_POST['field_id'], $_POST['fields_type']));
+            wp_send_json_success(self::get_duplicate_field($_POST['field_id'], sanitize_text_field($_POST['fields_type'])));
         }else{
             wp_send_json_error( array( 'error' => $custom_error ) );
         }
@@ -192,6 +199,16 @@ class CubeWp_Custom_Fields_Processor {
         return apply_filters( 'cubewp/custom_fields/type', 'post_types'  );
     }
     
+    /**
+     * Method add_new_field_btn
+     *
+     * @return string html
+     * @since  1.0.0
+     */
+    protected static function add_new_field_btn() {
+        echo '<a class="button button-primary button-large" href="javascript:void(0);" id="cwp-add-new-field-btn" data-fields_type=' . self::get_field_option_name().'>'. __('Add New Field', 'cubewp-framework') .'</a>';
+    }
+
     /**
      * Method save_group
      *
@@ -426,9 +443,9 @@ class CubeWp_Custom_Fields_Processor {
         $group['sub_fields']      = get_post_meta($GroupID, '_cwp_group_sub_fields', true);
         $group['types']           = get_post_meta($GroupID, '_cwp_group_types');
         $group['terms']           = get_post_meta($GroupID, '_cwp_group_terms');
-        $group['user_roles']       = get_post_meta($GroupID, '_cwp_group_user_roles', true);
+        $group['user_roles']      = get_post_meta($GroupID, '_cwp_group_user_roles', true);
         $group['order']           = get_post_meta($GroupID, '_cwp_group_order', true);
-        return $group;
+        return apply_filters( 'cubewp/custom-fields/group/data', $group );
     }
     
 }
