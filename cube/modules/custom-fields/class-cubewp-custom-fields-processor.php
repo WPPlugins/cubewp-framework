@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CubeWp_Posttype_Custom_Fields
+ * CubeWp_Custom_Fields_Processor
  */
 class CubeWp_Custom_Fields_Processor {
     

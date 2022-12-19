@@ -380,94 +380,10 @@ h5.cwp-widget-title {
     width: 100%;
     border-bottom: 1px solid rgba(0, 0, 0, .1);
 }
-
-/* .cwp-single-widget.cwp-admin-widget {
-	align-items: center;
-	border-radius: 10px;
-	box-sizing: border-box;
-	display: flex;
-	flex-wrap: wrap;
-    margin: 10px 0;
-	padding: 0 30px;
-	width: 100%;
-} */
-/* 
-.cwp-admin-widget .cwp-single-author-img {
-    width: 20%;
-}
-
-.cwp-admin-widget .cwp-single-author-detail {
-    width: 80%;
-}
-
-.cwp-single-author-name {
-	margin-left: 20px;
-    font-size: 18px;
-    font-weight: 700;
-	padding-bottom: 5px;
-	text-transform: capitalize;
-    border-bottom: 1px solid #e0e0e0;
-}
-.cwp-single-widget.cwp-admin-widget ul {
-    display: flex;
-    margin: 5px 0 0 20px;
-    padding: 0;
+.cwp-single-widget.cwp-shortcode-widget {
     width: 100%;
+    padding: 15px;
 }
-.cwp-single-widget.cwp-admin-widget ul li {
-    list-style: none;
-    margin: 0;
-}
-.cwp-single-widget.cwp-admin-widget ul li svg {
-    margin-right: 5px;
-    fill: #B2B2B2;
-}
-
-.cwp-single-widget.cwp-admin-widget ul li:hover a svg {
-    fill: #5890ff;
-}
-
-.cwp-author-username{
-	position:relative;
-	cursor:pointer;
-}
-
-p.cwp-author-uname {
-    position: absolute;
-    top: -34px;
-    font-weight: 700;
-	color: #333333;
-    padding: 5px;
-    background: #fff;
-    text-transform: capitalize;
-    left: -5px;
-    font-size: 14px;
-    margin: auto;
-    display: none;
-    border-radius: 5px;
-    box-shadow: 0px 5px 15px #44444f1a;
-    word-break: keep-all;
-}
-p.cwp-author-uname:after {
-    border-left: 8px solid rgba(0, 0, 0, 0);
-    border-right: 8px solid rgba(0, 0, 0, 0);
-    border-top: 9px solid #fff;
-    bottom: -8px;
-    content: "";
-    position: absolute;
-    left: 5px;
-}
-
-.cwp-author-username:hover p.cwp-author-uname {
-	display:block;
-}
-
-.cwp-single-widget.cwp-admin-widget img {
-	border-radius: 50%;
-	height: 59px;
-	object-fit: cover;
-	width: 59px;
-} */
 .cwp-cpt-single-category-container.cwp-cpt-single-field-container {
     display: block;
     margin: 0 20px 20px 30px;

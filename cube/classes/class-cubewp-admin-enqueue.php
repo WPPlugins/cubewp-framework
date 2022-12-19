@@ -434,7 +434,10 @@ class CubeWp_Admin_Enqueue{
                 }elseif (CWP()->is_admin_screen("custom_fields") || CWP()->is_admin_screen("taxonomy_custom_fields") || CWP()->is_admin_screen("user_custom_fields")) {
                    $confirm_text['single'] = esc_html__("Deletion of this custom field group cannot be undone.", "cubewp-framework");
                    $confirm_text['multiple'] = esc_html__("Deletion of these custom field group cannot be undone.", "cubewp-framework");
-                }
+                }else {
+					$confirm_text['single'] = esc_html__("Deletion of this record cannot be undone.", "cubewp-framework");
+					$confirm_text['multiple'] = esc_html__("Deletion of these records cannot be undone.", "cubewp-framework");
+				}
                 $params = array(
                    'ajax_url'     => admin_url('admin-ajax.php'),
                    'admin_url'    => admin_url(),

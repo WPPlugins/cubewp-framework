@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) {
 }
 
 /**
- * CubeWp_Posttype_Custom_Fields_Display
+ * CubeWp_Custom_Fields_Markup
  */
 class CubeWp_Custom_Fields_Markup
 {

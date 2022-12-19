@@ -18,6 +18,9 @@ class CubeWp_Frontend_Search_Filter {
     private $wp_default_fields;
     private $taxonomies;
     private static $sorting;
+    private static $form_container_class;
+    private static $form_class;
+    private static $form_id;
         
     
     public function __construct() {
@@ -67,8 +70,8 @@ class CubeWp_Frontend_Search_Filter {
      */
     private static function get_filters_wrap_start($type='',$page_num=''){
     ?>
-        <div class="cwp-search-filters-wrap">
-        <form name="cwp-search-filters" class="cwp-search-filters" method="post">
+        <div class="cwp-search-filters-wrap <?php echo self::$form_container_class; ?>">
+        <form name="cwp-search-filters" class="cwp-search-filters <?php echo self::$form_class; ?>" id="<?php echo self::$form_id; ?>" method="post">
         <div class="cwp-reset-search-filters">
         <p><?php esc_html_e('Filters', 'cubewp-framework'); ?></p>
         <a href="javascript:void(0);" class="clear-filters">
@@ -266,6 +269,10 @@ class CubeWp_Frontend_Search_Filter {
         $sorting_fields = array();
         $post_type =   !empty($type) ? $type : _get_post_type();
         $cwp_search_filters = CWP()->get_form('search_filters');
+        
+        self::$form_container_class = isset($cwp_search_filters[$post_type]['form']['form_container_class']) ? $cwp_search_filters[$post_type]['form']['form_container_class'] : '';
+        self::$form_class = isset($cwp_search_filters[$post_type]['form']['form_class']) ? $cwp_search_filters[$post_type]['form']['form_class'] : '';
+        self::$form_id = isset($cwp_search_filters[$post_type]['form']['form_id']) ? $cwp_search_filters[$post_type]['form']['form_id'] : '';
         global $cwpOptions;
         $archive_filters = isset($cwpOptions['archive_filters']) ? $cwpOptions['archive_filters'] : '';
         $show_filters = true;
@@ -273,7 +280,7 @@ class CubeWp_Frontend_Search_Filter {
             $show_filters = false;
         }
 
-        self::get_filters_wrap_start($type,$page_num);
+        self::get_filters_wrap_start($post_type,$page_num);
         self::get_hidden_field_if_tax();
         
         if(!empty($cwp_search_filters[$post_type]['fields']) && count($cwp_search_filters[$post_type]['fields'])>0 && $show_filters){

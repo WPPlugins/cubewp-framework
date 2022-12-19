@@ -1,8 +1,5 @@
 
 /* cwp welcome page */
-body{
-	max-width:1900px;
-}
 * {
     box-sizing: border-box;
 }
@@ -302,6 +299,8 @@ li {
 .cubwp-welcome {
     padding: 30px 30px 39px 8px;
     background: #EFEFF0;
+    max-width: 1900px;
+    margin: auto;
 }
 
 .cwp-dashboard-content-panel .cwp-welcome-box-content p {
@@ -580,6 +579,20 @@ li {
 .shoftcode-area .cwpform-shortcode .inner.copy-to-clipboard {
     user-select: all;
     cursor: pointer;
+    position: relative;
+    max-width: 113px;
+    overflow: hidden;
+    height: 18px;
+    width: 140px;
+}
+
+.shoftcode-area .cwpform-shortcode .inner.copy-to-clipboard p {
+    float: right;
+    position: absolute;
+    top: -14px;
+    left: 20px;
+    width: 92%;
+    background: #e0f2c8;
 }
 
 .cwp-post-grid-contentarea .shoftcode-area svg {
@@ -1024,9 +1037,6 @@ ul.black-friday-counter li.black-friday-counter-number span.Seconds-title {
             font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
     }
 }
-
-
-
 
 .cwp-welcome-why-cube .cwp-cutom-post-info-row {
     padding: 9px 15px;

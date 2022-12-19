@@ -17,8 +17,8 @@ jQuery(document).ready(function () {
         });
     }
 
-    if (jQuery(".cubwp-welcome").length > 0) {
-        jQuery(document).on('click', '.cubwp-welcome .cwpform-shortcode', function (e) {
+    if (jQuery(".cwpform-shortcode").length > 0) {
+        jQuery(document).on('click', '.cwpform-shortcode', function (e) {
                 var $this = jQuery(this),
                     temp_text = document.createElement("input");
                 if ($this.find('.inner').hasClass('copy-to-clipboard')) {

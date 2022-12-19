@@ -740,7 +740,6 @@ trait CubeWp_Single_Page_Trait {
      */
 	public static function get_post_share_button($post_id = '') {
         global $cwpOptions;
-        if (!empty($postid)) self::$post_id = $postid;
 		$site_url   = get_site_url();
 		$site_title = get_bloginfo();
 		if ($post_id != 0) {

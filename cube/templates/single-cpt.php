@@ -32,11 +32,11 @@ if (is_cubewp_single_page_builder_active($post_type)) {
                                 <div class="cwp-single-quick-actions">
                                     <?php
                                     if($cwpOptions['post_type_share_button']=='1'){
-                                        $single->get_post_share_button(get_the_ID());
+                                        echo do_shortcode( '[cubewp_post_share]' );
                                     }?>
                                     <?php
                                     if($cwpOptions['post_type_save_button']=='1'){
-                                        $single->get_post_save_button();
+                                        echo do_shortcode( '[cubewp_post_save]' );
                                     }?>
                                 </div>
                             </div>

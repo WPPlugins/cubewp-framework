@@ -52,6 +52,7 @@ class CubeWp_Import {
                 <input type="hidden" name="action" value="cwp_import_data">
                 <input type="hidden" name="cwp_import_nonce" value="<?php echo wp_create_nonce( basename( __FILE__ ) ); ?>">
                 <div class="postbox-container">
+                <!-- <button type="submit" class="button-primary cwp_import_demo" name="cwp_import"><?php esc_html_e('Import Dummy Data', 'cubewp'); ?></button> -->
                     <div id="poststuff">
                         <div class="postbox">
                             <div class="postbox-header">

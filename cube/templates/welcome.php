@@ -226,7 +226,7 @@ wp_enqueue_style( 'cubewp-welcome' );
                                         <div class="cwpform-shortcode">
                                             <div class="inner copy-to-clipboard"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                                                 <path d="M13 0H6a2 2 0 0 0-2 2 2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2 2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm0 13V4a2 2 0 0 0-2-2H5a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1zM3 4a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4z"></path>
-                                            </svg>[cwpSearch type="YOUR POST TYPE"]</div>
+                                            </svg><p>copy shortcode</p>[cwpSearch type="YOUR POST TYPE"]</div>
                                         </div>
                                     </div>
                                 </div>
@@ -238,7 +238,7 @@ wp_enqueue_style( 'cubewp-welcome' );
                                         <div class="cwpform-shortcode">
                                             <div class="inner copy-to-clipboard"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                                                 <path d="M13 0H6a2 2 0 0 0-2 2 2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2 2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm0 13V4a2 2 0 0 0-2-2H5a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1zM3 4a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4z"></path>
-                                            </svg>[cwpFilters]</div>
+                                            </svg><p>copy shortcode</p>[cwpFilters]</div>
                                         </div>
                                     </div>
                                 </div>
@@ -250,7 +250,7 @@ wp_enqueue_style( 'cubewp-welcome' );
                                         <div class="cwpform-shortcode">
                                             <div class="inner copy-to-clipboard"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                                                 <path d="M13 0H6a2 2 0 0 0-2 2 2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2 2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm0 13V4a2 2 0 0 0-2-2H5a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1zM3 4a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4z"></path>
-                                            </svg>[cwpSaved]</div>
+                                            </svg><p>copy shortcode</p>[cwpSaved]</div>
                                         </div>
                                     </div>
                                 </div>
@@ -262,7 +262,7 @@ wp_enqueue_style( 'cubewp-welcome' );
                                         <div class="cwpform-shortcode">
                                             <div class="inner copy-to-clipboard"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                                                 <path d="M13 0H6a2 2 0 0 0-2 2 2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2 2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm0 13V4a2 2 0 0 0-2-2H5a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1zM3 4a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4z"></path>
-                                            </svg>[cwpRegisterForm role=YOUR USER ROLE”]</div>
+                                            </svg><p>copy shortcode</p>[cwpRegisterForm role=YOUR USER ROLE”]</div>
                                         </div>
                                     </div>
                                 </div>
@@ -275,7 +275,7 @@ wp_enqueue_style( 'cubewp-welcome' );
                                             <div class="inner copy-to-clipboard">
                                               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                                                 <path d="M13 0H6a2 2 0 0 0-2 2 2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2 2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm0 13V4a2 2 0 0 0-2-2H5a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1zM3 4a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4z"></path>
-                                            </svg>[cwpForm type="YOUR POST TYPE"]</div>
+                                            </svg><p>copy shortcode</p>[cwpForm type="YOUR POST TYPE"]</div>
                                         </div>
                                     </div>
                                 </div>
@@ -287,7 +287,7 @@ wp_enqueue_style( 'cubewp-welcome' );
                                         <div class="cwpform-shortcode">
                                             <div class="inner copy-to-clipboard"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
 													<path d="M13 0H6a2 2 0 0 0-2 2 2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2 2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm0 13V4a2 2 0 0 0-2-2H5a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1zM3 4a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4z"></path>
-												</svg>[cwp_dashboard]</div>
+												</svg><p>copy shortcode</p>[cwp_dashboard]</div>
                                         </div>
                                     </div>
                                 </div>
@@ -299,7 +299,7 @@ wp_enqueue_style( 'cubewp-welcome' );
                                         <div class="cwpform-shortcode">
                                             <div class="inner copy-to-clipboard"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
 													<path d="M13 0H6a2 2 0 0 0-2 2 2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2 2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm0 13V4a2 2 0 0 0-2-2H5a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1zM3 4a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4z"></path>
-												</svg>[cwpPricingPlans]</div>
+												</svg><p>copy shortcode</p>[cwpPricingPlans]</div>
                                         </div>
                                     </div>
                                 </div>
@@ -435,7 +435,7 @@ wp_enqueue_style( 'cubewp-welcome' );
                             <a href="#" style="pointer-events: none;" class="grid-footer-premium <?php esc_html_e( $f_status_class); ?>"><?php esc_html_e( $f_status_text, 'cubewp-frontend' ); ?></a>
                                 <a target="_blank" href="https://cubewp.com/my-account/" class="grid-footer-purchase">Manage</a>
                             <?php }else{?>
-                          <a href="https://cubewp.com/cubewp-frontend-pro/" class="grid-footer-premium">Premium</a>
+                          <a target="_blank" href="https://cubewp.com/cubewp-frontend-pro/" class="grid-footer-premium">Premium</a>
                             <a target="_blank" href="https://cubewp.com/store/" class="grid-footer-purchase">Purchase</a>
                         <?php } ?>
 
@@ -450,7 +450,7 @@ wp_enqueue_style( 'cubewp-welcome' );
                                 <img src="<?php echo CWP_PLUGIN_URI . 'cube/assets/admin/images/cubewp-inbox-logo.png'; ?>" alt="" />
                             </div>
                             <div class="cwp-sidebar-main-grid-content-area">
-                                <p class="content">CubeWp Inbox allows privately communication between vendors and customers.</p>
+                                <p class="content">CubeWP Inbox allows privately communication between vendors and customers.</p>
                             </div>
                                 <?php
                                 $inbox_status =CWP()->cubewp_options('cubewp-addon-inbox_status');
@@ -511,8 +511,7 @@ wp_enqueue_style( 'cubewp-welcome' );
 
                 </div>
 				<div class="cwp-sidebar-ads">
-					<a target="_blank" href="https://www.cloudways.com/en/wordpress-hosting.php?id=1165187&a_bid=4869f424&chan=cwplgdash" target="_top"><img src="//www.cloudways.com/affiliate/accounts/default1/banners/e2554eeb.jpg" alt="" title="" width="336" height="280" /></a>
-                    <img style="border:0" src="https://www.cloudways.com/affiliate/scripts/imp.php?id=1165187&amp;a_bid=e2554eeb" width="1" height="1" alt="" />
+					<a href="Cloud-based WordPress Hosting with Guaranteed Speed Boost" target="_top"><img src="//www.cloudways.com/affiliate/accounts/default1/banners/19515e01.jpg" alt="Load WordPress Sites in as fast as 37ms!" title="Load WordPress Sites in as fast as 37ms!" width="336" height="280" /></a><img style="border:0" src="https://www.cloudways.com/affiliate/scripts/imp.php?id=1165187&amp;a_bid=19515e01" width="1" height="1" alt="" />
 				</div>
 			</div>
 		</div>

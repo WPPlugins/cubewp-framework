@@ -38,6 +38,8 @@ class CubeWp_Single_Cpt {
 	}
 	public function __construct() {
 		self::set_post_args();
+        add_shortcode( 'cubewp_post_save', array($this, 'get_post_save_button'));
+        add_shortcode( 'cubewp_post_share', array($this, 'get_post_share_button'));
 	}
 	
 	/**

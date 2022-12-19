@@ -108,6 +108,10 @@ tr.cwp-field-size-full {
 	padding: 20px 10px;
 	width: 150px;
 }
+#price_plan .cwp-metaboxes tr th {
+    width: 190px;
+    min-width: 190px;
+}
 tr.cwp-field-size-two:nth-child(2n) {
 	border-left: 3px solid #4f94d455;
 }

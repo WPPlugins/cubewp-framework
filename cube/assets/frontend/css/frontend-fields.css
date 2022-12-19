@@ -637,6 +637,7 @@ span.cwp-range-number-field-seprator {
     overflow: hidden;
     width: 75px;
     height: 30px;
+	cursor: pointer;
     line-height: 30px;
 }
  .cwp-switch .cwp-switch-field {

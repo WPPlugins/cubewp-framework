@@ -207,7 +207,7 @@ $conditional_options = array();
 if ( cubewp_check_if_elementor_active() && ! cubewp_check_if_elementor_active(true) && ! class_exists("CubeWp_Frontend_Load") ) {
    	$pages   = get_pages( array( "fields" => "ids" ) );
    	$options = array();
-   	if ( ! empty( $pages ) ) {
+   	if ( ! empty( $pages ) && !is_null(Elementor\Plugin::$instance->documents) ) {
 		foreach ( $pages as $page ) {
 			$document = Elementor\Plugin::$instance->documents->get( $page->ID );
 			if ( $document && $document->is_built_with_elementor() && $document->is_editable_by_current_user() ) {
