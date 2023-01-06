@@ -141,6 +141,26 @@ class CubeWp_Enqueue extends CubeWp_Admin_Enqueue {
 				'deps'    => array('cubewp-leaflet'),
 				'version' => '',
 			 ),
+			'cwp-form-validation'      => array(
+				'src'     => CWP_PLUGIN_URI . 'cube/assets/frontend/js/frontend-form-validation.js',
+				'deps'    => array( 'jquery' ),
+				'version' => CUBEWP_VERSION,
+			),
+			'cwp-frontend-fields'      => array(
+				'src'     => CWP_PLUGIN_URI . 'cube/assets/frontend/js/frontend-fields.js',
+				'deps'    => array( 'jquery' ),
+				'version' => CUBEWP_VERSION,
+			),
+			'cwp-repeating-fields'     => array(
+				'src'     => CWP_PLUGIN_URI . 'cube/assets/frontend/js/repeatable-fields.js',
+				'deps'    => array( 'jquery' ),
+				'version' => CUBEWP_VERSION,
+			),
+			'cwp-google-address-field' => array(
+				'src'     => CWP_PLUGIN_URI . 'cube/assets/frontend/js/google-address-field.js',
+				'deps'    => array( 'google_map_api' ),
+				'version' => CUBEWP_VERSION,
+			),
 		);
 		$register_scripts = apply_filters( 'frontend/script/register', $register_scripts );
 		foreach ( $register_scripts as $name => $props ) {

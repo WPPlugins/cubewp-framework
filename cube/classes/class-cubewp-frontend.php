@@ -31,6 +31,7 @@ class CubeWp_Frontend {
         add_action('cubewp_loaded', array('CubeWp_Pagination', 'init'), 10);
         add_action('cubewp_loaded', array('CubeWp_Frontend_Search_Fields', 'init'), 10);
         add_action('cubewp_loaded', array('CubeWp_Frontend_Search_Filter', 'init'), 10);
+        add_action('cubewp_loaded', array('CubeWp_Frontend_Recaptcha', 'init'), 10);
         add_filter('cubewp_frontend_search_data', array($this, 'cubewp_frontend_search_data'), 10, 2);
         
         new CubeWp_Ajax( '',

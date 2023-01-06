@@ -164,6 +164,7 @@ class CubeWp_Admin {
             'taxonomies' => 'modules/',
             'list-tables'=> 'modules/',
             'elementor'  => 'modules/',
+            'recaptcha'  => 'modules/',
             
             'widgets'    => 'includes/',
             'shortcodes' => 'includes/',

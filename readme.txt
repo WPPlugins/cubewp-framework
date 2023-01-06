@@ -5,36 +5,32 @@ Tags: custom fields, custom post types, custom taxonomies, acf, meta box, custom
 Requires at least: 5.0
 Requires PHP: 7.2
 Tested up to: 6.1
-Stable tag: 1.0.11
+Stable tag: 1.0.12
 License: GPLv2 or later
 
 CubeWP is an end-to-end dynamic content framework for WordPress to help you shrink time and cut cost of development up to 90%.
 
 == Description ==
 
-CubeWP is a cutting-edge, simple and fast framework that will help you with any sort of WordPress project or product development. It's never been easier or faster!
- 
 **CubeWP Framework is to WordPress developers what Iron Man suit is to Tony Stark.**
- 
-With CubeWP you can create anything, from simple websites to advanced web apps. It doesn’t stop there, it’s so powerful that it even reduces up to 90% of your time and costs for developing advanced WordPress themes and plugins.
- 
-Go just beyond creating Custom Post Types, Custom Taxonomies, Custom Fields, Search Forms, and Search Filter.
 
-**Also, don’t forget to check out all the available add-ons below for CubeWP Framework.**
+CubeWP is a powerful and easy-to-use framework for WordPress development. It allows you to create a wide range of projects, from simple websites to advanced web apps, and can save you time and money by reducing the time and cost of developing advanced WordPress themes and plugins. With CubeWP, you can create custom post types, custom taxonomies, custom fields, search forms, and search filters with ease. Whether you're a beginner or an experienced WordPress developer, CubeWP has something to offer you. 
+
+**Be sure to explore the available add-ons for the CubeWP Framework to see all the extra features and functionality you can add to your site. These add-ons can help you take your WordPress development to the next level and meet all your project needs.**
 
 
 ## TOP 10 Reason Why to Choose CubeWP
 
-1. Get 10x more for free than other paid plugins in the same category.
-2. Deliver your WordPress projects or products in record time.
-3. A simple drag-and-drop interface to create all sorts of dynamic content.
-4. Generate shortcodes and drop them anywhere.
-5. Use it on your existing site or a new site.
-6. All WordPress Page Builders are supported.
-7. Advanced integration with Elementor, Elementor Pro and WP Bakery.
-8. All WordPress Themes are supported.
-9. It’s very light and makes your websites load faster and boosts SEO.
-10. More power-packed add-ons to meet all your requirements.
+1. Get 10 times more features for free compared to other paid plugins in the same category.
+2. Accelerate your WordPress project development with record speed.
+3. Easily create dynamic content using a simple drag-and-drop interface.
+4. Generate and insert shortcodes into any location on your site.
+5. Use CubeWP on your current WordPress site or a new one.
+6. Compatible with all popular WordPress page builders.
+7. Enjoy advanced integration with Elementor, Elementor Pro, and WP Bakery.
+8. Works with all WordPress themes.
+9. Lightweight and optimized for fast loading times and improved SEO.
+10. Access a range of powerful add-ons to meet your specific needs.
 
 
 ### Core Features Overview
@@ -52,19 +48,19 @@ Go just beyond creating Custom Post Types, Custom Taxonomies, Custom Fields, Sea
 
 ## ⭐ Custom Post Type (Full WordPress default options) 
 
-Custom Post Types are a great way to create your own type of content for your websites. When you have to go beyond the default available post types, such as Posts and Pages, or even third-party post types like Products using the WooCommerce plugin to build a website for a specific niche or industry, you have to turn to Custom Post Types. Imagine you have a requirement to create a movie database like IMDB, then you must create a CPT called Movies.
+Custom post types allow you to create custom content types for your WordPress site beyond the default options of posts and pages. For example, if you want to build a movie database like IMDB, you could use a custom post type called 'Movies' to store and display information about individual movies. This is especially useful when the default post types don't meet the needs of a specific industry or niche. With custom post types, you have the flexibility to create content that is tailored to your specific needs.
 
 ## ⭐ Custom Taxonomy (Full WordPress default options)
 
 
-Group and organize your Custom Post Types with Custom Taxonomies to help better search, filter, and structure data on the front and backend.
+Organize your custom post types with custom taxonomies to improve search, filtering, and data structure on both the front and back end of your site. Using custom taxonomies, you can group your custom post types in a way that makes it easier to find and access the content you need.
 
 
 ## ⭐ Custom Fields
 
-Custom fields give you the power to customize your advanced website projects by adding extra details to your post types and taxonomies. CubeWP framework includes over 20 field types.
+Custom fields allow you to add extra details and customization to your post types and taxonomies, giving you greater control over your advanced website projects. The CubeWP framework includes 25 field types to choose from, giving you plenty of options for adding custom fields to your site. 
 
-* 20+ Custom Fields Types included.
+* 25 Custom Fields Types included.
    1. Text
    2. Numbers
    3. URL
@@ -88,8 +84,16 @@ Custom fields give you the power to customize your advanced website projects by 
    21. Taxonomy
    22. User
    23. Repeatable Field Set
-   24. Google Address
+   24. Password
+   25. Google Address
       * Option to pin Google Address to Archive Map
+
+
+## ⭐ Rest API (Custom Fields)
+
+CubeWP Custom Fields now supports the WordPress REST API, allowing you to view and manage custom fields for post types, users, and taxonomies using standard WP REST API endpoints. This feature makes it easier for developers to view and modify custom field data on their site
+
+
 
 ## All Other Custom Field Features
 
@@ -226,6 +230,17 @@ Custom fields give you the power to customize your advanced website projects by 
 * One-Click Import
    * Imports only CubeWP exported file.
  
+
+ 
+## ⭐ FREE EXTENSION ⭐
+
+[CubeWP Forms](https://wordpress.org/plugins/cubewp-forms/)
+ 
+CubeWP Forms is a free extension for the CubeWP Framework that lets you easily build professional-looking contact forms, lead forms, feedback forms, and other types of forms for your website using a drag-and-drop form builder.
+
+In addition to serving as a simple contact or lead form, CubeWP Forms can also be used for more advanced purposes. 
+
+
  
 ## ⭐ PREMIUM EXTENSIONS ⭐
 
@@ -285,6 +300,11 @@ To getting started with the plugin, please go to [Documentation](https://support
 
 
 == Changelog ==
+
+= 1.0.12 2022-12-19
+
+* New: CubeWP Forms Compatiblity and CubeWP Frontend PRO compatibility forms.
+Note: It is necessory to update if you want to update Frontend PRO or CubeWP Forms
 
 = 1.0.11 2022-12-16
 

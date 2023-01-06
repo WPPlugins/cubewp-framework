@@ -1008,12 +1008,14 @@ if ( ! function_exists("render_taxonomy_value")) {
 				}
 			}
 		}else {
-			$value = (int) $value;
-			$terms = get_term($value);
-			if ( ! empty($terms)) {
-				$output .= '<a href="' . get_term_link($terms) . '">
-						<p>' . $terms->name . '</p>
-					</a>';
+			if ( ! empty($value)) {
+				$value = (int) $value;
+				$terms = get_term($value);
+				if ( ! empty($terms)) {
+					$output .= '<a href="' . get_term_link($terms) . '">
+							<p>' . $terms->name . '</p>
+						</a>';
+				}
 			}
 		}
 		return $output;
@@ -2012,4 +2014,45 @@ add_filter( 'cubewp/custom_fields/user/fields', 'fields_update', 9, 2 );
  function fields_update($fields_settings = array(), $fieldData = array()) {
 	unset($fields_settings['field_map_use']);
 	return $fields_settings;
+}
+
+if ( ! function_exists('cwp_handle_attachment')) {
+    function cwp_handle_attachment( $file_handler = array(), $post_id = 0, $set_as_featured_image = false ) {
+        
+        require_once( ABSPATH . "/wp-admin/includes/media.php" ); // video functions
+        require_once( ABSPATH . "/wp-admin/includes/file.php" );
+        require_once( ABSPATH . "/wp-admin/includes/image.php" );
+
+        $upload_overrides = array( 'test_form' => false );
+
+        // upload
+        $file = wp_handle_upload( $file_handler, $upload_overrides );
+
+        if( isset($file['error']) ) {
+            return $file['error'];
+        }
+
+        // vars
+        $url = $file['url'];
+        $type = $file['type'];
+        $file = $file['file'];
+        $filename = basename($file);
+
+        // Construct the object array
+        $object = array(
+            'post_title'     => $filename,
+            'post_mime_type' => $type,
+            'guid'           => $url
+        );
+
+        // Save the data
+        $attachment_id = wp_insert_attachment($object, $file);
+
+        // Add the meta-data
+        wp_update_attachment_metadata( $attachment_id, wp_generate_attachment_metadata( $attachment_id, $file ) );
+
+        if ($set_as_featured_image) set_post_thumbnail($post_id, $attachment_id);
+        // return new ID
+        return $attachment_id;
+    }
 }
