@@ -70,9 +70,6 @@ tr.cwp-field-size-two {
 	display: flex;
 	width: calc(100% / 2);
 }
-tr.cwp-field-size-full {
-	display: table;
-}
 .userbox {
     border: 1px solid #c3c4c7;
     box-shadow: 0 1px 1px rgb(0 0 0 / 4%);

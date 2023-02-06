@@ -256,7 +256,7 @@ trait CubeWp_Builder_Ui {
 	 */
 	protected static function CubeWp_build_content_switcher(array $data) {
 		$output = null;
-		if (isset($data['form_type']) && $data['form_type'] == 'post_type' && class_exists('CubeWp_Payments_Load')) {
+		if (isset($data['form_type']) && $data['form_type'] == 'post_type') {
 			$options = self::$tab_options;
 			if (isset($options) && count($options) != 0) {
 				foreach ($options as $slug => $option) {
@@ -469,35 +469,35 @@ trait CubeWp_Builder_Ui {
 		$return_ui = '';
 		$FormType  = self::$FORM_TYPE;
 		if ( $FormType != 'search_filters' && $FormType != 'search_fields' ) {
-		   $plans = apply_filters("cubewp/builder/{FormType}/switcher",array(),$post_type);
-		   if ( $FormType == 'post_type' && !isset( $plans['options'] ) &&  !empty( $plans['options'] )) {
-			  $plans_options  = '';
-			  $post_type_form = CWP()->get_form( 'post_type' );
-			  foreach ( $plans['options'] as $plan ) {
-				 if ( $plan == $data['content_switcher'] || ! isset( $post_type_form[ $post_type ][ $plan ]['groups'] ) || empty( $post_type_form[ $post_type ][ $plan ]['groups'] ) ) {
-					continue;
-				 }
-				 $plans_options .= '<option value="' . $plan . '">' . esc_html( get_the_title( $plan ) ) . '</option>';
-			  }
-			  if ( ! empty( $plans_options ) ) {
-				 $return_ui .= '<div class="cubewp-builder-sections-importer">
-					<label for="cubewp-builder-section-import-' . $data['content_switcher'] . '">' . esc_html__( "Copy Content From", "cubewp-framework" ) . '</label>
-					<select id="cubewp-builder-section-import-' . $data['content_switcher'] . '" class="cubewp-builder-section-import">';
-					   $return_ui .= $plans_options;
-					$return_ui .= '</select>
-					<button class="button cwpform-import-sections">
-					   <span class="dashicons dashicons-admin-page"></span>
-					   ' . esc_html__( "Copy", "cubewp-framework" ) . '
-					</button>
-				 </div>';
-			  }
-		   }
-		   $return_ui .= '<button class="button cwpform-add-section">
-			  <span class="dashicons dashicons-plus"></span>
-			  ' . esc_html__( "Create Section", "cubewp-framework" ) . '
-		   </button>';
-	 
-		   return $return_ui;
+			$plans = apply_filters( "cubewp/builder/{$FormType}/switcher", array(), $post_type );
+			if ( $FormType == 'post_type' && isset( $plans['options'] ) &&  !empty( $plans['options'] )) {
+				$plans_options  = '';
+				$post_type_form = CWP()->get_form( 'post_type' );
+				foreach ( $plans['options'] as $plan => $title ) {
+					if ( $plan == $data['content_switcher'] || ! isset( $post_type_form[ $post_type ][ $plan ]['groups'] ) || empty( $post_type_form[ $post_type ][ $plan ]['groups'] ) ) {
+						continue;
+					}
+					$plans_options .= '<option value="' . $plan . '">' . esc_html( get_the_title( $plan ) ) . '</option>';
+				}
+				if ( ! empty( $plans_options ) ) {
+					$return_ui .= '<div class="cubewp-builder-sections-importer">
+						<label for="cubewp-builder-section-import-' . $data['content_switcher'] . '">' . esc_html__( "Copy Content From", "cubewp-framework" ) . '</label>
+						<select id="cubewp-builder-section-import-' . $data['content_switcher'] . '" class="cubewp-builder-section-import">';
+						$return_ui .= $plans_options;
+						$return_ui .= '</select>
+						<button class="button cwpform-import-sections">
+						<span class="dashicons dashicons-admin-page"></span>
+						' . esc_html__( "Copy", "cubewp-framework" ) . '
+						</button>
+					</div>';
+				}
+			}
+			$return_ui .= '<button class="button cwpform-add-section">
+				<span class="dashicons dashicons-plus"></span>
+				' . esc_html__( "Create Section", "cubewp-framework" ) . '
+			</button>';
+		
+			return $return_ui;
 		}
 	 
 		return $return_ui;

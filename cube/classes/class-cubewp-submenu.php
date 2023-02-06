@@ -104,16 +104,16 @@ class CubeWp_Submenu {
                 'callback'  => 'user-custom-fields',
             ),
             array(
-                'id'           => 'cubewp-admin-search-filters', // Expected to be overridden if dashboard is enabled.
-                'parent'       => 'cube_wp_dashboard',
-                'title'        => esc_html__('Search Filter', 'cubewp-framework'),
-                'callback'     => 'cubewp-admin-search-filters',
-            ),
-            array(
                 'id'           => 'cubewp-admin-search-fields', // Expected to be overridden if dashboard is enabled.
                 'parent'       => 'cube_wp_dashboard',
                 'title'        => esc_html__('Search Forms', 'cubewp-framework'),
                 'callback'     => 'cubewp-admin-search-fields',
+            ),
+            array(
+                'id'           => 'cubewp-admin-search-filters', // Expected to be overridden if dashboard is enabled.
+                'parent'       => 'cube_wp_dashboard',
+                'title'        => esc_html__('Search Filter', 'cubewp-framework'),
+                'callback'     => 'cubewp-admin-search-filters',
             ),
             array(
                 'id'           =>  'cubewp-user-registration-form',

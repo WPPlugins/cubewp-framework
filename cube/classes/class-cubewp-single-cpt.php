@@ -260,19 +260,12 @@ class CubeWp_Single_Cpt {
                     $field_type = 'terms';
                 }
             }
-            $label = isset( $options["label"] ) ? $options["label"] : "";
             $value = self::get_single_meta_value($meta_key,$field_type);
-            $args = array(
-                'type'                  =>    $field_type,
-                'container_class'       =>    isset( $options["container_class"] ) ? $options["container_class"] : "",
-                'class'                 =>    isset( $options["class"] ) ? $options["class"] : '',
-                'value'                 =>    $value,
-                'label'                 =>    $label,
-            );
+            $options['value'] = $value;
 			if(function_exists('cube_' . $field_type)){
-                $output .= call_user_func('cube_' . $field_type, $options, $value);
+                $output .= call_user_func('cube_' . $field_type, $options);
             }else if (method_exists(__CLASS__, 'field_' . $field_type)) {
-                $output .= call_user_func('self::field_' . $field_type, $args);
+                $output .= call_user_func('self::field_' . $field_type, $options);
 			}else {
 				$output .= '<p style="color: #ff0000">' . sprintf(esc_html__("Invalid Field Type: %s", "cubewp-framework"), $field_type) . '</p>';
 			}

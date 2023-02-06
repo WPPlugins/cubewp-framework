@@ -5,7 +5,7 @@ Tags: custom fields, custom post types, custom taxonomies, acf, meta box, custom
 Requires at least: 5.0
 Requires PHP: 7.2
 Tested up to: 6.1
-Stable tag: 1.0.12
+Stable tag: 1.0.13
 License: GPLv2 or later
 
 CubeWP is an end-to-end dynamic content framework for WordPress to help you shrink time and cut cost of development up to 90%.
@@ -300,6 +300,24 @@ To getting started with the plugin, please go to [Documentation](https://support
 
 
 == Changelog ==
+
+= 1.0.13 2023-01-06
+
+* New: Reload added after dismissing a notice.
+* New: Reload after resetting the section in CubeWP Setting
+* New: Field type options added in custom fields
+* New: Counter added in Repeating field.
+* New: Eye icon added on Password.
+* New: Maximum size validation added in custom fields for File, Image, and Gallery field types.
+* Tweaks: Improvement in CubeWP Dashboard.
+* Tweaks: Improvements in All builders.
+* Tweaks: Re arrangments of CubeWP main tabs.
+* Fixed: UI & UX fixes.
+* Fixed: Repeating field conflict with  CubeWP Forms.
+* Fixed: Image custom taxonomies UI.
+* Fixed: Placeholder field removed in Post Type checkbox option.
+* Fixed: Shortcode of save and share printing double value.
+* Fixed: Validation issues when custom fields collapse.
 
 = 1.0.12 2022-12-19
 

@@ -59,7 +59,7 @@ if (is_cubewp_single_page_builder_active($post_type)) {
                 </div>
             </div>
         </div>
-    <?php
+    <?php    
 }
 do_action('cubewp_post_confirmation', get_the_ID());
 get_footer();

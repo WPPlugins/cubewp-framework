@@ -166,6 +166,8 @@ class CubeWp_Frontend_Search_Filter {
             $fieldOptions['type']    =   isset($search_filter['display_ui']) ? $search_filter['display_ui'] : $fieldOptions['type'];
             $fieldOptions['container_class']    =   isset($search_filter['container_class']) ? $search_filter['container_class'] : $fieldOptions['container_class'];
             $fieldOptions['class']    =   isset($search_filter['class']) ? $search_filter['class'] : $fieldOptions['class'];
+            $placeholder   =   isset($search_filter['placeholder']) && !empty($search_filter['placeholder']) ? $search_filter['placeholder'] : '';
+            $fieldOptions['placeholder']   =   empty($placeholder) && isset($fieldOptions['placeholder']) ? $fieldOptions['placeholder'] : $placeholder;
             
             $field_type  =   isset($search_filter['display_ui']) ? $search_filter['display_ui'] : '';
 
@@ -187,7 +189,6 @@ class CubeWp_Frontend_Search_Filter {
             if(isset($_GET[$fieldOptions['name']]) && !empty($_GET[$fieldOptions['name']])){
                 $fieldOptions['value'] = sanitize_text_field($_GET[$fieldOptions['name']]);                
             }
-
             echo apply_filters("cubewp/search_filters/{$field_type}/field", '', $fieldOptions);
         }
     }

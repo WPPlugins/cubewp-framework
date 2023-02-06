@@ -225,7 +225,7 @@ class CubeWp_Form_Builder {
                 if ( isset( $field ) && is_array( $field ) ) {
                     $field['form_relation'] = $section['form_relation'];
                     $field['form_type']     = $section['form_type'];
-                    $output                 .= $this->cwpform_form_field( $field );
+                    $output .= $this->cwpform_form_field( $field );
                 }
             }
         }
@@ -340,14 +340,16 @@ class CubeWp_Form_Builder {
             'value'       => $field['label'],
             'extra_attrs' => 'data-name="label"',
         );
-        $field_args['class'] = array(
-            'class'       => 'group-field field-input-class',
-            'label'       => esc_html__( "Input Class", "cubewp-framework" ),
-            'name'       => 'class',
-            'type'       => 'text',
-            'value'       => $field['class'],
-            'extra_attrs' => 'data-name="class"',
-        );
+        if ($field['type'] != 'repeating_field' && $field['type'] != 'author' && $field['type'] != 'messages_form') {
+            $field_args['class'] = array(
+                'class'       => 'group-field field-input-class',
+                'label'       => esc_html__( "Input Class", "cubewp-framework" ),
+                'name'       => 'class',
+                'type'       => 'text',
+                'value'       => $field['class'],
+                'extra_attrs' => 'data-name="class"',
+            );
+        }
         $field_args['container_class'] = array(
             'class'       => 'group-field field-container-class',
             'label'       => esc_html__( "Container Class", "cubewp-framework" ),
@@ -386,7 +388,7 @@ class CubeWp_Form_Builder {
     }
 
     /**
-     * Method cwpform_required_field
+     * Method cwpform_placeholder_field
      *
      * @param array $field single field data
      *
@@ -520,7 +522,7 @@ class CubeWp_Form_Builder {
             $input_attrs = array(
                 'class'       => 'group-field field-required',
                 'name'        => 'required',
-                'value'       => isset( $field['required'] ) && ! empty( $field['required'] ) ? $field['required'] : '1',
+                'value'       => isset( $field['required'] ) ? $field['required'] : '1',
                 'options'     => array( '1' => __( "Required" ), '0' => __( "Not required" ) ),
                 'extra_attrs' => 'data-name="required"',
             );

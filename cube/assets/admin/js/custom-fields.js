@@ -84,6 +84,8 @@ jQuery(document).ready(function ($){
         };
         jQuery.post(cubewp_custom_fields_params.url, data, function (response){
             e_this.closest('.sub-fields-holder').find('.sub-fields') .append(response.data);
+            var sub_fields = e_this.closest('.sub-fields-holder').find('.cwp-add-form-feild');
+            sub_fields.last().find('.field-counter span').text(sub_fields.length);
             cwp_update_custom_field_type();
             cwp_find_group_field();
             cwp_fields_sortable();
@@ -291,7 +293,42 @@ function cwp_update_custom_field_type(){
             }
         }
     });
-    
+    hide_field_optional_onload();
+}
+
+if (jQuery(".hide-field-on-selection").length > 0) {
+    jQuery(document).on('change', '.hide-field-on-selection select', function (e) {
+        var thisObj = jQuery(this);
+        var row = thisObj.closest('.hide-field-on-selection');
+        hide_field_optional(row,thisObj.val());
+    });
+}
+
+function hide_field_optional_onload() {
+    if(jQuery(".hide-field-on-selection").length > 0){
+        jQuery(".hide-field-on-selection").each(function(){
+            var thisObj = jQuery(this);
+            hide_field_optional(thisObj);
+        });
+    }
+}
+
+function hide_field_optional(t,val='') {
+    var hide_option = t.data('hide-option');
+    var hide_field = t.data('hide-field');
+    if( hide_option !== 'undefined' && hide_option !== '' && hide_field !== 'undefined' && hide_field !== '' ){
+        var field = t.closest('tbody').find('.'+hide_field).closest('tr');
+        if(val == ''){
+            var option_val     = t.find('select').val();
+        }else{
+            var option_val     = val;
+        }
+        if( hide_option == option_val){
+            field.hide();
+        }else if( option_val != '' && hide_option != option_val){
+            field.show();
+        }
+    }
 }
 
 function cwp_find_sub_fields() {
@@ -308,15 +345,15 @@ function cwp_find_sub_fields() {
 }
 
 function cwp_fields_sortable(){
-    
     jQuery(".cwp-group-fields-content").sortable({
-        items: ".cwp-add-form-feild",
-        handle: '.field-order'
+        handle: '.parent-field-order',
+        items: '.parent-field'
     }).disableSelection();
     
     jQuery(".cwp-group-fields .sub-fields").sortable({
         items: ".cwp-add-form-feild",
-        handle: '.sub-field-order'
+        handle: '.sub-field-order',
+        containment: 'parent'
     }).disableSelection();
 }
 

@@ -55,9 +55,7 @@ trait CubeWp_Single_Page_Trait {
 		if(!empty($args['value'])){
 			$output = '<div class="cwp-cpt-single-text-container cwp-cpt-single-field-container ' . esc_attr($args['container_class']) . ' '.esc_attr($args['field_size']).'">
 				<h4>' . $args['label'] . '</h4>
-				<div class="cwp-cpt-single-text ' . $args['class'] . '">
-					<p>' . esc_html($args['value']) . '</p>
-				</div>
+				<div class="cwp-cpt-single-text ' . $args['class'] . '"><p>' . esc_html($args['value']) . '</p></div>
 			</div>';
 		}
 
@@ -295,9 +293,7 @@ trait CubeWp_Single_Page_Trait {
 		if(!empty($args['value'])){
 			$output = '<div class="cwp-cpt-single-switch-container cwp-cpt-single-field-container ' . esc_attr($args['container_class']) . ' '.esc_attr($args['field_size']).'">
 				<h4>' . $args['label'] . '</h4>
-				<div class="cwp-cpt-single-switch ' . $args['class'] . '">
-					<p>' . esc_html($args['value']) . '</p>
-				</div>
+				<div class="cwp-cpt-single-switch ' . $args['class'] . '"><p>' . esc_html($args['value']) . '</p></div>
 			</div>';
 		}
 
@@ -514,7 +510,7 @@ trait CubeWp_Single_Page_Trait {
 			$output .= '<div class="cwp-cpt-single-repeating-field cwp-cpt-single-field-container '.esc_attr($args['container_class']).' '.esc_attr($args['field_size']).'">
             	<h4>' . $args['label'] . '</h4>';
 				for ($i = 0; $i < count($values); $i ++) {
-					$output .= '<div class="cwp-cpt-single-repeating-field-inner ' . $args['class'] . '">';
+					$output .= '<div class="cwp-cpt-single-repeating-field-inner">';
 					foreach ($values[$i] as $k => $value) {
 						$field_type = $value['type'];
 						$value['class'] = isset($value['class']) ? $value['class'] : '';

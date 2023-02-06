@@ -676,19 +676,32 @@ if ( ! function_exists("cwp_render_dropdown_input")) {
 		} else if ( ! empty($placeholder)) {
 			$html .= '<option value>' . $placeholder . '</option>';
 		}
-
 		if (isset($attrs['options']) && ! empty($attrs['options'])) {
 			$options_arr = cwp_convert_choices_to_array($attrs['options']);
-
 			foreach ($options_arr as $key => $val) {
-
-				$s = '';
-				if (is_array($attrs['value']) && in_array($key, $attrs['value'])) {
-					$s = 'selected';
-				} else if ($key == $attrs['value']) {
-					$s = 'selected';
+				if ( is_array( $val ) ) {
+					if ( ! empty( $val ) ) {
+						$html .= '<optgroup label="' . $key . '">';
+						foreach ( $val as $value => $label ) {
+							$s = '';
+							if (is_array($attrs['value']) && in_array($value, $attrs['value'])) {
+								$s = 'selected';
+							} else if ($value == $attrs['value']) {
+								$s = 'selected';
+							}
+							$html .= '<option class="option" ' . $s . ' value="' . esc_attr($value) . '">' . esc_html($label) . '</option>';
+						}
+						$html .= '</optgroup>';
+					}
+				}else {
+					$s = '';
+					if (is_array($attrs['value']) && in_array($key, $attrs['value'])) {
+						$s = 'selected';
+					} else if ($key == $attrs['value']) {
+						$s = 'selected';
+					}
+					$html .= '<option class="option" ' . $s . ' value="' . esc_attr($key) . '">' . esc_html($val) . '</option>';
 				}
-				$html .= '<option class="option" ' . $s . ' value="' . esc_attr($key) . '">' . esc_html($val) . '</option>';
 			}
 		}
 

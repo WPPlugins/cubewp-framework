@@ -64,9 +64,9 @@ jQuery(document).ready(function () {
 
     jQuery(document).on('change', '.cwp-field-switch-container input[type="checkbox"]', function () {
         if (jQuery(this).is(":checked")) {
-            jQuery(this).closest('label').find('input[type="hidden"]').val('Yes');
+            jQuery(this).closest('label').find('input[type="hidden"]').val('Yes').trigger('input');
         } else {
-            jQuery(this).closest('label').find('input[type="hidden"]').val('No');
+            jQuery(this).closest('label').find('input[type="hidden"]').val('No').trigger('input');
         }
     });
 
@@ -141,6 +141,26 @@ jQuery(document).ready(function () {
         });
     });
     
+    //Password Field
+    jQuery(document).on('click', '.cwp-field-password .show-password', function () {
+        var $this = jQuery(this);
+        var password_field = $this.closest('.cwp-field-password').find('input');
+        if($this.hasClass('dashicons-visibility'))
+        {
+          $this.removeClass('dashicons-visibility');
+          $this.addClass('dashicons-hidden');
+        }else{
+          $this.removeClass('dashicons-hidden');
+          $this.addClass('dashicons-visibility');
+        }
+        if(password_field.attr('type')==='password')
+        {
+          password_field.attr('type','text');
+        }else{
+          password_field.attr('type','password');
+        }
+    });
+
     jQuery(document).on('click', '.cwp-gallery-field-preview span', function () {
         var $this = jQuery(this), batch_id = $this.closest('.cwp-gallery-field-preview').attr('data-batch-id');
         jQuery('.' + batch_id).remove();
@@ -402,8 +422,14 @@ function cubewp_process_input_type_file($this, handle_as, $callbackFunction = ()
     for (var files_counter = 0; files_counter < files.length; files_counter++) {
         (function (file_index) {
             var file = files[file_index], fileType = file["type"], fileName = file["name"], fileSize = file["size"],
-                i = parseInt(Math.floor(Math.log(fileSize) / Math.log(1024))), previewTempUrl = null;
+                i = parseInt(Math.floor(Math.log(fileSize) / Math.log(1024))), previewTempUrl = null,
+                file_size = (fileSize / 1024 / 1024).toFixed(2),
+                allowed_file_size = $this.attr('data-max-upload');
             fileSize = Math.round(fileSize / Math.pow(1024, i), 2) + ' ' + sizes[i];
+            if ( file_size > allowed_file_size ) {
+                alert(cwp_frontend_fields_params.max_upload_size);
+                return false;
+            }
             if (jQuery.inArray(fileType, type_compare) !== -1) {
                 previewTempUrl = new FileReader();
                 previewTempUrl.onload = function (preview_) {
@@ -489,6 +515,13 @@ function cwp_conditional_fields(form_name_method) {
                 var parent = jQuery('*' +form_name_method+ '[' + field + ']"]');
                 var parentCheckbox = jQuery(form_name_method+ '[' + field + '][]"]');
                 var selectedVal = parent.val();
+                var tagName = parent.prop('tagName');
+                if ( tagName === 'INPUT' ) {
+                    var inputType = parent.prop('type');
+                    if ( inputType === 'radio' ) {
+                        selectedVal = jQuery('*' +form_name_method+ '[' + field + ']"]:selected').val();
+                    }
+                }
                 if (parent.is(':checked') || selectedVal != '' || selectedVal == ''){
                     cwp_condition_logic(selectedVal, value, operator, field);
                 }else if(parentCheckbox.is(':checked')){

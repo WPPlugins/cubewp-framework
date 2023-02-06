@@ -57,12 +57,14 @@ class CubeWp_Search_Ajax_Hooks{
                 ?>
                 <div class="cwp-grids-container cwp-row grid-view">
                     <?php
+                    
                     while($the_query->have_posts()): $the_query->the_post();
                         if(!empty(self::cwp_map_lat_lng(get_the_ID()))){
                             $latLng[] = self::cwp_map_lat_lng(get_the_ID());
                         }
                         echo apply_filters('cubewp/frontend/loop/grid/html', CubeWp_frontend_grid_HTML(get_the_ID(),$grid_class));
                     endwhile;
+                    
                     ?>
                 </div>
                 <?php

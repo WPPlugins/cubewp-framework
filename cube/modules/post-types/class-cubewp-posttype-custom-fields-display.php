@@ -275,7 +275,7 @@ class CubeWp_Posttype_Custom_Fields_Display extends CubeWp_Custom_Fields_Process
                 $checked = '';
             }
             $html .= '<li class="pull-left">';
-            $html .= '<input type="checkbox" class="cwp-custom-fields-post-types" name="cwp[group][types][]" placeholder="" '.$checked.' value="'.$type.'">'.$type.' <br>';
+            $html .= '<input type="checkbox" class="cwp-custom-fields-post-types" name="cwp[group][types][]" '.$checked.' value="'.$type.'">'.$type.' <br>';
             $html .= '</li>';
         }
         return $html;

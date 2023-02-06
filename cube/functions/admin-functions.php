@@ -974,6 +974,10 @@ if ( ! function_exists("get_field_value")) {
 			$value = wp_date(get_option('date_format') . ' H:i:s', $value);
 		}
 		if ($render == true) {
+			if ($field_type == 'repeating_field') {
+				$field['value'] = $value;
+				$value = call_user_func('CubeWp_Single_Page_Trait::field_' . $field_type,$field );
+			}
 			if( $field_type == 'terms'){
 				$value = render_taxonomy_value($value);
 			}
@@ -1001,7 +1005,7 @@ if ( ! function_exists("render_taxonomy_value")) {
 		if (is_array($value)) {
 			foreach ($value as $terms) {
 				$terms = get_term($terms);
-				if ( ! empty($terms)) {
+				if ( ! empty($terms) && !WP_Error()) {
 					$output .= '<a href="' . get_term_link( $terms ) . '">
 							<p>' . $terms->name . '</p>
 						</a>';
@@ -1132,6 +1136,45 @@ if ( ! function_exists("render_multi_value")) {
 	}
 }
 
+/**
+ * Method have_fields
+ *
+ * @param string $field
+ *
+ * @return array/string
+ * @since  1.0.0
+ */
+if ( ! function_exists("have_fields")) {
+	function have_fields($field = '') {
+		return CubeWp_Frontend::have_fields($field);
+	}
+}
+
+/**
+ * Method the_subfield
+ *
+ * @return array/string
+ * @since  1.0.0
+ */
+if ( ! function_exists("the_subfield")) {
+	function the_subfield() {
+		return CubeWp_Frontend::the_subfield();
+	}
+}
+
+/**
+ * Method get_subfield_value
+ *
+ * @param string $field
+ * @return array/string
+ * @since  1.0.0
+ */
+if ( ! function_exists("get_subfield_value")) {
+	function get_subfield_value($field = '') {
+		return CubeWp_Frontend::get_subfield_value($field);
+	}
+}
+
 if ( ! function_exists("cubewp_is_elementor_editing")) {
 	function cubewp_is_elementor_editing() {
 		if(!is_admin()){
@@ -1213,9 +1256,11 @@ if ( ! function_exists("get_fields_by_type")) {
 				$group_fields     = $postCustomFields->get_fields_by_group($group);
 				foreach ($group_fields as $group_field) {
 					$options = get_field_options($group_field);
-					if (in_array($options['type'], $allowed_types)) {
-						$title               = $options['label'];
-						$_data[$group_field] = $title;
+					if(isset($options['type'])){
+						if (in_array($options['type'], $allowed_types)) {
+							$title               = $options['label'];
+							$_data[$group_field] = $title;
+						}
 					}
 				}
 			}
@@ -2055,4 +2100,19 @@ if ( ! function_exists('cwp_handle_attachment')) {
         // return new ID
         return $attachment_id;
     }
+}
+
+if ( ! function_exists( 'cubewp_get_current_url' ) ) {
+	function cubewp_get_current_url() {
+		if ( isset( $_SERVER['HTTPS'] ) &&
+				( $_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] == 1 ) ||
+				isset( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) &&
+				$_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' ) {
+			$protocol = 'https://';
+		} else {
+			$protocol = 'http://';
+		}
+ 
+	   return esc_url( $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
+	}
 }

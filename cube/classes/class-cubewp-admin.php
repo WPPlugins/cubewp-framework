@@ -238,8 +238,8 @@ class CubeWp_Admin {
         $module->register_group( 'cubewp-fields', [
         'title' => esc_html__( 'CubeWP Custom Fields', 'cubewp-framework' ),
         ] );
-            
-        foreach ( $tags as $tag=>$label ) {
+        $field_types = array_reduce($tags, 'array_merge', array());
+        foreach ( $field_types as $tag=>$label ) {
             $tag = 'CubeWp_Tag_'.ucfirst($tag);
             if(class_exists($tag)){
                 $module->register( new $tag() );

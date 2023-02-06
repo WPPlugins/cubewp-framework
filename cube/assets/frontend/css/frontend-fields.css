@@ -160,7 +160,20 @@ span.select2.select2-container .selection span.select2-selection.select2-selecti
 	width: auto;
 	max-width: 100%;
 }
-
+/*-------------Password Field-----------*/
+.cwp-field-password {
+    position: relative;
+}
+.cwp-field-password input {
+    padding-right: 30px;
+}
+.cwp-field-password .show-password {
+    position: absolute;
+    top: 56%;
+    right: 16px;
+    cursor: pointer;
+    color: #a0a0a0;
+}
 /*-------------Search Fields-----------*/
 .cwp-search-form {
 	background: #ffffff;

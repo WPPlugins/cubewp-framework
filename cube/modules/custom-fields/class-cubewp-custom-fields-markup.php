@@ -37,6 +37,7 @@ class CubeWp_Custom_Fields_Markup
             'maximum_value' => 100,
             'steps_count' => 1,
             'file_types' => '',
+            'upload_size' => '',
             'placeholder' => '',
             'filter_post_types' => '',
             'filter_taxonomy' => '',
@@ -79,7 +80,7 @@ class CubeWp_Custom_Fields_Markup
             <div class="parent-field-header field-header ' . $closed_class . '">
 
                 <div class="field-order-counter">
-                    <div class="field-order">
+                <div class="field-order parent-field-order">
                         <svg xmlns="SVG namespace" width="22px" height="22px" viewBox="0 0 320 512" fill="#BFBFBF">
                             <path d="M40 352c-22.1 0-40 17.9-40 40l0 48c0 22.1 17.9 40 40 40l48 0c22.1 0 40-17.9 40-40l0-48c0-22.1-17.9-40-40-40l-48 0zm192 0c-22.1 0-40 17.9-40 40l0 48c0 22.1 17.9 40 40 40l48 0c22.1 0 40-17.9 40-40l0-48c0-22.1-17.9-40-40-40l-48 0zM40 320l48 0c22.1 0 40-17.9 40-40l0-48c0-22.1-17.9-40-40-40l-48 0c-22.1 0-40 17.9-40 40l0 48c0 22.1 17.9 40 40 40zM232 192c-22.1 0-40 17.9-40 40l0 48c0 22.1 17.9 40 40 40l48 0c22.1 0 40-17.9 40-40l0-48c0-22.1-17.9-40-40-40l-48 0zM40 160l48 0c22.1 0 40-17.9 40-40l0-48c0-22.1-17.9-40-40-40L40 32C17.9 32 0 49.9 0 72l0 48c0 22.1 17.9 40 40 40zM232 32c-22.1 0-40 17.9-40 40l0 48c0 22.1 17.9 40 40 40l48 0c22.1 0 40-17.9 40-40l0-48c0-22.1-17.9-40-40-40l-48 0z"></path>
                         </svg>
@@ -216,6 +217,17 @@ class CubeWp_Custom_Fields_Markup
             'class' => 'field-file-types',
             'tr_extra_attr' => 'data-equal="gallery,file,image"',
         );
+        $field_settings['field_upload_size'] = array(
+            'label' => esc_html__('Upload Size', 'cubewp-framework'),
+            'name' => 'cwp[fields][' . $FieldData['name'] . '][upload_size]',
+            'type' => 'text',
+            'id' => '',
+            'placeholder' => esc_html__('Enter Maximum Upload Size In MBs. EG: 5', 'cubewp-framework'),
+            'value' => $FieldData['upload_size'],
+            'tr_class' => 'conditional-field',
+            'class' => 'field-file-types',
+            'tr_extra_attr' => 'data-equal="gallery,file,image"',
+        );
         $field_settings['field_placeholder'] = array(
             'label' => esc_html__('Placeholder', 'cubewp-framework'),
             'name' => 'cwp[fields][' . $FieldData['name'] . '][placeholder]',
@@ -245,7 +257,7 @@ class CubeWp_Custom_Fields_Markup
             'placeholder' => esc_html__('Put your field character limit here', 'cubewp-framework'),
             'value' => $FieldData['char_limit'],
             'tr_class' => 'conditional-field',
-            'class' => 'field-placeholder',
+            'class' => 'field-char-limit',
             'id' => '',
             'tr_extra_attr' => 'data-equal="text,textarea,email,url,password"',
         );
@@ -310,7 +322,7 @@ class CubeWp_Custom_Fields_Markup
             'label' => esc_html__('Field Appearance', 'cubewp-framework'),
             'name' => 'cwp[fields][' . $FieldData['name'] . '][appearance]',
             'type' => 'dropdown',
-            'id' => '',
+            'id' => 'field-appearance-' . str_replace('cwp_field_', '', $FieldData['name']),
             'options' => array(
                 'select' => __('Dropdown', 'cubewp-framework'),
                 'multi_select' => __('Multi Dropdown', 'cubewp-framework'),
@@ -320,8 +332,8 @@ class CubeWp_Custom_Fields_Markup
             'placeholder' => '',
             'option-class' => 'form-option option',
             'class' => 'field-appearance',
-            'tr_class' => 'conditional-field',
-            'tr_extra_attr' => 'data-equal="post,user,taxonomy"',
+            'tr_class' => 'conditional-field hide-field-on-selection',
+            'tr_extra_attr' => 'data-equal="post,user,taxonomy" data-hide-option="checkbox" data-hide-field="field-placeholder"',
             'required' => true,
             'validation_msg' => esc_html__('Please select appearance', 'cubewp-framework'),
         );
@@ -423,6 +435,8 @@ class CubeWp_Custom_Fields_Markup
             'class' => 'field-class',
             'placeholder' => esc_html__('Class for css', 'cubewp-framework'),
             'value' => $FieldData['class'],
+            'tr_class' => 'conditional-field',
+            'tr_extra_attr' => 'data-not_equal="repeating_field"',
         );
         $field_settings['field_container_class'] = array(
             'label' => esc_html__('Container Class', 'cubewp-framework'),
@@ -547,6 +561,8 @@ class CubeWp_Custom_Fields_Markup
             'steps_count' => 1,
             'placeholder' => '',
             'options' => '',
+            'upload_size' => '',
+            'counter' => 1,
             'char_limit' => '',
             'multiple' => 0,
             'select2_ui' => 0,
@@ -659,6 +675,17 @@ class CubeWp_Custom_Fields_Markup
             'class' => 'field-file-types',
             'tr_extra_attr' => 'data-equal="gallery,file,image"',
         );
+        $field_settings['field_upload_size'] = array(
+            'label' => esc_html__('Upload Size', 'cubewp-framework'),
+            'name' => 'cwp[sub_fields][' . $parent_field . '][' . $FieldData['name'] . '][upload_size]',
+            'type' => 'text',
+            'id' => '',
+            'placeholder' => esc_html__('Enter Maximum Upload Size In MBs. EG: 5', 'cubewp-framework'),
+            'value' => $FieldData['upload_size'],
+            'tr_class' => 'conditional-field',
+            'class' => 'field-file-types',
+            'tr_extra_attr' => 'data-equal="gallery,file,image"',
+        );
         $field_settings['field_placeholder'] = array(
             'label' => esc_html__('Placeholder', 'cubewp-framework'),
             'name' => 'cwp[sub_fields][' . $parent_field . '][' . $FieldData['name'] . '][placeholder]',
@@ -687,7 +714,7 @@ class CubeWp_Custom_Fields_Markup
             'placeholder' => esc_html__('Put your field character limit here', 'cubewp-framework'),
             'value' => $FieldData['char_limit'],
             'tr_class' => 'conditional-field',
-            'class' => 'field-placeholder',
+            'class' => 'field-char-limit',
             'id' => '',
             'tr_extra_attr' => 'data-equal="text,textarea,email,url,password"',
         );
@@ -822,9 +849,18 @@ class CubeWp_Custom_Fields_Markup
         $hide_class = (isset($FieldData['label']) && $FieldData['label'] != '') ? 'hidden' : '';
         $field_type = (isset($FieldData['type']) && $FieldData['type'] == '') ? 'text' : $FieldData['type'];
         $field_type = isset($field_types[$field_type]) ? $field_types[$field_type] : $field_type;
-        $html = '
+        $counter = isset($FieldData["counter"]) ? $FieldData["counter"] : 1;
+	    $html = '
         <div class="cwp-field-set cwp-add-form-feild">
             <div class="field-header sub-field-header ' . $closed_class . '">
+                <div class="field-order-counter">
+                    <div class="field-order sub-field-order">
+                        <svg xmlns="SVG namespace" width="22px" height="22px" viewBox="0 0 320 512" fill="#BFBFBF">
+                            <path d="M40 352c-22.1 0-40 17.9-40 40l0 48c0 22.1 17.9 40 40 40l48 0c22.1 0 40-17.9 40-40l0-48c0-22.1-17.9-40-40-40l-48 0zm192 0c-22.1 0-40 17.9-40 40l0 48c0 22.1 17.9 40 40 40l48 0c22.1 0 40-17.9 40-40l0-48c0-22.1-17.9-40-40-40l-48 0zM40 320l48 0c22.1 0 40-17.9 40-40l0-48c0-22.1-17.9-40-40-40l-48 0c-22.1 0-40 17.9-40 40l0 48c0 22.1 17.9 40 40 40zM232 192c-22.1 0-40 17.9-40 40l0 48c0 22.1 17.9 40 40 40l48 0c22.1 0 40-17.9 40-40l0-48c0-22.1-17.9-40-40-40l-48 0zM40 160l48 0c22.1 0 40-17.9 40-40l0-48c0-22.1-17.9-40-40-40L40 32C17.9 32 0 49.9 0 72l0 48c0 22.1 17.9 40 40 40zM232 32c-22.1 0-40 17.9-40 40l0 48c0 22.1 17.9 40 40 40l48 0c22.1 0 40-17.9 40-40l0-48c0-22.1-17.9-40-40-40l-48 0z"></path>
+                        </svg>
+                    </div>
+                    <div class="field-counter"><span>' . $counter . '</span></div>
+                </div>
                 <div class="field-title" data-label="' . esc_html__('Field Name', 'cubewp-framework') . '">
                     <div class="sub-field-order"><i class="fa fa-arrows-alt"></i></div>
                     <div class="field-label">' . esc_html($field_name) . '</div>
@@ -859,31 +895,37 @@ class CubeWp_Custom_Fields_Markup
     public static function cwp_form_field_types()
     {
         $field_types = array();
-        $field_types['text'] = esc_html__('Text', 'cubewp-framework');
-        $field_types['number'] = esc_html__('Number', 'cubewp-framework');
-        $field_types['email'] = esc_html__('Email', 'cubewp-framework');
-        $field_types['url'] = esc_html__('URL', 'cubewp-framework');
-        $field_types['password'] = esc_html__('Password', 'cubewp-framework');
-        $field_types['textarea'] = esc_html__('Textarea', 'cubewp-framework');
-        $field_types['wysiwyg_editor'] = esc_html__('Wysiwyg Editor', 'cubewp-framework');
-        $field_types['oembed'] = esc_html__('oEmbed', 'cubewp-framework');
-        $field_types['file'] = esc_html__('File', 'cubewp-framework');
-        $field_types['image'] = esc_html__('Image', 'cubewp-framework');
-        $field_types['gallery'] = esc_html__('Gallery', 'cubewp-framework');
-        $field_types['switch'] = esc_html__('Switch', 'cubewp-framework');
-        $field_types['color'] = esc_html__('Color', 'cubewp-framework');
-        $field_types['range'] = esc_html__('Range', 'cubewp-framework');
-        $field_types['dropdown'] = esc_html__('Dropdown', 'cubewp-framework');
-        $field_types['checkbox'] = esc_html__('Checkbox', 'cubewp-framework');
-        $field_types['radio'] = esc_html__('Radio Button', 'cubewp-framework');
-        $field_types['google_address'] = esc_html__('Google Address', 'cubewp-framework');
-        $field_types['date_picker'] = esc_html__('Date Picker', 'cubewp-framework');
-        $field_types['date_time_picker'] = esc_html__('Date Time Picker', 'cubewp-framework');
-        $field_types['time_picker'] = esc_html__('Time Picker', 'cubewp-framework');
-        $field_types['post'] = esc_html__('Post', 'cubewp-framework');
-        $field_types['taxonomy'] = esc_html__('Taxonomy', 'cubewp-framework');
-        $field_types['user'] = esc_html__('User', 'cubewp-framework');
-        $field_types['repeating_field'] = esc_html__('Repeating Field', 'cubewp-framework');
+        $field_types[esc_html__('Basic', 'cubewp-framework')]['text'] = esc_html__('Text', 'cubewp-framework');
+        $field_types[esc_html__('Basic', 'cubewp-framework')]['number'] = esc_html__('Number', 'cubewp-framework');
+        $field_types[esc_html__('Basic', 'cubewp-framework')]['email'] = esc_html__('Email', 'cubewp-framework');
+        $field_types[esc_html__('Basic', 'cubewp-framework')]['url'] = esc_html__('URL', 'cubewp-framework');
+        $field_types[esc_html__('Basic', 'cubewp-framework')]['password'] = esc_html__('Password', 'cubewp-framework');
+        $field_types[esc_html__('Basic', 'cubewp-framework')]['textarea'] = esc_html__('Textarea', 'cubewp-framework');
+	    $field_types[esc_html__('Basic', 'cubewp-framework')]['range'] = esc_html__('Range', 'cubewp-framework');
+	    $field_types[esc_html__('Basic', 'cubewp-framework')]['color'] = esc_html__('Color', 'cubewp-framework');
+
+	    $field_types[esc_html__('Media', 'cubewp-framework')]['wysiwyg_editor'] = esc_html__('Wysiwyg Editor', 'cubewp-framework');
+        $field_types[esc_html__('Media', 'cubewp-framework')]['oembed'] = esc_html__('oEmbed', 'cubewp-framework');
+        $field_types[esc_html__('Media', 'cubewp-framework')]['file'] = esc_html__('File', 'cubewp-framework');
+        $field_types[esc_html__('Media', 'cubewp-framework')]['image'] = esc_html__('Image', 'cubewp-framework');
+        $field_types[esc_html__('Media', 'cubewp-framework')]['gallery'] = esc_html__('Gallery', 'cubewp-framework');
+
+		$field_types[esc_html__('Choice', 'cubewp-framework')]['switch'] = esc_html__('Switch', 'cubewp-framework');
+        $field_types[esc_html__('Choice', 'cubewp-framework')]['dropdown'] = esc_html__('Dropdown', 'cubewp-framework');
+        $field_types[esc_html__('Choice', 'cubewp-framework')]['checkbox'] = esc_html__('Checkbox', 'cubewp-framework');
+        $field_types[esc_html__('Choice', 'cubewp-framework')]['radio'] = esc_html__('Radio Button', 'cubewp-framework');
+
+		$field_types[esc_html__('jQuery', 'cubewp-framework')]['google_address'] = esc_html__('Google Address', 'cubewp-framework');
+        $field_types[esc_html__('jQuery', 'cubewp-framework')]['date_picker'] = esc_html__('Date Picker', 'cubewp-framework');
+        $field_types[esc_html__('jQuery', 'cubewp-framework')]['date_time_picker'] = esc_html__('Date Time Picker', 'cubewp-framework');
+        $field_types[esc_html__('jQuery', 'cubewp-framework')]['time_picker'] = esc_html__('Time Picker', 'cubewp-framework');
+
+        $field_types[esc_html__('Relationship', 'cubewp-framework')]['post'] = esc_html__('Post', 'cubewp-framework');
+        $field_types[esc_html__('Relationship', 'cubewp-framework')]['taxonomy'] = esc_html__('Taxonomy', 'cubewp-framework');
+        $field_types[esc_html__('Relationship', 'cubewp-framework')]['user'] = esc_html__('User', 'cubewp-framework');
+
+        $field_types[esc_html__('Layout', 'cubewp-framework')]['repeating_field'] = esc_html__('Repeating Field', 'cubewp-framework');
+
         return apply_filters('cubewp/post/custom_fields/types', $field_types);
     }
 
@@ -896,24 +938,28 @@ class CubeWp_Custom_Fields_Markup
     private static function cwp_form_sub_field_types()
     {
         $field_types = array();
-        $field_types['text'] = esc_html__('Text', 'cubewp-framework');
-        $field_types['number'] = esc_html__('Number', 'cubewp-framework');
-        $field_types['email'] = esc_html__('Email', 'cubewp-framework');
-        $field_types['url'] = esc_html__('URL', 'cubewp-framework');
-        $field_types['textarea'] = esc_html__('Textarea', 'cubewp-framework');
-        $field_types['file'] = esc_html__('File', 'cubewp-framework');
-        $field_types['image'] = esc_html__('Image', 'cubewp-framework');
-        $field_types['gallery'] = esc_html__('Gallery', 'cubewp-framework');
-        $field_types['switch'] = esc_html__('Switch', 'cubewp-framework');
-        $field_types['color'] = esc_html__('Color', 'cubewp-framework');
-        $field_types['range'] = esc_html__('Range', 'cubewp-framework');
-        $field_types['dropdown'] = esc_html__('Dropdown', 'cubewp-framework');
-        $field_types['checkbox'] = esc_html__('Checkbox', 'cubewp-framework');
-        $field_types['radio'] = esc_html__('Radio Button', 'cubewp-framework');
-        $field_types['google_address'] = esc_html__('Google Address', 'cubewp-framework');
-        $field_types['date_picker'] = esc_html__('Date Picker', 'cubewp-framework');
-        $field_types['time_picker'] = esc_html__('Time Picker', 'cubewp-framework');
-        $field_types['post'] = esc_html__('Post', 'cubewp-framework');
+        $field_types[esc_html__('Basic', 'cubewp-framework')]['text'] = esc_html__('Text', 'cubewp-framework');
+        $field_types[esc_html__('Basic', 'cubewp-framework')]['number'] = esc_html__('Number', 'cubewp-framework');
+        $field_types[esc_html__('Basic', 'cubewp-framework')]['email'] = esc_html__('Email', 'cubewp-framework');
+        $field_types[esc_html__('Basic', 'cubewp-framework')]['url'] = esc_html__('URL', 'cubewp-framework');
+        $field_types[esc_html__('Basic', 'cubewp-framework')]['textarea'] = esc_html__('Textarea', 'cubewp-framework');
+	    $field_types[esc_html__('Basic', 'cubewp-framework')]['color'] = esc_html__('Color', 'cubewp-framework');
+	    $field_types[esc_html__('Basic', 'cubewp-framework')]['range'] = esc_html__('Range', 'cubewp-framework');
+
+        $field_types[esc_html__('Media', 'cubewp-framework')]['file'] = esc_html__('File', 'cubewp-framework');
+        $field_types[esc_html__('Media', 'cubewp-framework')]['image'] = esc_html__('Image', 'cubewp-framework');
+        $field_types[esc_html__('Media', 'cubewp-framework')]['gallery'] = esc_html__('Gallery', 'cubewp-framework');
+
+        $field_types[esc_html__('Choice', 'cubewp-framework')]['switch'] = esc_html__('Switch', 'cubewp-framework');
+        $field_types[esc_html__('Choice', 'cubewp-framework')]['dropdown'] = esc_html__('Dropdown', 'cubewp-framework');
+        $field_types[esc_html__('Choice', 'cubewp-framework')]['checkbox'] = esc_html__('Checkbox', 'cubewp-framework');
+        $field_types[esc_html__('Choice', 'cubewp-framework')]['radio'] = esc_html__('Radio Button', 'cubewp-framework');
+
+        $field_types[esc_html__('jQuery', 'cubewp-framework')]['google_address'] = esc_html__('Google Address', 'cubewp-framework');
+        $field_types[esc_html__('jQuery', 'cubewp-framework')]['date_picker'] = esc_html__('Date Picker', 'cubewp-framework');
+        $field_types[esc_html__('jQuery', 'cubewp-framework')]['time_picker'] = esc_html__('Time Picker', 'cubewp-framework');
+
+        $field_types[esc_html__('Relationship', 'cubewp-framework')]['post'] = esc_html__('Post', 'cubewp-framework');
         return apply_filters('cubewp/post/custom_fields/sub/types', $field_types);
     }
 }

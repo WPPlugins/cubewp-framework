@@ -5,7 +5,7 @@ wp_enqueue_style( 'cubewp-welcome' );
     <div class="cwp-dashboard-top-panel">
         <div class="cwp-nav-menu">
             <ul class="cwp-nav-menu-list">
-                <li><a href="#Dashboard" class="active"><span class="dashicons dashicons-dashboard"></span> Dashboard</a></li>
+                <li><a href="#Dashboard" class="active"><span class="dashicons dashicons-dashboard"></span> Welcome</a></li>
             </ul>
         </div>
         <div class="cwp-dashboard-top-panel-right">
@@ -19,7 +19,7 @@ wp_enqueue_style( 'cubewp-welcome' );
                             <path d="M11.315 10.014a.5.5 0 0 1 .548.736A4.498 4.498 0 0 1 7.965 13a4.498 4.498 0 0 1-3.898-2.25.5.5 0 0 1 .548-.736h.005l.017.005.067.015.252.055c.215.046.515.108.857.169.693.124 1.522.242 2.152.242.63 0 1.46-.118 2.152-.242a26.58 26.58 0 0 0 1.109-.224l.067-.015.017-.004.005-.002zM4.756 4.566c.763-1.424 4.02-.12.952 3.434-4.496-1.596-2.35-4.298-.952-3.434zm6.488 0c1.398-.864 3.544 1.838-.952 3.434-3.067-3.554.19-4.858.952-3.434z" />
                         </svg>Feedback
                     </a>
-                    <a target="_blank" href="https://help.cubewp.com/ "><span class="dashicons dashicons-sos"></span>Helpdesk (For Addons Only)</a>
+                    <a target="_blank" href="https://help.cubewp.com/ "><span class="dashicons dashicons-sos"></span>Helpdesk</a>
                 </li>
             </ul>
             <div class="cwp-bue-addons">
@@ -508,10 +508,126 @@ wp_enqueue_style( 'cubewp-welcome' );
 
                         </div>
                     </div>
+                    <div class="cwp-welcome-col-md-6 cwp-welcome-addons-outer">
+                        <div class="cwp-sidebar-main-grid">
+                            <div class="cwp-sidebar-main-grid-thumbnail border-bottom-welcome" style="background: #FFF9F2;">
+                                <img src="<?php echo CWP_PLUGIN_URI . 'cube/assets/admin/images/cubewp-reviews-logo.png'; ?>" alt="" />
+                            </div>
+                            <div class="cwp-sidebar-main-grid-content-area">
+                                <p class="content">CubeWP Reviews allow visitors to submit rating and review on their site.</p>
+                            </div>
+                                <?php
+                                $payment_status = CWP()->cubewp_options('cubewp-addon-reviews_status');
+                                if($payment_status == 'expired'){
+                                    $r_status_text="Expired";
+                                    $r_status_class="Expired";
+                                }elseif($frontend_status == 'disabled'){
+                                    $r_status_text="Disabled";
+                                    $r_status_class="Disabled";
+                                }else{
+                                    $r_status_text="Active";
+                                    $r_status_class="Active";
+                                }
+                                ?>
+                            <div class="cwp-sidebar-main-grid-footer-area">
+														<?php	if(class_exists('CubeWp_Reviews_Load')){ ?>
+                                <a href="#" style="pointer-events: none;" class="grid-footer-premium <?php esc_html_e( $r_status_class); ?>"><?php esc_html_e( $r_status_text, 'cubewp-frontend' ); ?></a>
+                                <a target="_blank" href="https://cubewp.com/my-account/" class="grid-footer-purchase">Manage</a>
+                                <?php }else{ ?>
+                                        <a target="_blank"  href="https://cubewp.com/store/" class="grid-footer-buy"><?php esc_html_e( "Buy", 'cubewp-frontend' ); ?></a>
+                                <?php } ?>
+                            </div>
 
+                        </div>
+                        <img class="cwp-coming-soon" src="<?php echo CWP_PLUGIN_URI . 'cube/assets/admin/images/coming.png'; ?>" alt="">
+                    </div>
+                    <div class="cwp-welcome-col-md-6 cwp-welcome-addons-outer">
+                        <div class="cwp-sidebar-main-grid">
+                            <div class="cwp-sidebar-main-grid-thumbnail border-bottom-welcome" style="background: #FCE6E8;">
+                                <img src="<?php echo CWP_PLUGIN_URI . 'cube/assets/admin/images/cubewp-booster-logo.png'; ?>" alt="" />
+                            </div>
+                            <div class="cwp-sidebar-main-grid-content-area">
+                                <p class="content">CubeWP Booster help users to promote theor posts.</p>
+                            </div>
+                                <?php
+                                $payment_status = CWP()->cubewp_options('cubewp-addon-booster_status');
+                                if($payment_status == 'expired'){
+                                    $br_status_text="Expired";
+                                    $br_status_class="Expired";
+                                }elseif($frontend_status == 'disabled'){
+                                    $br_status_text="Disabled";
+                                    $br_status_class="Disabled";
+                                }else{
+                                    $br_status_text="Active";
+                                    $br_status_class="Active";
+                                }
+                                ?>
+                            <div class="cwp-sidebar-main-grid-footer-area">
+														<?php	if(class_exists('CubeWp_Booster_Load')){ ?>
+                                <a href="#" style="pointer-events: none;" class="grid-footer-premium <?php esc_html_e( $br_status_class); ?>"><?php esc_html_e( $br_status_text, 'cubewp-frontend' ); ?></a>
+                                <a target="_blank" href="https://cubewp.com/my-account/" class="grid-footer-purchase">Manage</a>
+                                <?php }else{ ?>
+                                        <a target="_blank"  href="https://cubewp.com/store/" class="grid-footer-buy"><?php esc_html_e( "Buy", 'cubewp-frontend' ); ?></a>
+                                <?php } ?>
+                            </div>
+
+                        </div>
+                        <img class="cwp-coming-soon" src="<?php echo CWP_PLUGIN_URI . 'cube/assets/admin/images/coming.png'; ?>" alt="">
+                    </div>
+                    <div class="cwp-welcome-col-md-6 cwp-welcome-addons-outer">
+                        <div class="cwp-sidebar-main-grid">
+                            <div class="cwp-sidebar-main-grid-thumbnail border-bottom-welcome" style="background: #F2FEFF;">
+                                <img src="<?php echo CWP_PLUGIN_URI . 'cube/assets/admin/images/cubewp-booking-logo.png'; ?>" alt="" />
+                            </div>
+                            <div class="cwp-sidebar-main-grid-content-area">
+                                <p class="content">CubeWP Booking allow users to add booking or rental capability to their website.</p>
+                            </div>
+                                <?php
+                                $payment_status = CWP()->cubewp_options('cubewp-addon-booking_status');
+                                if($payment_status == 'expired'){
+                                    $bg_status_text="Expired";
+                                    $bg_status_class="Expired";
+                                }elseif($frontend_status == 'disabled'){
+                                    $bg_status_text="Disabled";
+                                    $bg_status_class="Disabled";
+                                }else{
+                                    $bg_status_text="Active";
+                                    $bg_status_class="Active";
+                                }
+                                ?>
+                            <div class="cwp-sidebar-main-grid-footer-area">
+														<?php	if(class_exists('CubeWp_Booking_Load')){ ?>
+                                <a href="#" style="pointer-events: none;" class="grid-footer-premium <?php esc_html_e( $bg_status_class); ?>"><?php esc_html_e( $bg_status_text, 'cubewp-frontend' ); ?></a>
+                                <a target="_blank" href="https://cubewp.com/my-account/" class="grid-footer-purchase">Manage</a>
+                                <?php }else{ ?>
+                                        <a target="_blank"  href="https://cubewp.com/store/" class="grid-footer-buy"><?php esc_html_e( "Buy", 'cubewp-frontend' ); ?></a>
+                                <?php } ?>
+                            </div>
+
+                        </div>
+                        <img class="cwp-coming-soon" src="<?php echo CWP_PLUGIN_URI . 'cube/assets/admin/images/coming.png'; ?>" alt="">
+                    </div>
+                    <div class="cwp-welcome-col-md-6">
+                        <div class="cwp-sidebar-main-grid">
+                            <div class="cwp-sidebar-main-grid-thumbnail border-bottom-welcome" style="background: #081D4C;">
+                                <img src="<?php echo CWP_PLUGIN_URI . 'cube/assets/admin/images/cubewp-forms-logo.png'; ?>" alt="" />
+                            </div>
+                            <div class="cwp-sidebar-main-grid-content-area">
+                                <p class="content">LeadGen and Contact Form by CubeWP - Drag & Drop Form Builder for WordPress</p>
+                            </div>
+                            <div class="cwp-sidebar-main-grid-footer-area">
+														<?php	if(class_exists('CubeWp_Forms_Custom')){ ?>
+                                <a href="#" style="pointer-events: none;" class="grid-footer-premium Active"><?php esc_html_e( 'Active', 'cubewp-frontend' ); ?></a>
+                                <?php }else{ ?>
+                                        <a target="_blank" href="<?php echo admin_url( 'plugin-install.php?tab=plugin-information&plugin=cubewp-forms&TB_iframe=true' ) ?>" class="grid-footer-buy"><?php esc_html_e( "Install", 'cubewp-frontend' ); ?></a>
+                                <?php } ?>
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
 				<div class="cwp-sidebar-ads">
-					<a href="Cloud-based WordPress Hosting with Guaranteed Speed Boost" target="_top"><img src="//www.cloudways.com/affiliate/accounts/default1/banners/19515e01.jpg" alt="Load WordPress Sites in as fast as 37ms!" title="Load WordPress Sites in as fast as 37ms!" width="336" height="280" /></a><img style="border:0" src="https://www.cloudways.com/affiliate/scripts/imp.php?id=1165187&amp;a_bid=19515e01" width="1" height="1" alt="" />
+					<a target="_blank" href="https://www.cloudways.com/en/wordpress-hosting.php?id=1165187&amp;a_bid=19515e01" target="_top"><img src="//www.cloudways.com/affiliate/accounts/default1/banners/19515e01.jpg" alt="Load WordPress Sites in as fast as 37ms!" title="Load WordPress Sites in as fast as 37ms!" width="336" height="280" /></a><img style="border:0" src="https://www.cloudways.com/affiliate/scripts/imp.php?id=1165187&amp;a_bid=19515e01" width="1" height="1" alt="" />
 				</div>
 			</div>
 		</div>

@@ -76,6 +76,7 @@ class CubeWp_Shortcodes {
             'post_id' => '',
 			), $params)
 		);
+
 		return get_field_value($field,true,$post_id);
     }
 	

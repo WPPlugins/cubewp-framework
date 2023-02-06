@@ -219,6 +219,7 @@ button .dashicons {
     justify-content: flex-start;
     align-items: center;
     min-height: 46px;
+    cursor: pointer;
 }
 #cwpform-builder .cubewp-builder-container .cubewp-builder-area .cubewp-single-layout-builder-sidebar .cubewp-builder-sections .cubewp-builder-section .cubewp-builder-section-fields .cubewp-builder-group-widget .cubewp-builder-group-widget-row-wrapper {
     padding: 0 10px;
@@ -463,6 +464,7 @@ button .dashicons {
     display: flex;
     justify-content: space-between;
     padding: 14px 16px;
+    cursor: pointer;
 }
 #cwpform-builder .cubewp-builder-sidebar .cubewp-builder-sidebar-groups-widgets .cubewp-builder-section-header h3 {
     color: #1a2432;

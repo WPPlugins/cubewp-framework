@@ -114,6 +114,7 @@ jQuery(document).ready(function () {
         });
 
         jQuery(document).on('click', '.cwp_import_demo', function(e) {
+			jQuery(this).prop( "disabled", 1 );
             e.preventDefault();
             jQuery.ajax({
                 type: 'POST',
@@ -121,10 +122,38 @@ jQuery(document).ready(function () {
                 data:'action=cwp_import_dummy_data&data_type=dummy',
                 dataType: 'json',
                 success: function (response) {
-                    if( response.success === 'false' ){
+                    if( response.success === 'true' ){
+                        if( response.content === 'true' ){
+                            jQuery.ajax({
+                                type: 'POST',
+                                url: cwp_vars_params.ajax_url,
+                                data:'action=cwp_import_dummy_data&data_type=dummy&content=true',
+                                dataType: 'json',
+                                success: function (response) {
+                                    if( response.success === 'false' ){
+                                        alert(response.msg);
+										jQuery(this).prop( "disabled", 0 );
+                                    }else{
+                                        if(response.redirectURL != null && response.redirectURL != ''){
+                                            window.location.href = response.redirectURL;
+                                        }else if(response.success_message != null && response.success_message != ''){
+											jQuery(response.success_message.selecter).text(response.success_message.message);
+											jQuery(response.success_message.selecter).addClass('done');
+                                        }
+                                    }
+                                }
+                            });
+                        }else{
+                            if(response.redirectURL != null && response.redirectURL != ''){
+                                window.location.href = response.redirectURL;
+                            }else if(response.success_message != null && response.success_message != ''){
+								jQuery(response.success_message.selecter).text(response.success_message.message);
+								jQuery(response.success_message.selecter).addClass('done');
+                            }
+                        }
+                    }else if( response.success === 'false' ){
                         alert(response.msg);
-                    }else{
-                        window.location.href = response.redirectURL;
+						jQuery(this).prop( "disabled", 0 );
                     }
                 }
             });

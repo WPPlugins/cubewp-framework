@@ -110,9 +110,10 @@ jQuery(document).ready(function ($) {
             jQuery('.parent-field.cwp-field-set').removeClass('cwp-required-container');
         jQuery(".cwp-validation .required:not([disabled])").each(function () {
             var _thisObj = jQuery(this), tagname = _thisObj.prop("tagName");
-            var hiddenTR = _thisObj.closest('tr').is(':hidden');
+            var hiddenTR = _thisObj.closest('tr.conditional-field').is(':hidden');
+            var hiddenRW = _thisObj.closest('tr.conditional-logic').is(':hidden');
             var hiddenPB = _thisObj.closest('.postbox').hasClass('hidden');
-            if(hiddenTR || hiddenPB){              
+            if(hiddenTR || hiddenPB || hiddenRW){            
             }else if (tagname === 'TR') {
                 if (_thisObj.find('input').length > 0) {
                     var haveChecked = false;

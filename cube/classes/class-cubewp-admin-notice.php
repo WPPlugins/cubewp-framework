@@ -51,6 +51,7 @@ class CubeWp_Admin_Notice {
                 d.setTime(d.getTime() + (cookie_duration * 24 * 60 * 60 * 1000));
                 expires = "expires=" + d.toUTCString();
                 document.cookie = notice + "=" + notice + ";" + expires + ";path=/";
+				location.reload();
             });
         </script>
 		<?php
@@ -126,8 +127,56 @@ class CubeWp_Admin_Notice {
 				}
 			}
 		}
+		if ( empty( get_option( 'cubewp_framework_installed_on' ) ) ) {
+			update_option( 'cubewp_framework_installed_on', strtotime( "NOW" ) );
+		}
+		$framework_installed_on = get_option( 'cubewp_framework_installed_on' );
+		$max_age = 15 * 24 * 60 * 60;
+		if (time() - $framework_installed_on > $max_age) {
+			$permanently_removed_notices = get_option( 'permanently_removed_notices' );
+			$permanently_removed_notices = ! empty( $permanently_removed_notices ) && is_array( $permanently_removed_notices ) ? $permanently_removed_notices : array();
+			if ( ! isset( $_COOKIE['cubewp-notice-rating'] ) && ! in_array( 'cubewp-notice-rating', $permanently_removed_notices ) ) {
+				$current_url = cubewp_get_current_url();
+				$current_url = add_query_arg( array(
+					'cubewp-remove-notice-permanently' => 'cubewp-notice-rating'
+				), $current_url );
+				$notice_ui .= '<div class="notice notice-info is-dismissible cubewp-notice" data-notice="cubewp-notice-rating">';
+				$notice_ui .= '<p>';
+				$notice_ui .= esc_html__( 'Hey, I noticed you\' have been using CubeWP Framework for a few weeks! Could you do me a favor and give the plugin 5-Star rating on WordPress?', 'cubewp-framework' );
+				$notice_ui .= '<br />';
+				$notice_ui .= '<a href="https://wordpress.org/support/plugin/cubewp-framework/reviews/#new-post" target="_blank">' . esc_html__( 'Yes, Take me there', 'cubewp-framework' ) . '</a>';
+				$notice_ui .= '<br />';
+				$notice_ui .= '<a href="' . esc_url( $current_url ) . '" class="cubewp-remove-notice-permanently">' . esc_html__( 'Already did it', 'cubewp-framework' ) . '</a>';
+				$notice_ui .= '</p>';
+				$notice_ui .= '<p>';
+				$notice_ui .= '<a href="https://profiles.wordpress.org/cubewp1211/" target="_blank"><strong>' . esc_html__( '~ Emraan Cheema, CubeWP Framework co-founder', 'cubewp-framework' ) . '</strong></a>';
+				$notice_ui .= '</p>';
+				$notice_ui .= '<a class="notice-dismiss" style="display: flex;justify-content: center;align-items: center;">' . esc_html__( 'Maybe Later.', 'cubewp-framework' ) . '</a>';
+				$notice_ui .= '</div>';
+			}
+		}
+        self::cubewp_remove_notices_permanently();
 
 		echo wp_kses_post( $notice_ui );
+	}
+
+	/**
+	 * Method cubewp_remove_notices_permanently
+	 *
+	 * @return mixed
+	 * @since  1.0.0
+	 */
+	private static function cubewp_remove_notices_permanently() {
+		if ( isset( $_GET['cubewp-remove-notice-permanently'] ) && ! empty( $_GET['cubewp-remove-notice-permanently'] ) ) {
+		   $permanently_removed_notices = get_option( 'permanently_removed_notices' );
+		   $permanently_removed_notices = ! empty( $permanently_removed_notices ) && is_array( $permanently_removed_notices ) ? $permanently_removed_notices : array();
+		   $permanently_removed_notices[] = sanitize_text_field( $_GET['cubewp-remove-notice-permanently'] );
+		   update_option( 'permanently_removed_notices', $permanently_removed_notices );
+		   $current_url = cubewp_get_current_url();
+		   $current_url = remove_query_arg( 'cubewp-remove-notice-permanently', $current_url );
+		   wp_redirect( esc_url( $current_url ) );
+		   exit;
+		}
 	}
 
 	/**

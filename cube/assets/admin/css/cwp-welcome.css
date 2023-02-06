@@ -1062,3 +1062,12 @@ ul.black-friday-counter li.black-friday-counter-number span.Seconds-title {
 .cwp-welcome-why-cube .cwp-cutom-post-info .right-info p b {
     font-weight: 700;
 }
+.cwp-welcome-addons-outer{
+    position: relative;
+}
+.cwp-welcome-addons-outer img.cwp-coming-soon {
+    position: absolute;
+    top: -7px;
+    left: -2px;
+    height: 70px;
+}

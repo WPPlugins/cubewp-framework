@@ -82,6 +82,7 @@ jQuery(document).on('click', '.cwp-post-confirmation-wrap .cwp-confirmation-bott
 jQuery(document).on('click', '.cwp-save-post', function (e) {
     var thisObj = jQuery(this);
     var pid = thisObj.data('pid');
+    thisObj.addClass('cubewp-active-ajax');
     jQuery.ajax({
         url: cwp_alert_ui_params.ajax_url,
         type: 'POST',
@@ -93,6 +94,7 @@ jQuery(document).on('click', '.cwp-save-post', function (e) {
                 thisObj.addClass('cwp-saved-post');
                 thisObj.removeClass('cwp-save-post');
                 thisObj.find('.cwp-saved-text').html(response.text);
+                thisObj.removeClass('cubewp-active-ajax');
             }
         }
     });
@@ -101,6 +103,7 @@ jQuery(document).on('click', '.cwp-saved-post', function (e) {
     var thisObj = jQuery(this);
     var pid = thisObj.data('pid');
     var action = thisObj.data('action');
+    thisObj.addClass('cubewp-active-ajax');
     jQuery.ajax({
         url: cwp_alert_ui_params.ajax_url,
         type: 'POST',
@@ -115,6 +118,7 @@ jQuery(document).on('click', '.cwp-saved-post', function (e) {
                 thisObj.addClass('cwp-save-post');
                 thisObj.removeClass('cwp-saved-post');
                 thisObj.find('.cwp-saved-text').html(response.text);
+                thisObj.removeClass('cubewp-active-ajax');
             }
         }
     });

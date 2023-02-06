@@ -25,7 +25,7 @@ class CubeWp_Frontend_Alerts{
     
     public static function cubewp_post_views($post_id) {
         // Adding Post Views
-        if (session_status() === PHP_SESSION_NONE) {
+        if (session_status() === PHP_SESSION_NONE && ! headers_sent()) {
             session_start();
         }
         if ( ! isset($_SESSION['cubewp_added_post_view'][$post_id])) {

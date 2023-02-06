@@ -83,10 +83,13 @@ class CubeWp_Custom_Fields_Processor {
         $html = '';
         $sub_fields    = json_decode($sub_fields, true);
         $fieldOptions = CWP()->get_custom_fields( $type );
+        $counter = 1;
         if(isset($sub_fields[$parent_field]) && !empty($sub_fields[$parent_field])){
             foreach ($sub_fields[$parent_field] as $sub_field) {
-                $SingleFieldOption          = $fieldOptions[$sub_field];
+                $SingleFieldOption            = $fieldOptions[$sub_field];
+                $SingleFieldOption['counter'] = $counter;
                 $html .= CubeWp_Custom_Fields_Markup::add_new_sub_field($SingleFieldOption, $parent_field);
+                $counter++;
             }
         }
         return $html;

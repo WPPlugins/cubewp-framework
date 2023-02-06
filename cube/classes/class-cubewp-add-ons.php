@@ -151,13 +151,13 @@ class CubeWp_Add_Ons {
             
                         // Call the custom API.
                         $response = wp_remote_post( $this->route, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );
-
 						// make sure the response came back okay
                         if ( is_wp_error( $response ) ) {
                             die($file_is_not_valid);
                         }
                         // decode the license data
                         $response_data = json_decode( wp_remote_retrieve_body( $response ) );
+						
                         if(isset($response_data->license)){
 							if ( 'valid' != $response_data->license ) {
 								die($lic_is_not_valid);
@@ -169,9 +169,7 @@ class CubeWp_Add_Ons {
 					    }else{
 							die($lic_is_not_valid);
 						}
-                        
 						unlink ( $file );
-
 					}else{
 						//file not good
                         die($need_fresh_file);

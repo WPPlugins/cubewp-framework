@@ -21,6 +21,8 @@ class CubeWp_Frontend {
     public static $Load = null;
     public static $post_type = '';
     public static $taxonomy = '';
+    public static $parent_field = '';
+    public static $post_count = 0;
     
     public function __construct( ) {
         $this->include_fields();
@@ -120,6 +122,7 @@ class CubeWp_Frontend {
             'steps_count'           =>   1,
             'file_types'            =>   '',
             'placeholder'           =>    '',
+            'upload_size'           =>   '',
             'label'                 =>    '',
             'description'           =>    '',
             'multiple'              =>    0,
@@ -416,7 +419,6 @@ class CubeWp_Frontend {
     public static function sorting_filter( ) {
         $sorting = apply_filters('cubewp/frontend/sorting/filter','');
         $option = array();
-        $option[''] = esc_html__('Sort By','cubewp-framework');
         $option['DESC'] = esc_html__('Newest','cubewp-framework');
         $option['ASC'] = esc_html__('Oldest','cubewp-framework');
         if(!empty($sorting)){
@@ -432,6 +434,7 @@ class CubeWp_Frontend {
             'value'        => isset($_GET['orderby']) && !empty($_GET['orderby']) ? sanitize_text_field($_GET['orderby']) : '',
             'options'      => $option,
             'extra_attrs'  => '',
+            'placeholder'  => esc_html__('Sort By','cubewp-framework')
         );
         echo cwp_render_dropdown_input( $input_attrs );
     }
@@ -495,6 +498,51 @@ class CubeWp_Frontend {
             }
         }
         return false;
+	}
+
+    /**
+     * Method have_fields
+     *
+     * @return void
+     */
+    public static function have_fields($field = '') {
+        if(is_array($field) && !empty($field)){
+            $field_count = count($field);
+            if($field_count >= 1){
+                $field_count -= 1;
+            }
+            if( $field_count >= self::the_subfield(true)){
+                self::$parent_field = $field;
+                return true;
+            }
+		}
+		return false;
+    }
+
+    /**
+     * Method the_subfield
+     *
+     * @return void
+     */
+    public static function the_subfield($incriment = false) {
+        if($incriment != true){
+            return self::$post_count++;
+        }
+        return self::$post_count;
+    }
+
+    /**
+     * Method get_subfield_value
+     *
+     * @return void
+     */
+    public static function get_subfield_value($field = '') {
+		$parent_field = self::$parent_field;
+		$post_count = self::$post_count;
+        $post_count -= 1;
+		if(isset($parent_field[$post_count][$field])){
+			return $parent_field[$post_count][$field]['value'];
+		}
 	}
         
     /**

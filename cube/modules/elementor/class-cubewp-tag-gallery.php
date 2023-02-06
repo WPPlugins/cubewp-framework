@@ -53,14 +53,16 @@ class CubeWp_Tag_Gallery extends \Elementor\Core\DynamicTags\Data_Tag {
         $returnArr = array();
         if(is_array($values) && count($values)>0){
             foreach($values as $key=> $value ){
-                $returnArr[$key] = [
+				if(get_post($value)){
+                	$returnArr[$key] = [
                         'id' =>$value,
                         'url' => wp_get_attachment_image_src($value, 'full')[0],
                     ];
+				}
             }
         }else{
             $imageID = attachment_url_to_postid($values);
-            if($imageID){
+            if(get_post($imageID)){
                 $returnArr = [
                     'id' =>$imageID,
                     'url' => wp_get_attachment_image_src($imageID, 'full')[0],

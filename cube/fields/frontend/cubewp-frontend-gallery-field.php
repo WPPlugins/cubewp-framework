@@ -70,6 +70,9 @@ class CubeWp_Frontend_Gallery_Field extends CubeWp_Frontend {
 						'value'       => '',
 						'extra_attrs' => $accept . ' multiple="multiple"',
 					);
+					if (isset($args["upload_size"]) && !empty($args["upload_size"]) && is_numeric($args["upload_size"])) {
+						$input_attrs['extra_attrs'] .= ' data-max-upload="' . esc_attr( $args["upload_size"] ) . '"';
+					}
 					echo cwp_render_file_input($input_attrs);
 					?>
 				</div>
