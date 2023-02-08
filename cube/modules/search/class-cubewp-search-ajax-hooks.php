@@ -36,10 +36,14 @@ class CubeWp_Search_Ajax_Hooks{
         $post_data = CubeWp_Sanitize_text_Array($_POST);
         
         $post_type = isset($post_data['post_type']) ? $post_data['post_type'] : '';
+
+        $post_data['posts_per_page'] = apply_filters( 'cubewp/search/post_per_page', 10, $post_data );
+
         $_DATA = apply_filters('cubewp/search/query/update',$post_data,sanitize_text_field($post_type));
         
         $page_num     =  isset($_DATA['page_num']) ? $_DATA['page_num'] : 1;
         $post_type    =  isset($_DATA['post_type']) ? $_DATA['post_type'] : '';
+        $post_per_page = isset($_DATA['posts_per_page']) ? $_DATA['posts_per_page'] : 10;
 
         self::$map_meta_key = self::cwp_map_meta_key($post_type);
         $query = new CubeWp_Query($_DATA);
@@ -55,22 +59,22 @@ class CubeWp_Search_Ajax_Hooks{
                 $data = apply_filters('cubewp_frontend_search_data', '', $data_args);
                 echo apply_filters('cubewp/frontend/before/search/loop', '');
                 ?>
-                <div class="cwp-grids-container cwp-row grid-view">
-                    <?php
-                    
+                <div class="cwp-grids-container cwp-row <?php echo esc_attr(cwp_get_post_card_view()); ?>">
+                <?php
                     while($the_query->have_posts()): $the_query->the_post();
+                    if(get_the_ID()){
                         if(!empty(self::cwp_map_lat_lng(get_the_ID()))){
                             $latLng[] = self::cwp_map_lat_lng(get_the_ID());
                         }
                         echo apply_filters('cubewp/frontend/loop/grid/html', CubeWp_frontend_grid_HTML(get_the_ID(),$grid_class));
+                    }
                     endwhile;
-                    
-                    ?>
+                ?>
                 </div>
                 <?php
                 $pagination_args = array(
                     'total_posts'    => $the_query->found_posts, 
-                    'posts_per_page' => 10, 
+                    'posts_per_page' => $post_per_page, 
                     'page_num'       => $page_num
                 );
                 echo apply_filters('cubewp_frontend_posts_pagination', '', $pagination_args);

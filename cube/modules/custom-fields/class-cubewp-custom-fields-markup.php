@@ -70,7 +70,6 @@ class CubeWp_Custom_Fields_Markup
         $closed_class = (isset($FieldData['label']) && $FieldData['label'] != '') ? 'closed' : '';
         $hide_class = (isset($FieldData['label']) && $FieldData['label'] != '') ? 'hidden' : '';
         $field_type = (isset($FieldData['type']) && $FieldData['type'] == '') ? 'text' : $FieldData['type'];
-        $field_type = isset($field_types[$field_type]) ? $field_types[$field_type] : $field_type;
         $group_secure = isset($_GET['groupid']) ? cubewp_custom_field_group_secure($_GET['groupid']) : false;
         $secure_class = ($group_secure == true) ? 'group_visibility_secure' : '';
         $counter = isset($FieldData["counter"]) ? $FieldData["counter"] : 1;

@@ -527,7 +527,7 @@ if ( ! function_exists("cubewp_get_post_thumbnail_url")) {
  */
 if ( ! function_exists("get_user_details")) {
 	function get_user_details($user_id) {
-		$author_page_url=get_author_posts_url($user_id);
+		$author_page_url = get_author_posts_url($user_id);
 		ob_start();
 		?>
         <div class="cwp-single-widget cwp-admin-widget">
@@ -2114,5 +2114,15 @@ if ( ! function_exists( 'cubewp_get_current_url' ) ) {
 		}
  
 	   return esc_url( $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
+	}
+}
+
+if ( ! function_exists( 'cwp_get_post_card_view' ) ) {
+	function cwp_get_post_card_view() {
+		$card_view = 'grid-view';
+		if( isset($_COOKIE['cwp_archive_switcher']) && !empty($_COOKIE['cwp_archive_switcher'])  ){
+			$card_view = esc_html($_COOKIE['cwp_archive_switcher']);
+		}
+		return $card_view;
 	}
 }

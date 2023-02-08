@@ -5,7 +5,7 @@ Tags: custom fields, custom post types, custom taxonomies, acf, meta box, custom
 Requires at least: 5.0
 Requires PHP: 7.2
 Tested up to: 6.1
-Stable tag: 1.0.13
+Stable tag: 1.0.14
 License: GPLv2 or later
 
 CubeWP is an end-to-end dynamic content framework for WordPress to help you shrink time and cut cost of development up to 90%.
@@ -300,6 +300,18 @@ To getting started with the plugin, please go to [Documentation](https://support
 
 
 == Changelog ==
+
+= 1.0.14 2023-02-06
+
+* New: Post card view will be set in cookies.
+* New: Frontend Pro Form fields will deleted on deletion of custom field from its group.
+* New: Post associated terms added in REST API as an array.
+* New: Filter hook added for setting post per page on search and archive page (cubewp/search/post_per_page).
+* New: Filter hook added for CubeWP settings after saved (cubewp/after/settings/saved).
+* New: Filter hook added for CubeWP builder setting's fields ('cubewp/builder/settings/fields').
+* Tweaks: Video helper added on custom fields page.
+* Tweaks: PHP 8 Errors removed on CubeWP Import page.
+* Fixed: Google pin issue solved on archive map.
 
 = 1.0.13 2023-01-06
 

@@ -36,7 +36,7 @@ class CubeWp_Tag_Featured_Image extends \Elementor\Core\DynamicTags\Data_Tag {
         }else {
             $imageID = get_post_thumbnail_id();
         }
-        if(is_attachment($imageID)){
+        if(!empty($imageID)){
             $returnArr = [
                 'id' =>$imageID,
                 'url' => wp_get_attachment_image_src($imageID, 'full')[0],

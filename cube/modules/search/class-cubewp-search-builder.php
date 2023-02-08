@@ -147,7 +147,7 @@ class CubeWp_Search_Builder extends CubeWp_Form_Builder {
     public function setting_tab($empty,$key) {
         $form_options  =  CWP()->get_form(self::$FORM_TYPE);
         $form_fields = isset($form_options[$key]['form']) ? $form_options[$key]['form'] : array();
-        return $this->cwpform_form_setting_fields( $form_fields, self::$FORM_TYPE );
+        return $this->cwpform_form_setting_fields( $form_fields, self::$FORM_TYPE,$key );
     }
     
         

@@ -199,7 +199,7 @@ class CubeWp_Import {
         if(isset($_POST['data_type']) && $_POST['data_type'] == 'dummy'){
             $plugin_targetdir = CWP_PLUGIN_PATH . 'cube/includes/setup/';
             $targetdir = apply_filters( 'cubewp/import/content/path', $plugin_targetdir );
-
+            $content = 'false';
             if(!isset($_POST['content'])){
                 $setup_file = $this->cwp_import_files(true);
                 if(file_exists($targetdir.$setup_file)){
@@ -214,7 +214,6 @@ class CubeWp_Import {
                         }
                     }
                 }
-                $content = 'false';
                 $contents = $this->cwp_import_files(false,true);
                 if(file_exists($targetdir.$contents)){
                     $content = 'true';

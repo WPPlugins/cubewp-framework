@@ -107,7 +107,7 @@ class CubeWp_Admin_Notice {
 			</div>
 			<div class="clearfix"></div>';
 			$notice_ui .= '</div>';
-			if ( current_cubewp_page() == 'cubewp_post_types' || current_cubewp_page() == 'cubewp_taxonomies' ) {
+			if ( current_cubewp_page() == 'cubewp_post_types' || current_cubewp_page() == 'cubewp_taxonomies'  || current_cubewp_page() == 'custom_fields'  ) {
 				if ( ! isset($_COOKIE['cubewp-notice-' . current_cubewp_page() . '-info']) ) {
 					$href = '';
                     $message = '';
@@ -117,6 +117,9 @@ class CubeWp_Admin_Notice {
                     } else if ( current_cubewp_page() == "cubewp_taxonomies" ) {
                         $href    = 'https://youtu.be/ibvrIkhGIyo';
                         $message = esc_html__( 'Learn what are Taxonomies.', 'cubewp-framework' );
+                    }else if ( current_cubewp_page() == "custom_fields" ) {
+                        $href    = 'https://youtu.be/zKDLb2o_cdA';
+                        $message = esc_html__( 'Learn what are Custom Fields.', 'cubewp-framework' );
                     }
                     $videoText = esc_html__( 'Watch', 'cubewp-framework' );
                     $notice_ui .= '<div class="notice notice-info cwp-notic-video is-dismissible cubewp-notice" data-notice="cubewp-notice-' . esc_attr( current_cubewp_page() ) . '-info">';

@@ -175,6 +175,37 @@ span.select2.select2-container .selection span.select2-selection.select2-selecti
     color: #a0a0a0;
 }
 /*-------------Search Fields-----------*/
+/*-------------S field dropdown-----------*/
+.cwp-search-field-text {
+    position: relative;
+}
+.cwp-search-dropdown-fields {
+    background: #fff;
+    border: 1px solid #CECECE;
+    position: absolute;
+    left: 10px;
+    width: 97%;
+    max-height: 200px;
+    overflow: auto;
+    border-radius: 5px;
+}
+.cwp-search-dropdown-fields li {
+    background: aliceblue;
+}
+.cwp-search-dropdown-fields li a {
+    padding: 4px 13px;
+    font-size: 16px;
+    text-transform: capitalize;
+    text-decoration: none;
+}
+.cwp-search-dropdown-fields a:hover {
+    text-decoration: underline;
+}
+.cwp-search-dropdown-fields li {
+    display: flex;
+    flex-wrap: wrap;
+}
+/*-------------S field dropdoen ends-----------*/
 .cwp-search-form {
 	background: #ffffff;
 	border-radius: 5px;

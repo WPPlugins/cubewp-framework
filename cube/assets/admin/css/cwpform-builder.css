@@ -986,3 +986,6 @@ button .dashicons {
         top: 50%;
     }
 }
+#cwpform-builder .cubewp-builder-container .cubewp-builder-area .cubewp-builder-sections .cubewp-builder-section .cubewp-builder-section-header:hover {
+    cursor: pointer;
+}

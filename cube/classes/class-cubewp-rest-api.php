@@ -21,6 +21,10 @@ class CubeWp_Rest_API {
 			'get_callback'    => [ __CLASS__, 'get_post_meta' ],
 			'update_callback' => [ __CLASS__, 'update_post_meta' ],
 		] );
+		register_rest_field( self::get_types(), 'taxonomies', [
+			'get_callback'    => [ __CLASS__, 'get_taxonomies' ],
+			'update_callback' => '',
+		] );
 		register_rest_field( 'user', 'cubewp_user_meta', [
 			'get_callback'    => [ __CLASS__, 'get_user_meta' ],
 			'update_callback' => [ __CLASS__, 'update_user_meta' ],
@@ -42,6 +46,31 @@ class CubeWp_Rest_API {
 		$post_id   = $object['id'];
 		$fields = CubeWp_Single_Cpt::cubewp_post_metas($post_id,true);
 		return $fields;
+	}
+
+	/**
+	 * Get all taxonomies and terms for the rest API.
+	 *
+	 * @param array $object Post object.
+	 *
+	 * @return array
+	 */
+	public static function get_taxonomies( $object ) {
+		$post_id   = $object['id'];
+		$post_terms = array();
+		$taxonomies = get_object_taxonomies( get_post_type($post_id) );
+		if ( ! empty( $taxonomies ) && is_array( $taxonomies ) ) {
+			foreach ( $taxonomies as $taxonomy ) {
+				$all_terms = get_the_terms( $post_id, $taxonomy );
+				if(!is_wp_error( $all_terms ) && !empty( $all_terms )){
+					foreach($all_terms as $all_term){
+						$post_terms[] = $all_term->name;
+					}
+				}
+			}
+		}
+
+		return isset( $post_terms ) && ! empty( $post_terms ) ? array_filter( $post_terms ) : array();
 	}
 
 	/**

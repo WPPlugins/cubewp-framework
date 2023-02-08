@@ -569,7 +569,7 @@ class CubeWp_Form_Builder {
      * @return string html
      * @since  1.0.0
      */
-    public function cwpform_form_setting_fields( array $form_fields, string $form_type ) {
+    public function cwpform_form_setting_fields( array $form_fields, string $form_type, $key = '' ) {
         $output = '<div class="cwpform-settings">';
         $output .= '<div class="cwpform-setting-label">';
         if ( $form_type == 'single_layout' || empty( $form_type ) ) {
@@ -588,6 +588,8 @@ class CubeWp_Form_Builder {
                 $output .= self::cubewp_search_form_builder_settings( $form_fields );
             }
             if ( $form_type != 'search_filters' && $form_type != 'search_fields' ) {
+                $form_fields['form_type'] = $form_type;
+                $form_fields['post_type'] = $key;
                 $output .= self::cubewp_form_builder_settings( $form_fields );
             }
         }
@@ -699,27 +701,42 @@ class CubeWp_Form_Builder {
     }
 
     public static function cubewp_form_builder_settings( $form_fields ) {
-        $output      = '<div class="cwpform-setting-field">';
-        $output      .= '<label>' . esc_html__( "Submit Button Title", "cubewp-framework" ) . '</label>';
-        $input_attrs = array(
+        $field_args = [];
+        $field_args['submit_button_title'] = array(
             'class'       => 'form-field',
-            'name'        => 'submit_button_title',
+            'label'       => esc_html__( "Submit Button Title", "cubewp-framework" ),
+            'name'       => 'submit_button_title',
+            'type'       => 'text',
             'value'       => isset( $form_fields['submit_button_title'] ) ? $form_fields['submit_button_title'] : '',
             'extra_attrs' => 'data-name="submit_button_title"',
         );
-        $output      .= cwp_render_text_input( $input_attrs );
-        $output      .= '</div>';
-        $output      .= '<div class="cwpform-setting-field">';
-        $output      .= '<label>' . esc_html__( "Submit Button Class", "cubewp-framework" ) . '</label>';
-        $input_attrs = array(
+        $field_args['submit_button_class'] = array(
             'class'       => 'form-field',
-            'name'        => 'submit_button_class',
+            'label'       => esc_html__( "Submit Button Class", "cubewp-framework" ),
+            'name'       => 'submit_button_class',
+            'type'       => 'text',
             'value'       => isset( $form_fields['submit_button_class'] ) ? $form_fields['submit_button_class'] : '',
             'extra_attrs' => 'data-name="submit_button_class"',
         );
-        $output      .= cwp_render_text_input( $input_attrs );
-        $output      .= '</div>';
 
+        $input_attrs = apply_filters( 'cubewp/builder/settings/fields', $field_args, $form_fields );
+        $output = '';
+        foreach($input_attrs as $input_attr){
+            if($input_attr['type'] == 'hidden'){
+                $output .= call_user_func('cwp_render_hidden_input',$input_attr);
+            }else{
+                $field_type = $input_attr['type'];
+                if(isset($input_attr['input_type']) && !empty($input_attr['input_type'])){
+                    $input_attr['type'] = $input_attr['input_type'];
+                }
+                $output .= '<div class="cwpform-setting-field">';
+                if(isset($input_attr['label']) && !empty($input_attr['label'])){
+                    $output .= '<label>' . $input_attr['label'] . '</label>';
+                }
+                $output .= call_user_func('cwp_render_'.$field_type.'_input',$input_attr);
+                $output .= '</div>';
+            }
+        }
         return $output;
     }
 
