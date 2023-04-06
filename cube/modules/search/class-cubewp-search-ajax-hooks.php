@@ -54,7 +54,8 @@ class CubeWp_Search_Ajax_Hooks{
             ob_start();
                 $data_args = array(
                     'total_posts'    => $the_query->found_posts, 
-                    'terms' => self::$terms, 
+                    'terms' => self::$terms,
+                    'data' => $_DATA,
                 );
                 $data = apply_filters('cubewp_frontend_search_data', '', $data_args);
                 echo apply_filters('cubewp/frontend/before/search/loop', '');

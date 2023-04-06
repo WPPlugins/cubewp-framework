@@ -993,9 +993,45 @@ if ( ! function_exists("get_field_value")) {
 			if( $field_type == 'file'){
 				$value = render_file_value($value);
 			}
+			if( $field_type == 'google_address'){
+				$value = render_map_value($value, $field);
+			}
 		}
 		
 		return $value;
+	}
+}
+
+if ( ! function_exists("render_map_value")) {
+	function render_map_value($value = 0, $field = array()) {
+		if($value == 0) return;
+		$output = '';
+		if (is_array($value) && (isset($value['address']) && isset($value['lat']) && isset($value['lng'])) && !empty($value['lat']) && !empty($value['lng']) ) {
+			CubeWp_Enqueue::enqueue_style('cwp-map-cluster');
+			CubeWp_Enqueue::enqueue_style('cwp-leaflet-css');
+
+			CubeWp_Enqueue::enqueue_script('cubewp-leaflet');
+			CubeWp_Enqueue::enqueue_script('cubewp-leaflet-cluster');
+			CubeWp_Enqueue::enqueue_script('cubewp-map');
+
+			$address = $value['address'];
+			$lat     = $value['lat'];
+			$lng     = $value['lng'];
+			$output  .= '<div class="cwp-cpt-single-google_address cwp-cpt-single-field-container '.esc_attr($field['container_class']).'">
+                <div class="cwp-single-loc ' . $field['class'] . '">
+                    <div class="cpt-single-map" data-latitude="' . $lat . '" data-longitude="' . $lng . '" style="height: 300px;width: 100%;"></div>
+                    <div class="cwp-map-address">
+                        <p>
+                            <span id="cpt-single" class="address">' . $address . '</span>
+                        </p>
+                        <a href="https://www.google.com/maps?daddr=' . esc_attr($lat) . ',' . esc_attr($lng) . '" target="_blank" >
+                            ' . esc_html__("Get Directions", "cubewp-framework") . '
+                        </a>
+                    </div>
+                </div>
+            </div>';
+		}
+		return $output;
 	}
 }
 

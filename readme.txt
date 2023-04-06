@@ -1,11 +1,11 @@
-=== CubeWP - The Most Advanced End-to-End WordPress Dynamic Content Framework ===
+=== CubeWP - All-in-One Dynamic Content Framework ===
 Contributors: Emraan Cheema
 Donate link: NA
 Tags: custom fields, custom post types, custom taxonomies, acf, meta box, custom field, post type, taxonomy, meta, custom, field, file, image, post types, post, simple fields, text, textarea, type, advanced custom fields, custom post type, custom taxonomy, clone fields, forms, maps, relationship, repeatable fields, conditional fields, acf, fields, meta, postmeta, repeater, content types, pods, crocoblock, metabox, toolset, jetengine
 Requires at least: 5.0
 Requires PHP: 7.2
 Tested up to: 6.1
-Stable tag: 1.0.14
+Stable tag: 1.0.15
 License: GPLv2 or later
 
 CubeWP is an end-to-end dynamic content framework for WordPress to help you shrink time and cut cost of development up to 90%.
@@ -14,23 +14,23 @@ CubeWP is an end-to-end dynamic content framework for WordPress to help you shri
 
 **CubeWP Framework is to WordPress developers what Iron Man suit is to Tony Stark.**
 
-CubeWP is a powerful and easy-to-use framework for WordPress development. It allows you to create a wide range of projects, from simple websites to advanced web apps, and can save you time and money by reducing the time and cost of developing advanced WordPress themes and plugins. With CubeWP, you can create custom post types, custom taxonomies, custom fields, search forms, and search filters with ease. Whether you're a beginner or an experienced WordPress developer, CubeWP has something to offer you. 
+The CubeWP Framework is the ultimate dynamic content solution for WordPress. Say goodbye to complex coding and bring your ideas to life in record time. Streamline your end-to-end WordPress project development and save time and money with the all-in-one CubeWP Framework. 
 
-**Be sure to explore the available add-ons for the CubeWP Framework to see all the extra features and functionality you can add to your site. These add-ons can help you take your WordPress development to the next level and meet all your project needs.**
+**Discover both free and premium add-ons for the CubeWP Framework to enhance your site with more advanced features and functionality.**
 
 
-## TOP 10 Reason Why to Choose CubeWP
+## 10 Reasons to Choose CubeWP
 
-1. Get 10 times more features for free compared to other paid plugins in the same category.
-2. Accelerate your WordPress project development with record speed.
-3. Easily create dynamic content using a simple drag-and-drop interface.
-4. Generate and insert shortcodes into any location on your site.
-5. Use CubeWP on your current WordPress site or a new one.
-6. Compatible with all popular WordPress page builders.
-7. Enjoy advanced integration with Elementor, Elementor Pro, and WP Bakery.
-8. Works with all WordPress themes.
-9. Lightweight and optimized for fast loading times and improved SEO.
-10. Access a range of powerful add-ons to meet your specific needs.
+1. More power, more features, more value for Free.
+2. Rapid end-to-end project development
+3. Effortless dynamic content creation.
+4. Shortcode generation and insertion.
+5. Works with current or new sites.
+6. Not dependent on any specific page builders.
+7. Advanced Integration with Elementor and WP Bakery.
+8. Not dependent on any specific Theme.
+9. Lightweight and optimized for speed and SEO.
+10. Range of powerful add-ons available.
 
 
 ### Core Features Overview
@@ -300,6 +300,11 @@ To getting started with the plugin, please go to [Documentation](https://support
 
 
 == Changelog ==
+
+= 1.0.15 2023-02-08
+
+* New: Map display on single post page with cubewp custom field shortcode ([cubewp_post_field field="MAP FIELD NAME"]).
+* Fixed: JS issue with frontend post submission validation.
 
 = 1.0.14 2023-02-06
 

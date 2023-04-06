@@ -53,14 +53,14 @@ function cubewp_frontend_form_validation(from) {
             } else {
                 jQuery(error_msg).insertAfter(_thisObj.find('label'));
             }
+            if (is_valid === true) {
+                jQuery('html, body').animate({
+                    scrollTop: _thisObj.offset().top - 70
+                }, 1000);
+            }
             is_valid = false;
         }
     });
 
-    if (is_valid === true) {
-        jQuery('html, body').animate({
-            scrollTop: _thisObj.offset().top - 70
-        }, 1000);
-    }
     return is_valid;
 }
