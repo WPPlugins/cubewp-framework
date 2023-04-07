@@ -794,6 +794,7 @@ if ( ! function_exists("cwp_render_editor_input")) {
 			'textarea_rows' => $attrs['rows'],
 			'media_buttons' => false,
 			'quicktags'     => false,
+			'editor_class'  => $attrs['class'],
 			'tinymce'       => array(
 				'theme_advanced_buttons1' => '',
 				'theme_advanced_buttons2' => false,

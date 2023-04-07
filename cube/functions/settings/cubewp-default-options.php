@@ -236,7 +236,15 @@ if ( cubewp_check_if_elementor_active() && ! cubewp_check_if_elementor_active(tr
 		)
    	);
 }
-
+if ( cubewp_check_if_elementor_active() && ! cubewp_check_if_elementor_active(true) ) {
+	$conditional_options[] = array(
+	   'id'      => 'cubewp_ignore_theme_single',
+	   'title'   => __( 'Overwrite Theme Single Template', 'cubewp-framework' ),
+	   'desc'    => __( 'Enable if you also want to overwrite post type single page theme layout.' ),
+	   'type'    => 'switch',
+	   'default' => '0',
+	);
+}
 $settings['post_settings'] = array(
 	'title'  => __( 'Post Settings', 'cubewp-framework' ),
 	'id'     => 'post_settings',

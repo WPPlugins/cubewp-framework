@@ -30,7 +30,7 @@ function cubewp_frontend_form_validation(from) {
                 val = 1;
                 val = _thisObj.find('.required:not([disabled])').val();
             }
-        } else if (type === 'radio') {
+        } else if (type === 'radio'|| type === 'review_star') {
             _thisObj.find('.required:checked').each(function () {
                 val = 1;
             });
@@ -48,7 +48,7 @@ function cubewp_frontend_form_validation(from) {
         if ((typeof val == "string" && !val.replace(/\s/g, '').length) || val === '' || val === 0) {
             if (type === 'checkbox') {
                 jQuery(error_msg).insertBefore(_thisObj.find('.cwp-field-checkbox-container'));
-            } else if (type === 'radio') {
+            } else if (type === 'radio' || type === 'review_star') {
                 jQuery(error_msg).insertBefore(_thisObj.find('.cwp-field-radio-container'));
             } else {
                 jQuery(error_msg).insertAfter(_thisObj.find('label'));

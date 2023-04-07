@@ -6,6 +6,14 @@ jQuery(document).ready(function () {
         });
     }
 
+    jQuery(document).on("change", '.cwp-search-form input[type="radio"]', function() {
+        jQuery(this).closest('.cwp-field-radio-container').find('input[type="radio"]').prop('checked', false);
+        jQuery(this).prop('checked', true);
+        var hidden_radio = jQuery(this).closest('.cwp-radio-container').find('input[type="hidden"]');
+        var hidden_vals = jQuery(this).val();
+        hidden_radio.val(hidden_vals);
+    });
+    
     // if(jQuery(".cwp-field-container input[name=s]").length > 0 ){
     //     jQuery(document).on("keyup", '.cwp-field-container input[name=s]', function() {
     //         let thisobj = jQuery(this),

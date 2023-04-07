@@ -1070,3 +1070,14 @@ a.ui-datepicker-next {
 		display: none;
 	}
 }
+
+.cwp_email_verification, .cwp_otp_verification {
+    border: 1px solid #6b7f88;
+    border-radius: 5px;
+    padding: 2px 8px;
+    cursor: pointer;
+    margin-left: 10px;
+    display: inline-block;
+    font-size: 13px;
+    margin-bottom: 10px;
+}

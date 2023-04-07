@@ -477,7 +477,12 @@ trait CubeWp_Builder_Ui {
 					if ( $plan == $data['content_switcher'] || ! isset( $post_type_form[ $post_type ][ $plan ]['groups'] ) || empty( $post_type_form[ $post_type ][ $plan ]['groups'] ) ) {
 						continue;
 					}
-					$plans_options .= '<option value="' . $plan . '">' . esc_html( get_the_title( $plan ) ) . '</option>';
+					if ( is_numeric( $plan ) ) {
+						$plan_title = get_the_title( $plan );
+					}else {
+						$plan_title = $title;
+					}
+					$plans_options .= '<option value="' . $plan . '">' . esc_html( $plan_title ) . '</option>';
 				}
 				if ( ! empty( $plans_options ) ) {
 					$return_ui .= '<div class="cubewp-builder-sections-importer">

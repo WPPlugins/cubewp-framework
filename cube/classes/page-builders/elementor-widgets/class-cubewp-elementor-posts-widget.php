@@ -192,7 +192,7 @@ class CubeWp_Elementor_Posts_Widget extends Widget_Base {
 					}
 				}
 				if ( ! empty( $terms_arr ) ) {
-					$this->add_control( 'terms-' . $taxonomy, array(
+					$this->add_control( 'terms-' . $post_type . '-' . $taxonomy, array(
 						'type'      => Controls_Manager::SELECT2,
 						'label'     => esc_html__( 'Select Term', 'cubewp-framework' ),
 						'options'   => $terms_arr,
@@ -256,7 +256,7 @@ class CubeWp_Elementor_Posts_Widget extends Widget_Base {
 		);
 		if ( ! empty( $taxonomies ) && is_array( $taxonomies ) ) {
 			foreach ( $taxonomies as $taxonomy ) {
-				$terms                        = $settings[ 'terms-' . $taxonomy ];
+				$terms                        = $settings[ 'terms-' . $settings['posttype'] . '-' . $taxonomy ];
 				$args[ $taxonomy . '-terms' ] = $terms;
 			}
 		}

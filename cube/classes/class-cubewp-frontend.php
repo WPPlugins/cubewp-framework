@@ -439,7 +439,7 @@ class CubeWp_Frontend {
             'class'        => 'cwp-orderby',
             'id'           => 'cwp-sorting-filter',
             'name'         => 'cwp_orderby',
-            'value'        => isset($_GET['orderby']) && !empty($_GET['orderby']) ? sanitize_text_field($_GET['orderby']) : '',
+            'value'        => isset($_GET['orderby']) && !empty($_GET['orderby']) ? sanitize_text_field($_GET['orderby']) : 'DESC',
             'options'      => $option,
             'extra_attrs'  => '',
             'placeholder'  => esc_html__('Sort By','cubewp-framework')

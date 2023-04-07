@@ -154,6 +154,9 @@ class CubeWp_Update_Frontend_Forms{
                     }
                 }else{
                     foreach($option as $PlanID => $data){
+                        if ( empty( $data['groups'] ) || ! is_array( $data['groups'] ) ) {
+                            continue;
+                        }
                         foreach($data['groups'] as $sectionID => $sectionData){
                             if(isset($sectionData['fields']) && count($sectionData['fields'])>0){
                                 $fields = self::cwpform_update_value($sectionData['fields']);

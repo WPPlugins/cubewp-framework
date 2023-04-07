@@ -1901,7 +1901,7 @@ if ( ! function_exists( 'cubewp_remove_edit_with_elementor' ) ) {
 		return $settings;
 	}
  
-	add_action('elementor/frontend/admin_bar/settings', 'cubewp_remove_edit_with_elementor');
+	//add_action('elementor/frontend/admin_bar/settings', 'cubewp_remove_edit_with_elementor');
 }
 
 if ( ! function_exists( 'cubewp_single_page_builder_output' ) ) {

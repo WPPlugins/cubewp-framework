@@ -11,7 +11,7 @@ class CubeWp_Frontend_Image_Field extends CubeWp_Frontend {
 
 	function render_image_field($output = '', $args = array()) {
 		$args = apply_filters('cubewp/frontend/field/parametrs', $args);
-		$args['container_class'] = 'cubewp-have-image-field';
+		$args['container_class'] .= ' cubewp-have-image-field';
 		$args['type'] = 'file';
 		if (isset($args["file_types"]) && !empty($args["file_types"])) {
 			$accept = 'accept="' . $args["file_types"] . '"';

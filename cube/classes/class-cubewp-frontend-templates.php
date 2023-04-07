@@ -61,10 +61,18 @@ class CubeWp_Frontend_Templates {
      * @since  1.0.5
      */
     private function theme_single_post_template() {
+        global $cwpOptions;
+        if (empty($cwpOptions)) {
+            $cwpOptions = get_option('cwpOptions');
+        }
+        $cubewp_ignore_theme_single = (isset($cwpOptions['cubewp_ignore_theme_single']) && ! empty($cwpOptions['cubewp_ignore_theme_single'])) ? $cwpOptions['cubewp_ignore_theme_single'] : 0;
+        if ( $cubewp_ignore_theme_single ) {
+            return false;
+        }
         $post_type = CubeWp_Frontend::$post_type;
         if (file_exists(get_template_directory() . '/single-' . $post_type . '.php')){
-             return true;
-         }
+            return true;
+        }
         return false;
     }
 

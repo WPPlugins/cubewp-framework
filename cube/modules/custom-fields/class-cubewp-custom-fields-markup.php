@@ -517,7 +517,7 @@ class CubeWp_Custom_Fields_Markup
         $field_settings = apply_filters("cubewp/custom_fields/{$FieldData['fields_type']}/fields", $field_settings, $FieldData);
         foreach ($field_settings as $field_setting) {
             $fields = apply_filters("cubewp/admin/{$field_setting['type']}/customfield", '', $field_setting);
-            $html .= apply_filters('cubewp/custom_fields/single/field/output', $fields, $field_setting);
+            $html .= apply_filters("cubewp/custom_fields/{$field_setting['type']}/output", $fields, $field_setting, $FieldData);
         }
 
         $html .= '<tr class="sub-fields-holder">';

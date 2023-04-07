@@ -34,8 +34,8 @@ a {
 	width: 100%;
 	border-radius: 5px;
 }
-.cwp-cpt-single-content{
-	margin-top: 30px;
+.cwp-cpt-single-container-outer .cwp-cpt-single-content {
+    margin-top: 30px;
 }
 .cwp-single-title-container {
 	margin-bottom:25px;

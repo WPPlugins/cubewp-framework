@@ -455,7 +455,7 @@
             data: parent.find('.cubewp-builder-area').find(':input').serialize() + '&form_relation=' + form_relation + '&form_type=' + form_type + '&action=cwpform_save_shortcode',
             success: function (data) {
                 var $class = '';
-                if (form_type === 'single_layout') {
+                if (form_type === 'single_layout' || form_type === 'search_filters') {
                     shortcode = data.message;
                 } else {
                     $class = 'copy-to-clipboard';

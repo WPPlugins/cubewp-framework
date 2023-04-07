@@ -428,7 +428,7 @@ if ( class_exists( 'WP_Importer' ) ) {
 					continue;
 				}
 	
-				$this->process_termmeta( $cat, $id['term_id'] );
+				$this->process_termmeta( $cat, $id );
 			}
 	
 			unset( $this->categories );

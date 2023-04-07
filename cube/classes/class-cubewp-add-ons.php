@@ -67,7 +67,55 @@ class CubeWp_Add_Ons {
 				'base' => 'cubewp-addon-inbox/cubewp-inbox.php',
 				'path' => plugin_dir_path( dirname(dirname(__DIR__)) ).'cubewp-addon-inbox/cube/',
 				'load' => CUBEWP.'_Inbox_Load',
-			)
+			),
+            'cubewp-addon-reviews' => array(
+                'item_name' => 'CubeWP Reviews',
+                'slug' => 'cubewp-addon-reviews',
+                'author' => 'Emraan Cheema',
+                'base' => 'cubewp-addon-reviews/cubewp-reviews.php',
+                'path' => plugin_dir_path( dirname(dirname(__DIR__)) ).'cubewp-addon-reviews/cube/',
+                'load' => CUBEWP.'_Reviews_Load',
+            ),
+            'cubewp-addon-booster' => array(
+                'item_name' => 'CubeWP Booster',
+                'slug' => 'cubewp-addon-booster',
+                'author' => 'Emraan Cheema',
+                'base' => 'cubewp-addon-booster/cubewp-booster.php',
+                'path' => plugin_dir_path( dirname(dirname(__DIR__)) ).'cubewp-addon-booster/cube/',
+                'load' => CUBEWP.'_Booster_Load',
+            ),
+            'cubewp-addon-claim' => array(
+                'item_name' => 'CubeWP Claim',
+                'slug' => 'cubewp-addon-claim',
+                'author' => 'Emraan Cheema',
+                'base' => 'cubewp-addon-claim/cubewp-claim.php',
+                'path' => plugin_dir_path( dirname(dirname(__DIR__)) ).'cubewp-addon-claim/cube/',
+                'load' => CUBEWP.'_Claim_Load',
+            ),
+            'cubewp-addon-wallet' => array(
+                'item_name' => 'CubeWP Wallet',
+                'slug' => 'cubewp-addon-wallet',
+                'author' => 'Emraan Cheema',
+                'base' => 'cubewp-addon-wallet/cubewp-wallet.php',
+                'path' => plugin_dir_path( dirname(dirname(__DIR__)) ).'cubewp-addon-wallet/cube/',
+                'load' => CUBEWP.'_Wallet_Load',
+            ),
+            'cubewp-addon-social-logins' => array(
+                'item_name' => 'CubeWP Social Logins',
+                'slug' => 'cubewp-addon-social-logins',
+                'author' => 'Emraan Cheema',
+                'base' => 'cubewp-addon-social-logins/cubewp-social-logins.php',
+                'path' => plugin_dir_path( dirname(dirname(__DIR__)) ).'cubewp-addon-social-logins/cube/',
+                'load' => CUBEWP.'_Social_Logins_Load',
+			),
+			'cubewp-addon-classified' => array(
+                'item_name' => 'CubeWP Classified',
+                'slug' => 'cubewp-addon-classified',
+                'author' => 'Emraan Cheema',
+                'base' => 'cubewp-addon-classified/cubewp-classified.php',
+                'path' => plugin_dir_path( dirname(dirname(__DIR__)) ).'cubewp-addon-classified/cube/',
+                'load' => 'Classified_Load',
+            )
 		);
 
 	}

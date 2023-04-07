@@ -224,6 +224,7 @@ class CubeWp_Import {
                     $message = self::cwp_import_wordpress_content($targetdir, $contents);
                 }
             }
+            do_action('cwp_actions_after_demo_imported');
             $message = !empty($message) ? $message : esc_html__('Dummy data imported successfully.', 'cubewp-framework');
             $redirectURL = apply_filters( 'cubewp/after/import/redirect', admin_url('admin.php?page=cubewp-import&import=success') );
             $success = apply_filters( 'cubewp/after/import/success_message', '' );
