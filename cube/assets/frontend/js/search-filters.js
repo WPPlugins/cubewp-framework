@@ -190,7 +190,9 @@ function cwp_search_filters_ajax_content( page_num=''){
 
     var action = '&action=cwp_search_filters_ajax_content';
 
-    var FilterFields = jQuery('.cwp-search-filters').serialize();
+    var FilterForm = jQuery('.cwp-search-filters');
+    FilterForm.find('input[name="page_num"]').val( page_num );
+    var FilterFields = FilterForm.serialize();
     
         FilterFields += '&orderby='+jQuery('#cwp-sorting-filter').val();
     var data_vals = FilterFields;

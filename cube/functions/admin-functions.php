@@ -694,6 +694,7 @@ if ( ! function_exists("cwp_get_groups_by_post_type")) {
 		$args = array(
 			'numberposts' => - 1,
 			'post_type'   => 'cwp_form_fields',
+			'post_status' => array('private','publish'),
 			'fields'      => 'ids',
 			'meta_query'  => array(
 				array(
