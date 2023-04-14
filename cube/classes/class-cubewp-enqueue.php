@@ -77,6 +77,7 @@ class CubeWp_Enqueue extends CubeWp_Admin_Enqueue {
 		}
 
 		echo apply_filters( 'frontend/script/enqueue', '' );
+		self::cubewp_enqueue_settings_css_js();
 
 	}
 
@@ -305,6 +306,29 @@ class CubeWp_Enqueue extends CubeWp_Admin_Enqueue {
 
 
 		return apply_filters( 'get_frontend_script_data', $params, $handle );
+	}
+
+	private static function cubewp_enqueue_settings_css_js() {
+		if ( cwp()->is_request( 'frontend' ) ) {
+		   add_action( 'wp_print_styles', function(){
+			  global $cwpOptions;
+			  $cwpOptions = ! empty( $cwpOptions ) && is_array( $cwpOptions ) ? $cwpOptions : get_option( 'cwpOptions' );
+			  $cubewp_css = isset( $cwpOptions['cubewp-css'] ) && ! empty( $cwpOptions['cubewp-css'] ) ? $cwpOptions['cubewp-css'] : '';
+			  echo '<style type="text/css">
+				 ' . $cubewp_css . '
+				</style>';
+		   } );
+	
+		   add_action( 'wp_footer', function(){
+			  global $cwpOptions;
+			  $cwpOptions = ! empty( $cwpOptions ) && is_array( $cwpOptions ) ? $cwpOptions : get_option( 'cwpOptions' );
+			  $cubewp_js = isset( $cwpOptions['cubewp-js'] ) && ! empty( $cwpOptions['cubewp-js'] ) ? $cwpOptions['cubewp-js'] : '';
+			  wp_enqueue_script( 'jquery' );
+			  echo '<script type="text/javascript">
+				 ' . $cubewp_js . '
+				</script>';
+		   } );
+		}
 	}
 
 	/**

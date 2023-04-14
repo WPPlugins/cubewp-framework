@@ -417,5 +417,25 @@ $settings['author_settings'] = array(
 		),
 	)
 );
-
+$settings['cubewp-css-js'] = array(
+	'title'  => __( 'CSS & JS', 'cubewp-framework' ),
+	'id'     => 'cubewp-css-js',
+	'icon'   => 'dashicons-editor-code',
+	'fields' => array(
+		array(
+			'id'      => 'cubewp-css',
+			'type'    => 'ace_editor',
+			'mode'    => 'css',
+			'title'   => __( 'CSS ( Cascading Style Sheets )', 'cubewp-framework' ),
+			'desc'    => __( 'Put CSS code above. It will be enqueued on frontend only.', 'cubewp-framework' ),
+		),
+		array(
+			'id'      => 'cubewp-js',
+			'type'    => 'ace_editor',
+			'mode'    => 'javascript',
+			'title'   => __( 'JS or jQ ( JavaScript Or jQuery )', 'cubewp-framework' ),
+			'desc'    => __( 'Put JS code above. It will be enqueued on frontend only.', 'cubewp-framework' ),
+		),
+	)
+);
 return $settings;

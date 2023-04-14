@@ -1081,3 +1081,17 @@ a.ui-datepicker-next {
     font-size: 13px;
     margin-bottom: 10px;
 }
+.cwp-user-profile-actions {
+    margin: 0 0 25px 0;
+    display: flex;
+    justify-content: space-between;
+}
+.cwp-user-profile-actions a {
+    background: none;
+    border: 0;
+    color: #3345ff;
+    text-decoration: underline;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+}

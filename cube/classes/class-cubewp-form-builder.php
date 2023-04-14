@@ -32,7 +32,12 @@ class CubeWp_Form_Builder {
             $cwp_forms = CWP()->get_form( $form_type );
             if ( isset( $form_relation ) && ! empty( $form_relation ) ) {
                 if ( isset( $_POST['cwpform'] ) && ! empty( $_POST['cwpform'] ) ) {
-                    $cwp_forms[ $form_relation ] = CubeWp_Sanitize_Dynamic_Array( $_POST['cwpform'][ $form_relation ] );
+                    
+                    if ( $form_type == 'loop_builder' ) {
+                        $cwp_forms[ $form_relation ] = $_POST['cwpform'][ $form_relation ];
+                    }else {
+                        $cwp_forms[ $form_relation ] = CubeWp_Sanitize_Dynamic_Array( $_POST['cwpform'][ $form_relation ] );
+                    }
 
                     CWP()->update_form( $form_type, $cwp_forms );
                 } else {

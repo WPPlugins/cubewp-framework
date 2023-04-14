@@ -119,7 +119,8 @@ class CubeWp_Admin {
                 .wp-submenu li a[href="admin.php?page=cubewp-user-profile-form"]::after,
                 .wp-submenu li a[href="admin.php?page=cubewp-post-types-form"]::after,
                 .wp-submenu li a[href="admin.php?page=cubewp-single-layout"]::after,
-                .wp-submenu li a[href="admin.php?page=cubewp-user-dashboard"]::after
+                .wp-submenu li a[href="admin.php?page=cubewp-user-dashboard"]::after,
+                .wp-submenu li a[href="admin.php?page=cubewp-loop-builder"]::after
                 {
                     content: "\f160";
                     margin-left:5px;

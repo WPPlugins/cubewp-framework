@@ -73,9 +73,11 @@ class CubeWp_Post_Types_Custom_Fields_Table extends WP_List_Table{
         $title = sprintf( '<a href="%s"><strong>' . $item['group_name'] .'</strong></a>'.$group_status, CubeWp_Submenu::_page_action('custom-fields','edit', '&groupid='.absint( $item['ID']), '&_wpnonce='.wp_create_nonce( 'cwp_edit_group' )));
         $actions = [
             'edit' => sprintf( '<a href="%s">'. esc_html__('Edit', 'cubewp-framework') .'</a>', CubeWp_Submenu::_page_action('custom-fields','edit', '&groupid='.absint( $item['ID']), '&_wpnonce='.wp_create_nonce( 'cwp_edit_group' ))),
-            'delete' => sprintf( '<a href="%s">'. esc_html__('Delete', 'cubewp-framework') .'</a>', CubeWp_Submenu::_page_action('custom-fields','delete', '&groupid='.absint( $item['ID']), '&_wpnonce='.wp_create_nonce( 'cwp_delete_group' ))),
             'duplicate' => sprintf( '<a href="%s">'. esc_html__('Duplicate', 'cubewp-framework') .'</a>', CubeWp_Submenu::_page_action('custom-fields','duplicate', '&groupid='.absint( $item['ID']), '&_wpnonce='.wp_create_nonce( 'cwp_duplicate_group' ))),
         ];
+        if( ! cubewp_custom_field_group_secure( absint( $item['ID'] ) ) ) {
+            $actions['delete'] = sprintf( '<a href="%s">'. esc_html__('Delete', 'cubewp-framework') .'</a>', CubeWp_Submenu::_page_action('custom-fields','delete', '&groupid='.absint( $item['ID']), '&_wpnonce='.wp_create_nonce( 'cwp_delete_group' )));
+        }
         if(!empty($group_status)){
             $actions['activate'] = sprintf( '<a href="%s">'. esc_html__('activate', 'cubewp-framework') .'</a>', CubeWp_Submenu::_page_action('custom-fields','activate', '&groupid='.absint( $item['ID']), '&_wpnonce='.wp_create_nonce( 'cwp_status_group' )));
         }else{

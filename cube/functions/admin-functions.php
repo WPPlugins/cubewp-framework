@@ -444,6 +444,21 @@ if ( ! function_exists("get_post_save_button")) {
  */
 if ( ! function_exists("CubeWp_frontend_grid_HTML")) {
 	function CubeWp_frontend_grid_HTML($post_id, $col_class = 'cwp-col-12 cwp-col-md-6') {
+		if ( class_exists( 'CubeWp_Loop_Builder' ) ) {
+			$dynamic_layout = CubeWp_Loop_Builder::get_loop_layout_ui( get_post_type( $post_id ) );
+			if ( ! empty( $dynamic_layout ) ) {
+			   ob_start();
+			   ?>
+			   <div <?php post_class($col_class); ?>>
+				  <?php
+				  echo cubewp_core_data( $dynamic_layout );
+				  ?>
+			   </div>
+			   <?php
+		
+			   return ob_get_clean();
+			}
+		}
 		$thumbnail_url = cubewp_get_post_thumbnail_url($post_id);
 		$post_content = strip_tags(get_the_content('', '', $post_id));
 		if (str_word_count($post_content, 0) > 10) {
@@ -460,6 +475,17 @@ if ( ! function_exists("CubeWp_frontend_grid_HTML")) {
                         <img src="<?php echo esc_url($thumbnail_url); ?>"
                              alt="<?php echo get_the_post_thumbnail_caption($post_id); ?>">
                     </a>
+					<?php
+                    if(class_exists('CubeWp_Booster_Load')){
+                        if(is_boosted($post_id)){
+                            ?>
+                            <div class="cwp-post-boosted">
+                                <?php echo esc_html_e('Ad','cubew-framework'); ?>
+                            </div>
+                            <?php
+                        }
+                    }
+                    ?>
                     <div class="cwp-archive-save">
 						<?php get_post_save_button($post_id); ?>
                     </div>

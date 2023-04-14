@@ -237,3 +237,14 @@ span.cwp-main.cwp-saved-post svg:first-child {
 .cwp-single-share-btn.cwp-single-widget span.cwp-main {
     cursor: pointer;
 }
+.cwp-post-boosted {
+    padding: 1px 10px;
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: #FFBB00;
+    border-radius: 12px;
+    color: #000000;
+    font-weight: 500;
+    font-size: 13px;
+}

@@ -137,6 +137,13 @@ class CubeWp_Submenu {
                 'position'     => 10
             ),
             array(
+                'id'           =>  'cubewp-loop-builder',
+                'parent'       =>  'cube_wp_dashboard',
+                'title'        =>  esc_html__('Post Loop Generator (Beta)', 'cubewp'),
+                'callback'     =>  'cubewp-loop-builder',
+                'position'     => 11
+            ),
+            array(
                 'id'           =>  'cubewp-single-layout',
                 'parent'       =>  'cube_wp_dashboard',
                 'title'        =>  esc_html__('Single Layout', 'cubewp'),

@@ -62,7 +62,14 @@ class CubeWp_Elementor_Posts_Widget extends Widget_Base {
 			'label'   => esc_html__( 'Select Post Type', 'cubewp-framework' ),
 			'options' => $post_types,
 		) );
-
+		if(class_exists('CubeWp_Booster_Load')){
+            $this->add_control( 'show_boosted_posts', array(
+                'type'      => Controls_Manager::SWITCHER,
+                'label'     => esc_html__( 'Show Boosted Posts Only', 'cubewp-framework' ),
+                'default'   => 'no',
+            ) );
+        }
+        
 		$this->add_additional_controls();
 
 		$this->add_control( 'orderby', array(
@@ -244,8 +251,12 @@ class CubeWp_Elementor_Posts_Widget extends Widget_Base {
 	protected function render() {
 		$settings   = $this->get_settings_for_display();
 		$taxonomies = isset($settings[ 'taxonomy-' . $settings['posttype'] ]) ? $settings[ 'taxonomy-' . $settings['posttype'] ]: array();
+        if(class_exists('CubeWp_Booster_Load')){
+            $show_boosted_posts = $settings['show_boosted_posts'];
+        }
 		$args       = array(
 			'posttype'       => $settings['posttype'],
+            'show_boosted_posts' => $settings['show_boosted_posts'],
 			'taxonomy'       => $taxonomies,
 			'orderby'        => $settings['orderby'],
 			'order'          => $settings['order'],

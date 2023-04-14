@@ -22,6 +22,7 @@ class CubeWp_Builder_Pro {
         add_action("cubewp_user_profile_form", array($this, "CubeWp_Empty_Form_Builder"));
         add_action("cubewp_single_layout", array($this, "CubeWp_Empty_Form_Builder"));
         add_action("cubewp_user_dashboard", array($this, "CubeWp_Empty_Form_Builder"));
+        add_action("cubewp_loop_builder", array($this, "CubeWp_Empty_Form_Builder"));
     }
 
 	/**
@@ -50,6 +51,9 @@ class CubeWp_Builder_Pro {
         }
         elseif( current_cubewp_page() == 'cubewp_user_dashboard'){
             $page_header="User Dashboard Builder";
+            $background_image_src = CWP_PLUGIN_URI.'cube/assets/admin/images/user-dashboard-screen.png';
+        }elseif( current_cubewp_page() == 'cubewp_loop_builder'){
+            $page_header="Loop Builder";
             $background_image_src = CWP_PLUGIN_URI.'cube/assets/admin/images/user-dashboard-screen.png';
         }
         echo'<div id="cubewp-title-bar">

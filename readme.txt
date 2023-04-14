@@ -5,7 +5,7 @@ Tags: custom fields, custom post types, custom taxonomies, acf, meta box, custom
 Requires at least: 5.0
 Requires PHP: 7.2
 Tested up to: 6.2
-Stable tag: 1.0.17
+Stable tag: 1.0.18
 License: GPLv2 or later
 
 CubeWP is an end-to-end dynamic content framework for WordPress to help you shrink time and cut cost of development up to 90%.
@@ -301,7 +301,13 @@ To getting started with the plugin, please go to [Documentation](https://support
 
 == Changelog ==
 
-= 1.0.17 2023-03-07
+= 1.0.18 2023-04-15
+
+* New: CubeWP Post Loop Generator (Beta) Launched, It's beta version for testing.
+* New: Now you can add custom CSS & JS in CubeWP Settings > CSS & JS.
+
+
+= 1.0.17 2023-04-07
 
 * Fix: Search filters issues with pagination fixed.
 * Add-on: CubeWP Booster Compatiblity - Only Availabe with CubeWP Themes (Coming Soon Publicly).
@@ -309,7 +315,7 @@ To getting started with the plugin, please go to [Documentation](https://support
 * Add-on: CubeWP Post Claim Compatiblity - Only Availabe with CubeWP Themes (Coming Soon Publicly).
 * Add-on: CubeWP Social Login Compatiblity - Only Availabe with CubeWP Themes (Coming Soon Publicly).
 
-= 1.0.16 2023-03-06
+= 1.0.16 2023-04-06
 
 * New: CubeWP compatibility with theme development. If you are using any cubewp powered theme then you have to update CubeWP Framework.
 
