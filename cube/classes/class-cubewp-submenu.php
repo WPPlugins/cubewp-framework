@@ -139,14 +139,14 @@ class CubeWp_Submenu {
             array(
                 'id'           =>  'cubewp-loop-builder',
                 'parent'       =>  'cube_wp_dashboard',
-                'title'        =>  esc_html__('Post Loop Generator (Beta)', 'cubewp'),
+                'title'        =>  esc_html__('Post Loop Generator', 'cubewp'),
                 'callback'     =>  'cubewp-loop-builder',
                 'position'     => 11
             ),
             array(
                 'id'           =>  'cubewp-single-layout',
                 'parent'       =>  'cube_wp_dashboard',
-                'title'        =>  esc_html__('Single Layout', 'cubewp'),
+                'title'        =>  esc_html__('Single-Post Editor', 'cubewp'),
                 'callback'     =>  'cubewp-single-layout',
                 'position'     => 11
             ),
