@@ -178,7 +178,7 @@ input[type=date],input[type=datetime-local],input[type=datetime], input[type=ema
 .field-header .field-order {
 	cursor: move;
 	float: left;
-	margin: 0 20px 0 0;
+	margin: 0 10px 0 0;
 	width: 20px;
 }
 .field-counter {
@@ -187,10 +187,13 @@ input[type=date],input[type=datetime-local],input[type=datetime], input[type=ema
     width: 32px;
 }
 .field-counter span {
-    padding: 4px 12px;
-    border: 1px solid #ccd0d4;
-    font-size: 12px;
-    font-weight: 500;
+    padding: 3px 10px;
+	border: 1px solid #ccd0d4;
+	font-size: 12px;
+	font-weight: 500;
+	background: #f9f8ff;
+	border-radius: 4px;
+	line-height: 29px;
 }
 .field-header .sub-field-order {
 	cursor: move;
@@ -204,7 +207,7 @@ input[type=date],input[type=datetime-local],input[type=datetime], input[type=ema
 .field-header .field-label{
 	text-transform: uppercase;
 	color: #837b9b;
-	font-size: 14px;
+	font-size: 12px;
 	float: left;
 	width: 40%;
 	font-weight: 600;
@@ -216,6 +219,7 @@ input[type=date],input[type=datetime-local],input[type=datetime], input[type=ema
 }
 .field-order svg {
     fill: #9891AF;
+	margin-top: 4px;
 }
 .field-header .field-type {
 	float: left;

@@ -14,7 +14,7 @@ if( $current_user->user_firstname ){
     <div class="cwp-dashboard-content-panel" id="Dashboard">
         <div class="cwp-dashboard-content">
 			<?php do_action( 'cwp-welcome-theme-header' ); ?>
-            <div class="cwp-dashboard-data-structure">
+            <div class="cwp-dashboard-data-structure first-data-structure">
                 <div class="cwp-dashboard-data-structure-header">
                     <div class="cwp-dashboard-data-structure-svg">
                         <img src="<?php echo  CWP_PLUGIN_URI; ?>/cube/assets/admin/images/welcome-dashboard/data-structure.png" alt="image" />

@@ -797,7 +797,7 @@
         margin: 0 10px 20px 10px;
         max-height: 160px;
         justify-content: center;
-        min-width: 174px;
+        min-width: 180px;
     }
     
     .cwp-dashboard-data-customs-links p {
@@ -1012,7 +1012,7 @@
     
     @media (max-width:1612px) {
         .cwp-dashboard-data-customs-links p {
-            font-size: 10px;
+            font-size: 11px;
             margin: 8px auto;
         }
         .custom-cube-icons {
@@ -1026,11 +1026,11 @@
             padding: 6px;
         }
         .cwp-dashboard-data-customs-links {
-            max-width: 182px;
-            min-height: 114px;
-            padding: 6px;
+            max-width: 150px;
+            min-height: 146px;
+            padding: 14px;
             max-height: 146px;
-            min-width: 124px;
+            min-width: 150px;
         }
     }
     
@@ -1091,15 +1091,19 @@
         .cwp-post-grid-contentarea .cwp-shordcodes {
             padding: 2px 13px;
         }
-        .cwp-dashboard-data-customs-links {
+        .first-data-structure .cwp-dashboard-data-customs-links {
             min-height: 100px;
-            padding: 4px;
-            margin: 0 10px 10px 0;
-            min-width: 106px;
+            padding: 15px;
+            margin-right:4px;
+            min-width: 110px;
         }
-        .cwp-dashboard-data-structure-content {
-            padding: 12px 12px 4px 12px;
-        }
+        .cwp-dashboard-data-customs-links {
+            max-width: 134px;
+            min-height: 123px;
+            padding: 14px;
+            max-height: 130px;
+            min-width: 136px;
+          }
         .custom-cube-icons {
             width: 27px;
             height: 29px;

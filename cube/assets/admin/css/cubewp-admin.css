@@ -59,11 +59,12 @@ a {
 .cwp-group-fields-head {
     display: flex;
     align-items: center;
-    background: #fff;
-    border-bottom: 2px solid #dad6e6;
+    background: #DAD6E6;
     font-size: 14px;
     font-weight: bold;
-    padding: 18px 25px;
+    padding: 15px 25px;
+    color: #837b9b;
+    text-transform: uppercase;
 }
 
 .cwp-fields-title-head {
@@ -93,7 +94,7 @@ a {
 }
 
 .cwp-group-fields-content {
-    background: #fff;
+    background: #F9F8FF;
     padding: 18px 10px;
 }
 
@@ -140,7 +141,7 @@ a {
 }
 
 .cwp-group-fields .field-header.closed {
-    border-bottom: none;
+    border: 1px dashed #bfbfbf
 }
 
 .cwp-group-fields .field-header .field-title {
@@ -171,21 +172,20 @@ a {
 
 .cwp-group-fields .field-header {
     align-items: center;
-    border: 1px solid #ccd0d4;
     color: #837b9b;
     display: flex;
     font-size: 14px;
     justify-content: space-between;
     margin: 0;
-    padding: 15px 15px;
+    padding: 13px 15px;
     border-radius: 5px 5px 0 0;
     background-color: #DAD6E6;
 }
 
 .cwp-group-fields .field-header.closed {
     border-radius: 4px;
-    padding: 15px 15px;
-    background: #DAD6E6;
+    padding: 13px 15px;
+    background: #fff;
 }
 
 .parent-field.cwp-field-set.cwp-add-form-feild.cwp-required-container .parent-field-header.field-header {
@@ -196,7 +196,7 @@ a {
     width: calc(100% - 172px);
     flex-grow: 1;
     margin: 0;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .cwp-group-fields .field-header .field-actions {
@@ -222,7 +222,7 @@ a {
 }
 
 .cwp-group-fields .cwp-field-set .cwp-collapsible-inner table tr td:first-child {
-    background: #F8F8F8;
+    background: #F9F8FF;
     border: 0;
     margin: 0;
     padding: 15px 20px;
@@ -1371,6 +1371,7 @@ cwp-unlock-feature a {
     font-family: Helvetica, sans-serif;
     color: #32373C;
     font-weight: bold;
+    margin:0px
 }
 
 .cubewp-import-box-container {
