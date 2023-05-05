@@ -104,6 +104,12 @@ class CubeWp_Submenu {
                 'callback'  => 'user-custom-fields',
             ),
             array(
+                'id'        => 'settings-custom-fields', // Expected to be overridden if dashboard is enabled.
+                'parent'    => 'cube_wp_dashboard',
+                'title'     => esc_html__('Settings Custom Fields', 'cubewp-framework'),
+                'callback'  => 'settings-custom-fields',
+            ),
+            array(
                 'id'           => 'cubewp-admin-search-fields', // Expected to be overridden if dashboard is enabled.
                 'parent'       => 'cube_wp_dashboard',
                 'title'        => esc_html__('Search Forms', 'cubewp-framework'),
@@ -148,32 +154,35 @@ class CubeWp_Submenu {
                 'parent'       =>  'cube_wp_dashboard',
                 'title'        =>  esc_html__('Single-Post Editor', 'cubewp'),
                 'callback'     =>  'cubewp-single-layout',
-                'position'     => 11
+                'position'     => 12
             ),
             array(
                 'id'           =>  'cubewp-user-dashboard',
                 'parent'       =>  'cube_wp_dashboard',
                 'title'        =>  esc_html__('User Dashboard', 'cubewp'),
                 'callback'     =>  'cubewp-user-dashboard',
-                'position'     => 12
+                'position'     => 13
             ),
             array(
                 'id'        => 'cubewp-settings', // Expected to be overridden if dashboard is enabled.
                 'parent'    => 'cube_wp_dashboard',
                 'title'     => esc_html__('CubeWP Settings', 'cubewp-framework'),
                 'callback'  => 'cubewp-settings',
+                'position'     => 14
             ),
             array(
                 'id'        => 'cubewp-import', // Expected to be overridden if dashboard is enabled.
                 'parent'    => 'cube_wp_dashboard',
                 'title'     => esc_html__('CubeWP Import', 'cubewp-framework'),
                 'callback'  => 'cubewp-import',
+                'position'     => 15
             ),
             array(
                 'id'        => 'cubewp-export', // Expected to be overridden if dashboard is enabled.
                 'parent'    => 'cube_wp_dashboard',
                 'title'     => esc_html__('CubeWP Export', 'cubewp-framework'),
                 'callback'  => 'cubewp-export',
+                'position'     => 16
             )
 
         );

@@ -109,17 +109,24 @@ class CubeWp_Admin_Notice {
 				<ul>
 					<li><a href="'.admin_url( 'admin.php?page=cubewp-settings' ).'" target="_blank"><span class="dashicons dashicons-admin-settings"></span>Settings</a></li>
 				</ul> 
-			</div>
-			<div class="float-right cwp-update-plugin-btn">
-				<a target="_blank" href="https://cubewp.com/store"><span class="dashicons dashicons-lock"></span>' . esc_attr__( 'Unlock All Premium Features', 'cubewp-framework' ) . '</a>
-			</div>
+			</div>';
+			if( !class_exists('CubeWp_Frontend_Load') ){
+				$notice_ui .= '
+				<div class="float-right cwp-update-plugin-btn">
+					<a target="_blank" href="https://cubewp.com/store"><span class="dashicons dashicons-lock"></span>' . esc_attr__( 'Unlock All Premium Features', 'cubewp-framework' ) . '</a>
+				</div>';
+			}
+			$notice_ui .= '
 			<div class="cwp-title-menu float-right">
 				<ul>
 					<li><a href="https://support.cubewp.com" target="_blank"><span class="dashicons dashicons-media-document"></span>Docs</a></li>
 					<li><a href="https://support.cubewp.com/forums" target="_blank"><span class="dashicons dashicons-buddicons-community"></span>Community</a></li>
 					<li><a href="https://support.cubewp.com/forums/forum/feedback" target="_blank"><span class="dashicons dashicons-feedback"></span>Feedback</a></li>
-					<li><a href="https://help.cubewp.com/" target="_blank"><span class="dashicons dashicons-sos"></span>Helpdesk</a></li>
-				</ul> 
+					<li><a href="https://help.cubewp.com/" target="_blank"><span class="dashicons dashicons-sos"></span>Helpdesk</a></li>';
+					if(class_exists('CubeWp_Frontend_Load') ){
+						$notice_ui .= '<li><a href="https://cubewp.com/store" target="_blank"><span class="dashicons dashicons-buddicons-groups"></span>Add-ons</a></li>';
+					}
+			$notice_ui .= ' </ul> 
 			</div>	
 			</div>	
 			<div class="clearfix"></div>';

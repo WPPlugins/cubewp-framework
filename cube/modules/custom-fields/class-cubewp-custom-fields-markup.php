@@ -39,6 +39,7 @@ class CubeWp_Custom_Fields_Markup
             'file_types' => '',
             'upload_size' => '',
             'placeholder' => '',
+            'editor_media' => 0,
             'filter_post_types' => '',
             'filter_taxonomy' => '',
             'filter_user_roles' => '',
@@ -273,6 +274,20 @@ class CubeWp_Custom_Fields_Markup
             'tr_class' => 'conditional-field',
             'tr_extra_attr' => 'data-equal="dropdown"',
             'extra_label' => esc_html__('Multiple Values', 'cubewp-framework'),
+        );
+        $field_settings['field_editor_media'] = array(
+            'label' => esc_html__('Allow Media', 'cubewp-framework'),
+            'name' => 'cwp[fields][' . $FieldData['name'] . '][editor_media]',
+            'value' => '1',
+            'placeholder' => '',
+            'type' => 'text',
+            'checked' => $FieldData['editor_media'],
+            'type_input' => 'checkbox',
+            'class' => 'field-editor-media-checkbox checkbox cwp-switch-check',
+            'id' => 'field-required-' . str_replace('cwp_field_', '', $FieldData['name']),
+            'tr_class' => 'conditional-field',
+            'tr_extra_attr' => 'data-equal="wysiwyg_editor"',
+            'extra_label' => esc_html__('Allow Media', 'cubewp-framework'),
         );
         $field_settings['field_filter_post_types'] = array(
             'label' => esc_html__('Filter by Post Types', 'cubewp-framework'),

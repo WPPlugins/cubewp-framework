@@ -736,6 +736,25 @@ if ( ! function_exists("cwp_get_groups_by_post_type")) {
 }
 
 /**
+ * Get post type groups
+ *
+ * @param string $type Post Type Slug.
+ *
+ * @return array $allGroups List of Group ID's.
+ */
+if ( ! function_exists("cwp_get_groups_of_settings")) {
+	function cwp_get_groups_of_settings() {
+		$args = array(
+			'numberposts' => - 1,
+			'post_type'   => 'cwp_settings_fields',
+			'fields'      => 'ids',
+		);
+
+		return get_posts($args);
+	}
+}
+
+/**
  * cwp_get_groups_by_post_id
  *
  * @param string $post_id Group Post id
@@ -935,6 +954,9 @@ if ( ! function_exists("cwp_get_opt_hook")) {
 			case 'user':
 				$opt_name = CWP()->prefix() . '_user_custom_fields';
 				break;
+			case 'settings':
+				$opt_name = CWP()->prefix() . '_settings_custom_fields';
+				break;
 		}
 
 		return $opt_name;
@@ -955,6 +977,23 @@ if ( ! function_exists("get_field_options")) {
 		}
 		$fieldOptions = CWP()->get_custom_fields('post_types');
 
+		return isset($fieldOptions[$fieldID]) ? $fieldOptions[$fieldID] : array();
+	}
+}
+
+/**
+ * Get field option
+ *
+ * @param int $fieldID Field ID.
+ *
+ * @return array $SingleFieldOptions List of Field Options.
+ */
+if ( ! function_exists("get_setting_field_options")) {
+	function get_setting_field_options($fieldID = 0) {
+		if ( ! $fieldID) {
+			return;
+		}
+		$fieldOptions = CWP()->get_custom_fields('settings');
 		return isset($fieldOptions[$fieldID]) ? $fieldOptions[$fieldID] : array();
 	}
 }

@@ -101,18 +101,6 @@ class CubeWp_Admin {
      *
      */
     public function cubewp_admin_css() {
-        echo '<style>
-            #toplevel_page_cube_wp_dashboard .wp-submenu li:nth-child(6) {
-                display: none;
-            }
-            #toplevel_page_cube_wp_dashboard .wp-submenu li:nth-child(7) {
-                display: none;
-            }
-            #toplevel_page_cube_wp_dashboard .wp-submenu li:nth-child(6).current,
-            #toplevel_page_cube_wp_dashboard .wp-submenu li:nth-child(7).current {
-                display: block;
-            }
-        </style>';
         if( ! class_exists( 'CubeWp_Frontend_Load' ) ) {
             echo '<style>
                 .wp-submenu li a[href="admin.php?page=cubewp-user-registration-form"]::after,
@@ -406,6 +394,7 @@ class CubeWp_Admin {
             'char_limit'            =>    '',
             'multiple'              =>    0,
             'select2_ui'            =>    0,
+            'editor_media'          =>    0,
             'sub_fields'            =>    array(),
             'wrap'                  =>    true,
         );

@@ -57,11 +57,14 @@ class CubeWp_Admin_Gallery_Field extends CubeWp_Admin {
             if (isset($args["file_types"]) && !empty($args["file_types"])) {
                 $accept_types = $args["file_types"];
             }
-            $output .= '<div id="cwp-gallery-'. $args['name'] .'" class="cwp-custom-field cwp-gallery-field" data-id="'. $args['name'] .'">
-                <div class="cwp-field">
-                    <div class="cwp-gallery">
+            $output .= '<div id="cwp-gallery-' . $args['name'] . '" class="cwp-custom-field cwp-gallery-field" data-id="' . $args['name'] . '">
+                <div class="cwp-field">';
+                    if (!empty($args['custom_name'])) {
+                        $output .= '<input type="hidden" class="cwp-gallery-have-custom-name" value="' . esc_attr($args['custom_name']) . '">';
+                    }
+                    $output .= '<div class="cwp-gallery">
                         <ul class="cwp-gallery-list">
-                            '. $attachments_list .'
+                            ' . $attachments_list . '
                         </ul>
                     </div>
                     <a href="javascript:void(0);" class="button button-primary cwp-gallery-btn" data-allowed-types="' . $accept_types . '">Add Gallery Images</a>

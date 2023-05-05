@@ -95,7 +95,7 @@ class CubeWp_Elementor_Taxonomy_Widget extends Widget_Base {
 		$this->add_control( 'icon_media_name', array(
 			'type'        => Controls_Manager::TEXT,
 			'label'       => esc_html__( 'Icon Or Image', 'cubewp-framework' ),
-			'description' => esc_html__( 'Enter taxonomy custom field name for term icon or image. ', 'cubewp-framework' ),
+			'description' => esc_html__( 'Enter taxonomy custom field slug for term icon or image.', 'cubewp-framework' ),
 			'condition'   => array(
 				'output_style' => 'boxed_view',
 			),

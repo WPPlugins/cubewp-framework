@@ -320,16 +320,17 @@ class CubeWp_Admin_Enqueue{
             
         }
 
-        if(CWP()->is_admin_screen('custom_fields') || CWP()->is_admin_screen('user_custom_fields') || CWP()->is_admin_screen('taxonomy_custom_fields')){
+        if(CWP()->is_admin_screen('custom_fields') || CWP()->is_admin_screen('user_custom_fields') || CWP()->is_admin_screen('settings_custom_fields') || CWP()->is_admin_screen('taxonomy_custom_fields')){
             self::enqueue_script('cubewp-custom-fields');
             self::enqueue_style('cubewp-custom-fields');
             self::enqueue_script('cubewp-metaboxes-validation');
         }
 
         if(CWP()->is_admin_screen('cubewp_post_types') || 
-        CWP()->is_admin_screen('cubewp_taxonomies') ||
-        $pagenow == 'user-new.php' || $pagenow == 'user-edit.php' || $pagenow == 'profile.php' ||
-		$pagenow == 'post.php' || $pagenow == 'post-new.php'
+			CWP()->is_admin_screen('cubewp_taxonomies') ||
+			CWP()->is_admin_screen('cubewp_settings') ||
+			$pagenow == 'user-new.php' || $pagenow == 'user-edit.php' || $pagenow == 'profile.php' ||
+			$pagenow == 'post.php' || $pagenow == 'post-new.php'
 		)
        {
 			self::enqueue_style('cubewp-custom-fields');

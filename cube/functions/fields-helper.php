@@ -785,6 +785,7 @@ if ( ! function_exists("cwp_render_editor_input")) {
 			'value'       => '',
 			'extra_attrs' => '',
 			'rows'        => '8',
+			'editor_media' => 0,
 		);
 		$attrs    = wp_parse_args($attrs, $defaults);
 
@@ -792,7 +793,7 @@ if ( ! function_exists("cwp_render_editor_input")) {
 			'wpautop'       => true,
 			'textarea_name' => $attrs['name'],
 			'textarea_rows' => $attrs['rows'],
-			'media_buttons' => false,
+			'media_buttons' => $attrs['editor_media'],
 			'quicktags'     => false,
 			'editor_class'  => $attrs['class'],
 			'tinymce'       => array(

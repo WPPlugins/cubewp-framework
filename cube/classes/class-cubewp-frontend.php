@@ -127,6 +127,7 @@ class CubeWp_Frontend {
             'description'           =>    '',
             'multiple'              =>    0,
             'select2_ui'            =>    0,
+            'editor_media'          =>    0,
             'auto_complete'         =>    0,
             'appearance'            =>    '',
             'required'              =>    false,

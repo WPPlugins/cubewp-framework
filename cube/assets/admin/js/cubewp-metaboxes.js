@@ -118,7 +118,10 @@ jQuery(document).ready(function ($){
                 rand_id = makeid(5);
             jQuery.each( attachments, function( key, attachment_data ) {
                 var input_name = 'cwp_meta['+ gallery_id +'][]';
-    
+                
+                if (thisObj.closest(".cwp-field").find(".cwp-gallery-have-custom-name").length > 0) {
+                    input_name = thisObj.closest(".cwp-field").find(".cwp-gallery-have-custom-name").val() + '[]';
+                }
                 if (thisObj.closest('.cwp-repeating-fields').length > 0) {
                     var repeating_id = thisObj.closest('.cwp-repeating-fields').closest(".cwp-field").find('.cwp-add-row-btn').data('id'),
                         gallery_list = thisObj.closest(".cwp-field").find(".cwp-gallery-list").find(".cwp-gallery-item");
