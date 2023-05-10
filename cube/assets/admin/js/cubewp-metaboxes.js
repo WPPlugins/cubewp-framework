@@ -81,7 +81,7 @@ jQuery(document).ready(function ($){
         if(jQuery(this).is(":checked")){
             jQuery(this).closest('label').find('input[type="hidden"]').val('Yes').trigger("input");
         }else{
-            jQuery(this).closest('label').find('input[type="hidden"]').val('No').trigger("input");
+            jQuery(this).closest('label').find('input[type="hidden"]').val('').trigger("input");
         }
     });
     

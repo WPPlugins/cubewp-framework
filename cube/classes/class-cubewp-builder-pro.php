@@ -82,6 +82,8 @@ class CubeWp_Builder_Pro {
                             <li><span class="dashicons dashicons-yes"></span>Post Types Form Builder</li>
                             <li><span class="dashicons dashicons-yes"></span>Advanced Search Filter Builder</li>
                             <li><span class="dashicons dashicons-yes"></span>User Dashboard Builder</li>
+                            <li><span class="dashicons dashicons-yes"></span>Post Loop Generator</li>
+                            <li><span class="dashicons dashicons-yes"></span>Plus Much More</li>
                         </ul>
                     </div>
                     <div class="cubewp-subscription-bottom-contant">

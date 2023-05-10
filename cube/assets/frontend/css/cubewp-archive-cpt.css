@@ -284,27 +284,3 @@ a {
         left: 16px;
     }
 }
-
-@media (min-width: 576px) {
-    .cwp-container.cwp-archive-container {
-        max-width: 540px;
-    }
-}
-
-@media (min-width: 768px) {
-    .cwp-container.cwp-archive-container {
-        max-width: 720px;
-    }
-}
-
-@media (min-width: 992px) {
-    .cwp-container.cwp-archive-container {
-        max-width: 960px;
-    }
-}
-
-@media (min-width: 1200px) {
-    .cwp-container.cwp-archive-container {
-        max-width: 1140px;
-    }
-}

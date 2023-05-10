@@ -401,6 +401,9 @@ if( $current_user->user_firstname ){
                         <img src="<?php echo CWP_PLUGIN_URI . 'cube/assets/admin/images/cube-addons.png'; ?>" alt="" />
                     </div>
                 </div>
+                <div class="cubewp-appsumo-video-promotion">
+                    <iframe  src="https://www.youtube.com/embed/mlbceEL1CVo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                </div>
                 <div class="cwp-welcome-row">
                     <div class="cwp-welcome-col-md-12 margin-bottom-10 ">
                         <div class="cwp-welcome-faqs">
@@ -669,26 +672,26 @@ if( $current_user->user_firstname ){
                                 <div class="cwp-welcome-header-info">
                                     <span class="dashicons dashicons-sos"></span>
                                     <h3 class="cwp-welcome-section-heading">Top Helpful Resources</h3>
-                                    <a href="https://support.cubewp.com/docs/cubewp-framework/" class="cwp-welcome-section-all-faqs" target="_blank">All Documentation</a>
+                                    <a href="https://support.cubewp.com/docs/" class="cwp-welcome-section-all-faqs" target="_blank">All Documentation</a>
                                 </div>
                             </div>
                             <div class="cwp-post-grid-contentarea">
-                                <a href="#" class="cwp-cutom-post-info-row border-bottom-welcome">
+                                <a href="https://support.cubewp.com/docs/cubewp-framework/how-to-use-cubewp/create-post-types/" target="_blank" class="cwp-cutom-post-info-row border-bottom-welcome">
                                     <p>Custom Post Types</p>
                                 </a>
-                                <a href="#" class="cwp-cutom-post-info-row border-bottom-welcome">
+                                <a href="https://support.cubewp.com/docs/cubewp-framework/how-to-use-cubewp/create-custom-taxonomies/" target="_blank" class="cwp-cutom-post-info-row border-bottom-welcome">
                                     <p>Custom Taxonomies</p>
                                 </a>
-                                <a href="#" class="cwp-cutom-post-info-row border-bottom-welcome">
+                                <a href="https://support.cubewp.com/docs/cubewp-framework/how-to-use-cubewp/create-custom-fields/" target="_blank" class="cwp-cutom-post-info-row border-bottom-welcome">
                                     <p>How to Create Custom Fields</p>
                                 </a>
-                                <a href="#" class="cwp-cutom-post-info-row border-bottom-welcome">
-                                    <p>Developer’s Guide (CubeWP Filters & Actions)</p>
+                                <a href="https://support.cubewp.com/docs/cubewp-framework/developer-guides/" target="_blank" class="cwp-cutom-post-info-row border-bottom-welcome">
+                                    <p>Developer's Guide (CubeWP Filters & Actions)</p>
                                 </a>
-                                <a href="#" class="cwp-cutom-post-info-row border-bottom-welcome">
+                                <a href="https://support.cubewp.com/forums/" target="_blank" class="cwp-cutom-post-info-row border-bottom-welcome">
                                     <p>Community Forum</p>
                                 </a>
-                                <a href="#" class="cwp-cutom-post-info-row padding-bottom-18">
+                                <a href="https://help.cubewp.com/" target="_blank" class="cwp-cutom-post-info-row padding-bottom-18">
                                     <p>Helpdesk</p>
                                 </a>
                             </div>

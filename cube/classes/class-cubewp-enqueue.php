@@ -162,6 +162,11 @@ class CubeWp_Enqueue extends CubeWp_Admin_Enqueue {
 				'deps'    => array( 'google_map_api' ),
 				'version' => CUBEWP_VERSION,
 			),
+			'cubewp-pretty-photo'         => array(
+				'src'     => CWP_PLUGIN_URI . 'cube/assets/lib/pretty-photo/js/jquery.prettyPhoto.js',
+				'deps'    => array( 'jquery' ),
+				'version' => CUBEWP_VERSION,
+			),
 		);
 		$register_scripts = apply_filters( 'frontend/script/register', $register_scripts );
 		foreach ( $register_scripts as $name => $props ) {
@@ -239,6 +244,13 @@ class CubeWp_Enqueue extends CubeWp_Admin_Enqueue {
 				'src'     => CWP_PLUGIN_URI . 'cube/assets/frontend/css/cubewp-taxonomy-shortcode.css',
 				'deps'    => array(),
 				'version' => CUBEWP_VERSION,
+				'has_rtl' => false,
+			),
+			'cubewp-pretty-photo'  => array(
+				'src'     => CWP_PLUGIN_URI . 'cube/assets/lib/pretty-photo/css/prettyPhoto.css',
+				'deps'    => array(),
+				'version' => CUBEWP_VERSION,
+				'media'   => 'all',
 				'has_rtl' => false,
 			),
 		);

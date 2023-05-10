@@ -46,6 +46,7 @@ class CubeWp_Search_Ajax_Hooks{
         $post_per_page = isset($_DATA['posts_per_page']) ? $_DATA['posts_per_page'] : 10;
 
         self::$map_meta_key = self::cwp_map_meta_key($post_type);
+
         $query = new CubeWp_Query($_DATA);
         $the_query = $query->cubewp_post_query();
         

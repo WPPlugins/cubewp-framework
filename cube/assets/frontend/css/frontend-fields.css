@@ -58,9 +58,12 @@ input[type="radio"] {
 }
 
 .cwp-frontend-section-container .cwp-field-container p.description {
-    font-size: 13px;
-    padding: 0 0 0 5px;
-    margin: 0 0 10px 0;
+	font-size: 11px;
+	padding: 3px 10px;
+	margin: 0 0 10px 0;
+	background: #f5f5f5;
+	display: inline-block;
+	border-radius: 5px;
 }
 
 ul.cwp-field-checkbox-container,
@@ -344,7 +347,7 @@ span.cwp-range-number-field-seprator {
 .cwp-frontend-section-content-container {
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: space-between;
+	justify-content: flex-start;
 }
 
 .cwp-frontend-form-container .cwp-frontend-section-container .cwp-frontend-section-content-container {
@@ -673,7 +676,7 @@ span.cwp-range-number-field-seprator {
 /*Switch*/
 
 .cwp-switch-container .cwp-switch {
-    display: inline-flex !important;
+    display: flex !important;
     justify-content: space-evenly;
     align-items: center;
     position: relative;

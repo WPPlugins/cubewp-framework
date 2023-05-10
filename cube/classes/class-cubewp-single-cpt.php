@@ -106,7 +106,7 @@ class CubeWp_Single_Cpt {
 	 */
 	public static function get_post_featured_image() {
 		if ( has_post_thumbnail( self::$post_id ) ) {
-			return '<div class="cwp-single-fet-img" style="background-image: url(' . get_the_post_thumbnail_url( self::$post_id ) . ')"></div>';
+			return '<div class="cwp-single-fet-img"><img src="' . esc_url( get_the_post_thumbnail_url( self::$post_id, array( 1250, 500 ) ) ) . '" alt="' . get_the_title( self::$post_id ) . '"></div>';
 		} else {
 			return null;
 		}

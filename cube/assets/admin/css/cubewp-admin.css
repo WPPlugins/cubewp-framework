@@ -1480,3 +1480,127 @@ cwp-unlock-feature a {
     max-width: 600px;
     text-align: right;
 }
+
+/* AppSumo Promotion Notice */
+.cwp-promotion-display-col {
+    flex: 0 0 auto;
+    width: 16.66666667%;
+}
+
+.cubewp-appsumo-notice-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.cwp-promotion-display-col-70 {
+    flex: 0 0 auto;
+    width: 50%;
+}
+
+.cubewp-appsumo-notice.notice .notice-dismiss {
+    right: -5px;
+    top: -7px;
+}
+
+.cubewp-appsumo-notice {
+    background: #12282A;
+    padding: 8px !important;
+    border-radius: 12px;
+}
+
+.cubewp-appsumo-notice img {
+    max-width: 100%;
+    height: auto;
+}
+
+.cwp-appsumo-notice-image {
+    max-height: 138px;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.cubewp-appsumo-notice .cwp-appsumo-notice-logos img:last-child {
+    margin-top: 16px;
+    max-width: calc(100% - 35px);
+}
+
+.cwp-appsumo-notice-logos {
+    padding: 0 25px;
+}
+
+.cube-notice-addons-list .cube-addons-list li {
+    font-size: 16px;
+    font-weight: 400;
+    color: #ffffff;
+    letter-spacing: 0;
+    line-height: 26px;
+    margin-top: 3px;
+    margin-bottom: 6px;
+    width: calc(100% / 3);
+}
+
+.cube-notice-addons-list .cube-addons-list li span {
+    font-size: 28px;
+    color: #61B706;
+    margin-bottom: 10px;
+    margin-right: 10px;
+}
+
+.cwp-appsumo-notice-promotion-price .cwp-appsumo-notice-price {
+    background: #3134347a;
+    padding: 2px;
+    text-align: center;
+    margin-bottom: 10px;
+    border-radius: 6px;
+}
+
+.cwp-appsumo-notice-promotion-price .cwp-appsumo-notice-price p {
+    color: #fff;
+    letter-spacing: 0;
+    opacity: 1;
+    font-size: 48px;
+    line-height: 32px;
+    font-weight: 600;
+    margin: 0;
+    padding: 13px 0 7px 0;
+}
+
+.cwp-appsumo-notice-promotion-price .cwp-appsumo-notice-price p span {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.cwp-appsumo-notice-promotion-price {
+    padding: 0 10px;
+}
+
+.cwp-appsumo-notice-image img {
+    height: 138px;
+    object-fit: cover;
+}
+
+.cubewp-appsumo-notice.notice {
+    border: unset;
+    margin: 15px 15px 15px 0;
+}
+
+.cube-notice-addons-list .cube-addons-list {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 1370px) {
+    .cube-notice-addons-list .cube-addons-list li {
+        font-size: 12px;
+    }
+
+    .cwp-appsumo-notice-promotion-price .cwp-appsumo-notice-price p {
+        font-size: 34px;
+    }
+
+    .cwp-appsumo-notice-promotion-price .cwp-appsumo-notice-price p span {
+        font-size: 16px;
+    }
+}

@@ -127,7 +127,7 @@
 #cwp-options-form #cubewp-settings-tabs-content textarea,
 #cwp-options-form #cubewp-settings-tabs-content select
 {
-    min-width: 100%;
+    width: 100%;
     border: 1px solid #E1E5E9;
     border-radius: 4px;
     height: 36px;

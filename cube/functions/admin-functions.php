@@ -480,7 +480,7 @@ if ( ! function_exists("CubeWp_frontend_grid_HTML")) {
                         if(is_boosted($post_id)){
                             ?>
                             <div class="cwp-post-boosted">
-                                <?php echo esc_html_e('Ad','cubew-framework'); ?>
+                                <?php echo esc_html_e('Ad','cubewp-framework'); ?>
                             </div>
                             <?php
                         }
@@ -2046,23 +2046,25 @@ if ( ! function_exists("cwp_custom_mime_types")) {
 
 if ( ! function_exists("cubewp_add_user_roles_caps")) {
 	function cubewp_add_user_roles_caps() {
-		 $roles = array(
-			 "subscriber",
-			 "contributor"
-		 );
-		 foreach ( $roles as $role ) {
-			 $role_obj = get_role( $role );
-			 // Add a new capability.
-			if (cwp()->is_request("frontend")) {
-				 $role_obj->add_cap( 'edit_posts' );
-				 $role_obj->add_cap( 'read' );
-				 $role_obj->add_cap( 'delete_posts' );
-			}else {
-			   $role_obj->remove_cap( 'edit_posts' );
-			   $role_obj->remove_cap( 'read' );
-			   $role_obj->remove_cap( 'delete_posts' );
+		$roles = array(
+			"subscriber",
+			"contributor"
+		);
+		foreach ( $roles as $role ) {
+			$role_obj = get_role( $role );
+			if ( ! is_wp_error( $role_obj ) && is_object( $role_obj ) && ! empty( $role_obj ) ) {
+				// Add a new capability.
+				if (cwp()->is_request("frontend")) {
+					$role_obj->add_cap( 'edit_posts' );
+					$role_obj->add_cap( 'read' );
+					$role_obj->add_cap( 'delete_posts' );
+				}else {
+					$role_obj->remove_cap( 'edit_posts' );
+					$role_obj->remove_cap( 'read' );
+					$role_obj->remove_cap( 'delete_posts' );
+				}
 			}
-		}
+	   }
 	}
  
 	add_action('init', 'cubewp_add_user_roles_caps');

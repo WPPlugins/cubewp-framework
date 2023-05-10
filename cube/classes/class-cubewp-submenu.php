@@ -72,117 +72,126 @@ class CubeWp_Submenu {
                 'parent'    => 'cube_wp_dashboard',
                 'title'     => esc_html__('Dashboard', 'cubewp-framework'),
                 'callback'  => 'cube_wp_dashboard',
+                'position'     => 2
             ),
             array(
                 'id'        => 'cubewp-post-types', // Expected to be overridden if dashboard is enabled.
                 'parent'    => 'cube_wp_dashboard',
                 'title'     => esc_html__('Post Types', 'cubewp-framework'),
                 'callback'  => 'cubewp-post-types',
+                'position'     => 3
             ),
             array(
                 'id'        => 'cubewp-taxonomies', // Expected to be overridden if dashboard is enabled.
                 'parent'    => 'cube_wp_dashboard',
                 'title'     => esc_html__('Taxonomies', 'cubewp-framework'),
                 'callback'  => 'cubewp-taxonomies',
+                'position'     => 4
             ),
             array(
                 'id'        => 'custom-fields', // Expected to be overridden if dashboard is enabled.
                 'parent'    => 'cube_wp_dashboard',
                 'title'     => esc_html__('Custom Fields', 'cubewp-framework'),
                 'callback'  => 'custom-fields',
+                'position'     => 5
             ),
             array(
                 'id'        => 'taxonomy-custom-fields', // Expected to be overridden if dashboard is enabled.
                 'parent'    => 'cube_wp_dashboard',
                 'title'     => esc_html__('Taxonomy Custom Fields', 'cubewp-framework'),
                 'callback'  => 'taxonomy-custom-fields',
+                'position'     => 6
             ),
             array(
                 'id'        => 'user-custom-fields', // Expected to be overridden if dashboard is enabled.
                 'parent'    => 'cube_wp_dashboard',
                 'title'     => esc_html__('User Custom Fields', 'cubewp-framework'),
                 'callback'  => 'user-custom-fields',
+                'position'     => 7
             ),
             array(
                 'id'        => 'settings-custom-fields', // Expected to be overridden if dashboard is enabled.
                 'parent'    => 'cube_wp_dashboard',
                 'title'     => esc_html__('Settings Custom Fields', 'cubewp-framework'),
                 'callback'  => 'settings-custom-fields',
+                'position'     => 8
             ),
             array(
                 'id'           => 'cubewp-admin-search-fields', // Expected to be overridden if dashboard is enabled.
                 'parent'       => 'cube_wp_dashboard',
                 'title'        => esc_html__('Search Forms', 'cubewp-framework'),
                 'callback'     => 'cubewp-admin-search-fields',
+                'position'     => 9
             ),
             array(
                 'id'           => 'cubewp-admin-search-filters', // Expected to be overridden if dashboard is enabled.
                 'parent'       => 'cube_wp_dashboard',
                 'title'        => esc_html__('Search Filter', 'cubewp-framework'),
                 'callback'     => 'cubewp-admin-search-filters',
+                'position'     => 10
             ),
             array(
                 'id'           =>  'cubewp-user-registration-form',
                 'parent'       =>  'cube_wp_dashboard',
                 'title'        =>  esc_html__('User Signup Form', 'cubewp'),
                 'callback'     =>  'cubewp-user-registration-form',
-                'position'     => 8
+                'position'     => 11
             ),
             array(
                 'id'           =>  'cubewp-user-profile-form',
                 'parent'       =>  'cube_wp_dashboard',
                 'title'        =>  esc_html__('User Profile Form', 'cubewp'),
                 'callback'     =>  'cubewp-user-profile-form',
-                'position'     => 9
+                'position'     => 12
             ),
             array(
                 'id'           =>  'cubewp-post-types-form',
                 'parent'       =>  'cube_wp_dashboard',
                 'title'        =>  esc_html__('Post Types Form', 'cubewp'),
                 'callback'     =>  'cubewp-post-types-form',
-                'position'     => 10
+                'position'     => 13
             ),
             array(
                 'id'           =>  'cubewp-loop-builder',
                 'parent'       =>  'cube_wp_dashboard',
                 'title'        =>  esc_html__('Post Loop Generator', 'cubewp'),
                 'callback'     =>  'cubewp-loop-builder',
-                'position'     => 11
+                'position'     => 14
             ),
             array(
                 'id'           =>  'cubewp-single-layout',
                 'parent'       =>  'cube_wp_dashboard',
                 'title'        =>  esc_html__('Single-Post Editor', 'cubewp'),
                 'callback'     =>  'cubewp-single-layout',
-                'position'     => 12
+                'position'     => 15
             ),
             array(
                 'id'           =>  'cubewp-user-dashboard',
                 'parent'       =>  'cube_wp_dashboard',
                 'title'        =>  esc_html__('User Dashboard', 'cubewp'),
                 'callback'     =>  'cubewp-user-dashboard',
-                'position'     => 13
+                'position'     => 16
             ),
             array(
                 'id'        => 'cubewp-settings', // Expected to be overridden if dashboard is enabled.
                 'parent'    => 'cube_wp_dashboard',
                 'title'     => esc_html__('CubeWP Settings', 'cubewp-framework'),
                 'callback'  => 'cubewp-settings',
-                'position'     => 14
+                'position'     => 17
             ),
             array(
                 'id'        => 'cubewp-import', // Expected to be overridden if dashboard is enabled.
                 'parent'    => 'cube_wp_dashboard',
                 'title'     => esc_html__('CubeWP Import', 'cubewp-framework'),
                 'callback'  => 'cubewp-import',
-                'position'     => 15
+                'position'     => 18
             ),
             array(
                 'id'        => 'cubewp-export', // Expected to be overridden if dashboard is enabled.
                 'parent'    => 'cube_wp_dashboard',
                 'title'     => esc_html__('CubeWP Export', 'cubewp-framework'),
                 'callback'  => 'cubewp-export',
-                'position'     => 16
+                'position'     => 19
             )
 
         );

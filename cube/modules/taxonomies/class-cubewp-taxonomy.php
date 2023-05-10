@@ -23,13 +23,13 @@ class CubeWp_taxonomy {
        
         $html     = '';
         $checked = '';
-        $get_CustomTypes = CWP_types();
+        $get_CustomTypes = CWP_all_post_types();
         if(isset($get_CustomTypes) && !empty($get_CustomTypes)){
-            foreach ($get_CustomTypes as $singleType) {
+            foreach ($get_CustomTypes as $slug => $label) {
                 if (isset($types) && !empty($types)) {
                     $checked = '';
                     foreach ($types as $type) {
-                        if ($singleType['slug'] == $type) {
+                        if ($slug == $type) {
                             $checked = 'checked="checked"';
                         }
                     }
@@ -37,10 +37,10 @@ class CubeWp_taxonomy {
                 $html .= '<li class="pull-left">';                    
                 $input_attrs = array(
                     'type'           =>    'checkbox',
-                    'id'             =>    $singleType['slug'],
+                    'id'             =>    $slug,
                     'class'          =>    'form-checkbox checkbox',
                     'name'           =>    'cwp[CWPterm][post_types][]',
-                    'value'          =>    $singleType['slug'],
+                    'value'          =>    $slug,
                     'wrap'           =>    false,
                 );
                 $extra_attrs = '';
@@ -49,8 +49,8 @@ class CubeWp_taxonomy {
                 }
                 $input_attrs['extra_attrs'] = $extra_attrs;
                 $html .= cwp_render_text_input($input_attrs);
-                $html .= CubeWp_Admin::cwp_label( $singleType['slug'], $singleType['label'] );
-                $html .= self::assigned_tax($singleType['slug']);
+                $html .= CubeWp_Admin::cwp_label( $slug, $label );
+                $html .= self::assigned_tax($slug);
                 
                 $html .= '</li>';
             }

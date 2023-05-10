@@ -232,9 +232,13 @@ trait CubeWp_Single_Page_Trait {
 	 * @since  1.0.0
 	 */
 	public static function field_gallery($args = array()) {
+		wp_enqueue_script( 'cubewp-pretty-photo' );
+		wp_enqueue_style( 'cubewp-pretty-photo' );
+
 		$args['field_size'] = isset($args['field_size']) ? $args['field_size'] : '';
 		$output = null;
 		if (is_array($args['value'])) {
+			$gallery_id = $args['id'] ?? wp_rand();
 			$output .= '<div class="cwp-cpt-single-gallery-container cwp-cpt-single-field-container ' . esc_attr($args['container_class']) . ' '.esc_attr($args['field_size']).'">
                 <h4>' . $args['label'] . '</h4>
                 <div class="cwp-cpt-single-gallery ' . $args['class'] . '">';
@@ -244,7 +248,9 @@ trait CubeWp_Single_Page_Trait {
 					if (empty($galleryItemCaption)) {
 						$galleryItemCaption = esc_html__('Gallery Image', 'cubewp-framework');
 					}
-					$output .= '<img src="' . esc_url($galleryItemURL) . '" alt="' . esc_attr($galleryItemCaption) . '" class="cwp-cpt-single-gallery-item">';
+					$output .= '<a href="' . esc_url($galleryItemURL) . '" rel="prettyPhoto[' . $gallery_id . ']" title="" class="cwp-cpt-single-gallery-item">';
+					$output .= '<img src="' . esc_url($galleryItemURL) . '" alt="' . esc_attr($galleryItemCaption) . '">';
+					$output .= '</a>';
 				}
 				$output .= '</div>
             </div>';
@@ -661,10 +667,14 @@ trait CubeWp_Single_Page_Trait {
 	 * @since  1.0.0
 	 */
 	public static function field_image($args = array()) {
+		wp_enqueue_script( 'cubewp-pretty-photo' );
+		wp_enqueue_style( 'cubewp-pretty-photo' );
+
 		$args['field_size'] = isset($args['field_size']) ? $args['field_size'] : '';
 		$output = null;
         $imageURL     = wp_get_attachment_url($args['value']);
 		if (isset($args['value']) && !empty ($imageURL)) {
+			$gallery_id = $args['id'] ?? wp_rand();
 			$output .= '<div class="cwp-cpt-single-image-container cwp-cpt-single-field-container ' . esc_attr($args['container_class']) . ' '.esc_attr($args['field_size']).'">
                 <h4>' . $args['label'] . '</h4>
                 <div class="cwp-cpt-single-image ' . $args['class'] . '">';
@@ -672,7 +682,9 @@ trait CubeWp_Single_Page_Trait {
 				if (empty($imageCaption)) {
 					$imageCaption = esc_html__('Image', 'cubewp-framework');
 				}
-				$output .= '<img src="' . esc_url($imageURL) . '" alt="' . esc_attr($imageCaption) . '" class="cwp-cpt-single-image-item">';
+				$output .= '<a href="' . esc_url($imageURL) . '" rel="prettyPhoto[' . $gallery_id . ']" title="" class="cwp-cpt-single-image-item">';
+				$output .= '<img src="' . esc_url($imageURL) . '" alt="' . esc_attr($imageCaption) . '">';
+				$output .= '</a>';
 				$output .= '</div>
             </div>';
 		}

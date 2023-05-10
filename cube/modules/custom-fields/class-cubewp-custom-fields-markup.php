@@ -284,7 +284,7 @@ class CubeWp_Custom_Fields_Markup
             'checked' => $FieldData['editor_media'],
             'type_input' => 'checkbox',
             'class' => 'field-editor-media-checkbox checkbox cwp-switch-check',
-            'id' => 'field-required-' . str_replace('cwp_field_', '', $FieldData['name']),
+            'id' => 'field-allow-media-' . str_replace('cwp_field_', '', $FieldData['name']),
             'tr_class' => 'conditional-field',
             'tr_extra_attr' => 'data-equal="wysiwyg_editor"',
             'extra_label' => esc_html__('Allow Media', 'cubewp-framework'),

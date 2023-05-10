@@ -616,6 +616,7 @@ class CubeWp_Post_Types {
                         'thumbnail'       => esc_html__('Featured Image', 'cubewp-framework'),
                         'author'          => esc_html__('Author', 'cubewp-framework'),
                         'excerpt'         => esc_html__('Excerpt', 'cubewp-framework'),
+                        'comments'        => esc_html__('Comments', 'cubewp-framework'),
                     );
                     $html = '<tr>
                         <td class="text-left">
