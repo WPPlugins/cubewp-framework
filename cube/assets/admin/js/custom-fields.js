@@ -24,7 +24,7 @@ jQuery(document).ready(function ($){
   
     cwp_fields_sortable();
     cwp_conditional_fields();
-    jQuery(document).on('click', '#cwp-add-new-field-btn', function (e) {
+    jQuery('#cwp-add-new-field-btn').click(function (e){
         e.preventDefault();
         var e_this = jQuery(this);
         var fields_type = e_this.data('fields_type');
@@ -42,11 +42,10 @@ jQuery(document).ready(function ($){
             cwp_find_group_field();
             cwp_find_sub_fields();
             cwp_fields_sortable();
-            cwp_conditional_fields();
         });
     });
 
-    jQuery(document).on('click', '.duplicate-field', function (e) {
+    jQuery('.duplicate-field').click(function (e){
         e.preventDefault();
         e.stopPropagation();
         e.stopImmediatePropagation();
@@ -93,7 +92,7 @@ jQuery(document).ready(function ($){
         });
     });
     
-    jQuery(document).on('change', '.cwp-custom-fields-post-types', function (e) {
+    jQuery('.cwp-custom-fields-post-types').change(function() {
         
         var selected_post_types = jQuery(".cwp-custom-fields-post-types:checkbox:checked").map(function(){
             return jQuery(this).val();
@@ -232,18 +231,21 @@ jQuery(document).ready(function ($){
         }
     });
 
-    jQuery(document).on("change", ".conditional-rule-operator select", function() {
-        var $this = jQuery(this),
-            parent = $this.closest("tr"),
-            value_field = parent.find(".conditional-rule-value"),
-            value = $this.val();
-        if (value !== "" && value !== "!empty" && value !== "empty") {
-            value_field.show();
-        } else {
-            value_field.hide();
-        }
-    });
-    jQuery(".conditional-rule-operator select").trigger("change");
+    var conditional_rule_operator = jQuery(".conditional-rule-operator select");
+    if (conditional_rule_operator.length > 0) {
+        conditional_rule_operator.on("change", function (){
+            var $this = jQuery(this),
+                parent = $this.closest("tr"),
+                value_field = parent.find(".conditional-rule-value"),
+                value = $this.val();
+            if (value !== "!empty" && value !== "empty") {
+                value_field.show();
+            }else {
+                value_field.hide();
+            }
+        });
+        conditional_rule_operator.trigger("change");
+    }
     
 });
 

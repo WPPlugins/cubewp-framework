@@ -160,7 +160,7 @@ jQuery(document).ready(function ($){
         jQuery.ajax({
             type: 'POST',
             url: cwp_vars_params.ajax_url,
-            data: 'action=cwp_add_repeating_field&id='+ thisObj.data('id') + '&nonce=' + cwp_vars_params.nonce,
+            data: 'action=cwp_add_repeating_field&id='+ thisObj.data('id'),
             dataType : 'json',
             success: function (resp) {
                 var new_row = thisObj.closest('.cwp-repeating-field').find('.cwp-repeating-table').append(resp.sub_field_html);
@@ -192,15 +192,6 @@ jQuery(document).ready(function ($){
         });
     }
     
-    jQuery(document).on('input', 'input[maxlength]', function () {
-        var maxDigits = jQuery(this).attr('maxlength');
-        var inputValue = jQuery(this).val().trim();
-    
-        if (inputValue.length > maxDigits) {
-            jQuery(this).val(inputValue.slice(0, maxDigits)).trigger('input');
-        }
-    });
-    
     jQuery(document).on('click', '.cubewp-address-manually', function () {
         var $this = jQuery(this),
             parent = $this.closest(".cwp-google-address"),
@@ -221,18 +212,7 @@ jQuery(document).ready(function ($){
             long.attr("type", "text");
         }
     });
-    setTimeout(function () {
-        var address_field = jQuery('.address.pac-target-input');
-        if (address_field.length > 0) {
-            address_field.each(function() {
-                if (jQuery(this).val() !== '') {
-                    if (jQuery(this).hasClass('gm-err-autocomplete')) {
-                        jQuery(this).removeClass("gm-err-autocomplete").removeAttr("style disabled").prop("placeholder", jQuery(this).attr("data-placeholder"));
-                    }
-                }
-            });
-        }
-    }, 5000);
+
 });
 
 function makeid(length) {
@@ -347,9 +327,8 @@ function cwp_display_groups_meta_by_user_role(){
 
 function cwp_condition_logic(selectedVal, fieldVal, Compare, Target) {
     Target = '.' + Target;
-    var selectedValues = Array.isArray(selectedVal) ? selectedVal : [selectedVal];
     if (Compare === '!empty') {
-        if (selectedValues.length > 0 && selectedValues.join('') !== '' && typeof selectedVal != 'undefined') {
+        if (selectedVal !== '' && typeof selectedVal != 'undefined') {
             jQuery(Target).show();
             return true;
         } else {
@@ -357,7 +336,7 @@ function cwp_condition_logic(selectedVal, fieldVal, Compare, Target) {
             return true;
         }
     } else if (Compare === 'empty') {
-        if (selectedValues.length === 0 || selectedValues.join('') === '' || typeof selectedVal == 'undefined') {
+        if (selectedVal === '' || typeof selectedVal == 'undefined') {
             jQuery(Target).show();
             return true;
         } else {
@@ -365,31 +344,15 @@ function cwp_condition_logic(selectedVal, fieldVal, Compare, Target) {
             return true;
         }
     } else if (Compare === '==') {
-        if (fieldVal.includes('--OR--')) {
-            var exploded = fieldVal.split('--OR--');
-            var hasMatch = exploded.some(function (option) {
-                return selectedValues.indexOf(option) !== -1;
-            });
-            if (hasMatch) {
-                jQuery(Target+fieldVal).show();
-                return true;
-            }else {
-                jQuery(Target+fieldVal).hide();
-                jQuery(Target+fieldVal).find('input,select').val('').trigger('input');
-                return true;
-            }
-        }else {
-            if (selectedValues.indexOf(fieldVal) !== -1) {
-                jQuery(Target+fieldVal).show();
-                return true;
-            } else {
-                jQuery(Target+fieldVal).hide();
-                jQuery(Target+fieldVal).find('input,select').val('').trigger('input');
-                return true;
-            }
+        if (selectedVal === fieldVal) {
+            jQuery(Target+fieldVal).show();
+            return true;
+        } else {
+            jQuery(Target+fieldVal).hide();
+            return true;
         }
-    }else if (Compare === '!=') {
-        if (selectedValues.indexOf(fieldVal) === -1 && selectedValues.join('') !== '') {
+    } else if (Compare === '!=') {
+        if (selectedVal !== fieldVal && selectedVal !== '') {
             jQuery(Target+fieldVal).show();
             return true;
         } else {
@@ -404,28 +367,6 @@ function cwp_condition_logic(selectedVal, fieldVal, Compare, Target) {
 function cwp_conditional_fields() {
     var cwp_conditional_logic = jQuery('.conditional-logic');
     if (cwp_conditional_logic.length > 0) {
-        var get_conditional_field_value = function (field) {
-            var baseSelector = '*[name="cwp_meta[' + field + ']"]';
-            var multiSelector = '*[name="cwp_meta[' + field + '][]"]';
-            var $baseFields = jQuery(baseSelector);
-            var $checkedBase = jQuery(baseSelector + ':checked');
-            var $checkedMulti = jQuery(multiSelector + ':checked');
-
-            if ($checkedBase.length) {
-                return $checkedBase.first().val();
-            }
-            if ($checkedMulti.length) {
-                return $checkedMulti.map(function () {
-                    return jQuery(this).val();
-                }).get();
-            }
-            if ($baseFields.length) {
-                var val = $baseFields.first().val();
-                return typeof val === 'undefined' || val === null ? '' : val;
-            }
-            return '';
-        };
-
         cwp_conditional_logic.each(function () {
             var $this = jQuery(this),
                 field = $this.attr('data-field'),
@@ -434,13 +375,11 @@ function cwp_conditional_fields() {
 
                 var parent = jQuery('*[name="cwp_meta[' + field + ']"]');
                 var parentCheckbox = jQuery('[name="cwp_meta[' + field + '][]"]');
-                var selectedVal = get_conditional_field_value(field);
+                var selectedVal = parent.val();
                 if (parent.is(':checked') || selectedVal != '' || selectedVal == ''){
                     cwp_condition_logic(selectedVal, value, operator, field);
                 }else if(parentCheckbox.is(':checked')){
                     var selectedVal = parentCheckbox.val();
-                    cwp_condition_logic(selectedVal, value, operator, field);
-                } else {
                     cwp_condition_logic(selectedVal, value, operator, field);
                 }
             
@@ -540,7 +479,6 @@ function cwp_repreating_fields_county(thisObj) {
             jQuery(this).find('.cwp-repeating-count .count').text(Number(i) + 1);
         });
         cubewp_init_resources();
-        initialize_google_address();
     }
 }
 
@@ -670,7 +608,7 @@ function cubewp_init_range_pickers(range_picker) {
         var thisObj = jQuery(this),
             current_value_input = thisObj.closest("td");
         if (!current_value_input.find('.cubewp-current-value').length) {
-            current_value_input.prepend(jQuery("<span class='cubewp-current-value'></span>").text(thisObj.val()));
+            current_value_input.prepend("<span class='cubewp-current-value'>" + thisObj.val() + "</span>");
             thisObj.on("input", function () {
                 jQuery(this).closest("td").find(".cubewp-current-value").text(jQuery(this).val());
             });

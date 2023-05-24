@@ -43,7 +43,6 @@ class CubeWp_Taxonomy_Metabox {
               }
               $output .= apply_filters( "cubewp/admin/post/{$field['type']}/field", '', $field );
            }
-           // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
            echo cubewp_core_data( $output );
         }
      }
@@ -73,8 +72,8 @@ class CubeWp_Taxonomy_Metabox {
             }
             $args[$field['slug']] = array(
                'type'                  =>    $field['type'],
-               'meta_key'              =>    $field['slug'],// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
-               'meta_value'            =>    $value,// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
+               'meta_key'              =>    $field['slug'],
+               'meta_value'            =>    $value,
                'label'                 =>    $field['name'],
             );
          }
@@ -83,9 +82,8 @@ class CubeWp_Taxonomy_Metabox {
    }
     
    public static function cwp_save_taxonomy_custom_fields( $term_id = 0 ){
-        /* phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.NonceVerification.Missing */
         if(isset($_POST['cwp_term_meta'])) {
-			$POST_DATA = CubeWp_Sanitize_Fields_Array($_POST['cwp_term_meta'],'taxonomy'); // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+            $POST_DATA = CubeWp_Sanitize_Fields_Array($_POST['cwp_term_meta'],'taxonomy');
             foreach($POST_DATA as $key => $val ){
                 update_term_meta( $term_id, $key, $val );
             }

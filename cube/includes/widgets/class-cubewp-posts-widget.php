@@ -1,13 +1,4 @@
 <?php
-/**
- * CubeWp Posts Widget.
- *
- * @version 1.0
- * @package cubewp/cube/includes/widgets
- */
-
-// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -39,15 +30,11 @@ class CubeWp_Posts_Widget extends WP_Widget {
 		$after_title = !isset($after_title) ? $args['after_title'] : $after_title;
 		$after_widget = !isset($after_widget) ? $args['after_widget'] : $after_widget;
 		$title = apply_filters( 'widget_title', $instance['title'] );
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo cubewp_core_data($before_widget);
 		if ( ! empty( $title ) ) {
-			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			echo cubewp_core_data($before_title) . sanitize_text_field($title) . cubewp_core_data($after_title);
 		}
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo self::cwp_widget_get_posts();
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo cubewp_core_data($after_widget);
 	}
 
@@ -86,7 +73,7 @@ class CubeWp_Posts_Widget extends WP_Widget {
 		if ( ! empty( $Term ) ) {
 			$termOBJ = get_term( $Term );
 			if ( is_object( $termOBJ ) ) {
-				$args['tax_query'] = array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
+				$args['tax_query'] = array(
 					array(
 						'taxonomy' => $termOBJ->taxonomy,
 						'field'    => 'slug',
@@ -114,15 +101,13 @@ class CubeWp_Posts_Widget extends WP_Widget {
         <p>
             <label for="<?php echo esc_attr( $this->get_field_id( 'postType' ) ); ?>"><?php esc_html_e( 'Select Post Type', 'cubewp-framework' ); ?></label>
             <select id="<?php echo esc_attr( $this->get_field_id( 'postType' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'postType' ) ); ?>" class="widefat cwp-widget-select-posttype">
-				<?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-				echo self::cwp_widget_get_postTypes_options( $postType ); ?>
+				<?php echo self::cwp_widget_get_postTypes_options( $postType ); ?>
             </select>
         </p>
         <p>
             <label for="<?php echo esc_attr( $this->get_field_id( 'Term' ) ); ?>"><?php esc_html_e( 'Select Term', 'cubewp-framework' ); ?></label>
             <select id="<?php echo esc_attr( $this->get_field_id( 'Term' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'Term' ) ); ?>" class="widefat cwp-widget-select-term">
-				<?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-				echo self::cwp_widget_get_Terms_options( $Term, $postType ); ?>
+				<?php echo self::cwp_widget_get_Terms_options( $Term, $postType ); ?>
             </select>
         </p>
         <p>
@@ -216,7 +201,7 @@ class CubeWp_Posts_Widget extends WP_Widget {
 
 	public function cwp_get_terms_by_post_type() {
 		check_ajax_referer( 'cubewp-admin-nonce', 'nonce' );
-		$post_type = isset( $_POST['post_type'] ) ? sanitize_text_field( wp_unslash( $_POST['post_type'] ) ) : '';
+		$post_type = sanitize_text_field( $_POST['post_type'] );
 		$termsIDS  = self::cwp_widget_get_Terms_options( null, $post_type, true );
 		wp_send_json_success( $termsIDS );
 	}
@@ -224,7 +209,7 @@ class CubeWp_Posts_Widget extends WP_Widget {
 	public function update( $new_instance, $old_instance ) {
 		$instance = array();
 
-		$instance['title']        = ( ! empty( $new_instance['title'] ) ) ? wp_strip_all_tags( $new_instance['title'] ) : '';
+		$instance['title']        = ( ! empty( $new_instance['title'] ) ) ? strip_tags( $new_instance['title'] ) : '';
 		$instance['postType']     = ( ! empty( $new_instance['postType'] ) ) ? $new_instance['postType'] : '';
 		$instance['Term']         = ( ! empty( $new_instance['Term'] ) ) ? $new_instance['Term'] : '';
 		$instance['postsPerPage'] = ( ! empty( $new_instance['postsPerPage'] ) ) ? $new_instance['postsPerPage'] : '';

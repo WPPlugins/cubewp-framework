@@ -22,7 +22,6 @@ class CubeWp_Welcome {
      */
     public function __construct() {
         add_action( 'cube_wp_dashboard', array( $this, 'cwp_welcome' ) );
-        add_action('cubewp_libraries', array($this, 'cwp_templates_library'));
     }
     
     public static function init() {
@@ -35,12 +34,6 @@ class CubeWp_Welcome {
             if(file_exists($field_path)){
                 include_once $field_path;
             }
-    }
-    public function  cwp_templates_library(){
-        $field_path = CWP_PLUGIN_PATH . "cube/templates/template-library.php";
-        if (file_exists($field_path)) {
-            include_once $field_path;
-        }
     }
 
     

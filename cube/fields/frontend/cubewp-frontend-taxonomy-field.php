@@ -89,21 +89,17 @@ class CubeWp_Frontend_Taxonomy_Field extends CubeWp_Frontend {
 			if ( ! empty($args['value']) && is_array($args['value'])) {
 				foreach ($args['value'] as $term_id) {
 					$term      = get_term_by('term_id', $term_id, $args['filter_taxonomy']);
-					if ( ! empty( $term ) ) {
-						$options[] = array(
-							"term_id"   => $term_id,
-							"term_name" => esc_html($term->name),
-						);
-					}
+					$options[] = array(
+						"term_id"   => $term_id,
+						"term_name" => esc_html($term->name),
+					);
 				}
 			} else if ( ! empty($args['value']) && ! is_array($args['value'])) {
 				$term      = get_term_by('term_id', $args['value'], $args['filter_taxonomy']);
-				if ( ! empty( $term ) ) {
-					$options[] = array(
-						"term_id"   => $args['value'],
-						"term_name" => esc_html( $term->name ),
-					);
-				}
+				$options[] = array(
+					"term_id"   => $args['value'],
+					"term_name" => esc_html($term->name),
+				);
 			}
 			$args['options'] = $options;
 			$args['class']  = $args['class'] . ' cubewp-remote-options ';
@@ -114,14 +110,9 @@ class CubeWp_Frontend_Taxonomy_Field extends CubeWp_Frontend {
 			}else {
 				$args['options']  =   cwp_get_terms($args['name']);
 			}
-
-			// Respect include_term_ids when provided by caller (e.g. plan/category restrictions).
-			if (!empty($args['include_term_ids']) && is_array($args['include_term_ids'])) {
-				$args['options'] = self::cubewp_filter_terms_by_ids($args['options'], $args['include_term_ids']);
-			}
 		}
 
-		if ($location == 'forms' || $location == 'filters') {
+		if ($location == 'forms') {
 			if (empty($args['container_attrs'])) {
 				$args['class'] = $args['class'] . ' cwp-taxonomy-field';
 			} else {
@@ -130,42 +121,6 @@ class CubeWp_Frontend_Taxonomy_Field extends CubeWp_Frontend {
 		}
 
 		return $args;
-	}
-
-	/**
-	 * Keep only taxonomy options that match the allowed term IDs.
-	 *
-	 * @param array $options
-	 * @param array $include_term_ids
-	 *
-	 * @return array
-	 */
-	private static function cubewp_filter_terms_by_ids($options, $include_term_ids) {
-		if (!is_array($options) || empty($options)) {
-			return array();
-		}
-
-		$allowed_ids = array_map('intval', array_filter($include_term_ids));
-		if (empty($allowed_ids)) {
-			return array();
-		}
-
-		$filtered = array();
-		foreach ($options as $key => $item) {
-			if (!is_array($item)) {
-				continue;
-			}
-
-			$term_id = isset($item['term_id']) ? (int) $item['term_id'] : 0;
-			$children = isset($item['childern']) && is_array($item['childern']) ? self::cubewp_filter_terms_by_ids($item['childern'], $allowed_ids) : array();
-
-			if (in_array($term_id, $allowed_ids, true) || !empty($children)) {
-				$item['childern'] = $children;
-				$filtered[$key] = $item;
-			}
-		}
-
-		return $filtered;
 	}
 }
 

@@ -35,16 +35,13 @@ class CubeWp_Admin_Gallery_Field extends CubeWp_Admin {
         $output = $this->cwp_field_wrap_start($args);
             
             if(!did_action( 'wp_enqueue_media')) wp_enqueue_media();
-            
-            $args['not_formatted_value'] = $args['value'];
-            $args['value'] = cwp_handle_data_format( $args );
+        
             $input_name   = !empty($args['custom_name']) ? $args['custom_name'] : 'cwp_meta[' . $args['name'] . ']';
             $attachments  = isset($args['value']) && is_array($args['value']) ? array_filter($args['value']) : $args['value'];
 
             $attachments_list = '';
             if(isset($attachments) && !empty($attachments)){
                 foreach($attachments as $attachment_id){
-                    $attachment_id = cwp_get_attachment_id( $attachment_id );
                     $attachments_list .= '<li class="cwp-gallery-item" data-slug="'. $attachment_id .'">
                         <input type="hidden" name="'. $input_name .'[]" value="'. $attachment_id .'">
                         <div class="thumbnail">
@@ -70,7 +67,6 @@ class CubeWp_Admin_Gallery_Field extends CubeWp_Admin {
                             ' . $attachments_list . '
                         </ul>
                     </div>
-                    <input type="hidden" name="'. $input_name .'[]" value="">
                     <a href="javascript:void(0);" class="button button-primary cwp-gallery-btn" data-allowed-types="' . $accept_types . '">Add Gallery Images</a>
                 </div>
             </div>';

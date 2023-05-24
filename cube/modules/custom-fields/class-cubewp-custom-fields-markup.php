@@ -6,8 +6,6 @@
  * @package cubewp/cube/classes
  */
 
-// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals
-
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -30,7 +28,7 @@ class CubeWp_Custom_Fields_Markup
     {
         $defaults = array(
             'label' => '',
-            'name' => 'cwp_field_' . wp_rand( (int) 10000000, (int) 1000000000000 ),
+            'name' => 'cwp_field_' . rand(10000000, 1000000000000),
             'type' => '',
             'description' => '',
             'map_use' => '',
@@ -40,15 +38,12 @@ class CubeWp_Custom_Fields_Markup
             'steps_count' => 1,
             'file_types' => '',
             'upload_size' => '',
-            'max_upload_files' => '',
             'placeholder' => '',
             'editor_media' => 0,
             'filter_post_types' => '',
             'filter_taxonomy' => '',
             'filter_user_roles' => '',
             'appearance' => '',
-            'rel_attr' => 'do-follow',
-            'current_user_posts' => '',
             'options' => '',
             'char_limit' => '',
             'admin_size' => '1/1',
@@ -59,7 +54,7 @@ class CubeWp_Custom_Fields_Markup
             'relationship' => 0,
             'rest_api' => 0,
             'validation_msg' => '',
-            'id' => 'cwp_field_' . wp_rand( (int) 10000000, (int) 1000000000000 ),
+            'id' => 'cwp_field_' . rand(10000000, 1000000000000),
             'class' => '',
             'container_class' => '',
             'conditional' => '',
@@ -68,8 +63,6 @@ class CubeWp_Custom_Fields_Markup
             'conditional_value' => '',
             'sub_fields' => '',
             'fields_type' => '',
-            'files_save' => 'ids',
-            'files_save_separator' => 'array',
         );
         $FieldData = wp_parse_args($FieldData, $defaults);
         $field_name = !empty($FieldData['label']) ? $FieldData['label'] : esc_html__('Field Label', 'cubewp-framework');
@@ -78,8 +71,7 @@ class CubeWp_Custom_Fields_Markup
         $closed_class = (isset($FieldData['label']) && $FieldData['label'] != '') ? 'closed' : '';
         $hide_class = (isset($FieldData['label']) && $FieldData['label'] != '') ? 'hidden' : '';
         $field_type = (isset($FieldData['type']) && $FieldData['type'] == '') ? 'text' : $FieldData['type'];
-        /* phpcs:ignore WordPress.Security.NonceVerification.Recommended */
-        $group_secure = isset($_GET['groupid']) ? cubewp_custom_field_group_secure(sanitize_text_field(wp_unslash($_GET['groupid']))) : false;
+        $group_secure = isset($_GET['groupid']) ? cubewp_custom_field_group_secure($_GET['groupid']) : false;
         $secure_class = ($group_secure == true) ? 'group_visibility_secure' : '';
         $counter = isset($FieldData["counter"]) ? $FieldData["counter"] : 1;
 
@@ -140,7 +132,7 @@ class CubeWp_Custom_Fields_Markup
             'name' => 'cwp[fields][' . $FieldData['name'] . '][type]',
             'id' => '',
             'type' => 'dropdown',
-            'options' => self::cwp_form_field_types( $FieldData['fields_type'] ),
+            'options' => self::cwp_form_field_types(),
             'value' => $FieldData['type'],
             'placeholder' => '',
             'option-class' => 'form-option option',
@@ -236,17 +228,6 @@ class CubeWp_Custom_Fields_Markup
             'class' => 'field-file-types',
             'tr_extra_attr' => 'data-equal="gallery,file,image"',
         );
-        $field_settings['field_max_upload_files'] = array(
-            'label' => esc_html__('Max Number Of Images', 'cubewp-framework'),
-            'name' => 'cwp[fields][' . $FieldData['name'] . '][max_upload_files]',
-            'type' => 'text',
-            'id' => '',
-            'placeholder' => esc_html__('Enter Maximum Number of Images Can Upload. EG: 4', 'cubewp-framework'),
-            'value' => $FieldData['max_upload_files'],
-            'tr_class' => 'conditional-field',
-            'class' => 'field-max_upload_files',
-            'tr_extra_attr' => 'data-equal="gallery"',
-        );
         $field_settings['field_placeholder'] = array(
             'label' => esc_html__('Placeholder', 'cubewp-framework'),
             'name' => 'cwp[fields][' . $FieldData['name'] . '][placeholder]',
@@ -278,7 +259,7 @@ class CubeWp_Custom_Fields_Markup
             'tr_class' => 'conditional-field',
             'class' => 'field-char-limit',
             'id' => '',
-            'tr_extra_attr' => 'data-equal="text,textarea,email,url,password,number"',
+            'tr_extra_attr' => 'data-equal="text,textarea,email,url,password"',
         );
         $field_settings['field_multiple_values'] = array(
             'label' => esc_html__('Multiple', 'cubewp-framework'),
@@ -350,28 +331,7 @@ class CubeWp_Custom_Fields_Markup
             'class' => 'field-filter-user-role',
             'tr_class' => 'conditional-field',
             'tr_extra_attr' => 'data-equal="user"',
-			'required' => true,
-            'validation_msg' => esc_html__('Please select role', 'cubewp-framework'),
         );
-        $field_settings['field_rel_attr'] = array(
-		    'label' => esc_html__('Link Behavior', 'cubewp-framework'),
-		    'name' => 'cwp[fields][' . $FieldData['name'] . '][rel_attr]',
-		    'type' => 'dropdown',
-		    'id' => 'field-rel_attr-' . str_replace('cwp_field_', '', $FieldData['name']),
-		    'options' => array(
-			    'do-follow' => __('Follow (Search engines will follow the link)', 'cubewp-framework'),
-			    'nofollow' => __('No Follow (Instructs search engines not to follow the link)', 'cubewp-framework'),
-			    'external' => __('External (Indicates that the linked document is located on a different website)', 'cubewp-framework'),
-		    ),
-		    'value' => $FieldData['rel_attr'],
-		    'placeholder' => '',
-		    'option-class' => 'form-option option',
-		    'class' => 'field-rel_attr',
-		    'tr_class' => 'conditional-field',
-		    'tr_extra_attr' => 'data-equal="url"',
-		    'required' => true,
-		    'validation_msg' => esc_html__('Please select link behavior', 'cubewp-framework'),
-	    );
         $field_settings['field_appearance'] = array(
             'label' => esc_html__('Field Appearance', 'cubewp-framework'),
             'name' => 'cwp[fields][' . $FieldData['name'] . '][appearance]',
@@ -391,21 +351,6 @@ class CubeWp_Custom_Fields_Markup
             'required' => true,
             'validation_msg' => esc_html__('Please select appearance', 'cubewp-framework'),
         );
-        $field_settings['field_current_user_posts'] = array(
-		    'label' => esc_html__('Logged-in User Posts', 'cubewp-framework'),
-		    'name' => 'cwp[fields][' . $FieldData['name'] . '][current_user_posts]',
-		    'value' => '1',
-		    'placeholder' => '',
-		    'type' => 'text',
-		    'checked' => $FieldData['current_user_posts'],
-		    'type_input' => 'checkbox',
-		    'class' => 'field-multiple-checkbox checkbox cwp-switch-check',
-		    'id' => 'field-current-user-posts-ui-' . str_replace('cwp_field_', '', $FieldData['name']),
-		    'tr_class' => 'conditional-field',
-		    'tr_extra_attr' => 'data-equal="post"',
-		    'extra_label' => esc_html__('LoggedIn User Posts', 'cubewp-framework'),
-		    'tooltip' => "Enable this option if you want to fetch posts which are submitted by currently loggedin user.",
-	    );
         $field_settings['field_select2_ui'] = array(
             'label' => esc_html__('Select2 UI', 'cubewp-framework'),
             'name' => 'cwp[fields][' . $FieldData['name'] . '][select2_ui]',
@@ -454,7 +399,7 @@ class CubeWp_Custom_Fields_Markup
                                 and a relationship field will appear on the selected post or user edit page.",
         );
         $field_settings['field_validation'] = array(
-            'label' => esc_html__('Required', 'cubewp-framework'),
+            'label' => esc_html__('Validation', 'cubewp-framework'),
             'name' => 'cwp[fields][' . $FieldData['name'] . '][required]',
             'value' => '1',
             'placeholder' => '',
@@ -473,10 +418,10 @@ class CubeWp_Custom_Fields_Markup
             $trclass = 'validation-msg-row conditional-field';
         }
         $field_settings['field_validation_msg'] = array(
-            'label' => esc_html__('Required error message', 'cubewp-framework'),
+            'label' => esc_html__('Validation error message', 'cubewp-framework'),
             'name' => 'cwp[fields][' . $FieldData['name'] . '][validation_msg]',
             'value' => $FieldData['validation_msg'],
-            'placeholder' => esc_html__('Required error message', 'cubewp-framework'),
+            'placeholder' => esc_html__('Validation error message', 'cubewp-framework'),
             'type' => 'text',
             'id' => '',
             'type_input' => 'text',
@@ -484,45 +429,6 @@ class CubeWp_Custom_Fields_Markup
             'id' => '',
             'tr_class' => $trclass,
             'tr_extra_attr' => 'data-not_equal="gallery,repeating_field,switch"',
-        );
-        $field_settings['field_files_save'] = array(
-            'label' => esc_html__('Save Format', 'cubewp-framework'),
-            'name' => 'cwp[fields][' . $FieldData['name'] . '][files_save]',
-            'id' => '',
-            'type' => 'dropdown',
-            'options' => array(
-                'ids' => esc_html__("ID's", "cubewp-framework"),
-                'urls' => esc_html__("URLs", "cubewp-framework"),
-            ),
-            'placeholder' => '',
-            'value' => $FieldData['files_save'],
-            'option-class' => 'form-option option',
-            'class' => 'field-files-save',
-            'tr_class' => 'conditional-field',
-            'tr_extra_attr' => 'data-equal="file,image,gallery"',
-            'extra_label' => esc_html__('Save Format', 'cubewp-framework'),
-        );
-        $save_separators = array(
-            'array' => esc_html__("Array", "cubewp-framework"),
-            ',' => esc_html__("String separated by , (Comma)", "cubewp-framework"),
-            '|' => esc_html__("String separated by | (Pipe)", "cubewp-framework"),
-            ':' => esc_html__("String separated by : (Colon)", "cubewp-framework"),
-            ';' => esc_html__("String separated by ; (Semicolon)", "cubewp-framework"),
-        );
-        $save_separators = apply_filters( 'cubewp/custom/field/save/format/separators', $save_separators, $FieldData['files_save_separator'] );
-        $field_settings['field_files_save_separator'] = array(
-            'label' => esc_html__('Save Format Separator', 'cubewp-framework'),
-            'name' => 'cwp[fields][' . $FieldData['name'] . '][files_save_separator]',
-            'id' => '',
-            'type' => 'dropdown',
-            'options' => $save_separators,
-            'placeholder' => '',
-            'option-class' => 'form-option option',
-            'value' => $FieldData['files_save_separator'],
-            'class' => 'field-files-save-separator',
-            'tr_class' => 'conditional-field',
-            'tr_extra_attr' => 'data-equal="gallery,dropdown,checkbox"',
-            'extra_label' => esc_html__('Save Format Separator', 'cubewp-framework'),
         );
         $field_settings['field_id'] = array(
             'label' => esc_html__('ID', 'cubewp-framework'),
@@ -595,7 +501,7 @@ class CubeWp_Custom_Fields_Markup
             'type_input' => 'checkbox',
             'class' => 'field-conditional cwp-switch-check',
             'tr_class' => 'conditional-field',
-            'tr_extra_attr' => '',
+            'tr_extra_attr' => 'data-not_equal="repeating_field"',
             'extra_label' => esc_html__('Conditional', 'cubewp-framework'),
         );
         $conditional_rule_hide_row = 'cwp-hide-row';
@@ -660,7 +566,7 @@ class CubeWp_Custom_Fields_Markup
     {
         $defaults = array(
             'label' => '',
-            'name' => 'cwp_field_' . wp_rand(10000000, 1000000000000),
+            'name' => 'cwp_field_' . rand(10000000, 1000000000000),
             'type' => '',
             'description' => '',
             'default_value' => '',
@@ -670,23 +576,18 @@ class CubeWp_Custom_Fields_Markup
             'placeholder' => '',
             'options' => '',
             'upload_size' => '',
-            'max_upload_files' => '',
             'counter' => 1,
             'char_limit' => '',
             'multiple' => 0,
-            'rel_attr' => 'do-follow',
             'select2_ui' => 0,
             'auto_complete' => 0,
             'filter_post_types' => '',
-            'current_user_posts' => '',
             'file_types' => '',
             'appearance' => '',
             'required' => '',
             'validation_msg' => '',
-            'id' => 'cwp_field_' . wp_rand(10000000, 1000000000000),
+            'id' => 'cwp_field_' . rand(10000000, 1000000000000),
             'class' => '',
-            'files_save' => 'ids',
-            'files_save_separator' => 'array',
         );
         $FieldData = wp_parse_args($FieldData, $defaults);
         $field_settings = array();
@@ -799,17 +700,6 @@ class CubeWp_Custom_Fields_Markup
             'class' => 'field-file-types',
             'tr_extra_attr' => 'data-equal="gallery,file,image"',
         );
-        $field_settings['field_max_upload_files'] = array(
-            'label' => esc_html__('Max Number Of Images', 'cubewp-framework'),
-            'name' => 'cwp[sub_fields][' . $parent_field . '][' . $FieldData['name'] . '][max_upload_files]',
-            'type' => 'text',
-            'id' => '',
-            'placeholder' => esc_html__('Enter Maximum Number of Images Can Upload. EG: 4', 'cubewp-framework'),
-            'value' => $FieldData['max_upload_files'],
-            'tr_class' => 'conditional-field',
-            'class' => 'field-max_upload_files',
-            'tr_extra_attr' => 'data-equal="gallery"',
-        );
         $field_settings['field_placeholder'] = array(
             'label' => esc_html__('Placeholder', 'cubewp-framework'),
             'name' => 'cwp[sub_fields][' . $parent_field . '][' . $FieldData['name'] . '][placeholder]',
@@ -840,7 +730,7 @@ class CubeWp_Custom_Fields_Markup
             'tr_class' => 'conditional-field',
             'class' => 'field-char-limit',
             'id' => '',
-            'tr_extra_attr' => 'data-equal="text,textarea,email,url,password,number"',
+            'tr_extra_attr' => 'data-equal="text,textarea,email,url,password"',
         );
         $field_settings['field_multiple_values'] = array(
             'label' => esc_html__('Multiple', 'cubewp-framework'),
@@ -869,21 +759,6 @@ class CubeWp_Custom_Fields_Markup
             'tr_class' => 'conditional-field',
             'tr_extra_attr' => 'data-equal="dropdown,post"',
             'extra_label' => esc_html__('Select2 UI', 'cubewp-framework'),
-        );
-        $field_settings['field_current_user_posts'] = array(
-            'label' => esc_html__('LoggedIn User Posts', 'cubewp-framework'),
-            'name' => 'cwp[sub_fields][' . $parent_field . '][' . $FieldData['name'] . '][current_user_posts]',
-            'value' => '1',
-            'placeholder' => '',
-            'type' => 'text',
-            'checked' => $FieldData['current_user_posts'],
-            'type_input' => 'checkbox',
-            'class' => 'field-multiple-checkbox checkbox cwp-switch-check',
-            'id' => 'field-current-user-posts-' . str_replace('cwp_field_', '', $FieldData['name']),
-            'tr_class' => 'conditional-field',
-            'tr_extra_attr' => 'data-equal="post"',
-            'extra_label' => esc_html__('LoggedIn User Posts', 'cubewp-framework'),
-            'tooltip' => "Enable this option if you want to fetch posts which are submitted by currently loggedin user.",
         );
         $field_settings['field_autocomplete_ui'] = array(
             'label' => esc_html__('Autocomplete', 'cubewp-framework'),
@@ -930,28 +805,9 @@ class CubeWp_Custom_Fields_Markup
             'class' => 'field-appearance',
             'tr_class' => 'conditional-field',
             'tr_extra_attr' => 'data-equal="post"',
-            'required' => true,
-            'validation_msg' => esc_html__('Please select appearance', 'cubewp-framework'),
-        );
-        $field_settings['field_rel_attr'] = array(
-            'label' => esc_html__('Link Behavior', 'cubewp-framework'),
-            'name' => 'cwp[sub_fields][' . $parent_field . '][' . $FieldData['name'] . '][rel_attr]',
-            'type' => 'dropdown',
-            'id' => '',
-            'options' => array(
-	            'do-follow' => __('Follow (Search engines will follow the link)', 'cubewp-framework'),
-	            'nofollow' => __('No Follow (Instructs search engines not to follow the link)', 'cubewp-framework'),
-	            'external' => __('External (Indicates that the linked document is located on a different website)', 'cubewp-framework'),
-            ),
-            'value' => $FieldData['rel_attr'],
-            'placeholder' => '',
-            'option-class' => 'form-option option',
-            'class' => 'field-rel_attr',
-            'tr_class' => 'conditional-field',
-            'tr_extra_attr' => 'data-equal="url"',
         );
         $field_settings['field_validation'] = array(
-            'label' => esc_html__('Required', 'cubewp-framework'),
+            'label' => esc_html__('Validation', 'cubewp-framework'),
             'name' => 'cwp[sub_fields][' . $parent_field . '][' . $FieldData['name'] . '][required]',
             'value' => '1',
             'placeholder' => '',
@@ -969,10 +825,10 @@ class CubeWp_Custom_Fields_Markup
             $trclass = 'validation-msg-row conditional-field';
         }
         $field_settings['field_validation_msg'] = array(
-            'label' => esc_html__('Required error message', 'cubewp-framework'),
+            'label' => esc_html__('Validation error message', 'cubewp-framework'),
             'name' => 'cwp[sub_fields][' . $parent_field . '][' . $FieldData['name'] . '][validation_msg]',
             'value' => $FieldData['validation_msg'],
-            'placeholder' => esc_html__('Required error message', 'cubewp-framework'),
+            'placeholder' => esc_html__('Validation error message', 'cubewp-framework'),
             'type' => 'text',
             'type_input' => 'text',
             'class' => 'field-validation-msg',
@@ -980,45 +836,6 @@ class CubeWp_Custom_Fields_Markup
             'tr_class' => $trclass,
             'tr_extra_attr' => 'data-not_equal="gallery,repeating_field"',
         );
-        $field_settings['field_files_save'] = array(
-		    'label' => esc_html__('Save Format', 'cubewp-framework'),
-		    'name' => 'cwp[sub_fields][' . $parent_field . '][' . $FieldData['name'] . '][files_save]',
-		    'id' => '',
-		    'type' => 'dropdown',
-		    'options' => array(
-			    'ids' => esc_html__("ID's", "cubewp-framework"),
-			    'urls' => esc_html__("URLs", "cubewp-framework"),
-		    ),
-		    'placeholder' => '',
-		    'value' => $FieldData['files_save'],
-		    'option-class' => 'form-option option',
-		    'class' => 'field-files-save',
-		    'tr_class' => 'conditional-field',
-		    'tr_extra_attr' => 'data-equal="file,image,gallery"',
-		    'extra_label' => esc_html__('Save Format', 'cubewp-framework'),
-	    );
-	    $save_separators = array(
-		    'array' => esc_html__("Array", "cubewp-framework"),
-		    ',' => esc_html__("String separated by , (Comma)", "cubewp-framework"),
-		    '|' => esc_html__("String separated by | (Pipe)", "cubewp-framework"),
-		    ':' => esc_html__("String separated by : (Colon)", "cubewp-framework"),
-		    ';' => esc_html__("String separated by ; (Semicolon)", "cubewp-framework"),
-	    );
-	    $save_separators = apply_filters( 'cubewp/custom/field/save/format/separators', $save_separators, $FieldData['files_save_separator'] );
-	    $field_settings['field_files_save_separator'] = array(
-		    'label' => esc_html__('Save Format Separator', 'cubewp-framework'),
-		    'name' => 'cwp[sub_fields][' . $parent_field . '][' . $FieldData['name'] . '][files_save_separator]',
-		    'id' => '',
-		    'type' => 'dropdown',
-		    'options' => $save_separators,
-		    'placeholder' => '',
-		    'option-class' => 'form-option option',
-		    'value' => $FieldData['files_save_separator'],
-		    'class' => 'field-files-save-separator',
-		    'tr_class' => 'conditional-field',
-		    'tr_extra_attr' => 'data-equal="gallery,dropdown,checkbox"',
-		    'extra_label' => esc_html__('Save Format Separator', 'cubewp-framework'),
-	    );
         $field_settings['field_id'] = array(
             'label' => esc_html__('ID', 'cubewp-framework'),
             'name' => 'cwp[sub_fields][' . $parent_field . '][' . $FieldData['name'] . '][id]',
@@ -1040,7 +857,7 @@ class CubeWp_Custom_Fields_Markup
             'value' => $FieldData['class'],
         );
 
-        $field_settings = apply_filters('cubewp/custom_fields/single/subfield/add', $field_settings, $FieldData, $parent_field);
+        $field_settings = apply_filters('cubewp/custom_fields/single/subfield/add', $field_settings, $FieldData);
         $field_name = !empty($FieldData['label']) ? $FieldData['label'] : esc_html__('Field Label', 'cubewp-framework');
         $closed_class = (isset($FieldData['label']) && $FieldData['label'] != '') ? 'closed' : '';
         $hide_class = (isset($FieldData['label']) && $FieldData['label'] != '') ? 'hidden' : '';
@@ -1089,7 +906,7 @@ class CubeWp_Custom_Fields_Markup
      * @return array
      * @since  1.0.0
      */
-    public static function cwp_form_field_types( $request_from = '' )
+    public static function cwp_form_field_types()
     {
         $field_types = array();
         $field_types[esc_html__('Basic', 'cubewp-framework')]['text'] = esc_html__('Text', 'cubewp-framework');
@@ -1111,7 +928,6 @@ class CubeWp_Custom_Fields_Markup
         $field_types[esc_html__('Choice', 'cubewp-framework')]['dropdown'] = esc_html__('Dropdown', 'cubewp-framework');
         $field_types[esc_html__('Choice', 'cubewp-framework')]['checkbox'] = esc_html__('Checkbox', 'cubewp-framework');
         $field_types[esc_html__('Choice', 'cubewp-framework')]['radio'] = esc_html__('Radio Button', 'cubewp-framework');
-        $field_types[esc_html__('Choice', 'cubewp-framework')]['business_hours'] = esc_html__('Business Hours', 'cubewp-framework');
 
 		$field_types[esc_html__('jQuery', 'cubewp-framework')]['google_address'] = esc_html__('Google Address', 'cubewp-framework');
         $field_types[esc_html__('jQuery', 'cubewp-framework')]['date_picker'] = esc_html__('Date Picker', 'cubewp-framework');
@@ -1122,14 +938,9 @@ class CubeWp_Custom_Fields_Markup
         $field_types[esc_html__('Relationship', 'cubewp-framework')]['taxonomy'] = esc_html__('Taxonomy', 'cubewp-framework');
         $field_types[esc_html__('Relationship', 'cubewp-framework')]['user'] = esc_html__('User', 'cubewp-framework');
 
-        if ( empty( $request_from ) ) {
-            $request_from = CubeWp_Custom_Fields_Processor::get_field_option_name();
-        }
-        if ( $request_from != 'settings' ) {
-            $field_types[esc_html__('Layout', 'cubewp-framework')]['repeating_field'] = esc_html__('Repeating Field', 'cubewp-framework');
-        }
+        $field_types[esc_html__('Layout', 'cubewp-framework')]['repeating_field'] = esc_html__('Repeating Field', 'cubewp-framework');
 
-        return apply_filters('cubewp/post/custom_fields/types', $field_types, $request_from);
+        return apply_filters('cubewp/post/custom_fields/types', $field_types);
     }
 
     /**

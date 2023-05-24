@@ -10,12 +10,6 @@ Text Domain: wordpress-importer
 License: GPL version 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
-
-// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals
-
 if ( ! defined( 'WP_LOAD_IMPORTERS' ) )
 	return;
 
@@ -90,12 +84,9 @@ if ( class_exists( 'WP_Importer' ) ) {
 				case 2:
 					check_admin_referer( 'import-wordpress' );
 					$this->fetch_attachments = ( ! empty( $_POST['fetch_attachments'] ) && $this->allow_fetch_attachments() );
-					$this->id = isset( $_POST['import_id'] ) ? absint( wp_unslash( $_POST['import_id'] ) ) : 0;
+					$this->id = (int) $_POST['import_id'];
 					$file = get_attached_file( $this->id );
-					if ( function_exists( 'set_time_limit' ) ) {
-						// phpcs:ignore Squiz.PHP.DiscouragedFunctions.Discouraged
-						@set_time_limit( 0 );
-					}
+					set_time_limit(0);
 					$this->import( $file );
 					break;
 			}
@@ -138,8 +129,8 @@ if ( class_exists( 'WP_Importer' ) ) {
 		 */
 		function import_start( $file ) {
 			if ( ! is_file($file) ) {
-				echo '<p><strong>' . esc_html__( 'Sorry, there has been an error.', 'cubewp-framework' ) . '</strong><br />';
-				echo esc_html__( 'The file does not exist, please try again.', 'cubewp-framework' ) . '</p>';
+				echo '<p><strong>' . __( 'Sorry, there has been an error.', 'cubewp-framework' ) . '</strong><br />';
+				echo __( 'The file does not exist, please try again.', 'cubewp-framework' ) . '</p>';
 				$this->footer();
 				die();
 			}
@@ -147,7 +138,7 @@ if ( class_exists( 'WP_Importer' ) ) {
 			$import_data = $this->parse( $file );
 	
 			if ( is_wp_error( $import_data ) ) {
-				echo '<p><strong>' . esc_html__( 'Sorry, there has been an error.', 'cubewp-framework' ) . '</strong><br />';
+				echo '<p><strong>' . __( 'Sorry, there has been an error.', 'cubewp-framework' ) . '</strong><br />';
 				echo esc_html( $import_data->get_error_message() ) . '</p>';
 				$this->footer();
 				die();
@@ -182,8 +173,8 @@ if ( class_exists( 'WP_Importer' ) ) {
 			wp_defer_term_counting( false );
 			wp_defer_comment_counting( false );
 	
-			echo '<p>' . esc_html__( 'All done.', 'cubewp-framework' ) . ' <a href="' . esc_url( admin_url() ) . '">' . esc_html__( 'Have fun!', 'cubewp-framework' ) . '</a>' . '</p>';
-			echo '<p>' . esc_html__( 'Remember to update the passwords and roles of imported users.', 'cubewp-framework' ) . '</p>';
+			echo '<p>' . __( 'All done.', 'cubewp-framework' ) . ' <a href="' . admin_url() . '">' . __( 'Have fun!', 'cubewp-framework' ) . '</a>' . '</p>';
+			echo '<p>' . __( 'Remember to update the passwords and roles of imported users.', 'cubewp-framework' ) . '</p>';
 	
 			do_action( 'import_end' );
 		}
@@ -198,19 +189,12 @@ if ( class_exists( 'WP_Importer' ) ) {
 			$file = wp_import_handle_upload();
 	
 			if ( isset( $file['error'] ) ) {
-				echo '<p><strong>' . esc_html__( 'Sorry, there has been an error.', 'cubewp-framework' ) . '</strong><br />';
+				echo '<p><strong>' . __( 'Sorry, there has been an error.', 'cubewp-framework' ) . '</strong><br />';
 				echo esc_html( $file['error'] ) . '</p>';
 				return false;
 			} else if ( ! file_exists( $file['file'] ) ) {
-				echo '<p><strong>' . esc_html__( 'Sorry, there has been an error.', 'cubewp-framework' ) . '</strong><br />';
-				printf(
-					wp_kses(
-						/* translators: %s: file path. */
-						esc_html__( 'The export file could not be found at <code>%s</code>. It is likely that this was caused by a permissions problem.', 'cubewp-framework' ),
-						array( 'code' => array() )
-					),
-					esc_html( $file['file'] )
-				);
+				echo '<p><strong>' . __( 'Sorry, there has been an error.', 'cubewp-framework' ) . '</strong><br />';
+				printf( __( 'The export file could not be found at <code>%s</code>. It is likely that this was caused by a permissions problem.', 'cubewp-framework' ), esc_html( $file['file'] ) );
 				echo '</p>';
 				return false;
 			}
@@ -218,7 +202,7 @@ if ( class_exists( 'WP_Importer' ) ) {
 			$this->id = (int) $file['id'];
 			$import_data = $this->parse( $file['file'] );
 			if ( is_wp_error( $import_data ) ) {
-				echo '<p><strong>' . esc_html__( 'Sorry, there has been an error.', 'cubewp-framework' ) . '</strong><br />';
+				echo '<p><strong>' . __( 'Sorry, there has been an error.', 'cubewp-framework' ) . '</strong><br />';
 				echo esc_html( $import_data->get_error_message() ) . '</p>';
 				return false;
 			}
@@ -226,8 +210,7 @@ if ( class_exists( 'WP_Importer' ) ) {
 			$this->version = $import_data['version'];
 			if ( $this->version > $this->max_wxr_version ) {
 				echo '<div class="error"><p><strong>';
-				/* translators: %s: file version. */
-				printf( esc_html__( 'This WXR file (version %s) may not be supported by this version of the importer. Please consider updating.', 'cubewp-framework' ), esc_html( $import_data['version'] ) );
+				printf( __( 'This WXR file (version %s) may not be supported by this version of the importer. Please consider updating.', 'cubewp-framework' ), esc_html($import_data['version']) );
 				echo '</strong></p></div>';
 			}
 	
@@ -252,8 +235,7 @@ if ( class_exists( 'WP_Importer' ) ) {
 				foreach ( $import_data['posts'] as $post ) {
 					$login = sanitize_user( $post['post_author'], true );
 					if ( empty( $login ) ) {
-						/* translators: %s: author name. */
-						printf( esc_html__( 'Failed to import author %s. Their posts will be attributed to the current user.', 'cubewp-framework' ), esc_html( $post['post_author'] ) );
+						printf( __( 'Failed to import author %s. Their posts will be attributed to the current user.', 'cubewp-framework' ), esc_html( $post['post_author'] ) );
 						echo '<br />';
 						continue;
 					}
@@ -274,23 +256,15 @@ if ( class_exists( 'WP_Importer' ) ) {
 		function import_options() {
 			$j = 0;
 	?>
-	<form action="<?php echo esc_url( admin_url( 'admin.php?import=wordpress&step=2' ) ); ?>" method="post">
+	<form action="<?php echo admin_url( 'admin.php?import=wordpress&amp;step=2' ); ?>" method="post">
 		<?php wp_nonce_field( 'import-wordpress' ); ?>
 		<input type="hidden" name="import_id" value="<?php echo esc_attr( $this->id ); ?>" />
 	
 	<?php if ( ! empty( $this->authors ) ) : ?>
-		<h3><?php esc_html_e( 'Assign Authors', 'cubewp-framework' ); ?></h3>
-		<p><?php echo wp_kses( __( 'To make it easier for you to edit and save the imported content, you may want to reassign the author of the imported item to an existing user of this site. For example, you may want to import all the entries as <code>admin</code>s entries.', 'cubewp-framework' ), array( 'code' => array() ) ); ?></p>
+		<h3><?php _e( 'Assign Authors', 'cubewp-framework' ); ?></h3>
+		<p><?php _e( 'To make it easier for you to edit and save the imported content, you may want to reassign the author of the imported item to an existing user of this site. For example, you may want to import all the entries as <code>admin</code>s entries.', 'cubewp-framework' ); ?></p>
 	<?php if ( $this->allow_create_users() ) : ?>
-		<p><?php
-			printf(
-				wp_kses(
-					/* translators: %s: default role. */
-					esc_html__( 'If a new user is created by WordPress, a new password will be randomly generated and the new user&#8217;s role will be set as %s. Manually changing the new user&#8217;s details will be necessary.', 'cubewp-framework' ),
-					array( 'code' => array() )
-				),
-				esc_html( get_option('default_role') )
-			); ?></p>
+		<p><?php printf( __( 'If a new user is created by WordPress, a new password will be randomly generated and the new user&#8217;s role will be set as %s. Manually changing the new user&#8217;s details will be necessary.', 'cubewp-framework' ), esc_html( get_option('default_role') ) ); ?></p>
 	<?php endif; ?>
 		<ol id="authors">
 	<?php foreach ( $this->authors as $author ) : ?>
@@ -300,10 +274,10 @@ if ( class_exists( 'WP_Importer' ) ) {
 	<?php endif; ?>
 	
 	<?php if ( $this->allow_fetch_attachments() ) : ?>
-		<h3><?php esc_html_e( 'Import Attachments', 'cubewp-framework' ); ?></h3>
+		<h3><?php _e( 'Import Attachments', 'cubewp-framework' ); ?></h3>
 		<p>
 			<input type="checkbox" value="1" name="fetch_attachments" id="import-attachments" />
-			<label for="import-attachments"><?php esc_html_e( 'Download and import file attachments', 'cubewp-framework' ); ?></label>
+			<label for="import-attachments"><?php _e( 'Download and import file attachments', 'cubewp-framework' ); ?></label>
 		</p>
 	<?php endif; ?>
 	
@@ -320,7 +294,7 @@ if ( class_exists( 'WP_Importer' ) ) {
 		 * @param array $author Author information, e.g. login, display name, email
 		 */
 		function author_select( $n, $author ) {
-			esc_html_e( 'Import author:', 'cubewp-framework' );
+			_e( 'Import author:', 'cubewp-framework' );
 			echo ' <strong>' . esc_html( $author['author_display_name'] );
 			if ( $this->version != '1.0' ) echo ' (' . esc_html( $author['author_login'] ) . ')';
 			echo '</strong><br />';
@@ -331,22 +305,22 @@ if ( class_exists( 'WP_Importer' ) ) {
 			$create_users = $this->allow_create_users();
 			if ( $create_users ) {
 				if ( $this->version != '1.0' ) {
-					esc_html_e( 'or create new user with login name:', 'cubewp-framework' );
+					_e( 'or create new user with login name:', 'cubewp-framework' );
 					$value = '';
 				} else {
-					esc_html_e( 'as a new user:', 'cubewp-framework' );
+					_e( 'as a new user:', 'cubewp-framework' );
 					$value = esc_attr( sanitize_user( $author['author_login'], true ) );
 				}
 	
-				echo ' <input type="text" name="user_new[' . esc_attr( (string) $n ) . ']" value="' . esc_attr( $value ) . '" /><br />';
+				echo ' <input type="text" name="user_new['.$n.']" value="'. $value .'" /><br />';
 			}
 	
 			if ( ! $create_users && $this->version == '1.0' )
-				esc_html_e( 'assign posts to an existing user:', 'cubewp-framework' );
+				_e( 'assign posts to an existing user:', 'cubewp-framework' );
 			else
-				esc_html_e( 'or assign posts to an existing user:', 'cubewp-framework' );
-			wp_dropdown_users( array( 'name' => "user_map[" . intval( $n ) . "]", 'multi' => true, 'show_option_all' => esc_html__( '- Select -', 'cubewp-framework' ) ) );
-			echo '<input type="hidden" name="imported_authors[' . esc_attr( (string) $n ) . ']" value="' . esc_attr( $author['author_login'] ) . '" />';
+				_e( 'or assign posts to an existing user:', 'cubewp-framework' );
+			wp_dropdown_users( array( 'name' => "user_map[$n]", 'multi' => true, 'show_option_all' => __( '- Select -', 'cubewp-framework' ) ) );
+			echo '<input type="hidden" name="imported_authors['.$n.']" value="' . esc_attr( $author['author_login'] ) . '" />';
 	
 			if ( $this->version != '1.0' )
 				echo '</div>';
@@ -358,27 +332,26 @@ if ( class_exists( 'WP_Importer' ) ) {
 		 * or falls back to the current user in case of error with either of the previous
 		 */
 		function get_author_mapping() {
-			// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Read-only use of query vars to render notice; no state change performed.
 			if ( ! isset( $_POST['imported_authors'] ) )
 				return;
-			// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Read-only use of query vars to render notice; no state change performed.
+	
 			$create_users = $this->allow_create_users();
-			// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Read-only use of query vars to render notice; no state change performed.
-			foreach ( (array) $_POST['imported_authors'] as $i => $old_login ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification.Missing
+	
+			foreach ( (array) $_POST['imported_authors'] as $i => $old_login ) {
 				// Multisite adds strtolower to sanitize_user. Need to sanitize here to stop breakage in process_posts.
 				$santized_old_login = sanitize_user( $old_login, true );
 				$old_id = isset( $this->authors[$old_login]['author_id'] ) ? intval($this->authors[$old_login]['author_id']) : false;
 	
-				if ( ! empty( $_POST['user_map'][$i] ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification.Missing
-					$user = get_userdata( intval($_POST['user_map'][$i]) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification.Missing
+				if ( ! empty( $_POST['user_map'][$i] ) ) {
+					$user = get_userdata( intval($_POST['user_map'][$i]) );
 					if ( isset( $user->ID ) ) {
 						if ( $old_id )
 							$this->processed_authors[$old_id] = $user->ID;
 						$this->author_mapping[$santized_old_login] = $user->ID;
 					}
 				} else if ( $create_users ) {
-					if ( ! empty($_POST['user_new'][$i]) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification.Missing
-						$user_id = wp_create_user( $_POST['user_new'][$i], wp_generate_password() ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification.Missing
+					if ( ! empty($_POST['user_new'][$i]) ) {
+						$user_id = wp_create_user( $_POST['user_new'][$i], wp_generate_password() );
 					} else if ( $this->version != '1.0' ) {
 						$user_data = array(
 							'user_login' => $old_login,
@@ -396,16 +369,9 @@ if ( class_exists( 'WP_Importer' ) ) {
 							$this->processed_authors[$old_id] = $user_id;
 						$this->author_mapping[$santized_old_login] = $user_id;
 					} else {
-						printf(
-							wp_kses(
-								/* translators: %s: author name. */
-								esc_html__( 'Failed to create new user for %s. Their posts will be attributed to the current user.', 'cubewp-framework' ),
-								array( 'code' => array() )
-							),
-							esc_html($this->authors[$old_login]['author_display_name'])
-						);
+						printf( __( 'Failed to create new user for %s. Their posts will be attributed to the current user.', 'cubewp-framework' ), esc_html($this->authors[$old_login]['author_display_name']) );
 						if ( defined('IMPORT_DEBUG') && IMPORT_DEBUG )
-							echo ' ' . esc_html( $user_id->get_error_message() );
+							echo ' ' . $user_id->get_error_message();
 						echo '<br />';
 					}
 				}
@@ -455,16 +421,9 @@ if ( class_exists( 'WP_Importer' ) ) {
 					if ( isset($cat['term_id']) )
 						$this->processed_terms[intval($cat['term_id'])] = $id;
 				} else {
-					printf(
-						wp_kses(
-							/* translators: %s: category name. */
-							esc_html__( 'Failed to import category %s', 'cubewp-framework' ),
-							array( 'code' => array() )
-						),
-						esc_html( $cat['category_nicename'] )
-					);
+					printf( __( 'Failed to import category %s', 'cubewp-framework' ), esc_html($cat['category_nicename']) );
 					if ( defined('IMPORT_DEBUG') && IMPORT_DEBUG )
-						echo ': ' . esc_html( $id->get_error_message() );
+						echo ': ' . $id->get_error_message();
 					echo '<br />';
 					continue;
 				}
@@ -505,10 +464,9 @@ if ( class_exists( 'WP_Importer' ) ) {
 					if ( isset($tag['term_id']) )
 						$this->processed_terms[intval($tag['term_id'])] = $id['term_id'];
 				} else {
-					/* translators: %s: tag name. */
-					printf( esc_html__( 'Failed to import post tag %s', 'cubewp-framework' ), esc_html( $tag['tag_name'] ) );
+					printf( __( 'Failed to import post tag %s', 'cubewp-framework' ), esc_html($tag['tag_name']) );
 					if ( defined('IMPORT_DEBUG') && IMPORT_DEBUG )
-						echo ': ' . esc_html( $id->get_error_message() );
+						echo ': ' . $id->get_error_message();
 					echo '<br />';
 					continue;
 				}
@@ -555,10 +513,9 @@ if ( class_exists( 'WP_Importer' ) ) {
 					if ( isset($term['term_id']) )
 						$this->processed_terms[intval($term['term_id'])] = $id['term_id'];
 				} else {
-					/* translators: %1$s: taxonomy name, %2$s: term name. */
-					printf( esc_html__( 'Failed to import %1$s %2$s', 'cubewp-framework' ), esc_html( $term['term_taxonomy'] ), esc_html( $term['term_name'] ) );
+					printf( __( 'Failed to import %s %s', 'cubewp-framework' ), esc_html($term['term_taxonomy']), esc_html($term['term_name']) );
 					if ( defined('IMPORT_DEBUG') && IMPORT_DEBUG )
-						echo ': ' . esc_html( $id->get_error_message() );
+						echo ': ' . $id->get_error_message();
 					echo '<br />';
 					continue;
 				}
@@ -645,8 +602,7 @@ if ( class_exists( 'WP_Importer' ) ) {
 				$post = apply_filters( 'wp_import_post_data_raw', $post );
 	
 				if ( ! post_type_exists( $post['post_type'] ) ) {
-					/* translators: %1$s: post title, %2$s: post type. */
-					printf( esc_html__( 'Failed to import &#8220;%1$s&#8221;: Invalid post type %2$s', 'cubewp-framework' ),
+					printf( __( 'Failed to import &#8220;%s&#8221;: Invalid post type %s', 'cubewp-framework' ),
 						esc_html($post['post_title']), esc_html($post['post_type']) );
 					echo '<br />';
 					do_action( 'wp_import_post_exists', $post );
@@ -683,8 +639,7 @@ if ( class_exists( 'WP_Importer' ) ) {
 				$post_exists = apply_filters( 'wp_import_existing_post', $post_exists, $post );
 	
 				if ( $post_exists && get_post_type( $post_exists ) == $post['post_type'] ) {
-					/* translators: %1$s: post type label, %2$s: post title. */
-					printf( esc_html__( '%1$s &#8220;%2$s&#8221; already exists.', 'cubewp-framework' ), esc_html( $post_type_object->labels->singular_name ), esc_html( $post['post_title'] ) );
+					printf( __('%s &#8220;%s&#8221; already exists.', 'cubewp-framework'), $post_type_object->labels->singular_name, esc_html($post['post_title']) );
 					echo '<br />';
 					$comment_post_ID = $post_id = $post_exists;
 					$this->processed_posts[ intval( $post['post_id'] ) ] = intval( $post_exists );
@@ -746,11 +701,10 @@ if ( class_exists( 'WP_Importer' ) ) {
 					}
 	
 					if ( is_wp_error( $post_id ) ) {
-						/* translators: %1$s: post type label, %2$s: post title. */
-						printf( esc_html__( 'Failed to import %1$s &#8220;%2$s&#8221;', 'cubewp-framework' ),
-							esc_html( $post_type_object->labels->singular_name ), esc_html( $post['post_title'] ) );
+						printf( __( 'Failed to import %s &#8220;%s&#8221;', 'cubewp-framework' ),
+							$post_type_object->labels->singular_name, esc_html($post['post_title']) );
 						if ( defined('IMPORT_DEBUG') && IMPORT_DEBUG )
-							echo ': ' . esc_html( $post_id->get_error_message() );
+							echo ': ' . $post_id->get_error_message();
 						echo '<br />';
 						continue;
 					}
@@ -781,17 +735,9 @@ if ( class_exists( 'WP_Importer' ) ) {
 								$term_id = $t['term_id'];
 								do_action( 'wp_import_insert_term', $t, $term, $post_id, $post );
 							} else {
-								printf( 
-									wp_kses(
-										/* translators: %1$s: taxonomy name, %2$s: term name. */
-										esc_html__( 'Failed to import %1$s %2$s', 'cubewp-framework' ),
-										array( 'code' => array() )
-									),
-									esc_html($taxonomy),
-									esc_html($term['name'])
-								);
+								printf( __( 'Failed to import %s %s', 'cubewp-framework' ), esc_html($taxonomy), esc_html($term['name']) );
 								if ( defined('IMPORT_DEBUG') && IMPORT_DEBUG )
-									echo ': ' . esc_html( $t->get_error_message() );
+									echo ': ' . $t->get_error_message();
 								echo '<br />';
 								do_action( 'wp_import_insert_term_failed', $t, $term, $post_id, $post );
 								continue;
@@ -928,15 +874,14 @@ if ( class_exists( 'WP_Importer' ) ) {
 	
 			// no nav_menu term associated with this menu item
 			if ( ! $menu_slug ) {
-				echo esc_html__( 'Menu item skipped due to missing menu slug', 'cubewp-framework' );
+				_e( 'Menu item skipped due to missing menu slug', 'cubewp-framework' );
 				echo '<br />';
 				return;
 			}
 	
-				$menu_id = term_exists( $menu_slug, 'nav_menu' );
+			$menu_id = term_exists( $menu_slug, 'nav_menu' );
 			if ( ! $menu_id ) {
-				/* translators: %s: menu slug. */
-					printf( esc_html__( 'Menu item skipped due to invalid menu slug: %s', 'cubewp-framework' ), esc_html( $menu_slug ) );
+				printf( __( 'Menu item skipped due to invalid menu slug: %s', 'cubewp-framework' ), esc_html( $menu_slug ) );
 				echo '<br />';
 				return;
 			} else {
@@ -1046,7 +991,7 @@ if ( class_exists( 'WP_Importer' ) ) {
 			$file_name = basename( $url );
 	
 			// get placeholder file in the upload dir with a unique, sanitized filename
-			$upload = wp_upload_bits( $file_name, null, '', $post['upload_date'] );
+			$upload = wp_upload_bits( $file_name, 0, '', $post['upload_date'] );
 			if ( $upload['error'] )
 				return new WP_Error( 'upload_dir_error', $upload['error'] );
 	
@@ -1061,7 +1006,7 @@ if ( class_exists( 'WP_Importer' ) ) {
 	
 			// request failed
 			if ( ! $headers ) {
-				wp_delete_file( $upload['file'] );
+				@unlink( $upload['file'] );
 				return new WP_Error( 'import_file_error', __('Remote server did not respond', 'cubewp-framework') );
 			}
 	
@@ -1069,27 +1014,25 @@ if ( class_exists( 'WP_Importer' ) ) {
 	
 			// make sure the fetch was successful
 			if ( $remote_response_code != '200' ) {
-				wp_delete_file( $upload['file'] );
-				/* translators: %1$d: response code, %2$s: response description. */
+				@unlink( $upload['file'] );
 				return new WP_Error( 'import_file_error', sprintf( __('Remote server returned error response %1$d %2$s', 'cubewp-framework'), esc_html($remote_response_code), get_status_header_desc($remote_response_code) ) );
 			}
 	
 			$filesize = filesize( $upload['file'] );
 	
 			if ( isset( $headers['content-length'] ) && $filesize != $headers['content-length'] ) {
-				wp_delete_file( $upload['file'] );
+				@unlink( $upload['file'] );
 				return new WP_Error( 'import_file_error', __('Remote file is incorrect size', 'cubewp-framework') );
 			}
 	
 			if ( 0 == $filesize ) {
-				wp_delete_file( $upload['file'] );
+				@unlink( $upload['file'] );
 				return new WP_Error( 'import_file_error', __('Zero size file downloaded', 'cubewp-framework') );
 			}
 	
 			$max_size = (int) $this->max_attachment_size();
 			if ( ! empty( $max_size ) && $filesize > $max_size ) {
-				wp_delete_file( $upload['file'] );
-				/* translators: %s: file size. */
+				@unlink( $upload['file'] );
 				return new WP_Error( 'import_file_error', sprintf(__('Remote file is too large, limit is %s', 'cubewp-framework'), size_format($max_size) ) );
 			}
 	
@@ -1122,7 +1065,7 @@ if ( class_exists( 'WP_Importer' ) ) {
 					$local_parent_id = $this->processed_posts[$parent_id];
 	
 				if ( $local_child_id && $local_parent_id ) {
-					$wpdb->update( $wpdb->posts, array( 'post_parent' => $local_parent_id ), array( 'ID' => $local_child_id ), '%d', '%d' ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Import maintenance requires a direct update; safe, bounded, and immediately cache-cleaned.
+					$wpdb->update( $wpdb->posts, array( 'post_parent' => $local_parent_id ), array( 'ID' => $local_child_id ), '%d', '%d' );
 					clean_post_cache( $local_child_id );
 				}
 			}
@@ -1155,9 +1098,9 @@ if ( class_exists( 'WP_Importer' ) ) {
 	
 			foreach ( $this->url_remap as $from_url => $to_url ) {
 				// remap urls in post_content
-				$wpdb->query( $wpdb->prepare("UPDATE {$wpdb->posts} SET post_content = REPLACE(post_content, %s, %s)", $from_url, $to_url) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- One-off import remediation; prepared and scoped.
+				$wpdb->query( $wpdb->prepare("UPDATE {$wpdb->posts} SET post_content = REPLACE(post_content, %s, %s)", $from_url, $to_url) );
 				// remap enclosure urls
-				$result = $wpdb->query( $wpdb->prepare("UPDATE {$wpdb->postmeta} SET meta_value = REPLACE(meta_value, %s, %s) WHERE meta_key='enclosure'", $from_url, $to_url) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- One-off import remediation; prepared and scoped.
+				$result = $wpdb->query( $wpdb->prepare("UPDATE {$wpdb->postmeta} SET meta_value = REPLACE(meta_value, %s, %s) WHERE meta_key='enclosure'", $from_url, $to_url) );
 			}
 		}
 	
@@ -1190,15 +1133,14 @@ if ( class_exists( 'WP_Importer' ) ) {
 		// Display import page title
 		function header() {
 			echo '<div class="wrap">';
-			echo '<h2>' . esc_html__( 'Import WordPress', 'cubewp-framework' ) . '</h2>';
+			echo '<h2>' . __( 'Import WordPress', 'cubewp-framework' ) . '</h2>';
 	
 			$updates = get_plugin_updates();
 			$basename = plugin_basename(__FILE__);
 			if ( isset( $updates[$basename] ) ) {
 				$update = $updates[$basename];
 				echo '<div class="error"><p><strong>';
-				/* translators: %s: new version. */
-				printf( esc_html__( 'A new version of this importer is available. Please update to version %s to ensure compatibility with newer export files.', 'cubewp-framework' ), esc_html( $update->update->new_version ) );
+				printf( __( 'A new version of this importer is available. Please update to version %s to ensure compatibility with newer export files.', 'cubewp-framework' ), $update->update->new_version );
 				echo '</strong></p></div>';
 			}
 		}
@@ -1213,8 +1155,8 @@ if ( class_exists( 'WP_Importer' ) ) {
 		 */
 		function greet() {
 			echo '<div class="narrow">';
-			echo '<p>'.wp_kses( __( 'Howdy! Upload your WordPress eXtended RSS (WXR) file and we&#8217;ll import the posts, pages, comments, custom fields, categories, and tags into this site.', 'cubewp-framework' ), array( 'code' => array() ) ).'</p>';
-			echo '<p>'.wp_kses( __( 'Choose a WXR (.xml) file to upload, then click Upload file and import.', 'cubewp-framework' ), array( 'code' => array() ) ).'</p>';
+			echo '<p>'.__( 'Howdy! Upload your WordPress eXtended RSS (WXR) file and we&#8217;ll import the posts, pages, comments, custom fields, categories, and tags into this site.', 'cubewp-framework' ).'</p>';
+			echo '<p>'.__( 'Choose a WXR (.xml) file to upload, then click Upload file and import.', 'cubewp-framework' ).'</p>';
 			wp_import_upload_form( 'admin.php?import=wordpress&amp;step=1' );
 			echo '</div>';
 		}

@@ -28,7 +28,7 @@ class CubeWp_Frontend {
         $this->include_fields();
         add_filter('cubewp/frontend/field/parametrs', array($this, 'frontend_field_parameters'), 10, 1);
         add_action('cubewp_loaded', array('CubeWp_Frontend_Alerts', 'init'), 10);
-        add_action('wp', array('CubeWp_Frontend_Templates', 'init'), 10);
+        add_action('cubewp_loaded', array('CubeWp_Frontend_Templates', 'init'), 10);
         add_action('cubewp_loaded', array('CubeWp_Saved', 'init'), 10);
         add_action('cubewp_loaded', array('CubeWp_Pagination', 'init'), 10);
         add_action('cubewp_loaded', array('CubeWp_Frontend_Search_Fields', 'init'), 10);
@@ -87,7 +87,7 @@ class CubeWp_Frontend {
      */
     public function include_fields(){
         $frontend_fields = array(
-            'text', 'number','color', 'range', 'email', 'url', 'password', 'textarea', 'wysiwyg-editor', 'oembed', 'file', 'image', 'gallery', 'dropdown', 'checkbox', 'radio', 'switch', 'business-hours', 'google-address', 'date-picker', 'date-time-picker', 'time-picker', 'post', 'taxonomy', 'terms', 'user', 'repeater'
+            'text', 'number','color', 'range', 'email', 'url', 'password', 'textarea', 'wysiwyg-editor', 'oembed', 'file', 'image', 'gallery', 'dropdown', 'checkbox', 'radio', 'switch', 'google-address', 'date-picker', 'date-time-picker', 'time-picker', 'post', 'taxonomy', 'terms', 'user', 'repeater'
         );
         foreach($frontend_fields as $frontend_field){
             $field_path = CWP_PLUGIN_PATH . "cube/fields/frontend/cubewp-frontend-{$frontend_field}-field.php";
@@ -123,12 +123,10 @@ class CubeWp_Frontend {
             'file_types'            =>   '',
             'placeholder'           =>    '',
             'upload_size'           =>   '',
-            'max_upload_files'      =>   '',
             'label'                 =>    '',
             'description'           =>    '',
             'multiple'              =>    0,
             'select2_ui'            =>    0,
-            'current_user_posts'    =>    0,
             'editor_media'          =>    0,
             'auto_complete'         =>    0,
             'appearance'            =>    '',
@@ -142,9 +140,6 @@ class CubeWp_Frontend {
             'extra_attrs'           =>    '',
             'field_size'            =>    '',
             'sub_fields'            =>    array(),
-            'files_save'            =>    'ids',
-            'filter_post_types'     =>    '',
-            'files_save_separator'  =>    'array',
         );
         return wp_parse_args($args, $default);
 
@@ -235,59 +230,10 @@ class CubeWp_Frontend {
             $required_class = ' is-required';
         }
         
-        $select2 = isset($args['select2_ui']) && $args['select2_ui'] ? self::cwp_frontend_field_select2($args['select2_ui']) : '';
-        $field_size = isset($args['field_size']) ? $args['field_size'] : '';
-        $classes = "cwp-field-container cwp-field-{$args['type']} form-group {$args['container_class']} {$field_size} {$required_class} {$conditionalClass} {$select2}";
-
+        $select2 =  self::cwp_frontend_field_select2($args['select2_ui']);
+        $classes = "cwp-field-container cwp-field-{$args['type']} form-group {$args['container_class']} {$args['field_size']} {$required_class} {$conditionalClass} {$select2}";
         return '<div class="'.$classes.'" '. $container_attr .'>';
 
-    }
-
-    /**
-     * Apply the per-field output filter `cubewp/frontend/{name}/field`, guarded
-     * against re-entering the renderer that is already running.
-     *
-     * ⚠ WHY THIS GUARD EXISTS — infinite recursion, 512 MB fatal.
-     *
-     * Every field TYPE registers a renderer on `cubewp/frontend/{type}/field`
-     * (gallery, text, image, file, user, taxonomy … 26 of them). Each renderer
-     * then ends by firing `cubewp/frontend/{NAME}/field` so integrators can
-     * filter one specific field's output.
-     *
-     * Those two hooks share a namespace. When a site builder names a field
-     * exactly like a type — `gallery`, `text`, `image`, `email`, `user` are all
-     * natural choices — the per-field filter resolves to the SAME hook as the
-     * type renderer, so the renderer calls itself, forever.
-     *
-     * Observed 2026-10-06 on site 579: a field named `gallery` of type
-     * `gallery` recursed past 8,000 iterations and exhausted 512 MB — then
-     * 1 GB — producing an HTTP 500 with no PHP error reaching any log,
-     * because WordPress's own fatal handler runs first and die()s before
-     * later shutdown functions. Memory climbed super-linearly because
-     * render_gallery_field() APPENDS to $args['container_attrs'] on each pass.
-     *
-     * Re-entry returns the output unchanged rather than throwing: the type
-     * renderer has already produced the markup, and the name filter simply has
-     * nothing further to contribute when it is the same callback.
-     */
-    public static function cwp_field_output_filter( $output, $args ) {
-        static $running = array();
-
-        $name = isset( $args['name'] ) ? (string) $args['name'] : '';
-        if ( '' === $name ) {
-            return $output;
-        }
-
-        // Already inside this field's filter — the name collides with a type.
-        if ( ! empty( $running[ $name ] ) ) {
-            return $output;
-        }
-
-        $running[ $name ] = true;
-        $output = apply_filters( "cubewp/frontend/{$name}/field", $output, $args );
-        unset( $running[ $name ] );
-
-        return $output;
     }
         
     /**
@@ -470,7 +416,6 @@ class CubeWp_Frontend {
             </div>
         </div>';
 
-        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
         echo apply_filters('cubewp/frontend/archive/list/switcher', $output);
     }
         
@@ -482,13 +427,9 @@ class CubeWp_Frontend {
      */
     public static function sorting_filter( ) {
         $sorting = apply_filters('cubewp/frontend/sorting/filter','');
-        $option = [
-            'DESC' => esc_html__('Newest','cubewp-framework'),
-            'ASC' => esc_html__('Oldest','cubewp-framework'),
-            'relevance' => esc_html__('Best Match','cubewp-framework'),
-            'title' => esc_html__('Title','cubewp-framework'),
-            'rand' => esc_html__('Random','cubewp-framework'),
-        ];
+        $option = array();
+        $option['DESC'] = esc_html__('Newest','cubewp-framework');
+        $option['ASC'] = esc_html__('Oldest','cubewp-framework');
         if(!empty($sorting)){
             foreach($sorting as $k=>$v){
                 $option[$v.'-ASC'] = $k.': '.esc_html__('Low to high','cubewp-framework');
@@ -499,13 +440,11 @@ class CubeWp_Frontend {
             'class'        => 'cwp-orderby',
             'id'           => 'cwp-sorting-filter',
             'name'         => 'cwp_orderby',
-            // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only use of query vars to render notice; no state change performed.
-            'value'        => isset($_GET['orderby']) && !empty($_GET['orderby']) ? sanitize_text_field(wp_unslash($_GET['orderby'])) : 'DESC',
+            'value'        => isset($_GET['orderby']) && !empty($_GET['orderby']) ? sanitize_text_field($_GET['orderby']) : 'DESC',
             'options'      => $option,
             'extra_attrs'  => '',
             'placeholder'  => esc_html__('Sort By','cubewp-framework')
         );
-        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
         echo cwp_render_dropdown_input( $input_attrs );
     }
 
@@ -517,7 +456,6 @@ class CubeWp_Frontend {
      */
     public static function is_cubewp_single() {
 		$get_CustomTypes = CWP_types();
-        $get_CustomTypes = apply_filters( 'cubewp/is_single/post_types', $get_CustomTypes );
         if (is_array($get_CustomTypes) && !empty($get_CustomTypes) && count($get_CustomTypes)!=0) {
             foreach ($get_CustomTypes as $single_cpt) {
                 self::$post_type = $single_cpt['slug'];
@@ -614,28 +552,6 @@ class CubeWp_Frontend {
 		if(isset($parent_field[$post_count][$field])){
 			return $parent_field[$post_count][$field]['value'];
 		}
-	}
-
-     /**
-     * Method cubewp_post_confirmation
-     *
-     * @return void
-     */
-    public static function cubewp_post_confirmation() {
-		if(is_singular( )){
-            do_action('cubewp_post_confirmation', get_the_ID());
-        }
-	}
-
-    /**
-     * Method cubewp_post_notification
-     *
-     * @return void
-     */
-    public static function cubewp_post_notification() {
-		if(is_singular( )){
-            do_action('cubewp_single_page_notification', get_the_ID());
-        }
 	}
         
     /**

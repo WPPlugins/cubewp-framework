@@ -38,15 +38,12 @@ class CubeWp_Frontend_Checkbox_Field extends CubeWp_Frontend {
 
         $args       =  apply_filters( 'cubewp/frontend/field/parametrs', $args );
         $options    =  cwp_convert_choices_to_array($args['options']);
-        $args['not_formatted_value'] = $args['value'];
-        $args['value'] = cwp_handle_data_format( $args );
         $required   = self::cwp_frontend_field_required($args['required']);
         $required   = !empty($required['class']) ? $required['class'] : '';
         $output     = self::cwp_frontend_post_field_container($args);
         $output .= '<div class="cwp-checkbox-container">';
                 $output .= self::cwp_frontend_field_label($args);
                 $output .= '<div class="cwp-field-checkbox-container">';
-                if ( ! empty( $options ) && is_array( $options ) ) {
                     foreach($options as $value => $label){
                         $output .= '<div class="cwp-field-checkbox">';
                             $input_attrs = array(
@@ -67,12 +64,11 @@ class CubeWp_Frontend_Checkbox_Field extends CubeWp_Frontend {
                         $output .= '</div>';
                     }
                     $output .= '<input type="hidden" name="' . $input_attrs['name'] . '" value="">';
-                }
                 $output .= '</div>';
             $output .= '</div>';
         $output .= '</div>';
 
-        $output = CubeWp_Frontend::cwp_field_output_filter($output, $args);
+        $output = apply_filters("cubewp/frontend/{$args['name']}/field", $output, $args);
 
         return $output;
     }
@@ -113,7 +109,7 @@ class CubeWp_Frontend_Checkbox_Field extends CubeWp_Frontend {
                                 $input_attrs['extra_attrs'] = ' checked="checked"';
                             }else if(is_tax()){
                                 $queried_object = get_queried_object();
-                                $CurrentSlug = $queried_object->term_id;
+                                $CurrentSlug = $queried_object->slug;
                                 if(isset($CurrentSlug) && $CurrentSlug == $value){
                                     $input_attrs['extra_attrs'] = ' checked="checked"';
                                     $args['value'] = $CurrentSlug;
@@ -133,7 +129,7 @@ class CubeWp_Frontend_Checkbox_Field extends CubeWp_Frontend {
             $output .= '</div>';
         $output .= '</div>';
 
-        $output = CubeWp_Frontend::cwp_field_output_filter($output, $args);
+        $output = apply_filters("cubewp/frontend/{$args['name']}/field", $output, $args);
 
         return $output;
     }

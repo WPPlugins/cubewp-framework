@@ -1,7 +1,4 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
 
 class CubeWp_Frontend_Image_Field extends CubeWp_Frontend {
 

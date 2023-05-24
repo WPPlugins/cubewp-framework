@@ -189,7 +189,7 @@ a {
         padding: 0 0px;
     }
 
-    select#cwp-sorting-filter, select#cwp-order-filter {
+    select#cwp-sorting-filter {
         width: 50%;
     }
 
@@ -245,7 +245,7 @@ a {
         padding: 0 20px;
     }
 
-    #cwp-sorting-filter, #cwp-order-filter {
+    #cwp-sorting-filter {
         width: 38% !important;
     }
 

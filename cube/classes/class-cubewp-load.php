@@ -1,14 +1,10 @@
 <?php
-
 /**
  * CubeWp Initialization.
  *
  * @package cubewp/cube/classes
  * @version 1.0
  */
-
-// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals
-
 defined('ABSPATH') || exit;
 
 /**
@@ -16,17 +12,16 @@ defined('ABSPATH') || exit;
  *
  * @class CubeWp_Load
  */
-final class CubeWp_Load
-{
-
-
+final class CubeWp_Load {
+    
+    
     /**
      * Wordpress required version.
      *
      * @var string
      */
-    public static $CubeWp_version = '1.1.34';
-
+    public static $CubeWp_version = '1.1.4';
+    
     /**
      * Wordpress required version.
      *
@@ -39,36 +34,36 @@ final class CubeWp_Load
      *
      * @var string
      */
-    public static $php_req_version = '7.4';
-
-    /**
-     * The single instance of the class.
-     *
-     * @var CubeWp_Load
-     */
+    public static $php_req_version = '7';
+    
+     /**
+	 * The single instance of the class.
+	 *
+	 * @var CubeWp_Load
+	 */
     protected static $Load = null;
-
+    
     /**
      * Settings instance.
      *
      * @var CubeWp_settings
      */
     public $settings = null;
-
+    
     /**
      * prefix of cubewp data.
      *
      * @var $prefix
      */
-
+    
     public static $prefix = 'cwp';
-
+    
     /**
      * plugin base of cubewp framework.
      *
      * @var $base
      */
-
+    
     public $base = 'cubewp-framework/cube.php';
 
     /**
@@ -76,182 +71,106 @@ final class CubeWp_Load
      *
      * @var $slug
      */
-
+    
     public $slug = 'cubewp-framework';
 
-    public static function instance()
-    {
-        if (is_null(self::$Load)) {
-            self::$Load = new self();
-        }
-        return self::$Load;
-    }
+    public static function instance() {
+		if ( is_null( self::$Load ) ) {
+			self::$Load = new self();
+		}
+		return self::$Load;
+	}
     /**
      * CubeWp_Load Constructor.
      */
-    public function __construct()
-    {
+    public function __construct() {
         /* CUBEWP_VERSION is defined for current cubewp version */
         if (!defined('CUBEWP_VERSION')) {
             define('CUBEWP_VERSION', self::$CubeWp_version);
         }
-        self::init_hooks();
+		self::init_hooks();
         self::includes();
     }
-
+        
     /**
      * Method init_hooks
      *
      * @since  1.0.0
      */
-    private function init_hooks()
-    {
+    private function init_hooks() {
         add_action('plugins_loaded', array($this, 'on_plugins_loaded'), -1);
         add_action('init', array($this, 'init'), 0);
-        add_filter('plugin_row_meta', array($this, 'plugin_view_info'), 80, 3);
+        add_filter( 'plugin_row_meta', array( $this, 'plugin_view_info' ), 80, 3 );
         add_action('init', array('CubeWp_Add_Ons', 'init'), 9);
-        add_action('rest_api_init', array('CubeWp_Rest_API', 'init'));
+        add_action( 'rest_api_init', array('CubeWp_Rest_API', 'init' ));
     }
-
+    
     /**
      * Include required core files used in admin and on the frontend.
      * Method includes
      *
      * @since  1.0.0
      */
-    public function includes()
-    {
+    public function includes() {
         add_action('cubewp_loaded', array('CubeWp_Admin', 'init'), 9);
         add_action('cubewp_loaded', array('CubeWp_Enqueue', 'init'), 9);
-        add_action('elementor/dynamic_tags/register', array('CubeWp_Admin', 'register_elementor_tags'), 10);
+        add_action( 'elementor/dynamic_tags/register', array('CubeWp_Admin','register_elementor_tags'), 10);
 
-        add_action('cubewp_loaded', array('CubeWp_Shortcodes', 'init'));
-        add_action('cubewp_loaded', array('CubeWp_Addons_Admin', 'init'), 9);
-        // Frontend Page Builders
-        add_action('cubewp_loaded', array('CubeWp_Elementor', 'init'));
+	    add_action('cubewp_loaded', array('CubeWp_Shortcodes', 'init'));
+	    // Frontend Page Builders
+	    add_action('cubewp_loaded', array('CubeWp_Elementor', 'init'));
         add_action('cubewp_loaded', array('CubeWp_Vc_Elements', 'init'));
         add_action('cubewp_loaded', array('CubeWp_Relationships', 'init'));
-        require_once(CUBEWP_FILES . 'modules/theme-update/theme-updater.php');
-        // Google Address City and Terms Modules
-        add_action('cubewp_loaded', array('CubeWp_Google_Address_City_Module', 'init'), 12);
-        add_action('cubewp_loaded', array('CubeWp_Google_Address_Terms_Module', 'init'), 12);
-        if (self::is_request('admin')) {
-            new CubeWp_Ping();
-        }
         if (self::is_request('frontend')) {
             self::frontend_includes();
         }
-
-        add_action('elementor/init', array($this, 'cubewp_load_elementor_typography'));
     }
-
-    public function cubewp_load_elementor_typography()
-    {
-        $typography_class_file = CUBEWP_FILES . 'classes/class-cubewp-elementor-typography.php';
-        if (file_exists($typography_class_file)) {
-            require_once $typography_class_file;
-        }
-        // Override existing Elementor Typography group control to allow CSS vars in font-family.
-        add_action('elementor/controls/register', array('CubeWp_Elementor_Typography', 'register_typography_group_control_override'), 100, 1);
-
-        // Add CubeWP typography variables in existing font-family dropdown.
-        add_filter('elementor/fonts/groups', array('CubeWp_Elementor_Typography', 'register_cubewp_font_group'), 10, 1);
-
-        add_filter('elementor/fonts/additional_fonts', array('CubeWp_Elementor_Typography', 'add_fonts_to_elementor_typography_control'), 10, 1);
-
-        add_action('elementor/editor/after_enqueue_scripts', array('CubeWp_Elementor_Typography', 'enqueue_editor_font_option_label_script'), 20);
-
-        add_action('wp_head', array('CubeWp_Elementor_Typography', 'print_root_typography_css_variables'), 10);
-    }
-
+    
     /**
      * Include required frontend files.
      * Method frontend_includes
      *
      * @since  1.0.0
      */
-    public function frontend_includes()
-    {
+    public function frontend_includes() {
         add_action('cubewp_loaded', array('CubeWp_Frontend', 'init'), 9);
-        add_action('cubewp_loaded', array('CubeWp_Keyword_Suggestions', 'init'), 10);
     }
-
+    
     /**
      * Init CubeWp when WordPress Initialises.
      * Method init
      *
      * @since  1.0.0
      */
-    public function init()
-    {
+    public function init() {
         // Set up localisation.
         self::load_plugin_textdomain();
         // Set Cubewp settings.
         self::cwp_get_option();
     }
-
-    /**
-     * cubewp_get_modules
-     *
-     * @return array
-     * @since 1.1.23
-     */
-    public function cubewp_get_modules()
-    {
-        // Define the path to the addons.json file
-        $file_path = CUBEWP_FILES . 'modules/modules.json';
-
-        // Check if the file exists
-        if (!file_exists($file_path)) {
-            return [];
-        }
-
-        // Read the file contents
-        $json_content = file_get_contents($file_path);
-
-        // Decode the JSON content
-        $modules = json_decode($json_content, true);
-
-        if (!$modules) {
-            return [];
-        }
-
-        // Dynamically update the `path` values for each module
-        foreach ($modules as $key => &$module) {
-            if (isset($module['base'])) {
-                // Extract directory name from the 'base' value
-                $base_dir = dirname($module['base']);
-                $module['path'] = plugin_dir_path(dirname(dirname(__DIR__))) . $base_dir . '/cube/';
-            }
-        }
-
-        return $modules;
-    }
-
-
+    
+        
     /**
      * Method prefix
      *
      * @return string
      * @since  1.0.0
      */
-    public function prefix()
-    {
+    public function prefix() {
         return self::$prefix;
     }
-
+        
     /**
      * Method cwp_get_option
      *
      * @return array
      * @since  1.0.0
      */
-    public function cwp_get_option()
-    {
+    public function cwp_get_option() {
         $cwpOption = get_option('cwpOptions');
         $GLOBALS['cwpOptions'] = $cwpOption;
     }
-
+        
     /**
      * Method cubewp_options
      *
@@ -260,22 +179,20 @@ final class CubeWp_Load
      * @return array
      * @since  1.0.0
      */
-    public function cubewp_options(string $optName)
-    {
-        if (empty($optName)) return '';
-
+    public function cubewp_options( string $optName ){
+        if(empty($optName)) return '';
+        
         $options = get_option($optName);
         $options =   isset($options) ? $options  : '';
         return $options;
     }
 
-    public function update_cubewp_options(string $optName, $optionSet = '')
-    {
-        if (empty($optName)) return '';
+    public function update_cubewp_options( string $optName, $optionSet='' ){
+        if(empty($optName)) return '';
 
-        update_option($optName, $optionSet);
+        update_option($optName,$optionSet);
     }
-
+        
     /**
      * Method get_custom_fields
      *
@@ -284,15 +201,14 @@ final class CubeWp_Load
      * @return array
      * @since  1.0.0
      */
-    public function get_custom_fields(string $type)
-    {
-        if (empty($type)) return '';
-
+    public function get_custom_fields( string $type ){
+        if(empty($type)) return '';
+        
         $fields = $this->cubewp_options(cwp_get_opt_hook($type));
         $fields =   isset($fields) ? $fields  : array();
         return $fields;
     }
-
+        
     /**
      * Method update_custom_fields
      *
@@ -302,12 +218,11 @@ final class CubeWp_Load
      * @return void
      * @since  1.0.0
      */
-    public function update_custom_fields(string $type, $fields_data = array())
-    {
-        if (empty($type)) return '';
+    public function update_custom_fields( string $type , $fields_data= array() ){
+        if(empty($type)) return '';
         update_option(cwp_get_opt_hook($type), $fields_data);
     }
-
+        
     /**
      * Method get_form
      *
@@ -316,15 +231,14 @@ final class CubeWp_Load
      * @return array
      * @since  1.0.0
      */
-    public function get_form(string $type)
-    {
-        if (empty($type)) return '';
-
-        $form = $this->cubewp_options(self::$prefix . '_' . $type . '_form');
+    public function get_form( string $type ){
+        if(empty($type)) return '';
+        
+        $form = $this->cubewp_options(self::$prefix.'_'.$type.'_form');
         $form =   !empty($form) ? $form  : array();
         return $form;
     }
-
+        
     /**
      * Method update_form
      *
@@ -334,23 +248,21 @@ final class CubeWp_Load
      * @return void
      * @since  1.0.0
      */
-    public function update_form(string $type, $cwp_forms = array())
-    {
-        if (empty($type)) return '';
-        return update_option(self::$prefix . '_' . $type . '_form', $cwp_forms);
+    public function update_form( string $type, $cwp_forms=array() ){
+        if(empty($type)) return '';
+        return update_option(self::$prefix.'_'.$type.'_form', $cwp_forms);
     }
-
+    
     /**
      * cubewp_plugins_loaded action hook to load something on plugin_loaded action.
      * Method on_plugins_loaded
      *
      * @since  1.0.0
      */
-    public function on_plugins_loaded()
-    {
+    public function on_plugins_loaded() {
         do_action('cubewp_loaded');
     }
-
+    
 
     /**
      * Load Localisation files.
@@ -365,8 +277,7 @@ final class CubeWp_Load
      *
      * @since  1.0.0
      */
-    public function load_plugin_textdomain()
-    {
+    public function load_plugin_textdomain() {
         if (function_exists('determine_locale')) {
             $locale = determine_locale();
         } else {
@@ -377,29 +288,28 @@ final class CubeWp_Load
         $locale = apply_filters('plugin_locale', $locale, 'cubewp-framework');
 
         unload_textdomain('cubewp-framework');
-        load_textdomain('cubewp-framework', WP_LANG_DIR . '/plugins/cubewp-framework-' . $locale . '.mo');
-        load_textdomain('cubewp-framework', WP_PLUGIN_DIR . '/cubewp-framework/languages/cubewp-framework-' . $locale . '.mo');
+        load_textdomain('cubewp-framework', WP_LANG_DIR . '/cubewp-framework/cubewp-framework' . $locale . '.mo');
+        load_plugin_textdomain('cubewp-framework', false, plugin_basename(dirname(CWP_PLUGIN_FILE)) . '/languages');
     }
-
+    
     /**
      * What type of request is this?
      *
      * @param  string $type admin, ajax, cron or frontend.
      * @return bool
      */
-    public function is_request($type)
-    {
-        switch ($type) {
-            case 'admin':
-                return is_admin();
-            case 'ajax':
-                return defined('DOING_AJAX');
-            case 'cron':
-                return defined('DOING_CRON');
-            case 'frontend':
-                return (! is_admin() || defined('DOING_AJAX')) && ! defined('DOING_CRON');
-        }
-    }
+    public function is_request( $type ) {
+		switch ( $type ) {
+			case 'admin':
+				return is_admin();
+			case 'ajax':
+				return defined( 'DOING_AJAX' );
+			case 'cron':
+				return defined( 'DOING_CRON' );
+			case 'frontend':
+				return ( ! is_admin() || defined( 'DOING_AJAX' ) ) && ! defined( 'DOING_CRON' );
+		}
+	}
 
     /**
      * Method is_admin_screen
@@ -409,32 +319,31 @@ final class CubeWp_Load
      * @return bool
      * @since  1.0.0
      */
-    public function is_admin_screen($is)
-    {
-        if (self::is_request('admin')):
-            if ($is == 'cubewp' && current_cubewp_page() != null) {
+    public function is_admin_screen($is) {
+        if(self::is_request('admin')):
+        if($is == 'cubewp' && current_cubewp_page() != null ){
+            return true;
+        } else if(current_cubewp_page() == $is){
                 return true;
-            } else if (current_cubewp_page() == $is) {
-                return true;
-            } else {
-                return false;
-            }
+        }else{
+            return false;
+        }
         endif;
-    }
+	}
+    
+    public function plugin_view_info( $plugin_meta, $file, $plugin_data ) {
 
-    public function plugin_view_info($plugin_meta, $file, $plugin_data)
-    {
-
-        if ($file != plugin_basename($this->base)) return $plugin_meta;
+        if ( $file != plugin_basename( $this->base ) ) return $plugin_meta;
         $cwp_plugin_meta = array(
             '<a href="https://cubewp.com/store/" target="_blank">Add-Ons</a>',
             '<a href="https://support.cubewp.com/" target="_blank">CubeWP Documentation</a>',
-            '<a href="https://support.cubewp.com/forums/" target="_blank">CubeWP Community</a>',
+            '<a href="https://support.cubewp.com/forums/forum/community/" target="_blank">CubeWP Community</a>',
             '<a href="https://support.cubewp.com/forums/forum/feedback/" target="_blank">Feedback</a>',
             '<a href="https://www.youtube.com/channel/UCKGX3FHQv7xFylXQZOPOy7w" target="_blank">Video Tutorials</a>',
         );
-        $plugin_meta = array_merge($plugin_meta, $cwp_plugin_meta);
+        $plugin_meta = array_merge($plugin_meta,$cwp_plugin_meta);
 
         return $plugin_meta;
+
     }
 }

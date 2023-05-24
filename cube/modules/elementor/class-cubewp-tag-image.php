@@ -19,6 +19,7 @@ class CubeWp_Tag_Image extends \Elementor\Core\DynamicTags\Data_Tag {
 
 	public function get_categories() {
 		return [
+			\Elementor\Modules\DynamicTags\Module::TEXT_CATEGORY,
 			\Elementor\Modules\DynamicTags\Module::URL_CATEGORY,
 			\Elementor\Modules\DynamicTags\Module::IMAGE_CATEGORY,
 		];
@@ -30,41 +31,22 @@ class CubeWp_Tag_Image extends \Elementor\Core\DynamicTags\Data_Tag {
 
 	public function get_value( $options = array() ){
 		$returnArr = array();
-		$field = $this->get_settings( 'user_selected_field' );
+        $field = $this->get_settings( 'user_selected_field' );
 
 		if ( ! $field ) {
 			return;
 		}
 		$value = get_field_value( $field );
-		if ( ! $value ) {
+        if ( !$value || !is_numeric($value) ) {
 			return;
 		}
-
-		// Normalize to an attachment ID
-		$image_id = 0;
-		if ( is_array( $value ) ) {
-			if ( isset( $value['id'] ) && is_numeric( $value['id'] ) ) {
-				$image_id = (int) $value['id'];
-			}
-		} elseif ( is_numeric( $value ) ) {
-			$image_id = (int) $value;
-		} elseif ( is_string( $value ) && filter_var( $value, FILTER_VALIDATE_URL ) ) {
-			$image_id = attachment_url_to_postid( $value );
-		}
-
-		if ( ! $image_id || ! wp_attachment_is_image( $image_id ) ) {
-			return;
-		}
-		$url  = wp_get_attachment_image_url( $image_id );
-		if ( ! $url ) {
-			return;
-		}
-
-		$returnArr = array(
-			'id'  => (int) $image_id,
-			'url' => $url,
-		);
-
+		$imageID = $value;
+        if($imageID){
+            $returnArr = [
+                'id' =>$imageID,
+                'url' => wp_get_attachment_image_src($imageID, 'full')[0],
+            ]; 
+        }
 		return $returnArr;
 	}
 

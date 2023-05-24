@@ -34,7 +34,6 @@ class CubeWp_Posttype_Custom_Fields_Display extends CubeWp_Custom_Fields_Process
      * @since  1.0.0
      */
     public static function add_new_group() {
-        /* phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.NonceVerification.Missing */
         if(isset($_GET['action']) && ('new' == $_GET['action'] || 'edit' == $_GET['action'])){
             self::edit_group();
         }
@@ -47,7 +46,6 @@ class CubeWp_Posttype_Custom_Fields_Display extends CubeWp_Custom_Fields_Process
      */
     public static function group_display()
     {
-        /* phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.NonceVerification.Missing */
         if (isset($_GET['action']) && ('new' == $_GET['action'] || 'edit' == $_GET['action'])) {
             return;
         }
@@ -63,7 +61,7 @@ class CubeWp_Posttype_Custom_Fields_Display extends CubeWp_Custom_Fields_Process
                     <a class="nav-tab" href="?page=settings-custom-fields"><?php esc_html_e('Settings', 'cubewp-framework'); ?></a>
                 </nav>
             </div>
-            <a href="<?php echo esc_url(CubeWp_Submenu::_page_action('custom-fields', 'new')); ?>" class="page-title-action">+ <?php esc_html_e('Add New', 'cubewp-framework'); ?></a>
+            <a href="<?php echo CubeWp_Submenu::_page_action('custom-fields', 'new'); ?>" class="page-title-action">+ <?php esc_html_e('Add New', 'cubewp-framework'); ?></a>
         </div>
         <hr class="wp-header-end">
         <?php $customFieldsGroupTable->prepare_items(); ?>
@@ -98,15 +96,15 @@ class CubeWp_Posttype_Custom_Fields_Display extends CubeWp_Custom_Fields_Process
         $group = wp_parse_args( $group, $defaults );
         
         ?>
-        <div class="wrap cubewp-wrap">
+        <div class="wrap">
         <form id="post" class="cwpgroup" method="post" action="" enctype="multipart/form-data">
             
             <div class="wrap cwp-post-type-title width-40 margin-bottom-0 margin-left-minus-20  margin-right-0">
-				<?php echo wp_kses_post(self::_title());    ?>
-				<?php echo /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ self::save_button(); ?>
+				<?php echo self::_title();    ?>
+				<?php echo self::save_button(); ?>
 			</div>
 			<hr class="wp-header-end">
-            <input type="hidden" name="cwp_group_nonce" value="<?php echo esc_attr(wp_create_nonce( basename( __FILE__ ) )); ?>">
+            <input type="hidden" name="cwp_group_nonce" value="<?php echo wp_create_nonce( basename( __FILE__ ) ); ?>">
             <input type="hidden" class="" name="cwp[group][id]" value="<?php echo esc_attr($group['id']); ?>">
             <div id="poststuff"  class="padding-0">
             <div id="post-body" class="metabox-holder columns-2">
@@ -123,7 +121,6 @@ class CubeWp_Posttype_Custom_Fields_Display extends CubeWp_Custom_Fields_Process
                                             <td class="text-left">
                                                 <ul class="cwp-checkbox-outer margin-0">
                                                     <?php
-                                                    // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                                                        echo self::get__types($group['types']);
                                                     ?>
                                                 </ul>
@@ -135,7 +132,6 @@ class CubeWp_Posttype_Custom_Fields_Display extends CubeWp_Custom_Fields_Process
                         </div>
                         <div class="custom-fields-conditional-taxonomies-list">
                             <?php
-                                // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                                 echo self::get_taxonomies_by_post_types( $group['types'], $group['terms'] );
                             ?>
                         </div>
@@ -151,7 +147,6 @@ class CubeWp_Posttype_Custom_Fields_Display extends CubeWp_Custom_Fields_Process
                                 <table class="form-table cwp-validation">
                                     <tbody>
                                         <?php
-                                        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                                         echo apply_filters('cubewp/admin/group/text/field', '', array(
                                             'id'             =>    '',
                                             'name'           =>    'cwp[group][name]',
@@ -163,7 +158,6 @@ class CubeWp_Posttype_Custom_Fields_Display extends CubeWp_Custom_Fields_Process
                                             'extra_attrs'    =>    'maxlength=20',
                                             'tooltip'        =>    'Give a name for this group. Which will be used to show grouped data in metaboxes',
                                         ));
-                                        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                                         echo apply_filters('cubewp/admin/group/text/field', '', array(
                                             'id'             =>    '',
                                             'type'           =>    'number',
@@ -176,7 +170,6 @@ class CubeWp_Posttype_Custom_Fields_Display extends CubeWp_Custom_Fields_Process
                                             'extra_attrs'    =>    'maxlength=20',
                                             'tooltip'        =>    'Give a order number for this group. Which will be used to show in order',
                                         ));
-                                        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                                         echo apply_filters('cubewp/admin/group/text/field', '', array(
                                             'id'             =>    '',
                                             'name'           =>    'cwp[group][description]',
@@ -214,13 +207,11 @@ class CubeWp_Posttype_Custom_Fields_Display extends CubeWp_Custom_Fields_Process
                             </div>
                         </div>
                         <div class="cwp-group-fields-content">
-                            <?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-                            echo self::get_fields($group['fields'], $group['sub_fields']); ?>
+                            <?php echo self::get_fields($group['fields'], $group['sub_fields']); ?>
                         </div>
                     </div>
                 </div>
-                <?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-                self::add_new_field_btn(); ?>
+                <?php self::add_new_field_btn(); ?>
                 <div class="clear"></div>
             </div>
             </div>
@@ -234,7 +225,6 @@ class CubeWp_Posttype_Custom_Fields_Display extends CubeWp_Custom_Fields_Process
      * @since 1.0
      */  
     private static function _title() {
-        /* phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.NonceVerification.Missing */
         if (isset($_GET['action']) && ('edit' == $_GET['action'] && !empty($_GET['groupid']))) {
             return '<h1>'. esc_html(__('Edit Custom Fields Group (Post Types)', 'cubewp-framework')) .'</h1>';
         } else {
@@ -249,7 +239,6 @@ class CubeWp_Posttype_Custom_Fields_Display extends CubeWp_Custom_Fields_Process
      * @since  1.0.0
     */
      private static function save_button() {
-        /* phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.NonceVerification.Missing */
         if(isset($_GET['action']) && ('edit' == $_GET['action'] && !empty($_GET['groupid']))){            
             $name = 'cwp_edit_group';
         }else{
@@ -279,7 +268,7 @@ class CubeWp_Posttype_Custom_Fields_Display extends CubeWp_Custom_Fields_Process
             }else{
                 $checked = '';
             }
-            $html .= '<li>';
+            $html .= '<li class="pull-left">';
             $html .= '<input type="checkbox" class="cwp-custom-fields-post-types" name="cwp[group][types][]" '.$checked.' value="'.$type.'">'.$type.' <br>';
             $html .= '</li>';
         }
@@ -294,8 +283,7 @@ class CubeWp_Posttype_Custom_Fields_Display extends CubeWp_Custom_Fields_Process
      */
     public static function cwp_get_taxonomies_by_post_types(){
         check_ajax_referer( 'cubewp_custom_fields_nonce', 'nonce' );
-        $post_types = isset($_POST['post_types']) ? sanitize_text_field(wp_unslash($_POST['post_types'])) : '';
-        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+        $post_types = sanitize_text_field($_POST['post_types']);
         echo self::get_taxonomies_by_post_types( explode(',', $post_types) );
         wp_die();
     }
@@ -319,11 +307,7 @@ class CubeWp_Posttype_Custom_Fields_Display extends CubeWp_Custom_Fields_Process
         if(isset($types) && !empty($types)){
             $taxonomies = get_object_taxonomies( $types, 'objects' );
             foreach($taxonomies as $single){
-                $terms = get_terms(array(
-                    'taxonomy' => $single->name,
-                    'hide_empty' => false,
-                    'parent' => 0,
-                ));
+                $terms = get_terms( $single->name, array('hide_empty' => false, 'parent' => 0 ));
                 if(isset($terms) && !empty($terms)){
              $html .= '<div class="postbox">
                     <div class="postbox-header">

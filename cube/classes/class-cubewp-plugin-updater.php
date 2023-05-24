@@ -6,8 +6,6 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-// phpcs:ignoreFile
-
 /**
  * Allows plugins to use their own update API.
  *
@@ -44,7 +42,6 @@ class CubeWp_Plugin_Updater {
 			$this->purchase_url = $_plugin_update_data[ 'purchase_url' ];
 			$this->plugin_title = $_plugin_update_data[ 'plugin_title' ];
 		}
-		//delete_site_transient('update_plugins');
 		// Set up hooks.
 		$this->init();
 		add_action( 'admin_init', array( $this, 'show_changelog' ) );
@@ -231,30 +228,27 @@ class CubeWp_Plugin_Updater {
 
 	public function show_changelog() {
 
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only use of query vars to render notice; no state change performed.
+
 		if( empty( $_REQUEST['edd_sl_action'] ) || 'view_plugin_changelog' != $_REQUEST['edd_sl_action'] ) {
 			return;
 		}
 
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only use of query vars to render notice; no state change performed.
 		if( empty( $_REQUEST['plugin'] ) ) {
 			return;
 		}
 
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only use of query vars to render notice; no state change performed.
 		if( empty( $_REQUEST['slug'] ) ) {
 			return;
 		}
 
 		if( ! current_user_can( 'update_plugins' ) ) {
-			wp_die( esc_html__( 'You do not have permission to install plugin updates', 'cubewp-framework' ), esc_html__( 'Error', 'cubewp-framework' ), array( 'response' => 403 ) );
+			wp_die( __( 'You do not have permission to install plugin updates', 'edd' ), __( 'Error', 'edd' ), array( 'response' => 403 ) );
 		}
 
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only use of query vars to render notice; no state change performed.
-		$response = $this->api_request( 'plugin_latest_version', array( 'slug' => sanitize_text_field(wp_unslash($_REQUEST['slug'])) ) );
+		$response = $this->api_request( 'plugin_latest_version', array( 'slug' => $_REQUEST['slug'] ) );
 
 		if( $response && isset( $response->sections['changelog'] ) ) {
-			echo '<div style="background:#fff;padding:10px;">' . wp_kses_post($response->sections['changelog']) . '</div>';
+			echo '<div style="background:#fff;padding:10px;">' . $response->sections['changelog'] . '</div>';
 		}
 
 

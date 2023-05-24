@@ -6,8 +6,6 @@
  * @subpackage Importer
  */
 
-// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals
-
 /**
  * WordPress Importer class for managing parsing of WXR files.
  */
@@ -41,8 +39,8 @@ class WXR_Parser {
 				echo esc_html($error[0]) . ':' . esc_html($error[1]) . ' ' . esc_html( $error[2] );
 			}
 			echo '</pre>';
-			echo '<p><strong>' . esc_html__( 'There was an error when reading this WXR file', 'cubewp-framework' ) . '</strong><br />';
-			echo esc_html__( 'Details are shown above. The importer will now try again with a different parser...', 'cubewp-framework' ) . '</p>';
+			echo '<p><strong>' . __( 'There was an error when reading this WXR file', 'cubewp-framework' ) . '</strong><br />';
+			echo __( 'Details are shown above. The importer will now try again with a different parser...', 'cubewp-framework' ) . '</p>';
 		}
 
 		// use regular expressions if nothing else available or this is bad XML
@@ -622,7 +620,6 @@ class WXR_Parser_Regex {
 	function fopen( $filename, $mode = 'r' ) {
 		if ( $this->has_gzip )
 			return gzopen( $filename, $mode );
-		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen -- fallback when FS API is not available
 		return fopen( $filename, $mode );
 	}
 
@@ -641,7 +638,6 @@ class WXR_Parser_Regex {
 	function fclose( $fp ) {
 		if ( $this->has_gzip )
 			return gzclose( $fp );
-		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose -- fallback when FS API is not available
 		return fclose( $fp );
 	}
 }
