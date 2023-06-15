@@ -87,8 +87,11 @@ class CubeWp_Frontend_Gallery_Field extends CubeWp_Frontend {
 				<p></p>
 			</div>
 			<?php
+			$args['not_formatted_value'] = $args['value'];
+			$args['value'] = cwp_handle_data_format( $args );
 			if(isset($args['value']) && !empty($args['value']) && is_array($args['value'])){
 				foreach($args['value'] as $attachment_id){
+					$attachment_id = cwp_get_attachment_id( $attachment_id );
 					$filename = basename(get_attached_file($attachment_id));
 					$fileurl = wp_get_attachment_url($attachment_id);
 					$input_attrs = array(

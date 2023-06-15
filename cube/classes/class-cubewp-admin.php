@@ -397,6 +397,8 @@ class CubeWp_Admin {
             'editor_media'          =>    0,
             'sub_fields'            =>    array(),
             'wrap'                  =>    true,
+            'files_save'            =>    'ids',
+            'files_save_separator'  =>    'array',
         );
         return wp_parse_args($args, $default);
 

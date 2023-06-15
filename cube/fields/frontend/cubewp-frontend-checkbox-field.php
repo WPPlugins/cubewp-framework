@@ -38,6 +38,8 @@ class CubeWp_Frontend_Checkbox_Field extends CubeWp_Frontend {
 
         $args       =  apply_filters( 'cubewp/frontend/field/parametrs', $args );
         $options    =  cwp_convert_choices_to_array($args['options']);
+        $args['not_formatted_value'] = $args['value'];
+        $args['value'] = cwp_handle_data_format( $args );
         $required   = self::cwp_frontend_field_required($args['required']);
         $required   = !empty($required['class']) ? $required['class'] : '';
         $output     = self::cwp_frontend_post_field_container($args);

@@ -22,6 +22,8 @@ trait CubeWp_Single_Page_Trait {
 	 */
 	public static function field_taxonomy($args = array()) {
 		$args['field_size'] = isset($args['field_size']) ? $args['field_size'] : '';
+		$args['not_formatted_value'] = $args['value'];
+		$args['value'] = cwp_handle_data_format( $args );
 		$output = null;
 		if (isset($args['value']) && ! empty($args['value']) && is_array($args['value'])) {
 			$output = '<div class="cwp-cpt-single-category-container cwp-cpt-single-field-container '.esc_attr($args['container_class']).' '.esc_attr($args['field_size']).'">';
@@ -237,12 +239,15 @@ trait CubeWp_Single_Page_Trait {
 
 		$args['field_size'] = isset($args['field_size']) ? $args['field_size'] : '';
 		$output = null;
-		if (is_array($args['value'])) {
+		$args['not_formatted_value'] = $args['value'];
+		$args['value'] = cwp_handle_data_format( $args );
+		if (is_array($args['value']) && ! empty( $args['value'] )) {
 			$gallery_id = $args['id'] ?? wp_rand();
 			$output .= '<div class="cwp-cpt-single-gallery-container cwp-cpt-single-field-container ' . esc_attr($args['container_class']) . ' '.esc_attr($args['field_size']).'">
                 <h4>' . $args['label'] . '</h4>
                 <div class="cwp-cpt-single-gallery ' . $args['class'] . '">';
 				foreach ($args['value'] as $galleryItemID) {
+					$galleryItemID = cwp_get_attachment_id( $galleryItemID );
 					$galleryItemURL     = wp_get_attachment_url($galleryItemID);
 					$galleryItemCaption = wp_get_attachment_caption($galleryItemID);
 					if (empty($galleryItemCaption)) {
@@ -270,6 +275,7 @@ trait CubeWp_Single_Page_Trait {
 	public static function field_file($args = array()) {
         $args['field_size'] = isset($args['field_size']) ? $args['field_size'] : '';
 		$output = null;
+		$args['value'] = cwp_get_attachment_id( $args['value'] );
 		$fileItemURL = wp_get_attachment_url($args['value']);
         if(!empty($fileItemURL)){
 		$output      = '<div class="cwp-cpt-single-file-container cwp-cpt-single-field-container ' . esc_attr($args['container_class']) . ' '.esc_attr($args['field_size']).'">
@@ -317,6 +323,8 @@ trait CubeWp_Single_Page_Trait {
 	public static function field_dropdown($args = array()) {
 		$args['field_size'] = isset($args['field_size']) ? $args['field_size'] : '';
 		$output = null;
+		$args['not_formatted_value'] = $args['value'];
+		$args['value'] = cwp_handle_data_format( $args );
 		if(!empty($args['value'])){
 			$output = '<div class="cwp-cpt-single-switch-dropdown cwp-cpt-single-field-container ' . esc_attr($args['container_class']) . ' '.esc_attr($args['field_size']).'">
 				<h4>' . $args['label'] . '</h4>
@@ -347,6 +355,8 @@ trait CubeWp_Single_Page_Trait {
 		
 		$args['field_size'] = isset($args['field_size']) ? $args['field_size'] : '';
 		$output = null;
+		$args['not_formatted_value'] = $args['value'];
+		$args['value'] = cwp_handle_data_format( $args );
         if (!empty($args['value'])){
 		$output = '<div class="cwp-cpt-single-switch-checkbox cwp-cpt-single-field-container ' . esc_attr($args['container_class']) . ' '.esc_attr($args['field_size']).'">
             <h4>' . $args['label'] . '</h4>';
@@ -519,6 +529,9 @@ trait CubeWp_Single_Page_Trait {
 					$output .= '<div class="cwp-cpt-single-repeating-field-inner">';
 					foreach ($values[$i] as $k => $value) {
 						$field_type = $value['type'];
+						$options = get_field_options( $k );
+						$options['value'] = $value['value'];
+						$value = $options;
 						$value['class'] = isset($value['class']) ? $value['class'] : '';
 						if (method_exists(__CLASS__, 'field_' . $field_type)) {
 							$output .= call_user_func('self::field_' . $field_type, $value);
@@ -546,6 +559,8 @@ trait CubeWp_Single_Page_Trait {
 	public static function field_terms($args = array()) {
 		$args['field_size'] = isset($args['field_size']) ? $args['field_size'] : '';
 		$output = null;
+		$args['not_formatted_value'] = $args['value'];
+		$args['value'] = cwp_handle_data_format( $args );
 		if ((!is_array($args['value']) && isset($args['value']) && !empty($args['value'])) || (is_array($args['value']) && isset($args['value'][0]) && $args['value'][0] != '')) {
 			$output = '<div class="cwp-cpt-single-category-container cwp-cpt-single-field-container '.esc_attr($args['container_class']).' '.esc_attr($args['field_size']).'">';
 			$output .= '<h4>' . $args['label'] . '</h4>';
@@ -589,6 +604,8 @@ trait CubeWp_Single_Page_Trait {
 	public static function field_user($args = array()) {
 		$args['field_size'] = isset($args['field_size']) ? $args['field_size'] : '';
 		$output = null;
+		$args['not_formatted_value'] = $args['value'];
+		$args['value'] = cwp_handle_data_format( $args );
 		$value = '';
 		if (isset($args['value']) && ! empty($args['value'])) {
 			$value = $args['value'];
@@ -633,6 +650,8 @@ trait CubeWp_Single_Page_Trait {
 	public static function field_post($args = array()) {
 		$args['field_size'] = isset($args['field_size']) ? $args['field_size'] : '';
 		$output = null;
+		$args['not_formatted_value'] = $args['value'];
+		$args['value'] = cwp_handle_data_format( $args );
 		$value = '';
 		if (isset($args['value']) && ! empty($args['value'])) {
 			$value = $args['value'];
@@ -669,7 +688,7 @@ trait CubeWp_Single_Page_Trait {
 	public static function field_image($args = array()) {
 		wp_enqueue_script( 'cubewp-pretty-photo' );
 		wp_enqueue_style( 'cubewp-pretty-photo' );
-
+		$args['value'] = cwp_get_attachment_id( $args['value'] );
 		$args['field_size'] = isset($args['field_size']) ? $args['field_size'] : '';
 		$output = null;
         $imageURL     = wp_get_attachment_url($args['value']);

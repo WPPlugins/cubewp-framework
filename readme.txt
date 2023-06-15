@@ -5,7 +5,7 @@ Tags: custom fields, custom post types, custom taxonomies, acf, meta box, custom
 Requires at least: 5.0
 Requires PHP: 7.2
 Tested up to: 6.2
-Stable tag: 1.1.4
+Stable tag: 1.1.5
 License: GPLv2 or later
 
 CubeWP is an end-to-end dynamic content framework for WordPress to help you shrink time and cut cost of development up to 90%.
@@ -300,6 +300,17 @@ To getting started with the plugin, please go to [Documentation](https://support
 
 
 == Changelog ==
+
+= 1.1.5 2023-05-24
+
+* Added: option to change the save format of file, image, gallery, multi dropdown and checkbox.
+* Hook: cubewp/{$post_type}/single/template hook for single page template overwritten by CubeWP.
+* Hook: cubewp/{$post_type}/archive/template hook for archive page template overwritten by CubeWP.
+* Hook: cubewp/{$taxonomy}/archive/template hook for taxonomy page template overwritten by CubeWP.
+* Fixed: issue empty variable added in permalink if multi select dropdown added in search filters.
+* Fixed: issue with multi select dropdown search filters doesn't work with single value.
+* Fixed: notices and warnings.
+
 
 = 1.1.4 2023-05-10
 

@@ -729,6 +729,7 @@ if ( ! function_exists("cwp_render_multi_dropdown_input")) {
 			'value'       => '',
 			'options'     => '',
 			'extra_attrs' => '',
+			'hidden_input' => true,
 		);
 		$attrs       = wp_parse_args($attrs, $defaults);
 		$field_attrs = $attrs['extra_attrs'] ?? '';
@@ -761,7 +762,10 @@ if ( ! function_exists("cwp_render_multi_dropdown_input")) {
 			}
 		}
 		$html .= '</select>';
-		$html .= '<input type="hidden" name="' . $attrs['name'] . '[]" value="">';
+
+		if ( isset( $attrs['hidden_input'] ) && ! empty( $attrs['hidden_input'] ) ) {
+			$html .= '<input type="hidden" name="' . $attrs['name'] . '[]" value="">';
+		}
 		return $html;
 	}
 }

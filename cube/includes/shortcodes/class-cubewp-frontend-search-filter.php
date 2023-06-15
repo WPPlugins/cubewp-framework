@@ -120,7 +120,7 @@ class CubeWp_Frontend_Search_Filter {
             $page_num = '1';
         }
         $output = '<input type="hidden" id="cwp-page-num" name="page_num" value="'.$page_num.'">';
-        if(isset($type)){
+        if(isset($type) && !is_tax()){
             $output .= '<input type="hidden" id="cwp-posttype-name-archive" name="post_type" value="'.$type.'">';
         }
         if(!is_archive()){

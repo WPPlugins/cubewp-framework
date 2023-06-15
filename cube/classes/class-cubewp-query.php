@@ -224,24 +224,16 @@ class CubeWp_Query{
         $args = self::$q_args;
         $meta_key = self::$meta_key;
         $_mKey = $args[$meta_key];
-        if(isset($_mKey) && !empty($_mKey)){
-            $values = explode(',', $_mKey);
-            if((is_array($values) && count($values) == 1)){
-                $meta_query = array(
-                    'key'       => $meta_key,
-                    'value'     => $_mKey,
-                    'compare'   => '=',
+        if ( isset( $_mKey ) && ! empty( $_mKey ) ) {
+            $values = explode( ',', $_mKey );
+            $meta_query = array();
+            $meta_query['relation'] = 'OR';
+            foreach ( $values as $_val ) {
+                $meta_query[] = array(
+                'key'     => $meta_key,
+                'value'   => $_val,
+                'compare' => 'LIKE',
                 );
-            }else{
-                $meta_query = array();
-                $meta_query['relation'] = 'OR';
-                foreach($values as $_val){
-                    $meta_query[] = array(
-                        'key'       => $meta_key,
-                        'value'	    => $_val,
-                        'compare'   => 'LIKE',
-                    );
-                }
             }
             
             self::$meta_query[] = $meta_query;

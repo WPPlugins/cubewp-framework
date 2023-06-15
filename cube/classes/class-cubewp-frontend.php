@@ -140,6 +140,8 @@ class CubeWp_Frontend {
             'extra_attrs'           =>    '',
             'field_size'            =>    '',
             'sub_fields'            =>    array(),
+            'files_save'            =>    'ids',
+            'files_save_separator'  =>    'array',
         );
         return wp_parse_args($args, $default);
 

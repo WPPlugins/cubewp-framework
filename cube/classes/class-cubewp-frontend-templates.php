@@ -65,15 +65,16 @@ class CubeWp_Frontend_Templates {
         if (empty($cwpOptions)) {
             $cwpOptions = get_option('cwpOptions');
         }
+		$return = false;
         $cubewp_ignore_theme_single = (isset($cwpOptions['cubewp_ignore_theme_single']) && ! empty($cwpOptions['cubewp_ignore_theme_single'])) ? $cwpOptions['cubewp_ignore_theme_single'] : 0;
-        if ( $cubewp_ignore_theme_single ) {
-            return false;
+	    $post_type = CubeWp_Frontend::$post_type;
+        if ( ! $cubewp_ignore_theme_single ) {
+	        if (file_exists(get_template_directory() . '/single-' . $post_type . '.php')){
+		        $return = true;
+	        }
         }
-        $post_type = CubeWp_Frontend::$post_type;
-        if (file_exists(get_template_directory() . '/single-' . $post_type . '.php')){
-            return true;
-        }
-        return false;
+
+        return apply_filters( "cubewp/{$post_type}/single/template", $return );
     }
 
     /**
@@ -84,10 +85,11 @@ class CubeWp_Frontend_Templates {
      */
     private function theme_archive_template() {
         $post_type = CubeWp_Frontend::$post_type;
-        if (file_exists(get_template_directory() . '/archive-' . $post_type . '.php')){
-             return true;
-         }
-        return false;
+	    $return = false;
+		if (file_exists(get_template_directory() . '/archive-' . $post_type . '.php')){
+			$return = true;
+        }
+	    return apply_filters( "cubewp/{$post_type}/archive/template", $return );
     }
 
     /**
@@ -98,10 +100,12 @@ class CubeWp_Frontend_Templates {
      */
     private function theme_taxonomy_template() {
         $taxonomy = CubeWp_Frontend::$taxonomy;
+	    $return = false;
         if (file_exists(get_template_directory() . '/taxonomy-' . $taxonomy . '.php')){
-             return true;
-         }
-        return false;
+	        $return = true;
+        }
+
+	    return apply_filters( "cubewp/{$taxonomy}/archive/template", $return );
     }
 
     /**

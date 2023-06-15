@@ -49,6 +49,10 @@ class CubeWp_Frontend_Search_Fields {
         $cwp_search_fields        =   CWP()->get_form('search_fields');
         $this->search_fields      =  isset($cwp_search_fields[$type]['fields']) ? $cwp_search_fields[$type]['fields'] : array();
         
+        if(empty($this->search_fields)){
+            return cwp_alert_ui('Sorry! Search form is empty.');
+        }
+
         $this->form_container_class     =  isset($cwp_search_fields[$type]['form']['form_container_class']) ? $cwp_search_fields[$type]['form']['form_container_class']   : '';
         $this->form_class               =  isset($cwp_search_fields[$type]['form']['form_class'])           ? 'cwp-search-form '.$cwp_search_fields[$type]['form']['form_class'] : 'cwp-search-form';
         $this->form_id                  =  isset($cwp_search_fields[$type]['form']['form_id'])              ? $cwp_search_fields[$type]['form']['form_id']                : 'cwp-search-'.$type;
@@ -61,13 +65,7 @@ class CubeWp_Frontend_Search_Fields {
         wp_enqueue_script( 'cwp-search' );
         wp_enqueue_script('cwp-frontend-fields');
 
-        
-        
-        if(empty($this->search_fields)){
-            return cwp_alert_ui('Sorry! Search form is empty.');
-        }else{
-            return $this->cwp_search_form($params);
-        }
+        return $this->cwp_search_form($params);
     }
         
     /**

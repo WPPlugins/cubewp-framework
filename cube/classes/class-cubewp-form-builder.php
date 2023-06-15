@@ -88,6 +88,7 @@ class CubeWp_Form_Builder {
             'section_description' => '',
             'section_type'        => '',
             'section_class'       => '',
+            'content_switcher'    => '',
             'open_close_class'    => 'close',
             'form_relation'       => '',
             'form_type'           => '',
@@ -230,6 +231,7 @@ class CubeWp_Form_Builder {
                 if ( isset( $field ) && is_array( $field ) ) {
                     $field['form_relation'] = $section['form_relation'];
                     $field['form_type']     = $section['form_type'];
+                    $field['content_switcher']  = $section['content_switcher'];
                     $output .= $this->cwpform_form_field( $field );
                 }
             }

@@ -2245,3 +2245,36 @@ if ( ! function_exists( 'cwp_get_post_card_view' ) ) {
 		return $card_view;
 	}
 }
+
+if ( ! function_exists( 'cwp_get_attachment_id' ) ) {
+    function cwp_get_attachment_id( $value ) {
+       if ( empty( $value ) ) {
+          return false;
+       }
+       if ( ! is_numeric( $value ) ) {
+          return attachment_url_to_postid( $value );
+       }
+
+       return $value;
+    }
+}
+
+if ( ! function_exists( 'cwp_handle_data_format' ) ) {
+    function cwp_handle_data_format( $data ) {
+       $defaults  = array(
+          'value'                => array(),
+          'files_save_separator' => 'array',
+       );
+       $data      = wp_parse_args( $data, $defaults );
+       $value     = $data['value'];
+       $separator = $data['files_save_separator'];
+       if ( empty( $value ) ) {
+          return array();
+       }
+       if ( is_string( $value ) ) {
+          return explode( $separator, $value );
+       }
+
+       return $value;
+    }
+}

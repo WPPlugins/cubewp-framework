@@ -312,7 +312,7 @@ class CubeWp_Post_Types_Custom_Fields_Table extends WP_List_Table{
 
     public function get_group_by_ID($GroupID) {
         $groupType        = get_post_meta($GroupID, '_cwp_group_types');
-        $group['types']   = implode(",",$groupType);
+        $group['types']   = implode(",", array_unique($groupType));
         $groupTerms       = get_post_meta($GroupID, '_cwp_group_terms');
         
         $group_terms = $comma = '';

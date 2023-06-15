@@ -16,7 +16,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 class CubeWp_Search_Ajax_Hooks{
     
     private static $terms = null;
-    private static $map_meta_key = null;
         
     /**
      * Method cwp_search_filters_ajax_content
@@ -44,8 +43,6 @@ class CubeWp_Search_Ajax_Hooks{
         $page_num     =  isset($_DATA['page_num']) ? $_DATA['page_num'] : 1;
         $post_type    =  isset($_DATA['post_type']) ? $_DATA['post_type'] : '';
         $post_per_page = isset($_DATA['posts_per_page']) ? $_DATA['posts_per_page'] : 10;
-
-        self::$map_meta_key = self::cwp_map_meta_key($post_type);
 
         $query = new CubeWp_Query($_DATA);
         $the_query = $query->cubewp_post_query();
@@ -96,9 +93,10 @@ class CubeWp_Search_Ajax_Hooks{
     
     private static function cwp_map_lat_lng($postid=''){
         $Map=array();
-        if(self::$map_meta_key && !empty(self::$map_meta_key) && !empty($postid)){
-            $Lat = get_post_meta($postid, self::$map_meta_key.'_lat', true);
-            $Lng = get_post_meta($postid, self::$map_meta_key.'_lng', true);
+        $map_meta_key = self::cwp_map_meta_key(get_post_type( $postid ));
+        if($map_meta_key && !empty($map_meta_key) && !empty($postid)){
+            $Lat = get_post_meta($postid, $map_meta_key.'_lat', true);
+            $Lng = get_post_meta($postid, $map_meta_key.'_lng', true);
             if(!empty($Lat) && !empty($Lng)){
                 $Map[0] = $Lat;
                 $Map[1] = $Lng;

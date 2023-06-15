@@ -152,6 +152,12 @@ class CubeWp_Sanitize {
         }
         $fieldOptions  = CWP()->get_custom_fields( $fields_of );
         $singleField = isset($fieldOptions[$field]) ? $fieldOptions[$field] : '';
+        if ( empty( $singleField ) ) {
+            $custom_cubes_args = array(
+                'name' => $field
+            );
+            $singleField = apply_filters( 'cubewp/custom/cube/field/options', $custom_cubes_args );
+        }
         $field_type = isset($singleField['type']) ? $singleField['type'] : '';
         
         return $field_type;

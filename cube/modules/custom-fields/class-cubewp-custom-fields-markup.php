@@ -63,6 +63,8 @@ class CubeWp_Custom_Fields_Markup
             'conditional_value' => '',
             'sub_fields' => '',
             'fields_type' => '',
+            'files_save' => 'ids',
+            'files_save_separator' => 'array',
         );
         $FieldData = wp_parse_args($FieldData, $defaults);
         $field_name = !empty($FieldData['label']) ? $FieldData['label'] : esc_html__('Field Label', 'cubewp-framework');
@@ -430,6 +432,45 @@ class CubeWp_Custom_Fields_Markup
             'tr_class' => $trclass,
             'tr_extra_attr' => 'data-not_equal="gallery,repeating_field,switch"',
         );
+        $field_settings['field_files_save'] = array(
+            'label' => esc_html__('Save Format', 'cubewp-framework'),
+            'name' => 'cwp[fields][' . $FieldData['name'] . '][files_save]',
+            'id' => '',
+            'type' => 'dropdown',
+            'options' => array(
+                'ids' => esc_html__("ID's", "cubewp-framework"),
+                'urls' => esc_html__("URLs", "cubewp-framework"),
+            ),
+            'placeholder' => '',
+            'value' => $FieldData['files_save'],
+            'option-class' => 'form-option option',
+            'class' => 'field-files-save',
+            'tr_class' => 'conditional-field',
+            'tr_extra_attr' => 'data-equal="file,image,gallery"',
+            'extra_label' => esc_html__('Save Format', 'cubewp-framework'),
+        );
+        $save_separators = array(
+            'array' => esc_html__("Array", "cubewp-framework"),
+            ',' => esc_html__("String separated by , (Comma)", "cubewp-framework"),
+            '|' => esc_html__("String separated by | (Pipe)", "cubewp-framework"),
+            ':' => esc_html__("String separated by : (Colon)", "cubewp-framework"),
+            ';' => esc_html__("String separated by ; (Semicolon)", "cubewp-framework"),
+        );
+        $save_separators = apply_filters( 'cubewp/custom/field/save/format/separators', $save_separators, $FieldData['files_save_separator'] );
+        $field_settings['field_files_save_separator'] = array(
+            'label' => esc_html__('Save Format Separator', 'cubewp-framework'),
+            'name' => 'cwp[fields][' . $FieldData['name'] . '][files_save_separator]',
+            'id' => '',
+            'type' => 'dropdown',
+            'options' => $save_separators,
+            'placeholder' => '',
+            'option-class' => 'form-option option',
+            'value' => $FieldData['files_save_separator'],
+            'class' => 'field-files-save-separator',
+            'tr_class' => 'conditional-field',
+            'tr_extra_attr' => 'data-equal="gallery,dropdown,checkbox"',
+            'extra_label' => esc_html__('Save Format Separator', 'cubewp-framework'),
+        );
         $field_settings['field_id'] = array(
             'label' => esc_html__('ID', 'cubewp-framework'),
             'name' => 'cwp[fields][' . $FieldData['name'] . '][id]',
@@ -588,6 +629,8 @@ class CubeWp_Custom_Fields_Markup
             'validation_msg' => '',
             'id' => 'cwp_field_' . rand(10000000, 1000000000000),
             'class' => '',
+            'files_save' => 'ids',
+            'files_save_separator' => 'array',
         );
         $FieldData = wp_parse_args($FieldData, $defaults);
         $field_settings = array();
@@ -836,6 +879,45 @@ class CubeWp_Custom_Fields_Markup
             'tr_class' => $trclass,
             'tr_extra_attr' => 'data-not_equal="gallery,repeating_field"',
         );
+        $field_settings['field_files_save'] = array(
+		    'label' => esc_html__('Save Format', 'cubewp-framework'),
+		    'name' => 'cwp[sub_fields][' . $parent_field . '][' . $FieldData['name'] . '][files_save]',
+		    'id' => '',
+		    'type' => 'dropdown',
+		    'options' => array(
+			    'ids' => esc_html__("ID's", "cubewp-framework"),
+			    'urls' => esc_html__("URLs", "cubewp-framework"),
+		    ),
+		    'placeholder' => '',
+		    'value' => $FieldData['files_save'],
+		    'option-class' => 'form-option option',
+		    'class' => 'field-files-save',
+		    'tr_class' => 'conditional-field',
+		    'tr_extra_attr' => 'data-equal="file,image,gallery"',
+		    'extra_label' => esc_html__('Save Format', 'cubewp-framework'),
+	    );
+	    $save_separators = array(
+		    'array' => esc_html__("Array", "cubewp-framework"),
+		    ',' => esc_html__("String separated by , (Comma)", "cubewp-framework"),
+		    '|' => esc_html__("String separated by | (Pipe)", "cubewp-framework"),
+		    ':' => esc_html__("String separated by : (Colon)", "cubewp-framework"),
+		    ';' => esc_html__("String separated by ; (Semicolon)", "cubewp-framework"),
+	    );
+	    $save_separators = apply_filters( 'cubewp/custom/field/save/format/separators', $save_separators, $FieldData['files_save_separator'] );
+	    $field_settings['field_files_save_separator'] = array(
+		    'label' => esc_html__('Save Format Separator', 'cubewp-framework'),
+		    'name' => 'cwp[sub_fields][' . $parent_field . '][' . $FieldData['name'] . '][files_save_separator]',
+		    'id' => '',
+		    'type' => 'dropdown',
+		    'options' => $save_separators,
+		    'placeholder' => '',
+		    'option-class' => 'form-option option',
+		    'value' => $FieldData['files_save_separator'],
+		    'class' => 'field-files-save-separator',
+		    'tr_class' => 'conditional-field',
+		    'tr_extra_attr' => 'data-equal="gallery,dropdown,checkbox"',
+		    'extra_label' => esc_html__('Save Format Separator', 'cubewp-framework'),
+	    );
         $field_settings['field_id'] = array(
             'label' => esc_html__('ID', 'cubewp-framework'),
             'name' => 'cwp[sub_fields][' . $parent_field . '][' . $FieldData['name'] . '][id]',
