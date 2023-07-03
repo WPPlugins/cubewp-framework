@@ -20,7 +20,7 @@ final class CubeWp_Load {
      *
      * @var string
      */
-    public static $CubeWp_version = '1.1.6';
+    public static $CubeWp_version = '1.1.7';
     
     /**
      * Wordpress required version.

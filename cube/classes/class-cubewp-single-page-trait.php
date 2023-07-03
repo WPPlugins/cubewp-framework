@@ -533,6 +533,7 @@ trait CubeWp_Single_Page_Trait {
 						$options['value'] = $value['value'];
 						$value = $options;
 						$value['class'] = isset($value['class']) ? $value['class'] : '';
+						$value['container_class'] = isset($value['container_class']) ? $value['container_class'] : '';
 						if (method_exists(__CLASS__, 'field_' . $field_type)) {
 							$output .= call_user_func('self::field_' . $field_type, $value);
 						} else {

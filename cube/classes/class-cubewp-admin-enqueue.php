@@ -51,7 +51,19 @@ class CubeWp_Admin_Enqueue{
         $private               = get_post_types( [ '_builtin' => false, 'public' => false ] );
         return array_merge( $core, $public, $private );
 	}
-        
+
+	/**
+	 * Method get_cf_types_types
+	 *
+	 * @return void
+	 * * @since  1.0.0
+	 */
+	private static function get_cf_types_types() {
+		$default = array('' => 'Select Post Type');
+        $post_types = get_post_types( [ '_builtin' => false, 'public' => true, 'show_in_menu' => true ] );
+        return array_merge($default,$post_types);
+	}
+
     /**
      * Method get_registered_taxonomies
      *
@@ -152,6 +164,11 @@ class CubeWp_Admin_Enqueue{
 			),
             'cubewp-metaboxes'      => array(
 				'src'     => CWP_PLUGIN_URI . 'cube/assets/admin/js/cubewp-metaboxes.js',
+				'deps'    => array( 'jquery' ),
+				'version' => CUBEWP_VERSION,
+			),
+			'cubewp-block'      => array(
+				'src'     => CWP_PLUGIN_URI . 'cube/assets/admin/js/blocks.js',
 				'deps'    => array( 'jquery' ),
 				'version' => CUBEWP_VERSION,
 			),
@@ -333,12 +350,19 @@ class CubeWp_Admin_Enqueue{
 			$pagenow == 'post.php' || $pagenow == 'post-new.php'
 		)
        {
+			wp_enqueue_media();
 			self::enqueue_style('cubewp-custom-fields');
 			self::enqueue_style('cubewp-metaboxes');
 			self::enqueue_script('cubewp-metaboxes-validation');
 			self::enqueue_script('cubewp-metaboxes');
             
         }
+		if ( $pagenow == 'post.php' || $pagenow == 'post-new.php') {
+			// Enqueue the necessary scripts for the REST API
+			wp_enqueue_script('wp-api');
+			wp_enqueue_script('wp-api-fetch');
+			//self::enqueue_script( 'cubewp-block' );
+		}
         
         if ( $pagenow == 'post.php' || $pagenow == 'post-new.php' || $pagenow == 'user-new.php' || $pagenow == 'user-edit.php' || $pagenow == 'profile.php' ) {
 			self::enqueue_script( 'jquery-ui-datepicker' );
@@ -459,6 +483,12 @@ class CubeWp_Admin_Enqueue{
 					'confirm_remove_relation' =>   esc_html__("Are you sure? You want to remove this relation.", "cubewp-framework"),
 					'remove_relation_nonce'   =>   wp_create_nonce("cubewp_remove_nonce")
 							);
+				break;
+			case 'cubewp-block':
+				$params = array(
+					'cf_post_types'    		 =>   self::get_cf_types_types(),
+					'cf_user_roles'    		 =>   cwp_get_user_roles_name(),
+				);
 				break;
             case 'cubewp-custom-fields':
                 $params = array(

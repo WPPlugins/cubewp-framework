@@ -28,6 +28,10 @@ class CubeWp_Admin {
         
         // Admin functions
         include_once CWP_PLUGIN_PATH . 'cube/functions/admin-functions.php';
+
+        // Block Render
+        include_once CWP_PLUGIN_PATH . 'cube/functions/blocks-render.php';
+
         add_action( 'widgets_init', array( $this, 'CubeWp_register_widgets' ) );
         if (CWP()->is_request('admin')) {
             self::include_fields();

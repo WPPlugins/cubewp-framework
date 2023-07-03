@@ -349,7 +349,7 @@ class CubeWp_Metabox {
                                 $new = $attachment_url;
                             }
                         }
-                        else if ( ( isset( $singleFieldOptions['type'] ) && $singleFieldOptions['type'] == 'dropdown' && $singleFieldOptions['multiple'] ) || ( isset( $singleFieldOptions['type'] ) && $singleFieldOptions['type'] == 'checkbox' ) || ( isset( $singleFieldOptions['appearance'] ) && $singleFieldOptions['appearance'] == 'multi_select' ) ) {
+                        else if ( ( isset( $singleFieldOptions['type'] ) && $singleFieldOptions['type'] == 'dropdown' && ( isset( $singleFieldOptions['multiple'] ) && $singleFieldOptions['multiple'] ) ) || ( isset( $singleFieldOptions['type'] ) && $singleFieldOptions['type'] == 'checkbox' ) || ( isset( $singleFieldOptions['appearance'] ) && $singleFieldOptions['appearance'] == 'multi_select' ) ) {
                             $format_separator = isset( $singleFieldOptions['files_save_separator'] ) && ! empty( $singleFieldOptions['files_save_separator'] ) ? $singleFieldOptions['files_save_separator'] : 'array';
                             if ( $format_separator != 'array' ) {
                                 $new = implode( $format_separator, $new );

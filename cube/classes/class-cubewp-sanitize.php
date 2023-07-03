@@ -425,7 +425,11 @@ class CubeWp_Sanitize {
         // Loop through the input and sanitize each of the values
         foreach ( $input as $key => $val ) {
             $key = sanitize_text_field($key);
-            $new_input[ $key ] = sanitize_text_field( $val );
+            if ( is_array( $val ) ) {
+                $new_input[ $key ] = $this->sanitize_text_array( $val );
+            }else {
+                $new_input[ $key ] = sanitize_text_field( $val );
+            }
         }
 
         return $new_input;

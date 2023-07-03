@@ -59,7 +59,7 @@ class CubeWp_Frontend_Search_Fields {
         $this->search_result_page       =  isset($cwp_search_fields[$type]['form']['search_result_page']) && $cwp_search_fields[$type]['form']['search_result_page'] != 'default' ? get_permalink($cwp_search_fields[$type]['form']['search_result_page'])    : home_url('/');
 
         $this->type = $type;
-        $this->search_type = $cwp_search_fields[$type]['form']['search_result_page'] == 'default' ? 'post_type' : 'search_type';
+        $this->search_type = isset( $cwp_search_fields[$type]['form']['search_result_page'] ) && $cwp_search_fields[$type]['form']['search_result_page'] == 'default' ? 'post_type' : 'search_type';
 
         wp_enqueue_style( 'frontend-fields' );
         wp_enqueue_script( 'cwp-search' );

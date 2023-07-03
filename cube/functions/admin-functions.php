@@ -2300,3 +2300,15 @@ if ( ! function_exists( 'cubewp_delete_attachments_on_post_delete' ) ) {
 
 	add_action('before_delete_post', 'cubewp_delete_attachments_on_post_delete');
 }
+
+function get_any_field_value( $request ) {
+	$field_name  = $request['f_name'];
+	$P_ID        = $request['p_id'];
+	if($request['f_type'] == 'post_custom_fields'){
+		$value = get_post_meta($P_ID, $field_name, true);
+	}elseif($request['f_type'] == 'user_custom_fields'){
+
+		$value = get_user_meta($P_ID, $field_name, true);
+	}
+	return $value;
+}
