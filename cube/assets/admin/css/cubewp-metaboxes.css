@@ -377,3 +377,37 @@ tr.cwp-repeating-field{
 	pointer-events: none;
 	text-decoration: none;
 }
+.cubewp-email-template-shortcodes .cubewp-email-template-shortcode {
+	align-items: flex-start;
+	display: flex;
+	justify-content: center;
+	margin: 0 0 15px 0;
+	padding: 0 0 15px 0;
+	flex-direction: column;
+	border-bottom: 1px solid #c3c4c7;
+}
+.cubewp-email-template-shortcodes .cubewp-email-template-shortcode:last-of-type {
+	margin-bottom: 0;
+	border-bottom: 0;
+	padding-bottom: 0;
+}
+.cubewp-email-template-shortcodes .cubewp-email-template-shortcode .cubewp-email-template-shortcode-label {
+	font-size: 13px;
+	padding: 0 0 0 0;
+	margin: 0 0 5px 0;
+	line-height: 1.4;
+	color: #1d2327;
+	font-weight: 600;
+}
+.cubewp-email-template-shortcodes .cubewp-email-template-shortcode .cubewp-email-template-shortcode-value {
+	margin: 0 0 0 0;
+	width: 100%;
+	background: #f0f0f1;
+	border: 1px solid #c3c4c7;
+	border-radius: 3px;
+	padding: 5px 10px;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	user-select: all;
+}

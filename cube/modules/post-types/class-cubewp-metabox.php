@@ -305,7 +305,7 @@ class CubeWp_Metabox {
                                         }
                                     }
                                     $arr[$field_key][$_key] = $field_val;
-                                } else if ( ( isset( $subFieldOptions['type'] ) && $subFieldOptions['type'] == 'dropdown' && $subFieldOptions['multiple'] ) || ( isset( $subFieldOptions['type'] ) && $subFieldOptions['type'] == 'checkbox' ) ) {
+                                } else if ( ( isset( $subFieldOptions['type'] ) && $subFieldOptions['type'] == 'dropdown' && $subFieldOptions['multiple'] ) || ( isset( $subFieldOptions['type'] ) && $subFieldOptions['type'] == 'checkbox' ) || ( isset( $subFieldOptions['appearance'] ) && $subFieldOptions['appearance'] == 'multi_select' ) ) {
                                     $format_separator = isset( $subFieldOptions['files_save_separator'] ) && ! empty( $subFieldOptions['files_save_separator'] ) ? $subFieldOptions['files_save_separator'] : 'array';
                                     if ( $format_separator != 'array' ) {
                                         $field_val = implode( $format_separator, $field_val );
@@ -349,7 +349,7 @@ class CubeWp_Metabox {
                                 $new = $attachment_url;
                             }
                         }
-                        else if ( ( isset( $singleFieldOptions['type'] ) && $singleFieldOptions['type'] == 'dropdown' && $singleFieldOptions['multiple'] ) || ( isset( $singleFieldOptions['type'] ) && $singleFieldOptions['type'] == 'checkbox' ) ) {
+                        else if ( ( isset( $singleFieldOptions['type'] ) && $singleFieldOptions['type'] == 'dropdown' && $singleFieldOptions['multiple'] ) || ( isset( $singleFieldOptions['type'] ) && $singleFieldOptions['type'] == 'checkbox' ) || ( isset( $singleFieldOptions['appearance'] ) && $singleFieldOptions['appearance'] == 'multi_select' ) ) {
                             $format_separator = isset( $singleFieldOptions['files_save_separator'] ) && ! empty( $singleFieldOptions['files_save_separator'] ) ? $singleFieldOptions['files_save_separator'] : 'array';
                             if ( $format_separator != 'array' ) {
                                 $new = implode( $format_separator, $new );

@@ -5,7 +5,7 @@ Tags: custom fields, custom post types, custom taxonomies, acf, meta box, custom
 Requires at least: 5.0
 Requires PHP: 7.2
 Tested up to: 6.2
-Stable tag: 1.1.5
+Stable tag: 1.1.6
 License: GPLv2 or later
 
 CubeWP is an end-to-end dynamic content framework for WordPress to help you shrink time and cut cost of development up to 90%.
@@ -300,6 +300,17 @@ To getting started with the plugin, please go to [Documentation](https://support
 
 
 == Changelog ==
+
+= 1.1.6 2023-06-15
+
+* Added: New Cube for Excerpt in WordPress default fields
+* Added: An option to fetch currently logged in user's posts in dashboard under field type 'post'
+* Added: An option to limit number of images in field type 'gallery'
+* Added: An option to delete media of a post when post will be removed from the trash
+* Fixed: Character limit option was not working with fields type number
+* Fixed: Warnings and notices
+* Fixed: Value lost of repeating field's google address sub field while editing a post on admin
+* Fixed: Now you use - in post type slug and custom field names.
 
 = 1.1.5 2023-05-24
 

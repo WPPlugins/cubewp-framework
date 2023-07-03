@@ -38,12 +38,14 @@ class CubeWp_Custom_Fields_Markup
             'steps_count' => 1,
             'file_types' => '',
             'upload_size' => '',
+            'max_upload_files' => '',
             'placeholder' => '',
             'editor_media' => 0,
             'filter_post_types' => '',
             'filter_taxonomy' => '',
             'filter_user_roles' => '',
             'appearance' => '',
+            'current_user_posts' => '',
             'options' => '',
             'char_limit' => '',
             'admin_size' => '1/1',
@@ -230,6 +232,17 @@ class CubeWp_Custom_Fields_Markup
             'class' => 'field-file-types',
             'tr_extra_attr' => 'data-equal="gallery,file,image"',
         );
+        $field_settings['field_max_upload_files'] = array(
+            'label' => esc_html__('Max Number Of Images', 'cubewp-framework'),
+            'name' => 'cwp[fields][' . $FieldData['name'] . '][max_upload_files]',
+            'type' => 'text',
+            'id' => '',
+            'placeholder' => esc_html__('Enter Maximum Number of Images Can Upload. EG: 4', 'cubewp-framework'),
+            'value' => $FieldData['max_upload_files'],
+            'tr_class' => 'conditional-field',
+            'class' => 'field-max_upload_files',
+            'tr_extra_attr' => 'data-equal="gallery"',
+        );
         $field_settings['field_placeholder'] = array(
             'label' => esc_html__('Placeholder', 'cubewp-framework'),
             'name' => 'cwp[fields][' . $FieldData['name'] . '][placeholder]',
@@ -261,7 +274,7 @@ class CubeWp_Custom_Fields_Markup
             'tr_class' => 'conditional-field',
             'class' => 'field-char-limit',
             'id' => '',
-            'tr_extra_attr' => 'data-equal="text,textarea,email,url,password"',
+            'tr_extra_attr' => 'data-equal="text,textarea,email,url,password,number"',
         );
         $field_settings['field_multiple_values'] = array(
             'label' => esc_html__('Multiple', 'cubewp-framework'),
@@ -353,6 +366,21 @@ class CubeWp_Custom_Fields_Markup
             'required' => true,
             'validation_msg' => esc_html__('Please select appearance', 'cubewp-framework'),
         );
+        $field_settings['field_current_user_posts'] = array(
+		    'label' => esc_html__('Logged-in User Posts', 'cubewp-framework'),
+		    'name' => 'cwp[fields][' . $FieldData['name'] . '][current_user_posts]',
+		    'value' => '1',
+		    'placeholder' => '',
+		    'type' => 'text',
+		    'checked' => $FieldData['current_user_posts'],
+		    'type_input' => 'checkbox',
+		    'class' => 'field-multiple-checkbox checkbox cwp-switch-check',
+		    'id' => 'field-select-ui-' . str_replace('cwp_field_', '', $FieldData['name']),
+		    'tr_class' => 'conditional-field',
+		    'tr_extra_attr' => 'data-equal="post"',
+		    'extra_label' => esc_html__('LoggedIn User Posts', 'cubewp-framework'),
+		    'tooltip' => "Enable this option if you want to fetch posts which are submitted by currently loggedin user.",
+	    );
         $field_settings['field_select2_ui'] = array(
             'label' => esc_html__('Select2 UI', 'cubewp-framework'),
             'name' => 'cwp[fields][' . $FieldData['name'] . '][select2_ui]',
@@ -617,12 +645,14 @@ class CubeWp_Custom_Fields_Markup
             'placeholder' => '',
             'options' => '',
             'upload_size' => '',
+            'max_upload_files' => '',
             'counter' => 1,
             'char_limit' => '',
             'multiple' => 0,
             'select2_ui' => 0,
             'auto_complete' => 0,
             'filter_post_types' => '',
+            'current_user_posts' => '',
             'file_types' => '',
             'appearance' => '',
             'required' => '',
@@ -743,6 +773,17 @@ class CubeWp_Custom_Fields_Markup
             'class' => 'field-file-types',
             'tr_extra_attr' => 'data-equal="gallery,file,image"',
         );
+        $field_settings['field_max_upload_files'] = array(
+            'label' => esc_html__('Max Number Of Images', 'cubewp-framework'),
+            'name' => 'cwp[sub_fields][' . $parent_field . '][' . $FieldData['name'] . '][max_upload_files]',
+            'type' => 'text',
+            'id' => '',
+            'placeholder' => esc_html__('Enter Maximum Number of Images Can Upload. EG: 4', 'cubewp-framework'),
+            'value' => $FieldData['max_upload_files'],
+            'tr_class' => 'conditional-field',
+            'class' => 'field-max_upload_files',
+            'tr_extra_attr' => 'data-equal="gallery"',
+        );
         $field_settings['field_placeholder'] = array(
             'label' => esc_html__('Placeholder', 'cubewp-framework'),
             'name' => 'cwp[sub_fields][' . $parent_field . '][' . $FieldData['name'] . '][placeholder]',
@@ -773,7 +814,7 @@ class CubeWp_Custom_Fields_Markup
             'tr_class' => 'conditional-field',
             'class' => 'field-char-limit',
             'id' => '',
-            'tr_extra_attr' => 'data-equal="text,textarea,email,url,password"',
+            'tr_extra_attr' => 'data-equal="text,textarea,email,url,password,number"',
         );
         $field_settings['field_multiple_values'] = array(
             'label' => esc_html__('Multiple', 'cubewp-framework'),
@@ -802,6 +843,21 @@ class CubeWp_Custom_Fields_Markup
             'tr_class' => 'conditional-field',
             'tr_extra_attr' => 'data-equal="dropdown,post"',
             'extra_label' => esc_html__('Select2 UI', 'cubewp-framework'),
+        );
+        $field_settings['field_current_user_posts'] = array(
+            'label' => esc_html__('LoggedIn User Posts', 'cubewp-framework'),
+            'name' => 'cwp[sub_fields][' . $parent_field . '][' . $FieldData['name'] . '][current_user_posts]',
+            'value' => '1',
+            'placeholder' => '',
+            'type' => 'text',
+            'checked' => $FieldData['current_user_posts'],
+            'type_input' => 'checkbox',
+            'class' => 'field-multiple-checkbox checkbox cwp-switch-check',
+            'id' => 'field-select-ui-' . str_replace('cwp_field_', '', $FieldData['name']),
+            'tr_class' => 'conditional-field',
+            'tr_extra_attr' => 'data-equal="post"',
+            'extra_label' => esc_html__('LoggedIn User Posts', 'cubewp-framework'),
+            'tooltip' => "Enable this option if you want to fetch posts which are submitted by currently loggedin user.",
         );
         $field_settings['field_autocomplete_ui'] = array(
             'label' => esc_html__('Autocomplete', 'cubewp-framework'),

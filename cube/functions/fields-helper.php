@@ -200,6 +200,13 @@ if ( ! function_exists("cubewp_post_type_default_fields")) {
 				'extra_attrs'     => 'accept="image/png,image/jpg,image/jpeg,image/gif" data-error-msg="' . esc_html__("is not acceptable in this field.", "cubewp-framework") . '"',
 			);
 		}
+		if (post_type_supports($postType, 'excerpt')) {
+            $field['the_excerpt'] = array(
+                'label' => __("Excerpt", "cubewp-framework"),
+                'name'  => 'the_excerpt',
+                'type'  => 'textarea',
+            );
+        }
 
 		return $field;
 	}
@@ -873,7 +880,7 @@ if ( ! function_exists("cubewp_dynamic_options")) {
 		$keyword         = sanitize_text_field($_POST['keyword']);
 		$options         = array();
 		if ( ! empty($dropdown_type) && ! empty($dropdown_values) && ! empty($keyword)) {
-			if ($dropdown_type == 'post') {
+			if ($dropdown_type == 'post' || $dropdown_type == 'user-posts') {
 				$query_args = array(
 					'post_type'      => $dropdown_values,
 					'post_status'    => 'publish',
@@ -881,13 +888,22 @@ if ( ! function_exists("cubewp_dynamic_options")) {
 					'posts_per_page' => - 1,
 					'fields'         => 'ids'
 				);
-				$posts      = get_posts($query_args);
-				if ( ! empty($posts) && is_array($posts)) {
-					foreach ($posts as $post_id) {
-						$options[] = array(
-							"label" => esc_html(get_the_title($post_id)),
-							"value" => $post_id
-						);
+				if ( $dropdown_type == 'user-posts' ) {
+					if ( is_user_logged_in() ) {
+						$query_args['author'] = get_current_user_id();
+					}else {
+						$query_args = array();
+					}
+				}
+				if ( ! empty( $query_args ) ) {
+					$posts      = get_posts($query_args);
+					if ( ! empty($posts) && is_array($posts)) {
+						foreach ($posts as $post_id) {
+							$options[] = array(
+								"label" => esc_html(get_the_title($post_id)),
+								"value" => $post_id
+							);
+						}
 					}
 				}
 			} else if ($dropdown_type == 'user') {

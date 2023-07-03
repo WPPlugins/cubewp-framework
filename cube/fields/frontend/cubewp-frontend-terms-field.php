@@ -454,11 +454,13 @@ class CubeWp_Frontend_Terms_Field extends CubeWp_Frontend {
     private function cwp_sub_terms_dropdown_output_id($args = array()){
         $output = array();
             foreach($args as $k => $v){
-                    $output[$v['term_id']] = $v['term_name'];
-                foreach($v['childern'] as $k2 => $v2){
-                    $output[$v2['term_id']] = '-'.$v2['term_name'];
-                    foreach($v2['childern'] as $k3 => $v3){
-                        $output[$v3['term_id']] = '--'.$v3['term_name'];
+                $output[$v['term_id']] = $v['term_name'];
+                if ( isset( $v['childern'] ) && ! empty( $v['childern'] ) ) {
+                    foreach($v['childern'] as $k2 => $v2){
+                        $output[$v2['term_id']] = '-'.$v2['term_name'];
+                        foreach($v2['childern'] as $k3 => $v3){
+                            $output[$v3['term_id']] = '--'.$v3['term_name'];
+                        }
                     }
                 }
             }

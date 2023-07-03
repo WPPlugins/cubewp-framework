@@ -2210,7 +2210,7 @@ if ( ! function_exists('cwp_handle_attachment')) {
         );
 
         // Save the data
-        $attachment_id = wp_insert_attachment($object, $file);
+        $attachment_id = wp_insert_attachment($object, $file, $post_id);
 
         // Add the meta-data
         wp_update_attachment_metadata( $attachment_id, wp_generate_attachment_metadata( $attachment_id, $file ) );
@@ -2277,4 +2277,26 @@ if ( ! function_exists( 'cwp_handle_data_format' ) ) {
 
        return $value;
     }
+}
+
+if ( ! function_exists( 'cubewp_delete_attachments_on_post_delete' ) ) {
+    function cubewp_delete_attachments_on_post_delete( $post_id ) {
+        global $cwpOptions;
+	    $cwpOptions = ! empty( $cwpOptions ) && is_array( $cwpOptions ) ? $cwpOptions : get_option( 'cwpOptions' );
+	    $is_enabled = isset( $cwpOptions['delete_custom_posts_attachments'] ) && ! empty( $cwpOptions['delete_custom_posts_attachments'] ) ? $cwpOptions['delete_custom_posts_attachments'] : false;
+        if ( $is_enabled ) {
+	        $cubewp_types = CWP_all_post_types( 'delete_attachments' );
+            $post_type = get_post_type( $post_id );
+            if ( isset( $cubewp_types[ $post_type ] ) ) {
+	            $attachments = get_attached_media( '', $post_id );
+                if ( ! empty( $attachments ) && is_array( $attachments ) ) {
+	                foreach ( $attachments as $attachment ) {
+		                wp_delete_attachment( $attachment->ID, true );
+	                }
+                }
+            }
+        }
+    }
+
+	add_action('before_delete_post', 'cubewp_delete_attachments_on_post_delete');
 }

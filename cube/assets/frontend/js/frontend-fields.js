@@ -413,18 +413,25 @@ function cubewp_process_input_type_file($this, handle_as, $callbackFunction = ()
 }) {
     var files = $this.prop('files'), sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'], type_compare = Array(),
         allowed_image_types = Array('image/png', 'image/jpg', 'image/gif', 'image/jpeg'),
-        allowed_file_types = Array('application/gzip', 'text/calendar', 'application/pdf', 'text/plain', 'application/zip', 'application/x-7z-compressed', 'application/x-zip-compressed', 'multipart/x-zip', 'application/x-compressed');
+        allowed_file_types = Array('application/gzip', 'text/calendar', 'application/pdf', 'text/plain', 'application/zip', 'application/x-7z-compressed', 'application/x-zip-compressed', 'multipart/x-zip', 'application/x-compressed'),
+        max_allowed_images = $this.closest('.cwp-gallery-field').attr('data-max-files'),
+        files_count = files.length;
     if (handle_as === 'image') {
         type_compare = allowed_image_types;
     } else if (handle_as === 'file') {
         type_compare = allowed_file_types;
+    }
+    files_count += $this.closest('.cwp-gallery-field-container').find('.cwp-gallery-field-preview.cloned').length;
+    if ( files_count > max_allowed_images ) {
+        alert(cwp_frontend_fields_params.max_upload_files);
+        return false;
     }
     for (var files_counter = 0; files_counter < files.length; files_counter++) {
         (function (file_index) {
             var file = files[file_index], fileType = file["type"], fileName = file["name"], fileSize = file["size"],
                 i = parseInt(Math.floor(Math.log(fileSize) / Math.log(1024))), previewTempUrl = null,
                 file_size = (fileSize / 1024 / 1024).toFixed(2),
-                allowed_file_size = $this.attr('data-max-upload');
+                allowed_file_size = $this.closest('.cwp-gallery-field').attr('data-max-upload');
             fileSize = Math.round(fileSize / Math.pow(1024, i), 2) + ' ' + sizes[i];
             if ( file_size > allowed_file_size ) {
                 alert(cwp_frontend_fields_params.max_upload_size);

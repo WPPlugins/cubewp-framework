@@ -284,7 +284,7 @@ class CubeWp_Single_Cpt {
      */
     public static function get_single_meta_value($meta_key='',$field_type=''){
         
-        if($meta_key == 'the_title' || $meta_key == 'the_content' || $meta_key == 'featured_image'){
+        if($meta_key == 'the_title' || $meta_key == 'the_content' || $meta_key == 'the_excerpt' || $meta_key == 'featured_image'){
             return '';
         }elseif($field_type == 'taxonomy'){
             $value = get_the_terms( self::$post_id, $meta_key );

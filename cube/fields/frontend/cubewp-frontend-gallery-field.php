@@ -41,7 +41,15 @@ class CubeWp_Frontend_Gallery_Field extends CubeWp_Frontend {
 		ob_start();
 		?>
 		<div class="cwp-gallery-field-container">
-			<div class="cwp-gallery-field">
+			<div class="cwp-gallery-field"
+				<?php
+				if (isset($args["upload_size"]) && !empty($args["upload_size"]) && is_numeric($args["upload_size"])) {
+					echo ' data-max-upload="' . esc_attr( $args["upload_size"] ) . '"';
+				}
+				if (isset($args["max_upload_files"]) && !empty($args["max_upload_files"]) && is_numeric($args["max_upload_files"])) {
+					echo ' data-max-files="' . esc_attr( $args["max_upload_files"] ) . '"';
+				}
+				?>>
                 <span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
                         <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
@@ -70,9 +78,6 @@ class CubeWp_Frontend_Gallery_Field extends CubeWp_Frontend {
 						'value'       => '',
 						'extra_attrs' => $accept . ' multiple="multiple"',
 					);
-					if (isset($args["upload_size"]) && !empty($args["upload_size"]) && is_numeric($args["upload_size"])) {
-						$input_attrs['extra_attrs'] .= ' data-max-upload="' . esc_attr( $args["upload_size"] ) . '"';
-					}
 					echo cwp_render_file_input($input_attrs);
 					?>
 				</div>

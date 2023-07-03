@@ -91,15 +91,7 @@ class CubeWp_Add_Ons {
                 'base' => 'cubewp-addon-claim/cubewp-claim.php',
                 'path' => plugin_dir_path( dirname(dirname(__DIR__)) ).'cubewp-addon-claim/cube/',
                 'load' => CUBEWP.'_Claim_Load',
-            ),
-            'cubewp-addon-wallet' => array(
-                'item_name' => 'CubeWP Wallet',
-                'slug' => 'cubewp-addon-wallet',
-                'author' => 'Emraan Cheema',
-                'base' => 'cubewp-addon-wallet/cubewp-wallet.php',
-                'path' => plugin_dir_path( dirname(dirname(__DIR__)) ).'cubewp-addon-wallet/cube/',
-                'load' => CUBEWP.'_Wallet_Load',
-            ),
+			),
             'cubewp-addon-social-logins' => array(
                 'item_name' => 'CubeWP Social Logins',
                 'slug' => 'cubewp-addon-social-logins',

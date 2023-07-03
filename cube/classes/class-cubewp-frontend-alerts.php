@@ -50,7 +50,7 @@ class CubeWp_Frontend_Alerts{
         if ($user_id == $author_id) {
             $post_type = get_post_type($post_id);
 	        $submit_edit_page = isset($cwpOptions['submit_edit_page'][$post_type]) ? $cwpOptions['submit_edit_page'][$post_type] : '';
-	        $post_admin_approved  =  isset($cwpOptions['post_admin_approved']) ? $cwpOptions['post_admin_approved'] : '';
+	        $post_admin_approved  =  isset($cwpOptions['post_admin_approved'][ $post_type ]) ? $cwpOptions['post_admin_approved'][ $post_type ] : 'pending';
 	        $paid_submission      =  isset($cwpOptions['paid_submission']) ? $cwpOptions['paid_submission'] : '';
 	        $postStatus           =  get_post_status($post_id);
 	        $plan_id              =  get_post_meta($post_id, 'plan_id', true);

@@ -391,6 +391,7 @@ class CubeWp_Admin {
             'conditional_field'     =>    '',
             'conditional_operator'  =>    '',
             'conditional_value'     =>    '',
+            'current_user_posts'    =>    0,
             'char_limit'            =>    '',
             'multiple'              =>    0,
             'select2_ui'            =>    0,
