@@ -1141,24 +1141,6 @@
         }
     }
 
-    /*CubeWp Appsumo Promotion*/
-.cubewp-appsumo-video-promotion {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 25px;
-    position: relative;
-    background: #FFFFFF;
-    box-shadow: 0px 3px 6px #00000029;
-    opacity: 1;
-    border-radius: 12px;
-    overflow: hidden;
-}
-
-.cubewp-appsumo-video-promotion iframe {
-    width: 100%;
-    min-height: 250px;
-}
-
     /* new content box  */
     
     .cwp-welcome-sidebar-box {

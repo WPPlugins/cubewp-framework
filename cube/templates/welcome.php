@@ -406,11 +406,11 @@ if( $current_user->user_firstname ){
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
                             <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
                         </svg>
-                        <h5>Interducing 1st Wordpress Theme Powerd by CubeWP Framework</h5>
+                        <h5>Introducing 1st WordPress Theme Powered by CubeWP Framework</h5>
                     </div>
                     <div class="cwp-welcome-box-content">
-                        <h2>Classified Wordpress Theme</h2>
-                        <p>ClassifiedPro is a multi-purpos ReCommerce Classified Ads Wordpress Theme, That enables you to create your own online workplace in just a few clicks. whether users are looking to sell used goods or new, ClassifiedPro is your best Choice.</p>
+                    <h2>Classified WordPress Theme</h2>
+                    <p>ClassifiedPro is a multipurpose ReCommerce Classified Ads WordPress Theme, That enables you to create your own online workplace in just a few clicks. whether users are looking to sell used goods or new, ClassifiedPro is your best Choice.</p>
                         <div class="cwp-learmore-addons">
                             <a target="_blank" href="https://themeforest.net/item/classifiedpro-recommerce-classified-wordpress-theme/44528010?s_rank=1">Learn More</a>
                         </div>
@@ -418,9 +418,6 @@ if( $current_user->user_firstname ){
                     <div class="cwp-welcome-box-logo">
                         <img src="<?php echo CWP_PLUGIN_URI . 'cube/assets/admin/images/classifiedpro.png'; ?>" alt="" />
                     </div>
-                </div>
-                <div class="cubewp-appsumo-video-promotion">
-                    <iframe  src="https://www.youtube.com/embed/mlbceEL1CVo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                 </div>
                 <div class="cwp-welcome-row">
                     <div class="cwp-welcome-col-md-12 margin-bottom-10 ">

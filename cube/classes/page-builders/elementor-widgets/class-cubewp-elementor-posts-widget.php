@@ -251,6 +251,7 @@ class CubeWp_Elementor_Posts_Widget extends Widget_Base {
 	protected function render() {
 		$settings   = $this->get_settings_for_display();
 		$taxonomies = isset($settings[ 'taxonomy-' . $settings['posttype'] ]) ? $settings[ 'taxonomy-' . $settings['posttype'] ]: array();
+		$post_in = isset( $settings[ $settings['posttype'] . '_post__in' ] ) ? $settings[ $settings['posttype'] . '_post__in' ] : array();
 		$args = array(
 			'posttype'       => $settings['posttype'],
 			'taxonomy'       => $taxonomies,
@@ -259,7 +260,7 @@ class CubeWp_Elementor_Posts_Widget extends Widget_Base {
 			'posts_per_page' => $settings['posts_per_page'],
 			'layout'         => $settings['layout'],
 			'column_per_row' => $settings['column_per_row'],
-			'post__in'       => $settings[ $settings['posttype'] . '_post__in' ]
+			'post__in'       => $post_in,
 		);
 		if(class_exists('CubeWp_Booster_Load')){
             $args['show_boosted_posts'] = $settings['show_boosted_posts'];

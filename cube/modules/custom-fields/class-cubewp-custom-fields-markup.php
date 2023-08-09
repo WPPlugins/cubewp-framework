@@ -28,7 +28,7 @@ class CubeWp_Custom_Fields_Markup
     {
         $defaults = array(
             'label' => '',
-            'name' => 'cwp_field_' . rand(10000000, 1000000000000),
+            'name' => 'cwp_field_' . rand( (int) 10000000, (int) 1000000000000 ),
             'type' => '',
             'description' => '',
             'map_use' => '',
@@ -45,6 +45,7 @@ class CubeWp_Custom_Fields_Markup
             'filter_taxonomy' => '',
             'filter_user_roles' => '',
             'appearance' => '',
+            'rel_attr' => 'do-follow',
             'current_user_posts' => '',
             'options' => '',
             'char_limit' => '',
@@ -56,7 +57,7 @@ class CubeWp_Custom_Fields_Markup
             'relationship' => 0,
             'rest_api' => 0,
             'validation_msg' => '',
-            'id' => 'cwp_field_' . rand(10000000, 1000000000000),
+            'id' => 'cwp_field_' . rand( (int) 10000000, (int) 1000000000000 ),
             'class' => '',
             'container_class' => '',
             'conditional' => '',
@@ -347,6 +348,25 @@ class CubeWp_Custom_Fields_Markup
             'tr_class' => 'conditional-field',
             'tr_extra_attr' => 'data-equal="user"',
         );
+        $field_settings['field_rel_attr'] = array(
+		    'label' => esc_html__('Link Behavior', 'cubewp-framework'),
+		    'name' => 'cwp[fields][' . $FieldData['name'] . '][rel_attr]',
+		    'type' => 'dropdown',
+		    'id' => 'field-rel_attr-' . str_replace('cwp_field_', '', $FieldData['name']),
+		    'options' => array(
+			    'do-follow' => __('Follow (Search engines will follow the link)', 'cubewp-framework'),
+			    'nofollow' => __('No Follow (Instructs search engines not to follow the link)', 'cubewp-framework'),
+			    'external' => __('External (Indicates that the linked document is located on a different website)', 'cubewp-framework'),
+		    ),
+		    'value' => $FieldData['rel_attr'],
+		    'placeholder' => '',
+		    'option-class' => 'form-option option',
+		    'class' => 'field-rel_attr',
+		    'tr_class' => 'conditional-field',
+		    'tr_extra_attr' => 'data-equal="url"',
+		    'required' => true,
+		    'validation_msg' => esc_html__('Please select link behavior', 'cubewp-framework'),
+	    );
         $field_settings['field_appearance'] = array(
             'label' => esc_html__('Field Appearance', 'cubewp-framework'),
             'name' => 'cwp[fields][' . $FieldData['name'] . '][appearance]',
@@ -649,6 +669,7 @@ class CubeWp_Custom_Fields_Markup
             'counter' => 1,
             'char_limit' => '',
             'multiple' => 0,
+            'rel_attr' => 'do-follow',
             'select2_ui' => 0,
             'auto_complete' => 0,
             'filter_post_types' => '',
@@ -904,6 +925,23 @@ class CubeWp_Custom_Fields_Markup
             'class' => 'field-appearance',
             'tr_class' => 'conditional-field',
             'tr_extra_attr' => 'data-equal="post"',
+        );
+        $field_settings['field_rel_attr'] = array(
+            'label' => esc_html__('Link Behavior', 'cubewp-framework'),
+            'name' => 'cwp[sub_fields][' . $parent_field . '][' . $FieldData['name'] . '][rel_attr]',
+            'type' => 'dropdown',
+            'id' => '',
+            'options' => array(
+	            'do-follow' => __('Follow (Search engines will follow the link)', 'cubewp-framework'),
+	            'nofollow' => __('No Follow (Instructs search engines not to follow the link)', 'cubewp-framework'),
+	            'external' => __('External (Indicates that the linked document is located on a different website)', 'cubewp-framework'),
+            ),
+            'value' => $FieldData['rel_attr'],
+            'placeholder' => '',
+            'option-class' => 'form-option option',
+            'class' => 'field-rel_attr',
+            'tr_class' => 'conditional-field',
+            'tr_extra_attr' => 'data-equal="url"',
         );
         $field_settings['field_validation'] = array(
             'label' => esc_html__('Validation', 'cubewp-framework'),

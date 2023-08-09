@@ -42,7 +42,7 @@ $settings['general-settings'] = array(
 		array(
 			'id'      => 'delete_custom_posts_attachments',
 			'type'    => 'switch',
-			'title'   => __( 'Delete attachments upon post deletion', 'cubewp-framework' ),
+			'title'   => __( 'Delete Attachments Upon Post Deletion', 'cubewp-framework' ),
 			'desc'    => __( 'Enable this option if you wish to delete post attachments along with the post when you delete it from the trash.', 'cubewp-framework' ),
 			'default' => '0',
 		),

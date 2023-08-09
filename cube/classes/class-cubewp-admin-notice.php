@@ -110,12 +110,6 @@ class CubeWp_Admin_Notice {
 					<li><a href="' . admin_url( 'admin.php?page=cubewp-settings' ) . '"><span class="dashicons dashicons-admin-settings"></span>Settings</a></li>
 				</ul> 
 			</div>';
-			if( !class_exists('CubeWp_Frontend_Load') ){
-				$notice_ui .= '
-				<div class="float-right cwp-update-plugin-btn">
-					<a target="_blank" href="https://appsumo.com/products/cubewp/"><span class="dashicons dashicons-lock"></span>' . esc_attr__( 'AppSumo Lifetime Deal | $49', 'cubewp-framework' ) . '</a>
-				</div>';
-			}
 			$notice_ui .= '
 			<div class="cwp-title-menu float-right">
 				<ul>
@@ -180,50 +174,6 @@ class CubeWp_Admin_Notice {
 				$notice_ui .= '</p>';
 				$notice_ui .= '<a class="notice-dismiss" style="display: flex;justify-content: center;align-items: center;">' . esc_html__( 'Maybe Later.', 'cubewp-framework' ) . '</a>';
 				$notice_ui .= '</div>';
-			}
-		}
-		if ( ! class_exists( 'CubeWp_Frontend_Load' ) && ! class_exists( 'CubeWp_Classified_Load' ) ) {
-			if ( ! isset( $_COOKIE['cubewp-appsumo-promotion-notice'] ) && CWP()->is_admin_screen( 'cubewp' ) ) {
-				$notice_ui .= '<div class="cubewp-notice cubewp-appsumo-notice notice is-dismissible" data-notice="cubewp-appsumo-promotion-notice">
-					<a href="https://appsumo.com/products/cubewp" target="_blank">
-					<div class="cubewp-appsumo-notice-container">
-						<div class="cwp-promotion-display-col">
-							<div class="cwp-appsumo-notice-image">
-								<img src="' . CWP_PLUGIN_URI . '/cube/assets/admin/images/appsumo/appsumo-promotion.png" alt="image" />
-							</div>
-						</div>
-						<div class="cwp-promotion-display-col">
-							<div class="cwp-appsumo-notice-logos">
-								<img src="' . CWP_PLUGIN_URI . '/cube/assets/admin/images/CubeWP-light-logo.png" alt="image" />
-								<img src="' . CWP_PLUGIN_URI . '/cube/assets/admin/images/appsumo/appsumo.png" alt="image" />
-							</div>
-						</div>
-						<div class="cwp-promotion-display-col-70">
-							<div class="cube-notice-addons-list">
-								<ul class="cube-addons-list">
-									<li><span class="dashicons dashicons-yes"></span>Lifetime all access</li>
-									<li><span class="dashicons dashicons-yes"></span>All future add-ons</li>
-									<li><span class="dashicons dashicons-yes"></span>GDPR complaint</li>
-									<li><span class="dashicons dashicons-yes"></span>CubeWP Frontend Pro</li>
-									<li><span class="dashicons dashicons-yes"></span>CubeWP Payments</li>
-									<li><span class="dashicons dashicons-yes"></span>CubeWP inbox</li>
-									<li><span class="dashicons dashicons-yes"></span>CubeWP Reviews</li>
-									<li><span class="dashicons dashicons-yes"></span>CubeWP Booster</li>
-									<li><span class="dashicons dashicons-yes"></span>Plus, a lot More...</li>
-								</ul>
-							</div>
-						</div>
-						<div class="cwp-promotion-display-col">
-							<div class="cwp-appsumo-notice-promotion-price">
-								<div class="cwp-appsumo-notice-price">
-									<p>$49<span>/lifetime</span></p>
-								</div>
-								<img src="' . CWP_PLUGIN_URI . '/cube/assets/admin/images/appsumo/buyers-protection.png" alt="image" />
-							</div>
-						</div>
-					</div>
-					</a>
-				</div>';
 			}
 		}
         self::cubewp_remove_notices_permanently();

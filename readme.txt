@@ -5,8 +5,7 @@ Tags: custom fields, custom post types, custom taxonomies, acf, meta box, custom
 Requires at least: 5.0
 Requires PHP: 7.2
 Tested up to: 6.2
-Stable tag: 1.1.6
-Beta tag: 1.0.7-beta1
+Stable tag: 1.1.7
 License: GPLv2 or later
 
 CubeWP is an end-to-end dynamic content framework for WordPress to help you shrink time and cut cost of development up to 90%.
@@ -301,6 +300,15 @@ To getting started with the plugin, please go to [Documentation](https://support
 
 
 == Changelog ==
+
+= 1.1.7 2023-07-13
+
+* Fixed:  If New Post Submitted From Admin Dashboard Then New Post Emails Was Not Working
+* Fixed:  Hide Email Templets for subscriber roles
+* Fixed:  Google Address issue in Repeating Field
+* Fixed:  Notices and Warnings
+* Tweaks: UI/UX Improvements
+* Tweaks: Typography
 
 = 1.1.7-beta1 2023-07-03
 
