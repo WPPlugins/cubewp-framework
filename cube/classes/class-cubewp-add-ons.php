@@ -39,7 +39,7 @@ class CubeWp_Add_Ons {
 	/**
 	 * all Add ons
 	 * @since 1.0
-	 * @version 1.0
+	 * @version 1.1.8
 	 */
 	public static function cubewp_add_ons() {
 
@@ -107,6 +107,14 @@ class CubeWp_Add_Ons {
                 'base' => 'cubewp-addon-classified/cubewp-classified.php',
                 'path' => plugin_dir_path( dirname(dirname(__DIR__)) ).'cubewp-addon-classified/cube/',
                 'load' => CUBEWP.'_Classified_Load',
+            ),
+			'cubewp-addon-booking' => array(
+                'item_name' => 'CubeWP Booking',
+                'slug' => 'cubewp-addon-booking',
+                'author' => 'Emraan Cheema',
+                'base' => 'cubewp-addon-booking/cubewp-booking.php',
+                'path' => plugin_dir_path( dirname(dirname(__DIR__)) ).'cubewp-addon-booking/cube/',
+                'load' => CUBEWP.'_Booking_Load',
             )
 		);
 
