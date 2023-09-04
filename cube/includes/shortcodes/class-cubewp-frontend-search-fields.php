@@ -20,7 +20,8 @@ class CubeWp_Frontend_Search_Fields {
     private $search_result_page;
     private $search_type;
     private $custom_fields;
-    private $search_fields;
+    private $form_id;
+	private $search_fields;
     
     public function __construct() {
         add_shortcode('cwpSearch', array($this, 'cwp_search'));

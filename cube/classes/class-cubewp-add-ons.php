@@ -247,7 +247,7 @@ class CubeWp_Add_Ons {
             $base = $add_on['base'];
             $Lkey = CWP()->cubewp_options($slug.'_key');
             $Lstatus = CWP()->cubewp_options($slug.'-status');
-            if($Lkey){
+            if($Lkey && is_plugin_active($base) ){
                 $plugin = get_plugin_data( plugin_dir_path( dirname(dirname(__DIR__)) ).$base, false, false );
                 // setup the updater
                 new CubeWp_Plugin_Updater( $this->route, $base, array(

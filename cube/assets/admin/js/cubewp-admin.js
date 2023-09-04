@@ -115,7 +115,9 @@ jQuery(document).ready(function () {
         });
         jQuery(document).on('click', '.cwp_import_demo', function(e) {
             e.preventDefault();
-            if ( confirm('Are You Sure?') ) {
+            if (confirm("Are you sure you want to proceed?\n\nNote: If you are importing the demo on an existing website, you may need to reset the WordPress Installation or remove existing pages to avoid conflicts.")) {
+                jQuery(this).append('<div class="loader"></div>');
+                jQuery(this).addClass('processing');
                 jQuery(this).prop( "disabled", 1 );
                 jQuery.ajax({
                     type: 'POST',

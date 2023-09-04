@@ -412,7 +412,7 @@ function cubewp_process_input_type_file($this, handle_as, $callbackFunction = ()
 }, $typeErrorFunction = () => {
 }) {
     var files = $this.prop('files'), sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'], type_compare = Array(),
-        allowed_image_types = Array('image/png', 'image/jpg', 'image/gif', 'image/jpeg'),
+        allowed_image_types = Array('image/png', 'image/jpg', 'image/gif', 'image/jpeg', 'image/webp'),
         allowed_file_types = Array('application/gzip', 'text/calendar', 'application/pdf', 'text/plain', 'application/zip', 'application/x-7z-compressed', 'application/x-zip-compressed', 'multipart/x-zip', 'application/x-compressed'),
         max_allowed_images = $this.closest('.cwp-gallery-field').attr('data-max-files'),
         files_count = files.length;

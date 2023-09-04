@@ -197,7 +197,7 @@ if ( ! function_exists("cubewp_post_type_default_fields")) {
 				'name'            => 'featured_image',
 				'type'            => 'file',
 				'container_class' => 'cubewp-have-image-field',
-				'extra_attrs'     => 'accept="image/png,image/jpg,image/jpeg,image/gif" data-error-msg="' . esc_html__("is not acceptable in this field.", "cubewp-framework") . '"',
+				'extra_attrs'     => 'accept="image/png,image/jpg,image/jpeg,image/gif,image/webp" data-error-msg="' . esc_html__("is not acceptable in this field.", "cubewp-framework") . '"',
 			);
 		}
 		if (post_type_supports($postType, 'excerpt')) {

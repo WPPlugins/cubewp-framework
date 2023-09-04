@@ -33,7 +33,7 @@ class CubeWp_Frontend_Post_Field extends CubeWp_Frontend {
 	 */
 	public function render_post_field($output = '', $args = array()) {
 		$args = apply_filters('cubewp/frontend/field/parametrs', $args);
-		if (is_singular($args['filter_post_types'])) {
+		if ( isset($args['filter_post_types']) && is_singular($args['filter_post_types'])) {
 			$args['value'] = get_the_ID();
 		}
 
