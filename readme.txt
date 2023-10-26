@@ -3,9 +3,9 @@ Contributors: cubewp1211, teamcubewp
 Donate link: NA
 Tags: custom fields, custom post types, custom taxonomies, acf, meta box, custom field, post type, taxonomy, meta, custom, field, file, image, post types, post, simple fields, text, textarea, type, advanced custom fields, custom post type, custom taxonomy, clone fields, forms, maps, relationship, repeatable fields, conditional fields, acf, fields, meta, postmeta, repeater, content types, pods, crocoblock, metabox, toolset, jetengine
 Requires at least: 5.0
-Requires PHP: 7.2
-Tested up to: 6.2
-Stable tag: 1.1.9
+Requires PHP: 7.4
+Tested up to: 6.3.1
+Stable tag: 1.1.10
 License: GPLv2 or later
 
 CubeWP is an end-to-end dynamic content framework for WordPress to help you shrink time and cut cost of development up to 90%.
@@ -300,6 +300,14 @@ To getting started with the plugin, please go to [Documentation](https://support
 
 
 == Changelog ==
+
+= 1.1.10 2023-09-01
+
+* Fixed: Fields load via Ajax in All Form Builders.
+* Fixed: Character limit not working with number fields.
+* Fixed: Unable to add sub fields in Repeating field when Gutenberg is active.
+* Tweaks: Few warnings and notices.
+* Tweaks: Compatibility with PHP 8.2.
 
 = 1.1.9 2023-08-17
 * Added:  webp Image Format Support

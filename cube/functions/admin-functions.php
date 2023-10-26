@@ -1033,6 +1033,9 @@ if ( ! function_exists("get_field_value")) {
 				return esc_html__("Please select preview post from the settings below and reload.", "cubewp-framework");
 			}
 		}
+		if ( ! $postID ) {
+			$postID = get_the_ID();
+		}
 	   	if ($postID != 0 && !CubeWp_Frontend::is_cubewp_single() ) {
 			CubeWp_Single_Cpt::$post_id = $postID;
 	   	}
@@ -1794,62 +1797,72 @@ if ( ! function_exists('Builder_field_size_to_text')) {
 if ( ! function_exists("cubewp_user_default_fields")) {
 	function cubewp_user_default_fields() {
 		$wp_default_fields = array(
-			'user_login'   => array(
-				'label'    => __("Username", "cubewp-framework"),
-				'name'     => 'user_login',
-				'type'     => 'text',
-				'required' => 1,
-			),
-			'user_email'   => array(
-				'label'    => __("Email", "cubewp-framework"),
-				'name'     => 'user_email',
-				'type'     => 'email',
-				'required' => 1,
-			),
-			'user_pass'    => array(
-				'label'    => __("Password", "cubewp-framework"),
-				'name'     => 'user_pass',
-				'type'     => 'password',
-				'required' => 0,
-			),
-			'confirm_pass' => array(
-				'label'    => __("Confirm Password", "cubewp-framework"),
-				'name'     => 'confirm_pass',
-				'type'     => 'password',
-				'required' => 1,
-			),
-			'user_url'     => array(
-				'label' => __("Website", "cubewp-framework"),
-				'name'  => 'user_url',
-				'type'  => 'url',
-			),
-			'display_name' => array(
-				'label' => __("Display Name", "cubewp-framework"),
-				'name'  => 'display_name',
-				'type'  => 'text',
-			),
-			'nickname'     => array(
-				'label' => __("Nickname", "cubewp-framework"),
-				'name'  => 'nickname',
-				'type'  => 'text',
-			),
-			'first_name'   => array(
-				'label' => __("First Name", "cubewp-framework"),
-				'name'  => 'first_name',
-				'type'  => 'text',
-			),
-			'last_name'    => array(
-				'label' => __("Last Name", "cubewp-framework"),
-				'name'  => 'last_name',
-				'type'  => 'text',
-			),
-			'description'  => array(
-				'label' => __("Bio", "cubewp-framework"),
-				'name'  => 'description',
-				'type'  => 'textarea',
-			),
+		   'user_login'   => array(
+			  'label'    => __("Username", "cubewp-framework"),
+			  'name'     => 'user_login',
+			  'type'     => 'text',
+			  'required' => 1,
+				'validation_msg' => '',
+		   ),
+		   'user_email'   => array(
+			  'label'    => __("Email", "cubewp-framework"),
+			  'name'     => 'user_email',
+			  'type'     => 'email',
+			  'required' => 1,
+				'validation_msg' => '',
+		   ),
+		   'user_pass'    => array(
+			  'label'    => __("Password", "cubewp-framework"),
+			  'name'     => 'user_pass',
+			  'type'     => 'password',
+			  'required' => 0,
+				'validation_msg' => '',
+		   ),
+		   'confirm_pass' => array(
+			  'label'    => __("Confirm Password", "cubewp-framework"),
+			  'name'     => 'confirm_pass',
+			  'type'     => 'password',
+			  'required' => 1,
+				'validation_msg' => '',
+		   ),
+		   'user_url'     => array(
+			  'label' => __("Website", "cubewp-framework"),
+			  'name'  => 'user_url',
+			  'type'  => 'url',
+				'validation_msg' => '',
+		   ),
+		   'display_name' => array(
+			  'label' => __("Display Name", "cubewp-framework"),
+			  'name'  => 'display_name',
+			  'type'  => 'text',
+				'validation_msg' => '',
+		   ),
+		   'nickname'     => array(
+			  'label' => __("Nickname", "cubewp-framework"),
+			  'name'  => 'nickname',
+			  'type'  => 'text',
+				'validation_msg' => '',
+		   ),
+		   'first_name'   => array(
+			  'label' => __("First Name", "cubewp-framework"),
+			  'name'  => 'first_name',
+			  'type'  => 'text',
+				'validation_msg' => '',
+		   ),
+		   'last_name'    => array(
+			  'label' => __("Last Name", "cubewp-framework"),
+			  'name'  => 'last_name',
+			  'type'  => 'text',
+				'validation_msg' => '',
+		   ),
+		   'description'  => array(
+			  'label' => __("Bio", "cubewp-framework"),
+			  'name'  => 'description',
+			  'type'  => 'textarea',
+				'validation_msg' => '',
+		   ),
 		);
-
+	
 		return $wp_default_fields;
 	}
 }

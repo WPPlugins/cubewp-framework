@@ -39,8 +39,8 @@ class CubeWp_Enqueue extends CubeWp_Admin_Enqueue {
 	 */
 	public function __construct() {
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'load_scripts' ) );
-		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'load_admin_scripts' ) );
-		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'localize_admin_printed_scripts' ), 5 );
+		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'load_admin_scripts' ), 10 );
+		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'localize_admin_printed_scripts' ), 10 );
 		add_action( 'wp_print_scripts', array( __CLASS__, 'localize_printed_scripts' ), 5 );
 		add_action( 'wp_print_footer_scripts', array( __CLASS__, 'localize_printed_scripts' ), 5 );
 	}

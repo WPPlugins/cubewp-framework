@@ -557,7 +557,17 @@ class CubeWp_Form_Builder {
             $output      .= cwp_render_dropdown_input( $input_attrs );
             $output      .= '</div>';
         }
-
+        $output      .= '<div class="cubewp-builder-group-widget-setting-field">
+        <label>' . esc_html__( "Validation Message", "cubewp-framework" ) . '</label>';
+        $input_attrs = array(
+        'class'       => 'group-field field-validation_msg',
+        'name'        => 'validation_msg',
+        'value'       => isset( $field['validation_msg'] ) ? $field['validation_msg'] : '',
+        'extra_attrs' => 'data-name="validation_msg"',
+        );
+        $output      .= cwp_render_text_input( $input_attrs );
+        $output      .= '</div>';
+        
         return $output;
     }
 

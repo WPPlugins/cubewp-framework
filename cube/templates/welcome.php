@@ -547,18 +547,29 @@ if( $current_user->user_firstname ){
                                         </div>
                                     </div>
                                 </div>
-                                <div class="cwp-shordcodes">
+                                <div class="cwp-shordcodes border-bottom-welcome">
                                     <div class="cwp-set-title-copyarea">
-                                        <h3>Pricing Plan Page <?php if( !class_exists('CubeWp_Payments_Load') ){ ?>
-												<span class="dashicons dashicons-lock"></span>
-											<?php } ?>
-										</h3>
+                                        <h3>Pricing Plan Page (PRO)</h3>
                                         <div class="shoftcode-area">
                                             <div class="cwpform-shortcode">
                                                 <div class="inner copy-to-clipboard"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                                                         <path d="M13 0H6a2 2 0 0 0-2 2 2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2 2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm0 13V4a2 2 0 0 0-2-2H5a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1zM3 4a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4z"></path>
                                                     </svg>
-                                                    <p>copy shortcode</p>[cwpPricingPlans]
+                                                    <p>Copy Shortcode</p>[cwpPricingPlans]
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="cwp-shordcodes">
+                                    <div class="cwp-set-title-copyarea">
+                                        <h3>Reset Password Form (PRO)</h3>
+                                        <div class="shoftcode-area">
+                                            <div class="cwpform-shortcode">
+                                                <div class="inner copy-to-clipboard"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                                        <path d="M13 0H6a2 2 0 0 0-2 2 2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2 2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm0 13V4a2 2 0 0 0-2-2H5a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1zM3 4a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4z"></path>
+                                                    </svg>
+                                                    <p>Copy Shortcode</p>[cwpResetPasswordForm]
                                                 </div>
                                             </div>
                                         </div>

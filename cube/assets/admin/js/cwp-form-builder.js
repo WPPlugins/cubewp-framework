@@ -226,6 +226,53 @@
 
     }
 
+    $(document).ready(function (e) {
+        var divs = $('.cubewp-builder-widgets');
+        var index = 0;
+        function CubeWP_load_widgets() {
+            if (index < divs.length) {
+                $('.cubewp-builder-sidebar').addClass('processing-ajax');
+                var currentDiv = divs.eq(index),
+                    _form_type = currentDiv.data('form-type'),
+                    _switch= currentDiv.data('child-switcher'),
+                    _slug = currentDiv.data('slug');
+                $.ajax({
+                    type: 'POST',
+                    url: cwp_vars_params.ajax_url,
+                    data: {
+                        'action': 'cubewp_get_builder_widgets',
+                        'form_type': _form_type,
+                        'slug': _slug,
+                        'nested_switcher': _switch,
+                    },
+                    dataType: 'json',
+                    success: function (response) {
+                        if ( response.success ) {
+                            currentDiv.html(response.data.sidebar);
+                            cwpform_sortable_sections();
+                            cwpform_sortable_fields();
+                            cubewp_show_hide_no_section();
+                            cwpform_disable_fields();
+                            $('.cubewp-builder-sidebar').removeClass('processing-ajax');
+                            var onload_tab_switcher = $('.cubewp-tab-switcher-trigger-on-load');
+                            if (onload_tab_switcher.length > 0) {
+                                onload_tab_switcher.trigger("change");
+                            }
+                        }
+                        index++;
+                        CubeWP_load_widgets(index);
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        // Handle AJAX error if needed
+                        index++;
+                        CubeWP_load_widgets(index);
+                    }
+                });
+            }
+        }
+        CubeWP_load_widgets();
+    });
+
     $.cubewp_form_builder.switch_tab = function (t) {
         var $this = $(t),
             target = $this.find(":selected").attr("data-switcher-target"),

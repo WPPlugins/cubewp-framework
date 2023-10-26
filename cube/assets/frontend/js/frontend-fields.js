@@ -69,6 +69,14 @@ jQuery(document).ready(function () {
             jQuery(this).closest('label').find('input[type="hidden"]').val('').trigger('input');
         }
     });
+    jQuery(document).on('input', '.cwp-field-number input[maxlength]', function () {
+        var maxDigits = jQuery(this).attr('maxlength');
+        var inputValue = jQuery(this).val().trim();
+    
+        if (inputValue.length > maxDigits) {
+            jQuery(this).val(inputValue.slice(0, maxDigits)).trigger('input');
+        }
+    });
 
     // File Field
     jQuery(document).on('click', '.cwp-file-field-trigger', function (e) {
@@ -519,32 +527,32 @@ function cwp_conditional_fields(form_name_method) {
                 value = $this.attr('data-value'),
                 operator = $this.attr('data-operator');
             
-                var parent = jQuery('*' +form_name_method+ '[' + field + ']"]');
-                var parentCheckbox = jQuery(form_name_method+ '[' + field + '][]"]');
+                var parent = $this.closest('form').find('*' +form_name_method+ '[' + field + ']"]');
+                var parentCheckbox = $this.closest('form').find(form_name_method+ '[' + field + '][]"]');
                 var selectedVal = parent.val();
                 var tagName = parent.prop('tagName');
                 if ( tagName === 'INPUT' ) {
                     var inputType = parent.prop('type');
                     if ( inputType === 'radio' ) {
-                        selectedVal = jQuery('*' +form_name_method+ '[' + field + ']"]:selected').val();
+                        selectedVal = $this.closest('form').find('*' +form_name_method+ '[' + field + ']"]:selected').val();
                     }
                 }
                 if (parent.is(':checked') || selectedVal != '' || selectedVal == ''){
-                    cwp_condition_logic(selectedVal, value, operator, field);
+                    cwp_condition_logic(selectedVal, value, operator, field, $this.closest('form'));
                 }else if(parentCheckbox.is(':checked')){
                     var selectedVal = parentCheckbox.val();
-                    cwp_condition_logic(selectedVal, value, operator, field);
+                    cwp_condition_logic(selectedVal, value, operator, field, $this.closest('form'));
                 }
-            jQuery(document).on('change input', '*' +form_name_method+ '[' + field + ']"]', function (event) {
+                $this.closest('form').on('change input', '*' +form_name_method+ '[' + field + ']"]', function (event) {
                 event.preventDefault();
                 
                 var selectedVal = jQuery(this).val();
-                cwp_condition_logic(selectedVal, value, operator, field);
+                cwp_condition_logic(selectedVal, value, operator, field, $this.closest('form'));
             });
 
             var value_condition = '[value="' + value + '"]';
             if (operator === '!empty' || operator === 'empty' || operator === '!=') value_condition = '';
-            jQuery(document).on('input', '*' +form_name_method+ '[' + field + '][]"]' + value_condition, function (event) {
+            $this.closest('form').on('input', '*' +form_name_method+ '[' + field + '][]"]' + value_condition, function (event) {
                 event.preventDefault();
                 var $this = jQuery(this),
                     selectedVal = '';
@@ -561,7 +569,7 @@ function cwp_conditional_fields(form_name_method) {
                         selectedVal = target_field.val();
                     }
                 }
-                cwp_condition_logic(selectedVal, value, operator, field);
+                cwp_condition_logic(selectedVal, value, operator, field, $this.closest('form'));
             });
         });
     }

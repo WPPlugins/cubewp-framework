@@ -67,11 +67,35 @@ class CubeWp_Admin {
             if (cubewp_check_if_elementor_active() && ! cubewp_check_if_elementor_active(true) && class_exists("CubeWp_Frontend_Load")) {
                 add_action('admin_init', array($this, 'cubewp_import_custom_single_page_to_frontend'), 10);
             }
-            
-        }
 
+            new CubeWp_Ajax( '',
+                self::class,
+                'cubewp_get_builder_widgets'
+            );
+            new CubeWp_Ajax( 'wp_ajax_nopriv_',
+                self::class,
+                'cubewp_get_builder_widgets'
+            );
+        }
     }
 
+    /**
+     * Method cubewp_get_builder_widgets to Ajax callback function 
+     *
+     * @return json
+     * @since  1.1.10
+     */
+    public static function cubewp_get_builder_widgets() {
+        $widgets_ui = CubeWp_Builder_Admin::cubewp_builder_widgets_display($_POST['nested_switcher'],$_POST['form_type'],$_POST['slug']);
+		wp_send_json_success(array( 'sidebar' => $widgets_ui));
+	}
+
+    /**
+     * Method cubewp_import_custom_single_page_to_frontend to setup single page 
+     *
+     * @return void
+     * @since  1.0.0
+     */
     public function cubewp_import_custom_single_page_to_frontend() {
         global $cwpOptions;
         $import_to_frontend = false;
@@ -227,7 +251,7 @@ class CubeWp_Admin {
      * @since  1.0.0
      */
     public static function register_elementor_tags($module) {
-        $tags = CubeWp_Custom_Fields_Markup::cwp_form_field_types();
+        $tags = CubeWp_Custom_Fields_Markup::cwp_form_field_types( 'elementor_dynamic_tags' );
         $module->register_group( 'cubewp-fields', [
         'title' => esc_html__( 'CubeWP Custom Fields', 'cubewp-framework' ),
         ] );

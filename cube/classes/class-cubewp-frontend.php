@@ -143,6 +143,7 @@ class CubeWp_Frontend {
             'field_size'            =>    '',
             'sub_fields'            =>    array(),
             'files_save'            =>    'ids',
+            'filter_post_types'     =>    '',
             'files_save_separator'  =>    'array',
         );
         return wp_parse_args($args, $default);

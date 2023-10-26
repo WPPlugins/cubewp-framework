@@ -23,7 +23,6 @@ class CubeWp_Settings_Custom_Fields_Display extends CubeWp_Custom_Fields_Process
      */
     public static function cwp_custom_fields_run(  ) {
         add_filter( 'cubewp/custom_fields/type', array(__CLASS__, 'custom_form_name'), 9 );
-        add_filter( 'cubewp/post/custom_fields/types', array( __CLASS__, 'cubewp_setting_custom_fields_types' ),9 );
         self::save_group();
         self::group_display();
         self::add_new_group();
@@ -83,22 +82,6 @@ class CubeWp_Settings_Custom_Fields_Display extends CubeWp_Custom_Fields_Process
 
     <?php
     }    
-    public static function cubewp_setting_custom_fields_types( $fields_types ){
-        $voided_types = array(
-            'repeating_field',
-        );
-        foreach ( $fields_types as $group => $type ) {
-            foreach ( $type as $name => $label ) {
-                if ( in_array( $name, $voided_types ) ) {
-                    unset( $fields_types[ $group ][ $name ] );
-                    if ( empty( $fields_types[ $group ] ) ) {
-                        unset( $fields_types[ $group ] );
-                    }
-                }
-            }
-        }
-        return $fields_types;
-    }
     /**
      * Method edit_group
      *

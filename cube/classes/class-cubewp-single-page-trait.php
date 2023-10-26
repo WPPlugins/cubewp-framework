@@ -323,6 +323,7 @@ trait CubeWp_Single_Page_Trait {
 		$args['container_class'] = isset($args['container_class']) ? $args['container_class'] : '';
 		$output = null;
 		if(!empty($args['value'])){
+			$args['value'] = esc_html__( $args['value'], 'cubewp-framework' );
 			$output = '<div class="cwp-cpt-single-switch-container cwp-cpt-single-field-container ' . esc_attr($args['container_class']) . ' '.esc_attr($args['field_size']).'">
 				<h4>' . $args['label'] . '</h4>
 				<div class="cwp-cpt-single-switch ' . $args['class'] . '"><p>' . esc_html($args['value']) . '</p></div>
@@ -563,7 +564,7 @@ trait CubeWp_Single_Page_Trait {
 						$value['class'] = isset($value['class']) ? $value['class'] : '';
 						$value['container_class'] = isset($value['container_class']) ? $value['container_class'] : '';
 						if (method_exists(__CLASS__, 'field_' . $field_type)) {
-							$output .= call_user_func('self::field_' . $field_type, $value);
+							$output .= call_user_func( array( __CLASS__, 'field_' . $field_type ), $value);
 						} else {
 							$output .= '<p style="color: #ff0000">' . sprintf(esc_html__("Invalid Field Type: %s", "cubewp-framework"), $field_type) . '</p>';
 						}

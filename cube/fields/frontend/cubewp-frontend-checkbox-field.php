@@ -46,6 +46,7 @@ class CubeWp_Frontend_Checkbox_Field extends CubeWp_Frontend {
         $output .= '<div class="cwp-checkbox-container">';
                 $output .= self::cwp_frontend_field_label($args);
                 $output .= '<div class="cwp-field-checkbox-container">';
+                if ( ! empty( $options ) && is_array( $options ) ) {
                     foreach($options as $value => $label){
                         $output .= '<div class="cwp-field-checkbox">';
                             $input_attrs = array(
@@ -66,6 +67,7 @@ class CubeWp_Frontend_Checkbox_Field extends CubeWp_Frontend {
                         $output .= '</div>';
                     }
                     $output .= '<input type="hidden" name="' . $input_attrs['name'] . '" value="">';
+                }
                 $output .= '</div>';
             $output .= '</div>';
         $output .= '</div>';

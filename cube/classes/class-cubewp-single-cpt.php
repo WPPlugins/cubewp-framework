@@ -265,7 +265,7 @@ class CubeWp_Single_Cpt {
 			if(function_exists('cube_' . $field_type)){
                 $output .= call_user_func('cube_' . $field_type, $options);
             }else if (method_exists(__CLASS__, 'field_' . $field_type)) {
-                $output .= call_user_func('self::field_' . $field_type, $options);
+                $output .= call_user_func( array( __CLASS__, 'field_' . $field_type ), $options);
 			}else {
 				$output .= '<p style="color: #ff0000">' . sprintf(esc_html__("Invalid Field Type: %s", "cubewp-framework"), $field_type) . '</p>';
 			}

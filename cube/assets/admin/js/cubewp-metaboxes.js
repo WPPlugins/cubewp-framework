@@ -192,6 +192,15 @@ jQuery(document).ready(function ($){
         });
     }
     
+    jQuery(document).on('input', 'input[maxlength]', function () {
+        var maxDigits = jQuery(this).attr('maxlength');
+        var inputValue = jQuery(this).val().trim();
+    
+        if (inputValue.length > maxDigits) {
+            jQuery(this).val(inputValue.slice(0, maxDigits)).trigger('input');
+        }
+    });
+    
     jQuery(document).on('click', '.cubewp-address-manually', function () {
         var $this = jQuery(this),
             parent = $this.closest(".cwp-google-address"),
@@ -362,6 +371,7 @@ function cwp_condition_logic(selectedVal, fieldVal, Compare, Target) {
                 return true;
             }else {
                 jQuery(Target+fieldVal).hide();
+                jQuery(Target+fieldVal).find('input,select').val('').trigger('input');
                 return true;
             }
         }else {
@@ -370,6 +380,7 @@ function cwp_condition_logic(selectedVal, fieldVal, Compare, Target) {
                 return true;
             } else {
                 jQuery(Target+fieldVal).hide();
+                jQuery(Target+fieldVal).find('input,select').val('').trigger('input');
                 return true;
             }
         }

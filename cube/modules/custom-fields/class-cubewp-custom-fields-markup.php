@@ -137,7 +137,7 @@ class CubeWp_Custom_Fields_Markup
             'name' => 'cwp[fields][' . $FieldData['name'] . '][type]',
             'id' => '',
             'type' => 'dropdown',
-            'options' => self::cwp_form_field_types(),
+            'options' => self::cwp_form_field_types( $FieldData['fields_type'] ),
             'value' => $FieldData['type'],
             'placeholder' => '',
             'option-class' => 'form-option option',
@@ -1082,7 +1082,7 @@ class CubeWp_Custom_Fields_Markup
      * @return array
      * @since  1.0.0
      */
-    public static function cwp_form_field_types()
+    public static function cwp_form_field_types( $request_from = '' )
     {
         $field_types = array();
         $field_types[esc_html__('Basic', 'cubewp-framework')]['text'] = esc_html__('Text', 'cubewp-framework');
@@ -1114,9 +1114,14 @@ class CubeWp_Custom_Fields_Markup
         $field_types[esc_html__('Relationship', 'cubewp-framework')]['taxonomy'] = esc_html__('Taxonomy', 'cubewp-framework');
         $field_types[esc_html__('Relationship', 'cubewp-framework')]['user'] = esc_html__('User', 'cubewp-framework');
 
-        $field_types[esc_html__('Layout', 'cubewp-framework')]['repeating_field'] = esc_html__('Repeating Field', 'cubewp-framework');
+        if ( empty( $request_from ) ) {
+            $request_from = CubeWp_Custom_Fields_Processor::get_field_option_name();
+        }
+        if ( $request_from != 'settings' ) {
+            $field_types[esc_html__('Layout', 'cubewp-framework')]['repeating_field'] = esc_html__('Repeating Field', 'cubewp-framework');
+        }
 
-        return apply_filters('cubewp/post/custom_fields/types', $field_types);
+        return apply_filters('cubewp/post/custom_fields/types', $field_types, $request_from);
     }
 
     /**
