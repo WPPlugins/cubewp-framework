@@ -1055,7 +1055,7 @@ if ( ! function_exists("get_field_value")) {
 			$value = wp_date(get_option('time_format'), $value);
 		}
 		if ($field_type == 'date_time_picker') {
-			$value = wp_date(get_option('date_format') . ' H:i:s', $value);
+			$value = wp_date(get_option('date_format') . ' ' . get_option('time_format'), $value);
 		}
 		if ($render == true) {
 			if ($field_type == 'repeating_field') {
@@ -1229,7 +1229,11 @@ if ( ! function_exists("render_multi_value")) {
 		if($type == 'post-type') $field = get_field_options($key);
 		if($type == 'user') $field = get_user_field_options($key);
 		if(empty($field)) return;
-		$options = json_decode($field['options'], true);
+		if (is_array($field['options'])) {
+            $options = $field['options'];
+        } else {
+            $options = json_decode($field['options'], true);
+        }
 		if(is_array($value)){
 			foreach($value as $val){
 				if(!empty($val)){
@@ -1513,7 +1517,9 @@ if ( ! function_exists("cwp_get_categories_by_taxonomy")) {
 		}
 		if (isset($terms) && ! empty($terms)) {
 			foreach ($terms as $term) {
-				$output[$term->term_id] = esc_html($term->name);
+				if ( ! empty( $term ) && is_object( $term ) ) {
+					$output[$term->term_id] = esc_html($term->name);
+				}
 			}
 		}
 
@@ -2112,23 +2118,42 @@ if ( ! function_exists("cubewp_custom_field_group_visibility")) {
 }
 
 if ( ! function_exists( 'cubewp_send_mail' ) ) {
-	function cubewp_send_mail( $to, $subject, $message, $headers = array(), $attachments = array() ) {
-	   if ( empty( $to ) || empty( $subject ) || empty( $message ) ) {
-		  return false;
-	   }
-	   $website_name = get_bloginfo( 'name' );
-	   $admin_email  = apply_filters( "cubewp_emails_from_mail", get_option( 'admin_email' ) );
- 
-	   $headers[] = 'Content-Type: text/html; charset=UTF-8';
-	   $headers[] = 'From: ' . esc_html( $website_name ) . ' <' . esc_html( $admin_email ) . '>';
- 
-	   add_filter( 'wp_mail_content_type', function () {
-		  return 'text/html';
-	   } );
- 
-	   return wp_mail( $to, $subject, $message, $headers, $attachments );
-	}
- }
+    function cubewp_send_mail( $to, $subject, $message, $headers = array(), $attachments = array() ) {
+       if ( empty( $to ) || empty( $subject ) || empty( $message ) ) {
+          return false;
+       }
+       $website_name = get_bloginfo( 'name' );
+       $admin_email  = apply_filters( "cubewp_emails_from_mail", get_option( 'admin_email' ) );
+
+        if ( empty( $headers ) ) {
+            $headers[] = 'Content-Type: text/html; charset=UTF-8';
+            $headers[] = 'From: ' . esc_html( $website_name ) . ' <' . esc_html( $admin_email ) . '>';
+        }else {
+            $from_header = true;
+            $content_type_header = true;
+            foreach ( $headers as $header ) {
+                if ( $from_header && str_contains( $header, 'From:' ) ) {
+                    $from_header = false;
+                }
+               if ( $content_type_header && str_contains( $header, 'Content-Type:' ) ) {
+                  $content_type_header = false;
+               }
+            }
+            if ( $from_header ) {
+                $headers[] = 'From: ' . esc_html( $website_name ) . ' <' . esc_html( $admin_email ) . '>';
+            }
+            if ( $content_type_header ) {
+                $headers[] = 'Content-Type: text/html; charset=UTF-8';
+            }
+        }
+
+       add_filter( 'wp_mail_content_type', function () {
+          return 'text/html';
+       } );
+
+       return wp_mail( $to, $subject, $message, $headers, $attachments );
+    }
+}
 
 if ( ! function_exists("cubewp_single_page_template")) {
     function cubewp_single_page_template( $post_templates, $wp_theme, $post, $post_type ) {

@@ -14,7 +14,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class CubeWp_Admin {
-    
+
+    use CubeWp_Builder_Ui;
+
     const CubeWp = 'CubeWp_';
     public function __construct() {
         
@@ -86,7 +88,8 @@ class CubeWp_Admin {
      * @since  1.1.10
      */
     public static function cubewp_get_builder_widgets() {
-        $widgets_ui = CubeWp_Builder_Admin::cubewp_builder_widgets_display($_POST['nested_switcher'],$_POST['form_type'],$_POST['slug']);
+        
+        $widgets_ui = self::cubewp_builder_widgets_display($_POST['nested_switcher'],$_POST['form_type'],$_POST['slug']);
 		wp_send_json_success(array( 'sidebar' => $widgets_ui));
 	}
 
@@ -129,6 +132,11 @@ class CubeWp_Admin {
      *
      */
     public function cubewp_admin_css() {
+        echo '<style>
+        .wp-submenu li a[href="admin.php?page=cubewp-libraries"]{
+            display: none!important;
+        }
+		</style>';
         if( ! class_exists( 'CubeWp_Frontend_Load' ) ) {
             echo '<style>
                 .wp-submenu li a[href="admin.php?page=cubewp-user-registration-form"]::after,

@@ -262,6 +262,7 @@ class CubeWp_Single_Cpt {
             }
             $value = self::get_single_meta_value($meta_key,$field_type);
             $options['value'] = $value;
+            $options = apply_filters( 'cubewp/custom/cube/field/options', $options );
 			if(function_exists('cube_' . $field_type)){
                 $output .= call_user_func('cube_' . $field_type, $options);
             }else if (method_exists(__CLASS__, 'field_' . $field_type)) {
@@ -311,7 +312,7 @@ class CubeWp_Single_Cpt {
         if(empty($value)){
             return '';
         }
-        return $value;
+        return apply_filters( 'cubewp/single/page/field/value', $value, self::$post_id, $meta_key, $field_type );
     }
     	
 	/**

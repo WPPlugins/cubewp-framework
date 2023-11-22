@@ -426,3 +426,6 @@ td.move-option {
     font-weight: 500;
     margin: 0 12px 0 0;
 }
+.col-wrap p.submit {
+    margin-top: 2px;
+}

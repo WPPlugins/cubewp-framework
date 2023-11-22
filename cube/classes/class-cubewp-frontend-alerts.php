@@ -115,9 +115,9 @@ class CubeWp_Frontend_Alerts{
             }
         }
         if( $free_msg ){
-            return sprintf(__('Your %s is pending for review.', 'cubewp-framework'), get_post_type($post_id));
+            return sprintf(__('Your %s is pending for review.', 'cubewp-framework'), get_post_type_object( get_post_type($post_id) )->labels->singular_name);
         }else{
-            return sprintf(__('Your %s is pending! Please proceed to make it published', 'cubewp-framework'), get_post_type($post_id));
+            return sprintf(__('Your %s is pending! Please proceed to make it published', 'cubewp-framework'), get_post_type_object( get_post_type($post_id) )->labels->singular_name);
         }
         
     }

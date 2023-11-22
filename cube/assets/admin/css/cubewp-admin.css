@@ -847,15 +847,15 @@ span.dashicons.dashicons-trash:hover {
     padding: 5px 5px 0 0;
 }
 
-#toplevel_page_cube_wp_dashboard .wp-submenu li:nth-child(6),
 #toplevel_page_cube_wp_dashboard .wp-submenu li:nth-child(7),
-#toplevel_page_cube_wp_dashboard .wp-submenu li:nth-child(8) {
+#toplevel_page_cube_wp_dashboard .wp-submenu li:nth-child(8),
+#toplevel_page_cube_wp_dashboard .wp-submenu li:nth-child(9) {
     display: none;
 }
 
-#toplevel_page_cube_wp_dashboard .wp-submenu li:nth-child(6).current,
 #toplevel_page_cube_wp_dashboard .wp-submenu li:nth-child(7).current,
-#toplevel_page_cube_wp_dashboard .wp-submenu li:nth-child(8).current {
+#toplevel_page_cube_wp_dashboard .wp-submenu li:nth-child(8).current,
+#toplevel_page_cube_wp_dashboard .wp-submenu li:nth-child(9).current {
     display: block;
 }
 
@@ -1479,4 +1479,36 @@ cwp-unlock-feature a {
 .export-form .cubewp-import-box-container .cubewp-import-box {
     max-width: 600px;
     text-align: right;
+}
+/* header button  */
+
+.flot-left.cwp-library {
+    margin-left: 35px;
+    margin-top: 15px;
+}
+
+.flot-left.cwp-library a {
+    background: linear-gradient(90deg, #d5e5ff, #f6d3ff, #fff7d3);
+    border-radius: 5px;
+    border: none;
+    padding: 14px 13px;
+    letter-spacing: 0.52px;
+    color: #181132;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.flot-left.cwp-library a span.new {
+    margin-left: 19px;
+    color: #DB0101;
+}
+
+.flot-left.cwp-library a span.dashicons {
+    margin-right: 13px;
+    font-weight: bold;
+}
+
+.flot-left.cwp-library a:hover {
+    background: linear-gradient(268deg, #d5e5ff, #f6d3ff, #fff7d3);
 }

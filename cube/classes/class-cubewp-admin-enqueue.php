@@ -272,6 +272,12 @@ class CubeWp_Admin_Enqueue{
 				'version' => CUBEWP_VERSION,
 				'has_rtl' => false,
 			),
+			'cubewp-template-library'                => array(
+                'src'     => CWP_PLUGIN_URI . 'cube/assets/admin/css/cwp-template-library.css' ,
+                'deps'    => array(),
+                'version' => CUBEWP_VERSION,
+                'has_rtl' => false,
+            ),
             'cwp-timepicker'                  => array(
 				'src'     => CWP_PLUGIN_URI . 'cube/assets/lib/timepicker/jquery-ui-timepicker-addon.min.css' ,
 				'deps'    => array(),

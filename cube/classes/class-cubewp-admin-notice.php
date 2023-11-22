@@ -105,6 +105,9 @@ class CubeWp_Admin_Notice {
 			<div class="cwp-welcome-page-section"><div class="flot-left cwp-logo">
 				<a href="https://cubewp.com" target="_blank"><img src="' . CWP_PLUGIN_URI . 'cube/assets/admin/images/CubeWP-light-logo.png" alt="image" /></a>
 			</div>
+			<div class="flot-left cwp-library">
+                <a href="' . admin_url( 'admin.php?page=cubewp-libraries' ) . '"><span class="dashicons dashicons-dashboard"></span>Templates Library <span class="new">New!</span></a>
+            </div>
 			<div class="cwp-title-menu flot-left">
 				<ul>
 					<li><a href="' . admin_url( 'admin.php?page=cubewp-settings' ) . '"><span class="dashicons dashicons-admin-settings"></span>Settings</a></li>

@@ -560,9 +560,11 @@ trait CubeWp_Single_Page_Trait {
 						$field_type = $value['type'];
 						$options = get_field_options( $k );
 						$options['value'] = $value['value'];
+						$options['label'] = isset( $value['label'] ) ? $value['label'] : $options['label'];
 						$value = $options;
 						$value['class'] = isset($value['class']) ? $value['class'] : '';
 						$value['container_class'] = isset($value['container_class']) ? $value['container_class'] : '';
+						$value = apply_filters( 'cubewp/custom/cube/field/options', $value );
 						if (method_exists(__CLASS__, 'field_' . $field_type)) {
 							$output .= call_user_func( array( __CLASS__, 'field_' . $field_type ), $value);
 						} else {

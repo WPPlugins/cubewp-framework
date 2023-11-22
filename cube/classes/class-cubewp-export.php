@@ -338,10 +338,14 @@ class CubeWp_Export {
             '_'
         ), 'demo_data_' . current_time('M-d-Y H:s A'));
         $upload_dir = wp_upload_dir();
+        $upload_url = $upload_dir['url'];
+		if (strpos($upload_url, 'http://') === 0 && is_ssl()) {
+			$upload_url = 'https://' . substr($upload_url, 7);
+		}
         $names['setup_file']  = $upload_dir['path'] . '/cubewp/export/cwp-setup.json';
         $names['cwp_post_groups']  = $upload_dir['path'] . '/cubewp/export/cwp_post_groups.json';
         $names['cwp_user_groups']  = $upload_dir['path'] . '/cubewp/export/cwp_user_groups.json';
-        $names['zip_file']   = $upload_dir['url'] . '/cubewp/export/' . $file_name . '.zip';
+        $names['zip_file']   = $upload_url . '/cubewp/export/' . $file_name . '.zip';
         $names['cwp_custom_forms'] = $upload_dir['path'] . '/cubewp/export/cwp_custom_forms.json';
         $names['file_name'] = $file_name;
         return $names;

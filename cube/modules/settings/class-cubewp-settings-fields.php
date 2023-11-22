@@ -654,7 +654,7 @@ class CubeWp_Settings_Fields {
     public function google_fonts(){
 		$file = CWP_PLUGIN_PATH . 'cube/functions/settings/googlefonts.php';
 		if ( file_exists( $file ) ) {
-			return require $file;
+			return (array) require $file;
 		}
 		
 		return array();
@@ -674,7 +674,7 @@ class CubeWp_Settings_Fields {
     }
     
     public function font_styles_options( $output = '', $font_family = '' ){
-        $google_fonts = apply_filters("cubewp/settings/google_fonts", '');
+        $google_fonts = apply_filters("cubewp/settings/google_fonts", array());
         
         $options = array();
         if(isset($google_fonts[$font_family]['variants']) && !empty($google_fonts[$font_family]['variants'])){
@@ -686,7 +686,7 @@ class CubeWp_Settings_Fields {
     }
     
     public function font_subsets_options( $output = '', $font_family = '' ){
-        $google_fonts = apply_filters("cubewp/settings/google_fonts", '');
+        $google_fonts = apply_filters("cubewp/settings/google_fonts", array());
         
         $options = array();
         if(isset($google_fonts[$font_family]['subsets']) && !empty($google_fonts[$font_family]['subsets'])){

@@ -313,7 +313,7 @@ if( $current_user->user_firstname ){
                         <img src="<?php echo  CWP_PLUGIN_URI; ?>/cube/assets/admin/images/welcome-dashboard/robust-features.png" alt="image" />
                     </div>
                     <div class="cwp-dashboard-data-structure-header-details">
-                        <h3>Advanced Robust Set of Features</h3>
+                        <h3>Engagement & Growth</h3>
                         <p>Platform includes P2P messaging, lead gen, reviews, WooCommerce payments, social integration, email verification, claims.</p>
                     </div>
                 </div>

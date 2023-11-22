@@ -461,6 +461,7 @@ class CubeWp_Frontend {
      */
     public static function is_cubewp_single() {
 		$get_CustomTypes = CWP_types();
+        $get_CustomTypes = apply_filters( 'cubewp/is_single/post_types', $get_CustomTypes );
         if (is_array($get_CustomTypes) && !empty($get_CustomTypes) && count($get_CustomTypes)!=0) {
             foreach ($get_CustomTypes as $single_cpt) {
                 self::$post_type = $single_cpt['slug'];
