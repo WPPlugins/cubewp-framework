@@ -7,6 +7,14 @@ if( $current_user->user_firstname ){
 	$display_name = $current_user->user_login;
 }
 ?>
+<style>
+.cwp-post-grid-contentarea .cwp-shordcodes .cwp-set-title-copyarea a {
+    color: #000;
+}
+.cwp-post-grid-contentarea .cwp-shordcodes .cwp-set-title-copyarea a:hover {
+    color: #6852eb;
+}
+</style>
 <div class="cwp-welcome-title">
     <h2>Welcome <?php echo $display_name; ?>! Let’s Get Started.</h2>
 </div>
@@ -430,17 +438,17 @@ if( $current_user->user_firstname ){
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
                             <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
                         </svg>
-                        <h5>Introducing 1st WordPress Theme Powered by CubeWP Framework</h5>
+                        <h5>Looking for WordPress Customization Vendor for CubeWP?</h5>
                     </div>
                     <div class="cwp-welcome-box-content">
-                    <h2>Classified WordPress Theme</h2>
-                    <p>ClassifiedPro is a multipurpose ReCommerce Classified Ads WordPress Theme, That enables you to create your own online workplace in just a few clicks. whether users are looking to sell used goods or new, ClassifiedPro is your best Choice.</p>
+                    <h2>Request a Free Quote Today!</h2>
+                    <p>WPVender team specializes in delivering white-label services for CubeWP framework and they are tailored to fit all your specific WordPress customization needs.</p>
                         <div class="cwp-learmore-addons">
-                            <a target="_blank" href="https://themeforest.net/item/classifiedpro-recommerce-classified-wordpress-theme/44528010?s_rank=1">Learn More</a>
+                            <a target="_blank" href="https://wpvender.com/service/cubewp-customization-services/" >Learn More</a>
                         </div>
                     </div>
                     <div class="cwp-welcome-box-logo">
-                        <img src="<?php echo CWP_PLUGIN_URI . 'cube/assets/admin/images/classifiedpro.png'; ?>" alt="" />
+                        <img src="<?php echo CWP_PLUGIN_URI . 'cube/assets/admin/images/welcome-dashboard/template-library/WPVender.png'; ?>" alt="" />
                     </div>
                 </div>
                 <div class="cwp-welcome-row">
@@ -498,7 +506,7 @@ if( $current_user->user_firstname ){
                                 <div class="cwp-shordcodes border-bottom-welcome">
                                     <div class="cwp-set-title-copyarea">
                                         <h3>User Signup Page <?php if( !class_exists('CubeWp_Frontend_Load') ){ ?>
-												<span class="dashicons dashicons-lock"></span>
+											<a href="https://cubewp.com/pricing/" target="_blank"><span class="dashicons dashicons-lock"></span></a>
 											<?php } ?>
 										</h3>
                                         <div class="shoftcode-area">
@@ -515,7 +523,7 @@ if( $current_user->user_firstname ){
                                 <div class="cwp-shordcodes border-bottom-welcome">
                                     <div class="cwp-set-title-copyarea">
                                         <h3>Post Type Form Page <?php if( !class_exists('CubeWp_Frontend_Load') ){ ?>
-												<span class="dashicons dashicons-lock"></span>
+											<a href="https://cubewp.com/pricing/" target="_blank"><span class="dashicons dashicons-lock"></span></a>
 											<?php } ?>
 										</h3>
                                         <div class="shoftcode-area">
@@ -533,7 +541,7 @@ if( $current_user->user_firstname ){
                                 <div class="cwp-shordcodes border-bottom-welcome">
                                     <div class="cwp-set-title-copyarea">
                                         <h3>User Dashboard Page <?php if( !class_exists('CubeWp_Frontend_Load') ){ ?>
-												<span class="dashicons dashicons-lock"></span>
+												<a href="https://cubewp.com/pricing/" target="_blank"><span class="dashicons dashicons-lock"></span></a>
 											<?php } ?>
 										</h3>
                                         <div class="shoftcode-area">
@@ -549,7 +557,9 @@ if( $current_user->user_firstname ){
                                 </div>
                                 <div class="cwp-shordcodes border-bottom-welcome">
                                     <div class="cwp-set-title-copyarea">
-                                        <h3>Pricing Plan Page (PRO)</h3>
+                                        <h3>Pricing Plan Page <?php if( !class_exists('CubeWp_Frontend_Load') ){ ?>
+											<a href="https://cubewp.com/pricing/" target="_blank"><span class="dashicons dashicons-lock"></span></a>
+											<?php } ?></h3>
                                         <div class="shoftcode-area">
                                             <div class="cwpform-shortcode">
                                                 <div class="inner copy-to-clipboard"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
@@ -563,7 +573,9 @@ if( $current_user->user_firstname ){
                                 </div>
                                 <div class="cwp-shordcodes">
                                     <div class="cwp-set-title-copyarea">
-                                        <h3>Reset Password Form (PRO)</h3>
+                                        <h3>Reset Password Form <?php if( !class_exists('CubeWp_Frontend_Load') ){ ?>
+											<a href="https://cubewp.com/pricing/" target="_blank"><span class="dashicons dashicons-lock"></span></a>
+											<?php } ?></h3>
                                         <div class="shoftcode-area">
                                             <div class="cwpform-shortcode">
                                                 <div class="inner copy-to-clipboard"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
@@ -585,7 +597,7 @@ if( $current_user->user_firstname ){
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trophy-fill" viewBox="0 0 16 16">
                                         <path d="M2.5.5A.5.5 0 0 1 3 0h10a.5.5 0 0 1 .5.5c0 .538-.012 1.05-.034 1.536a3 3 0 1 1-1.133 5.89c-.79 1.865-1.878 2.777-2.833 3.011v2.173l1.425.356c.194.048.377.135.537.255L13.3 15.1a.5.5 0 0 1-.3.9H3a.5.5 0 0 1-.3-.9l1.838-1.379c.16-.12.343-.207.537-.255L6.5 13.11v-2.173c-.955-.234-2.043-1.146-2.833-3.012a3 3 0 1 1-1.132-5.89A33.076 33.076 0 0 1 2.5.5zm.099 2.54a2 2 0 0 0 .72 3.935c-.333-1.05-.588-2.346-.72-3.935zm10.083 3.935a2 2 0 0 0 .72-3.935c-.133 1.59-.388 2.885-.72 3.935z" />
                                     </svg>
-                                    <h3 class="cwp-welcome-section-heading">6 Reasons To Choose CubeWP Framework</h3>
+                                    <h3 class="cwp-welcome-section-heading">10 Reasons To Choose CubeWP Framework</h3>
                                 </div>
                             </div>
                             <div class="cwp-post-grid-contentarea">
@@ -595,7 +607,7 @@ if( $current_user->user_firstname ){
                                             <span class="dashicons dashicons-yes"></span>
                                         </div>
                                         <div class="right-info">
-                                            <p>It offers 20+ custom fields including Gallery, Repeating, oEmbed, and Google Address</p>
+                                            <p>More power, more features, more value for Free.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -605,7 +617,7 @@ if( $current_user->user_firstname ){
                                             <span class="dashicons dashicons-yes"></span>
                                         </div>
                                         <div class="right-info">
-                                            <p>Easily IMPORT and EXPORT all custom fields and related data with just a few clicks</p>
+                                            <p>Rapid end-to-end project development</p>
                                         </div>
                                     </div>
                                 </div>
@@ -615,7 +627,7 @@ if( $current_user->user_firstname ){
                                             <span class="dashicons dashicons-yes"></span>
                                         </div>
                                         <div class="right-info">
-                                            <p>Get more advanced customization done fast using several developer-friendly custom</p>
+                                            <p>Effortless dynamic content creation.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -625,7 +637,7 @@ if( $current_user->user_firstname ){
                                             <span class="dashicons dashicons-yes"></span>
                                         </div>
                                         <div class="right-info">
-                                            <p>Get a developer-friendly Settings system to create custom settings based on</p>
+                                            <p>Shortcode generation and insertion.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -635,7 +647,47 @@ if( $current_user->user_firstname ){
                                             <span class="dashicons dashicons-yes"></span>
                                         </div>
                                         <div class="right-info">
-                                            <p>Frontend Display: Fully customizable Post Type Single Page with custom fields.</p>
+                                            <p>Works with current or new sites.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="cwp-cutom-post-info border-bottom-welcome">
+                                    <div class="cwp-cutom-post-info-row ">
+                                        <div class="left-info">
+                                            <span class="dashicons dashicons-yes"></span>
+                                        </div>
+                                        <div class="right-info">
+                                            <p>Not dependent on any specific page builders.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="cwp-cutom-post-info border-bottom-welcome">
+                                    <div class="cwp-cutom-post-info-row ">
+                                        <div class="left-info">
+                                            <span class="dashicons dashicons-yes"></span>
+                                        </div>
+                                        <div class="right-info">
+                                            <p>Advanced Integration with Elementor and WP Bakery.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="cwp-cutom-post-info border-bottom-welcome">
+                                    <div class="cwp-cutom-post-info-row ">
+                                        <div class="left-info">
+                                            <span class="dashicons dashicons-yes"></span>
+                                        </div>
+                                        <div class="right-info">
+                                            <p>Not dependent on any specific Theme.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="cwp-cutom-post-info border-bottom-welcome">
+                                    <div class="cwp-cutom-post-info-row ">
+                                        <div class="left-info">
+                                            <span class="dashicons dashicons-yes"></span>
+                                        </div>
+                                        <div class="right-info">
+                                            <p>Lightweight and optimized for speed and SEO.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -645,7 +697,7 @@ if( $current_user->user_firstname ){
                                             <span class="dashicons dashicons-yes"></span>
                                         </div>
                                         <div class="right-info">
-                                            <p>Build Advanced Search Form and Filter for different post types with drag and drop</p>
+                                            <p>Range of powerful add-ons available.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -734,17 +786,17 @@ if( $current_user->user_firstname ){
                                 <div class="cwp-welcome-header-info">
                                     <span class="dashicons dashicons-sos"></span>
                                     <h3 class="cwp-welcome-section-heading">Top Helpful Resources</h3>
-                                    <a href="https://support.cubewp.com/docs/" class="cwp-welcome-section-all-faqs" target="_blank">All Documentation</a>
+                                    <a href="https://support.cubewp.com/" class="cwp-welcome-section-all-faqs" target="_blank">All Documentation</a>
                                 </div>
                             </div>
                             <div class="cwp-post-grid-contentarea">
-                                <a href="https://support.cubewp.com/docs/cubewp-framework/how-to-use-cubewp/create-post-types/" target="_blank" class="cwp-cutom-post-info-row border-bottom-welcome">
+                                <a href="https://support.cubewp.com/docs/cubewp-framework/custom-post-types/" target="_blank" class="cwp-cutom-post-info-row border-bottom-welcome">
                                     <p>Custom Post Types</p>
                                 </a>
-                                <a href="https://support.cubewp.com/docs/cubewp-framework/how-to-use-cubewp/create-custom-taxonomies/" target="_blank" class="cwp-cutom-post-info-row border-bottom-welcome">
+                                <a href="https://support.cubewp.com/docs/cubewp-framework/custom-taxonomies/" target="_blank" class="cwp-cutom-post-info-row border-bottom-welcome">
                                     <p>Custom Taxonomies</p>
                                 </a>
-                                <a href="https://support.cubewp.com/docs/cubewp-framework/how-to-use-cubewp/create-custom-fields/" target="_blank" class="cwp-cutom-post-info-row border-bottom-welcome">
+                                <a href="https://support.cubewp.com/docs/cubewp-framework/custom-fields/" target="_blank" class="cwp-cutom-post-info-row border-bottom-welcome">
                                     <p>How to Create Custom Fields</p>
                                 </a>
                                 <a href="https://support.cubewp.com/docs/cubewp-framework/developer-guides/" target="_blank" class="cwp-cutom-post-info-row border-bottom-welcome">

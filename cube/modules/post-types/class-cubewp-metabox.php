@@ -305,7 +305,7 @@ class CubeWp_Metabox {
                                         }
                                     }
                                     $arr[$field_key][$_key] = $field_val;
-                                } else if ( ( isset( $subFieldOptions['type'] ) && $subFieldOptions['type'] == 'dropdown' && $subFieldOptions['multiple'] ) || ( isset( $subFieldOptions['type'] ) && $subFieldOptions['type'] == 'checkbox' ) || ( isset( $subFieldOptions['appearance'] ) && $subFieldOptions['appearance'] == 'multi_select' ) ) {
+                                } else if ( ( isset( $subFieldOptions['type'] ) && $subFieldOptions['type'] == 'dropdown' && isset($subFieldOptions['multiple']) && $subFieldOptions['multiple'] ) || ( isset( $subFieldOptions['type'] ) && $subFieldOptions['type'] == 'checkbox' ) || ( isset( $subFieldOptions['appearance'] ) && $subFieldOptions['appearance'] == 'multi_select' ) ) {
                                     $format_separator = isset( $subFieldOptions['files_save_separator'] ) && ! empty( $subFieldOptions['files_save_separator'] ) ? $subFieldOptions['files_save_separator'] : 'array';
                                     if ( $format_separator != 'array' ) {
                                         $field_val = implode( $format_separator, $field_val );

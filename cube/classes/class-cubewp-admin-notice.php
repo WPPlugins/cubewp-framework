@@ -106,7 +106,7 @@ class CubeWp_Admin_Notice {
 				<a href="https://cubewp.com" target="_blank"><img src="' . CWP_PLUGIN_URI . 'cube/assets/admin/images/CubeWP-light-logo.png" alt="image" /></a>
 			</div>
 			<div class="flot-left cwp-library">
-                <a href="' . admin_url( 'admin.php?page=cubewp-libraries' ) . '"><span class="dashicons dashicons-dashboard"></span>Templates Library <span class="new">New!</span></a>
+                <a href="' . admin_url( 'admin.php?page=cubewp-libraries' ) . '"><span class="dashicons dashicons-dashboard"></span>Theme library <span class="new">New!</span></a>
             </div>
 			<div class="cwp-title-menu flot-left">
 				<ul>
@@ -124,7 +124,8 @@ class CubeWp_Admin_Notice {
 						$notice_ui .= '<li><a href="https://cubewp.com/store" target="_blank"><span class="dashicons dashicons-buddicons-groups"></span>Add-ons</a></li>';
 					}
 			$notice_ui .= ' </ul> 
-			</div>	
+			<p class="grdnt-bg-counters linear"><a href="https://cubewp.com/pricing/" target="_Blank">90 Days All Access for $9 Only</a></p>
+			</div>
 			</div>	
 			<div class="clearfix"></div>';
 			$notice_ui .= '</div>';
@@ -177,6 +178,50 @@ class CubeWp_Admin_Notice {
 				$notice_ui .= '</p>';
 				$notice_ui .= '<a class="notice-dismiss" style="display: flex;justify-content: center;align-items: center;">' . esc_html__( 'Maybe Later.', 'cubewp-framework' ) . '</a>';
 				$notice_ui .= '</div>';
+			}
+		}
+		if ( ! class_exists( 'CubeWp_Frontend_Load' ) && ! class_exists( 'Classified_Load' ) ) {
+			if ( ! isset( $_COOKIE['cubewp-appsumo-promotion-notice'] ) && CWP()->is_admin_screen( 'cubewp' ) ) {
+				$notice_ui .= '<div class="cubewp-notice cubewp-appsumo-notice notice is-dismissible" data-notice="cubewp-appsumo-promotion-notice">
+					<a href="https://appsumo.com/products/cubewp" target="_blank">
+					<div class="cubewp-appsumo-notice-container">
+						<div class="cwp-promotion-display-col">
+							<div class="cwp-appsumo-notice-image">
+								<img src="' . CWP_PLUGIN_URI . '/cube/assets/admin/images/appsumo/appsumo-promotion.png" alt="image" />
+							</div>
+						</div>
+						<div class="cwp-promotion-display-col">
+							<div class="cwp-appsumo-notice-logos">
+								<img src="' . CWP_PLUGIN_URI . '/cube/assets/admin/images/CubeWP-light-logo.png" alt="image" />
+								<img src="' . CWP_PLUGIN_URI . '/cube/assets/admin/images/appsumo/appsumo-plus.png" alt="image" />
+							</div>
+						</div>
+						<div class="cwp-promotion-display-col-70">
+							<div class="cube-notice-addons-list">
+								<ul class="cube-addons-list">
+									<li><span class="dashicons dashicons-yes"></span>Lifetime All Access</li>
+									<li><span class="dashicons dashicons-yes"></span>CubeWP Frontend Pro</li>
+									<li><span class="dashicons dashicons-yes"></span>CubeWP Reviews</li>
+									<li><span class="dashicons dashicons-yes"></span>All Future Add-ons</li>
+									<li><span class="dashicons dashicons-yes"></span>CubeWP Payments</li>
+									<li><span class="dashicons dashicons-yes"></span>CubeWP Booster</li>
+									<li><span class="dashicons dashicons-yes"></span>Theme Library</li>
+									<li><span class="dashicons dashicons-yes"></span>CubeWP Inbox</li>
+									<li><span class="dashicons dashicons-yes"></span>Plus, a lot More...</li>
+								</ul>
+							</div>
+						</div>
+						<div class="cwp-promotion-display-col">
+							<div class="cwp-appsumo-notice-promotion-price">
+								<div class="cwp-appsumo-notice-price">
+									<p>$49<span>/lifetime</span></p>
+								</div>
+								<img src="' . CWP_PLUGIN_URI . '/cube/assets/admin/images/appsumo/buyers-protection.png" alt="image" />
+							</div>
+						</div>
+					</div>
+					</a>
+				</div>';
 			}
 		}
         self::cubewp_remove_notices_permanently();

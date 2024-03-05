@@ -603,7 +603,7 @@ class CubeWp_Post_Types {
         <div id="side-sortables" class="meta-box-sortables ui-sortable">
         <div class="postbox">
             <div class="postbox-header">
-                <h2 class="hndle"><?php esc_html_e('Options for Edit Post', 'cubewp-framework'); ?></h2>
+                <h2 class="hndle"><?php esc_html_e('Options with this Post Type', 'cubewp-framework'); ?></h2>
             </div>
             <div class="inside">
                 <div class="main">

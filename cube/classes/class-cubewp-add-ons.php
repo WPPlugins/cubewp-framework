@@ -310,6 +310,7 @@ class CubeWp_Add_Ons {
 							$this->update_plugin_data($slug, $license_data->license);
 						}else{
 							CWP()->update_cubewp_options($slug.'-status', $license_data->license);
+							CWP()->update_cubewp_options($slug, $license_data);
 						}
 					}
 			

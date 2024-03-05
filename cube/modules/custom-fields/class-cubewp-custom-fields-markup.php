@@ -347,6 +347,8 @@ class CubeWp_Custom_Fields_Markup
             'class' => 'field-filter-user-role',
             'tr_class' => 'conditional-field',
             'tr_extra_attr' => 'data-equal="user"',
+			'required' => true,
+            'validation_msg' => esc_html__('Please select role', 'cubewp-framework'),
         );
         $field_settings['field_rel_attr'] = array(
 		    'label' => esc_html__('Link Behavior', 'cubewp-framework'),

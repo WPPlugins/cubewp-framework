@@ -1200,3 +1200,6 @@
     .cwp-welcome-sidebar-box .cwp-learmore-addons {
         margin-top: 12px;
     }
+	.cwp-dashboard-content-panel .cwp-welcome-box .cwp-welcome-box-logo img {
+        border-radius: 10px;
+    }

@@ -4,8 +4,8 @@ Donate link: NA
 Tags: custom fields, custom post types, custom taxonomies, acf, meta box, custom field, post type, taxonomy, meta, custom, field, file, image, post types, post, simple fields, text, textarea, type, advanced custom fields, custom post type, custom taxonomy, clone fields, forms, maps, relationship, repeatable fields, conditional fields, acf, fields, meta, postmeta, repeater, content types, pods, crocoblock, metabox, toolset, jetengine
 Requires at least: 5.0
 Requires PHP: 7.4
-Tested up to: 6.3.1
-Stable tag: 1.1.11
+Tested up to: 6.4.1
+Stable tag: 1.1.12
 License: GPLv2 or later
 
 CubeWP is an end-to-end dynamic content framework for WordPress to help you shrink time and cut cost of development up to 90%.
@@ -301,7 +301,16 @@ To getting started with the plugin, please go to [Documentation](https://support
 
 == Changelog ==
 
+= 1.1.12 2023-11-22
 
+* Fixed: License Re-activation after license renewal
+* Fixed: Default Wordpress Reset setup before Reset Email Template configuration
+* Fixed: Documentation URL's giving 404 because of updating documentation
+* Fixed: Singular post type name is showing on the edit post button on the frontend
+* Fixed: Filter by Role is not mandatory while creating custom fields
+* Fixed: Few Warnings and Notices
+* Tweaks: Few changes in newly launched use cases in Dashboard
+* Tweaks: Alerts and Typography changes in Import & Export section
 
 = 1.1.11 2023-10-26
 

@@ -78,7 +78,7 @@ class CubeWp_Import {
                             <div class="cubewp-import-content">
                                 <div class="cubewp-import-content-dummy-warning">
                                     <span class="dashicons dashicons-warning"></span>
-                                    <p><?php esc_html_e('This will import dummy content (Post Types, Taxonomies, Terms, Custom Fields, Forms, Posts, etc.) for testing purpose only. No file upload required.', 'cubewp-framework'); ?></p>
+                                    <p><?php esc_html_e('This is a dummy importer tool for testing purposes, including Post Types, Taxonomies, and Custom Fields. No file upload is required.', 'cubewp-framework'); ?></p>
                                 </div>
                             </div>
                         </div>
@@ -193,7 +193,7 @@ class CubeWp_Import {
             
             wp_die();
         }else {
-            wp_send_json( array( 'success' => 'false', 'msg' => esc_html__("The file you are trying to upload is not a .zip file. Please try again.", 'cubewp-framework')) );
+            wp_send_json( array( 'success' => 'false', 'msg' => esc_html__("Please upload a zip file to import data.", 'cubewp-framework')) );
         }
     }
 

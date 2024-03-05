@@ -376,7 +376,7 @@ class CubeWp_taxonomy {
             <div id="side-sortables" class="meta-box-sortables ui-sortable">
             <div class="postbox">
                 <div class="postbox-header">
-                    <h2 class="hndle"><?php esc_html_e('Assign Post Type', 'cubewp-framework'); ?></h2>
+                    <h2 class="hndle"><?php esc_html_e('Assign To Post Type', 'cubewp-framework'); ?></h2>
                 </div>
                 <div class="inside">
                     <div class="main">

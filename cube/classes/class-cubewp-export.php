@@ -72,8 +72,7 @@ class CubeWp_Export {
                             <h4><?php esc_html_e('Export Data', 'cubewp-framework'); ?></h4>
                         </div>
                         <div class="cubewp-import-content">
-                            <p>Select all the types of content and settings from CubeWP you would like to export
-                                today.</p>
+                            <p>Please Choose the Content Type and Settings that you would like to Export.</p>
                             <?php self::cwp_export_options(); ?>
                         </div>
                     </div>
@@ -205,7 +204,7 @@ class CubeWp_Export {
                 }
                 wp_send_json(array(
                     'success'  => 'true',
-                    'msg'      => esc_html__('Data Export successfully.', 'cubewp-framework'),
+                    'msg'      => esc_html__('The file you requested is ready for download. Please click the download file button to download it.', 'cubewp-framework'),
 					'file_url' => $files['zip_file'],
                 ));
             }else {
@@ -225,7 +224,7 @@ class CubeWp_Export {
                 self::cwp_create_zip_file();
                 wp_send_json(array(
                     'success'  => 'true',
-                    'msg'      => esc_html__('Data Export successfully.', 'cubewp-framework'),
+                    'msg'      => esc_html__('The file you requested is ready for download. Please click the download file button to download it.', 'cubewp-framework'),
 					'file_url' => $files['zip_file'],
                 ));
             }else {
@@ -248,7 +247,7 @@ class CubeWp_Export {
 			if (empty($_POST['cwp_export_content_type'])) {
 				wp_send_json(array(
 					'success' => 'false',
-					'msg'     => esc_html__('Please choose content type for export.', 'cubewp-framework')
+					'msg'     => esc_html__('Select at least one content type to proceed with data export.', 'cubewp-framework')
 				));
 			} else {
 				$export_content = array();

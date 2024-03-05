@@ -286,11 +286,16 @@
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
         margin: 0;
     }
+    /* new code  */
+    
+    .cwp-dashboard-content-panel .cwp-welcome-box .cwp-welcome-box-logo img {
+        border-radius: 10px;
+    }
     
     .cwp-dashboard-content-panel .cwp-welcome-box .cwp-welcome-box-logo {
         opacity: 1;
         max-width: 132px;
-        height: 163px;
+        height: auto;
     }
     
     .Faqs-section span.dashicons.dashicons-arrow-up-alt2 {
@@ -1233,7 +1238,7 @@
     }
     
     .cwp-dashboard-data-structure-pages.classifiedPro {
-        background: #F4F8FF;
+        background: #FAF5E9;
     }
     
     .cwp-dashboard-data-structure-pages {
@@ -1246,7 +1251,7 @@
     .cwp-dashboard-data-structure-pages-image {
         border-radius: 20px;
         overflow: hidden;
-        max-width:calc(100% / 2 - 8%);
+        max-width: calc(100% / 2 - 8%);
         max-height: 245px;
     }
     
@@ -1257,13 +1262,14 @@
     }
     
     .cwp-dashboard-data-structure-pages-details {
-        width:calc(100% / 2 + 30%);
+        width: calc(100% / 2 + 30%);
     }
     
     .cwp-dashboard-data-structure-pages-details h2.title {
         color: #000000;
-        font-size: 30px;
-        margin: 0 0 20px 0;
+        margin: 0 0 12px 0;
+        font: normal normal normal 30px/37px HelveticaNeue-Medium;
+        font-weight: 600;
     }
     
     .cwp-dashboard-data-structure-pages-details p.description {
@@ -1271,6 +1277,7 @@
         font-size: 14px;
         margin: 0 0 5px 0;
         font-weight: 500;
+        font-family: sans-serif;
     }
     
     .cwp-dashboard-data-structure-pages-details span.featured-text {
@@ -1290,13 +1297,32 @@
         gap: 8px 0;
     }
     
+    .cwp-dashboard-data-structure-pages-details .download-btn .higlighted {
+        border-color: #6D7278;
+        color: #6D7278;
+    }
+    
     .cwp-dashboard-data-structure-pages-details .features ul li {
         color: #333333;
-        font-size: 12px;
-        font-weight: 500;
         display: flex;
         align-items: center;
         gap: 0 4px;
+        font-weight: 500;
+    }
+    
+    .cubewp-library-small-headings {
+        margin-bottom: 0;
+        margin-top: 0;
+        text-align: left;
+        letter-spacing: 0px;
+        color: #484848;
+        display: flex;
+        opacity: 1;
+    }
+    
+    .data-envato-logo {
+        max-width: 62px;
+        line-height: 16px;
     }
     
     .cwp-dashboard-data-structure-pages-details .features ul li span {
@@ -1321,7 +1347,7 @@
     .cwp-dashboard-data-structure-pages-details .download-btn p {
         color: #868686;
         font-size: 12px;
-        margin:  0 0 12px 0;
+        margin: 0 0 12px 0;
     }
     
     .cwp-dashboard-data-structure-pages-details .download-btn a:hover {
