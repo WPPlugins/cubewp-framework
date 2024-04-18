@@ -559,7 +559,7 @@ class CubeWp_Form_Builder {
         }
         if ($field['form_type'] == 'post_type' || $field['form_type'] == 'user') {
             $output      .= '<div class="cubewp-builder-group-widget-setting-field">
-            <label>' . esc_html__( "Validation Message", "cubewp-framework" ) . '</label>';
+            <label>' . esc_html__( "Required Message", "cubewp-framework" ) . '</label>';
             $input_attrs = array(
             'class'       => 'group-field field-validation_msg',
             'name'        => 'validation_msg',

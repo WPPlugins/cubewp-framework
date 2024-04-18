@@ -932,6 +932,47 @@ button .dashicons {
     transition: 0.3s;
     background: #1f8013 0% 0% no-repeat padding-box;
 }
+.cube-subscription-header.forms-templates .subscription-header-super {
+    width: 550px;
+    margin-top: 0px;
+}
+.cubewp-subscription-contant.forms-templates .cubewp-subscription-download {
+    flex-direction: row;
+	padding: 5px 38px;
+	margin-bottom: 50px;
+}
+.cubewp-subscription-frame.forms-templates .cubewp-subscription-form .cubewp-subscription-contant .cube-popup-title {
+    padding-top: 5px;
+}
+.cubewp-subscription-frame.forms-templates .cubewp-subscription-main {
+    top: 50%;
+}
+.cubewp-subscription-frame.forms-templates .cubewp-subscription-logo {
+    font-weight: bold;
+    font-size: 14px;
+    background: #FFF6B2;
+    border-radius: 10px;
+    padding: 10px 13px;
+    margin-top: 20px;
+    color: #AC0000;
+    margin-bottom: 10px;
+}
+.cubewp-subscription-contant.forms-templates h3 {
+    font-size: 14px !important;
+    color: #000 !important;
+    margin-bottom: 0px !important;
+}
+.cubewp-subscription-frame.forms-templates .cubewp-subscription-contant.forms-templates {
+    border-top: unset !important;
+    margin: 0px;
+    border: 1px solid #6852eb;
+}
+.cubewp-subscription-contant.forms-templates .cubewp-subscription-download a:last-child {
+    background: none;
+    border: 1px solid #6752EB;
+    border-radius: 4px;
+    color: #6752EB;
+}
 .list-options-subscription-form li {
     width: calc((100% / 2) - 0px);
     text-align: left;
@@ -946,7 +987,7 @@ button .dashicons {
     margin: 0px 8px 0 0;
 }
 .cubewp-subscription-bottom-contant .cubewp-logo {
-    margin-bottom: 14px;
+    margin-bottom: 25px;
     text-align: center;
 }
 .cubewp-subscription-download a {
@@ -964,7 +1005,7 @@ button .dashicons {
 }
 .cubewp-subscription-download {
     text-align: center;
-    margin-bottom: 22px;
+    margin-bottom: 10px;
     display: flex;
     flex-direction: column;
 }
@@ -999,8 +1040,10 @@ button .dashicons {
     text-align: center;
     margin: 0 0 15px 0;
 }
-
-
+.cubewp-subscription-logo img {
+    width: 165px;
+    margin-top: 25px;
+}
 .cubewp-subscription-main {
     position: absolute;
     text-align: center;
@@ -1010,7 +1053,7 @@ button .dashicons {
     top: 44%;
 }
 .cubewp-subscription-bottom-contant .cubewp-logo img {
-    width: 170px;
+    width: 110px;
     height: auto;
 }
 

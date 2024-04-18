@@ -52,7 +52,7 @@ class CubeWp_Import {
             </div>
             <form id="import_form" method="post" action="" enctype="multipart/form-data">
                 <input type="hidden" name="action" value="cwp_import_data">
-                <input type="hidden" name="cwp_import_nonce" value="<?php echo wp_create_nonce( basename( __FILE__ ) ); ?>">
+                <input type="hidden" name="cwp_import_nonce" value="<?php echo wp_create_nonce( 'cwp_import_data_nonce' ); ?>">
                 <div class="cubewp-import-box-container">
                     <div class="cubewp-import-box">
                         <div class="cubewp-import-card">
@@ -115,8 +115,11 @@ class CubeWp_Import {
      * @since  1.0.0
      */
     public function cwp_import_data_callback(){
-
-        if($_FILES["file"]["name"]) {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			// User doesn't have the required capabilities
+			wp_send_json( array( 'success' => 'false', 'msg' => esc_html__( "You do not have permission to perform this action.", 'cubewp-framework' ) ) );
+		}
+        if ( isset( $_FILES["file"]["name"] ) && isset( $_POST['cwp_import_nonce'] ) && wp_verify_nonce( $_POST['cwp_import_nonce'], 'cwp_import_data_nonce' ) ) {
             $import_file = $_FILES;
             $filename = sanitize_file_name($import_file["file"]["name"]);
             $source = $import_file["file"]["tmp_name"];

@@ -59,6 +59,10 @@ class CubeWp_Admin {
             if( !class_exists( 'CubeWp_Frontend_Load' ) ) {
                 add_action('cubewp_loaded', array('CubeWp_Builder_Pro', 'init'));
             }
+			
+			if( !class_exists( 'CubeWp_Forms_Custom' ) ) {
+                add_action('cubewp_loaded', array('CubeWp_Forms_Pro', 'init'));
+            }
 
             add_filter( 'post_updated_messages', array( $this, 'cubewp_updated_post_type_messages' ) );
 

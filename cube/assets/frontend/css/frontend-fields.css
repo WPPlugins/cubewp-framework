@@ -126,7 +126,7 @@ span.select2-selection.select2-selection--single span.select2-selection__arrow {
 	margin: 0px;
 }
 
-span.select2-container.select2-container--default.select2-container--open span.select2-dropdown.select2-dropdown--below {
+.logged-in span.select2-container.select2-container--default.select2-container--open span.select2-dropdown.select2-dropdown--below {
 	margin-top: 30px;
 	border: 0.1rem solid #dcd7ca;
 }

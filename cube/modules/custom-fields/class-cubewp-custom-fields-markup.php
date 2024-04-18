@@ -451,7 +451,7 @@ class CubeWp_Custom_Fields_Markup
                                 and a relationship field will appear on the selected post or user edit page.",
         );
         $field_settings['field_validation'] = array(
-            'label' => esc_html__('Validation', 'cubewp-framework'),
+            'label' => esc_html__('Required', 'cubewp-framework'),
             'name' => 'cwp[fields][' . $FieldData['name'] . '][required]',
             'value' => '1',
             'placeholder' => '',
@@ -470,10 +470,10 @@ class CubeWp_Custom_Fields_Markup
             $trclass = 'validation-msg-row conditional-field';
         }
         $field_settings['field_validation_msg'] = array(
-            'label' => esc_html__('Validation error message', 'cubewp-framework'),
+            'label' => esc_html__('Required error message', 'cubewp-framework'),
             'name' => 'cwp[fields][' . $FieldData['name'] . '][validation_msg]',
             'value' => $FieldData['validation_msg'],
-            'placeholder' => esc_html__('Validation error message', 'cubewp-framework'),
+            'placeholder' => esc_html__('Required error message', 'cubewp-framework'),
             'type' => 'text',
             'id' => '',
             'type_input' => 'text',
@@ -948,7 +948,7 @@ class CubeWp_Custom_Fields_Markup
             'tr_extra_attr' => 'data-equal="url"',
         );
         $field_settings['field_validation'] = array(
-            'label' => esc_html__('Validation', 'cubewp-framework'),
+            'label' => esc_html__('Required', 'cubewp-framework'),
             'name' => 'cwp[sub_fields][' . $parent_field . '][' . $FieldData['name'] . '][required]',
             'value' => '1',
             'placeholder' => '',
@@ -966,10 +966,10 @@ class CubeWp_Custom_Fields_Markup
             $trclass = 'validation-msg-row conditional-field';
         }
         $field_settings['field_validation_msg'] = array(
-            'label' => esc_html__('Validation error message', 'cubewp-framework'),
+            'label' => esc_html__('Required error message', 'cubewp-framework'),
             'name' => 'cwp[sub_fields][' . $parent_field . '][' . $FieldData['name'] . '][validation_msg]',
             'value' => $FieldData['validation_msg'],
-            'placeholder' => esc_html__('Validation error message', 'cubewp-framework'),
+            'placeholder' => esc_html__('Required error message', 'cubewp-framework'),
             'type' => 'text',
             'type_input' => 'text',
             'class' => 'field-validation-msg',

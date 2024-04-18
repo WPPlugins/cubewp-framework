@@ -27,6 +27,7 @@ class CubeWp_Search_Ajax_Hooks{
         global $cwpOptions;
         $archive_map = isset($cwpOptions['archive_map']) ? $cwpOptions['archive_map'] : 1;
         $archive_filters = isset($cwpOptions['archive_filters']) ? $cwpOptions['archive_filters'] : 1;
+		$posts_per_page = isset($cwpOptions['archive_posts_per_page']) ? $cwpOptions['archive_posts_per_page'] : 10;
         $grid_class = 'cwp-col-12 cwp-col-md-6';
         if ( ! $archive_map || ! $archive_filters) {
             $grid_class = 'cwp-col-12 cwp-col-md-4';
@@ -36,7 +37,7 @@ class CubeWp_Search_Ajax_Hooks{
         
         $post_type = isset($post_data['post_type']) ? $post_data['post_type'] : '';
 
-        $post_data['posts_per_page'] = apply_filters( 'cubewp/search/post_per_page', 10, $post_data );
+        $post_data['posts_per_page'] = apply_filters( 'cubewp/search/post_per_page', $posts_per_page, $post_data );
 
         $_DATA = apply_filters('cubewp/search/query/update',$post_data,sanitize_text_field($post_type));
         

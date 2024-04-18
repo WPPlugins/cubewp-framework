@@ -161,14 +161,14 @@ class CubeWp_Submenu {
             array(
                 'id'           =>  'cubewp-loop-builder',
                 'parent'       =>  'cube_wp_dashboard',
-                'title'        =>  esc_html__('Post Loop Generator', 'cubewp'),
+                'title'        =>  esc_html__('Post Loop', 'cubewp'),
                 'callback'     =>  'cubewp-loop-builder',
                 'position'     => 15
             ),
             array(
                 'id'           =>  'cubewp-single-layout',
                 'parent'       =>  'cube_wp_dashboard',
-                'title'        =>  esc_html__('Single-Post Editor', 'cubewp'),
+                'title'        =>  esc_html__('Single-Post', 'cubewp'),
                 'callback'     =>  'cubewp-single-layout',
                 'position'     => 16
             ),
@@ -199,9 +199,23 @@ class CubeWp_Submenu {
                 'title'     => esc_html__('CubeWP Export', 'cubewp-framework'),
                 'callback'  => 'cubewp-export',
                 'position'     => 20
-            )
-
+            ),
         );
+		if( !class_exists( 'CubeWp_Forms_Custom' ) ){
+			$settings[]	=	array(
+                'id'        => 'cubewp-forms-unsubscribed-templates', // Expected to be overridden if dashboard is enabled.
+                'parent'    => 'cube_wp_dashboard',
+                'title'     => esc_html__('CubeWP Forms', 'cubewp-framework'),
+                'callback'  => 'cubewp-forms-unsubscribed-templates'
+            );
+		}
+		$settings[]	=	array(
+			'id'        => 'cubewp-pricing', // Expected to be overridden if dashboard is enabled.
+			'parent'    => 'cube_wp_dashboard',
+			'title'     => '<a href="https://cubewp.com/pricing/" target="_blank"><span class="dashicons dashicons-star-filled"></span> Get All Access</a>',
+			'callback'  => 'cubewp-pricing',
+			'position'     => 20
+		);
         return apply_filters( 'cubewp-submenu', $settings);
     }
     

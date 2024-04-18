@@ -534,7 +534,7 @@ function cwp_conditional_fields(form_name_method) {
                 if ( tagName === 'INPUT' ) {
                     var inputType = parent.prop('type');
                     if ( inputType === 'radio' ) {
-                        selectedVal = $this.closest('form').find('*' +form_name_method+ '[' + field + ']"]:selected').val();
+                         selectedVal = $this.closest('form').find('*' +form_name_method+ '[' + field + ']"]').val();
                     }
                 }
                 if (parent.is(':checked') || selectedVal != '' || selectedVal == ''){

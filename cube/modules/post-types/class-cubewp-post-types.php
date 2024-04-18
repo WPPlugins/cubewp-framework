@@ -113,7 +113,7 @@ class CubeWp_Post_Types {
                 'hierarchical'           => cwp_boolean_value($single_cpt['hierarchical']),
                 'public'                 => cwp_boolean_value($single_cpt['public']),
                 'show_ui'                => cwp_boolean_value($single_cpt['show_ui']),
-                'show_in_menu'           => cwp_boolean_value($single_cpt['show_in_menu']),
+                'show_in_menu'           => is_numeric($single_cpt['show_in_menu']) ? cwp_boolean_value($single_cpt['show_in_menu']) : $single_cpt['show_in_menu'],
                 'menu_position'          => $single_cpt['menu_position'],
                 'show_in_nav_menus'      => cwp_boolean_value($single_cpt['show_in_nav_menus']),
                 'show_in_admin_bar'      => cwp_boolean_value($single_cpt['show_in_admin_bar']),

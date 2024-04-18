@@ -238,6 +238,16 @@ $settings['archive_settings']    = array(
 				array( 'cubewp_archive', 'equals', '1' )
 			)
 		),
+		array(
+			'id'      => 'archive_posts_per_page',
+			'title'   => __( 'Posts Per Page', 'cubewp-framework' ),
+			'desc'    => __( 'Set number of posts per page in search' ),
+			'type'    => 'text',
+			'default' => 10,
+			'required' => array(
+				array( 'cubewp_archive', 'equals', '1' )
+			)
+		),
 	)
  );
  
