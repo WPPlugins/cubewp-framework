@@ -387,6 +387,17 @@ class CubeWp_Frontend_Terms_Field extends CubeWp_Frontend {
      */
     public function render_search_filters_dropdown_taxonomy_field( $output = '', $args = array() ){
         $args    =  apply_filters( 'cubewp/frontend/field/parametrs', $args );
+		
+		if(is_tax() && !is_search() && !is_page()){
+            $queried_object = get_queried_object();
+            if (is_object($queried_object) && !empty($queried_object) && !is_wp_error($queried_object)) {
+                $CurrentSlug = $queried_object->slug;
+                if(isset($CurrentSlug)){
+                    $args['value'] = $CurrentSlug;
+                }
+            }
+        }
+		
         $values  =  !empty($args['value']) ? explode(',', $args['value']) : $args['value'];
 
         if(isset($args['options']) && !empty($args['options'])){

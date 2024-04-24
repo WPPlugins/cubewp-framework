@@ -23,7 +23,7 @@ class CubeWp_Shortcode_Posts {
 		$args = array(
 			'post_type'      => $parameters['posttype'],
 			'posts_per_page' => $parameters['posts_per_page'],
-//			'orderby'        => $parameters['orderby'],
+			'orderby'        => $parameters['orderby'],
 			'order'          => $parameters['order'],
 		);
         $show_boosted_posts = '';

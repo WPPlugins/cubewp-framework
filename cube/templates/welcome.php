@@ -469,7 +469,8 @@ if( $current_user->user_firstname ){
                         <a href="https://cubewp.com/downloads/streetwise/" class="cwp-lead-content-imges two" target="_blank"><img src="<?php echo CWP_PLUGIN_URI . 'cube/assets/admin/images/welcome-dashboard/themes-extensions/street.png'; ?>" alt="image" />Real-Estate Theme</a>
                         <a href="https://cubewp.com/downloads/yellowbooks/" class="cwp-lead-content-imges two" target="_blank"><img src="<?php echo CWP_PLUGIN_URI . 'cube/assets/admin/images/welcome-dashboard/themes-extensions/yellow.png'; ?>" alt="image" />Directory Theme</a>
                         <a href="https://themeforest.net/item/classifiedpro-recommerce-classified-wordpress-theme/44528010" class="cwp-lead-content-imges two" target="_blank"><img src="<?php echo CWP_PLUGIN_URI . 'cube/assets/admin/images/welcome-dashboard/themes-extensions/classi.png'; ?>" alt="image" />Classified Ads Theme</a>
-                    </div>
+						<a href="https://cubewp.com/downloads/staybnb/" class="cwp-lead-content-imges two" target="_blank"><img src="<?php echo CWP_PLUGIN_URI . 'cube/assets/admin/images/welcome-dashboard/template-library/StayBnb_Preview.png'; ?>" alt="image" style=" background-color: #FFFAFA;border-radius: 5px;" />Staybnb Theme</a>
+					</div>
                 </div>
                 <div class="cwp-welcome-row">
                     <div class="cwp-welcome-col-md-12 margin-bottom-10 ">

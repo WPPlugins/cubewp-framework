@@ -1125,7 +1125,7 @@ if ( ! function_exists("render_taxonomy_value")) {
 		if (is_array($value)) {
 			foreach ($value as $terms) {
 				$terms = get_term($terms);
-				if ( ! empty($terms) && !WP_Error()) {
+				if ( ! empty($terms) && !is_wp_error($terms)) {
 					$output .= '<a href="' . get_term_link( $terms ) . '">
 							<p>' . $terms->name . '</p>
 						</a>';
@@ -1135,7 +1135,7 @@ if ( ! function_exists("render_taxonomy_value")) {
 			if ( ! empty($value)) {
 				$value = (int) $value;
 				$terms = get_term($value);
-				if ( ! empty($terms)) {
+				if ( ! empty($terms) && !is_wp_error($terms)) {
 					$output .= '<a href="' . get_term_link($terms) . '">
 							<p>' . $terms->name . '</p>
 						</a>';
@@ -1460,7 +1460,7 @@ if ( ! function_exists("cwp_output_buffer")) {
 		ob_start();
 	}
 
-	add_action('init', 'cwp_output_buffer');
+	add_action('admin_init', 'cwp_output_buffer');
 }
 
 /**
@@ -2350,3 +2350,26 @@ function get_any_field_value( $request ) {
 	}
 	return $value;
 }
+
+// Hide custom post types for subscribers
+function cwp_hide_custom_post_types_for_subscribers() {
+    // Get an array of custom post types
+    $custom_post_types = cwp_post_types();
+
+    // Check if the current user is a subscriber
+    if (current_user_can('subscriber')) {
+        global $submenu;
+        // Loop through each custom post type
+        foreach ($custom_post_types as $slug => $name) {
+            // Remove the custom post type from the admin menu
+            remove_menu_page('edit.php?post_type=' . $slug);
+            // Redirect subscribers if they try to access the custom post type page directly
+            if (isset($_GET['post_type']) && $_GET['post_type'] == $slug) {
+                wp_redirect(admin_url());
+                exit;
+            }
+        }
+    }
+}
+add_action('admin_menu', 'cwp_hide_custom_post_types_for_subscribers');
+

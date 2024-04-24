@@ -255,6 +255,7 @@
     -webkit-appearance: none;
     white-space: nowrap;
     border-color: #e0e0e0;
+	cursor: pointer;
 }
 #cwp-options-form #cubewp-settings-tabs-content .cwp-switch-options label:first-of-type {
     border-top-left-radius: 4px;

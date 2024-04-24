@@ -25,7 +25,7 @@ $settings['general-settings'] = array(
 			'id'      => 'external_cpt_into_cubewp',
 			'type'    => 'switch',
 			'title'   => __( 'External Custom Post Types Into CubeWP Builders', 'cubewp-framework' ),
-			'desc'    => __( 'Enable if you want to add custom post types created by code or 3rd party plugins into cubewp builders.', 'cubewp-framework' ),
+			'desc'    => __( 'Enable if you want to add custom post types created by code or 3rd party plugins into CubeWP builders', 'cubewp-framework' ),
 			'default' => '0',
 		),
 		array(
@@ -34,7 +34,7 @@ $settings['general-settings'] = array(
 			'title'    => __( 'Select Post Types', 'cubewp-framework' ),
 			'options'  => $external_post_types,
 			'multi'   =>  true,
-			'desc'     => __( 'Select custom post types created by code or 3rd party plugins.', 'cubewp-framework' ),
+			'desc'     => __( 'Select custom post types created by code or 3rd party plugins', 'cubewp-framework' ),
 			'required' => array(
 				array( 'external_cpt_into_cubewp', 'equals', '1' )
 			)
@@ -58,14 +58,14 @@ $settings['search_filters'] = array(
 			'type'    => 'switch',
 			'title'   => __( 'Google Address Search Radius', 'cubewp-framework' ),
 			'default' => '1',
-			'desc'    => __( 'Gives you a range bar in google address field on search and filter.', 'cubewp-framework' ),
+			'desc'    => __( 'Gives you a range bar in google address field on search and filter', 'cubewp-framework' ),
 		),
 		array(
 			'id'       => 'google_address_min_radius',
 			'type'     => 'text',
 			'title'    => __( 'Minimum Radius', 'cubewp-framework' ),
 			'default'  => '5',
-			'desc'     => __( 'Minimum radius for google address field on search and filter.', 'cubewp-framework' ),
+			'desc'     => __( 'Minimum radius for google address field on search and filter', 'cubewp-framework' ),
 			'required' => array(
 				array( 'google_address_radius', 'equals', '1' )
 			)
@@ -75,7 +75,7 @@ $settings['search_filters'] = array(
 			'type'     => 'text',
 			'title'    => __( 'Default Radius', 'cubewp-framework' ),
 			'default'  => '30',
-			'desc'     => __( 'Default radius for google address field on search and filter.', 'cubewp-framework' ),
+			'desc'     => __( 'Default radius for google address field on search and filter', 'cubewp-framework' ),
 			'required' => array(
 				array( 'google_address_radius', 'equals', '1' )
 			)
@@ -85,7 +85,7 @@ $settings['search_filters'] = array(
 			'type'     => 'text',
 			'title'    => __( 'Maximum Radius', 'cubewp-framework' ),
 			'default'  => '500',
-			'desc'     => __( 'Maximum radius for google address field on search and filter.', 'cubewp-framework' ),
+			'desc'     => __( 'Maximum radius for google address field on search and filter', 'cubewp-framework' ),
 			'required' => array(
 				array( 'google_address_radius', 'equals', '1' )
 			)
@@ -99,7 +99,7 @@ $settings['search_filters'] = array(
 				'km' => __( 'Kilometre', 'cubewp-framework' )
 			),
 			'default'  => 'mi',
-			'desc'     => __( 'Unit of radius for google address field on search and filter.', 'cubewp-framework' ),
+			'desc'     => __( 'Unit of radius for google address field on search and filter', 'cubewp-framework' ),
 			'required' => array(
 				array( 'google_address_radius', 'equals', '1' )
 			)
@@ -162,14 +162,14 @@ $settings['map']    = array(
 		array(
 			'id'      => 'map_latitude',
 			'title'   => __( 'Set Map Default Latitude', 'cubewp-framework' ),
-			'desc'    => __( 'Write Valid Latitude For Default Map.', 'cubewp-framework' ),
+			'desc'    => __( 'Write Valid Latitude For Default Map', 'cubewp-framework' ),
 			'type'    => 'text',
 			'default' => '40.68924104083928',
 		),
 		array(
 			'id'      => 'map_longitude',
 			'title'   => __( 'Set Map Default Longitude', 'cubewp-framework' ),
-			'desc'    => __( 'Write Valid Longitude For Default Map.', 'cubewp-framework' ),
+			'desc'    => __( 'Write Valid Longitude For Default Map', 'cubewp-framework' ),
 			'type'    => 'text',
 			'default' => '-74.04450284527532',
 		),
@@ -184,14 +184,14 @@ $settings['archive_settings']    = array(
 		array(
 			'id'      => 'cubewp_archive',
 			'title'   => __( 'CubeWP Archive', 'cubewp-framework' ),
-			'desc'    => __( 'You can easily on/off CubeWP custom archive page.' ),
+			'desc'    => __( 'You can easily On/Off CubeWP custom archive page' ),
 			'type'    => 'switch',
 			'default' => '1',
 		),
 		array(
 			'id'      => 'archive_map',
 			'title'   => __( 'Map', 'cubewp-framework' ),
-			'desc'    => __( 'You can easily on/off map on archive page.' ),
+			'desc'    => __( 'You can easily On/Off map on archive page' ),
 			'type'    => 'switch',
 			'default' => '0',
 			'required' => array(
@@ -201,7 +201,7 @@ $settings['archive_settings']    = array(
 		array(
 			'id'      => 'archive_filters',
 			'title'   => __( 'Filters', 'cubewp-framework' ),
-			'desc'    => __( 'You can easily on/off filters on archive page.' ),
+			'desc'    => __( 'You can easily On/Off filters on archive page' ),
 			'type'    => 'switch',
 			'default' => '0',
 			'required' => array(
@@ -211,7 +211,7 @@ $settings['archive_settings']    = array(
 		array(
 			'id'      => 'archive_sort_filter',
 			'title'   => __( 'Sorting Filter', 'cubewp-framework' ),
-			'desc'    => __( 'You can easily on/off sorting filter on archive page.' ),
+			'desc'    => __( 'You can easily On/Off sorting filter on archive page' ),
 			'type'    => 'switch',
 			'default' => '1',
 			'required' => array(
@@ -221,7 +221,7 @@ $settings['archive_settings']    = array(
 		array(
 			'id'      => 'archive_layout',
 			'title'   => __( 'Layout Switcher', 'cubewp-framework' ),
-			'desc'    => __( 'You can easily on/off layout switcher on archive page.' ),
+			'desc'    => __( 'You can easily On/Off layout switcher on archive page' ),
 			'type'    => 'switch',
 			'default' => '1',
 			'required' => array(
@@ -231,7 +231,7 @@ $settings['archive_settings']    = array(
 		array(
 			'id'      => 'archive_found_text',
 			'title'   => __( 'Found Text', 'cubewp-framework' ),
-			'desc'    => __( 'You can easily on/off found text on archive page.' ),
+			'desc'    => __( 'You can easily On/Off found text on archive page' ),
 			'type'    => 'switch',
 			'default' => '1',
 			'required' => array(
@@ -268,7 +268,7 @@ if ( cubewp_check_if_elementor_active() && ! cubewp_check_if_elementor_active(tr
 		'type'    => 'select',
 		'title'   => __( 'Post-Type For Elementor Single Page', 'cubewp-framework' ),
 		'options' => cwp_post_types(),
-		'desc'    => __( 'Please select post-type for Elementor single page template. If you want to use custom page with multiple post-types please download <a href="https://cubewp.com/cubewp-frontend-pro/" target="_blank">CubeWP Frontend Pro</a>.', 'cubewp-framework' ),
+		'desc'    => __( 'Please select post-type for Elementor single page template. If you want to use custom page with multiple post-types please download <a href="https://cubewp.com/cubewp-frontend-pro/" target="_blank">CubeWP Frontend Pro</a>', 'cubewp-framework' ),
 			'required' => array(
 				array( 'cubewp_singular', 'equals', '1' )
 			)
@@ -278,7 +278,7 @@ if ( cubewp_check_if_elementor_active() && ! cubewp_check_if_elementor_active(tr
 		'type'    => 'select',
 		'title'   => __( 'Elementor Single Page', 'cubewp-framework' ),
 		'options' => $options,
-		'desc'    => __( 'Please select Elementor single page template.', 'cubewp-framework' ),
+		'desc'    => __( 'Please select Elementor single page template', 'cubewp-framework' ),
 		'required' => array(
 			array( 'post_type_for_elementor_page', '!=', '' )
 		)
@@ -301,7 +301,7 @@ $settings['post_settings'] = array(
 			array(
 				'id'      => 'cubewp_singular',
 				'title'   => __( 'CubeWP Single Page', 'cubewp-framework' ),
-				'desc'    => __( 'You can easily on/off CubeWP custom single page.' ),
+				'desc'    => __( 'You can easily On/Off CubeWP custom single page' ),
 				'type'    => 'switch',
 				'default' => '1',
 			),
@@ -310,7 +310,7 @@ $settings['post_settings'] = array(
 				'type'    => 'switch',
 				'title'   => __( 'Save Button', 'cubewp-framework' ),
 				'default' => '1',
-				'desc'    => __( 'Gives you a button on single page to save post type.', 'cubewp-framework' ),
+				'desc'    => __( 'Gives you a button on single page to save post type', 'cubewp-framework' ),
 				'required' => array(
 					array( 'cubewp_singular', 'equals', '1' )
 				)
@@ -320,7 +320,7 @@ $settings['post_settings'] = array(
 				'type'    => 'switch',
 				'title'   => __( 'Share Button', 'cubewp-framework' ),
 				'default' => '1',
-				'desc'    => __( 'Gives you a button on single page to share post type.', 'cubewp-framework' ),
+				'desc'    => __( 'Gives you a button on single page to share post type', 'cubewp-framework' ),
 				'required' => array(
 					array( 'cubewp_singular', 'equals', '1' )
 				)
@@ -328,9 +328,9 @@ $settings['post_settings'] = array(
 			array(
 				'id'       => 'twitter_share',
 				'type'     => 'switch',
-				'title'    => __( 'Twitter Share', 'cubewp-framework' ),
+				'title'    => __( 'X (twitter) Share', 'cubewp-framework' ),
 				'default'  => '1',
-				'desc'     => __( 'By enabling this option, you can share post on twitter.', 'cubewp-framework' ),
+				'desc'     => __( 'By enabling this option, you can share post on X (twitter)', 'cubewp-framework' ),
 				'required' => array(
 					array( 'post_type_share_button', 'equals', '1' )
 				)
@@ -340,7 +340,7 @@ $settings['post_settings'] = array(
 				'type'     => 'switch',
 				'title'    => __( 'Facebook Share', 'cubewp-framework' ),
 				'default'  => '1',
-				'desc'     => __( 'By enabling this option, you can share post on facebook.', 'cubewp-framework' ),
+				'desc'     => __( 'By enabling this option, you can share post on facebook', 'cubewp-framework' ),
 				'required' => array(
 					array( 'post_type_share_button', 'equals', '1' )
 				)
@@ -350,7 +350,7 @@ $settings['post_settings'] = array(
 				'type'     => 'switch',
 				'title'    => __( 'Pinterest Share', 'cubewp-framework' ),
 				'default'  => '1',
-				'desc'     => __( 'By enabling this option, you can share post on pinterest.', 'cubewp-framework' ),
+				'desc'     => __( 'By enabling this option, you can share post on pinterest', 'cubewp-framework' ),
 				'required' => array(
 					array( 'post_type_share_button', 'equals', '1' )
 				)
@@ -360,7 +360,7 @@ $settings['post_settings'] = array(
 				'type'     => 'switch',
 				'title'    => __( 'LinkedIn Share', 'cubewp-framework' ),
 				'default'  => '1',
-				'desc'     => __( 'By enabling this option, you can share post on linkedIn.', 'cubewp-framework' ),
+				'desc'     => __( 'By enabling this option, you can share post on linkedIn', 'cubewp-framework' ),
 				'required' => array(
 					array( 'post_type_share_button', 'equals', '1' )
 				)
@@ -370,7 +370,7 @@ $settings['post_settings'] = array(
 				'type'     => 'switch',
 				'title'    => __( 'Reddit Share', 'cubewp-framework' ),
 				'default'  => '1',
-				'desc'     => __( 'By enabling this option, you can share post on reddit.', 'cubewp-framework' ),
+				'desc'     => __( 'By enabling this option, you can share post on reddit', 'cubewp-framework' ),
 				'required' => array(
 					array( 'post_type_share_button', 'equals', '1' )
 				)
@@ -387,14 +387,14 @@ $settings['author_settings'] = array(
 			'type'    => 'switch',
 			'title'   => __( 'Author Page Template', 'cubewp-framework' ),
 			'default' => '0',
-			'desc'    => __( 'If you have your author page template by any theme or plugin then you do not need to enable this option, Otherwise you can enable cubewp Author page template ', 'cubewp-framework' ),
+			'desc'    => __( 'If you have your author page template by any theme or plugin then you do not need to enable this option, Otherwise you can enable CubeWP Author page template ', 'cubewp-framework' ),
 		),
 		array(
 			'id'      => 'author_banner_image',
 			'type'    => 'media',
 			'title'   => __( 'Banner Image', 'cubewp-framework' ),
 			'default' => '',
-			'desc'    => __( 'Please upload banner image for author page.', 'cubewp-framework' ),
+			'desc'    => __( 'Please upload banner image for author page', 'cubewp-framework' ),
 			'required' => array(
 				array( 'show_author_template', 'equals', '1' )
 			)
@@ -404,7 +404,7 @@ $settings['author_settings'] = array(
 			'type'    => 'switch',
 			'title'   => __( 'Share Button', 'cubewp-framework' ),
 			'default' => '1',
-			'desc'    => __( 'Gives you a share button on author page.', 'cubewp-framework' ),
+			'desc'    => __( 'Gives you a share button on author page', 'cubewp-framework' ),
 			'required' => array(
 				array( 'show_author_template', 'equals', '1' )
 			)
@@ -414,7 +414,7 @@ $settings['author_settings'] = array(
 			'type'     => 'switch',
 			'title'    => __( 'Edit Profile', 'cubewp-framework' ),
 			'default'  => '1',
-			'desc'     => __( 'By enabling this option, author can edit profile from author page.', 'cubewp-framework' ),
+			'desc'     => __( 'By enabling this option, author can edit profile from author page', 'cubewp-framework' ),
 			'required' => array(
 				array( 'show_author_template', 'equals', '1' )
 			)
@@ -436,7 +436,7 @@ $settings['author_settings'] = array(
 			'type'     => 'switch',
 			'title'    => __( 'Contact Info', 'cubewp-framework' ),
 			'default'  => '1',
-			'desc'     => __( 'By enabling this option, author contact info will be visible on author page.', 'cubewp-framework' ),
+			'desc'     => __( 'By enabling this option, author contact info will be visible on author page', 'cubewp-framework' ),
 			'required' => array(
 				array( 'show_author_template', 'equals', '1' )
 			)
@@ -445,9 +445,9 @@ $settings['author_settings'] = array(
 			'id'       => 'author_post_types',
 			'type'     => 'select',
 			'multi'   =>  true,
-			'title'    => __( 'Select Post types', 'cubewp-reviews' ),
+			'title'    => __( 'Select Post Types', 'cubewp-reviews' ),
 			'subtitle' => '',
-			'desc'     => __( 'Tabs for above selected post types will be added other than all posts tab on author page.', 'cubewp-reviews' ),
+			'desc'     => __( 'Tabs for above selected post types will be added other than all posts tab on author page', 'cubewp-reviews' ),
 			'options'  => cwp_post_types(),
 			'required' => array(
 				array( 'show_author_template', 'equals', '1' )
@@ -458,7 +458,7 @@ $settings['author_settings'] = array(
 			'type'     => 'switch',
 			'title'    => __( 'User Custom Field', 'cubewp-framework' ),
 			'default'  => '1',
-			'desc'     => __( 'By enabling this option, author custom fields will be shown on author page.', 'cubewp-framework' ),
+			'desc'     => __( 'By enabling this option, author custom fields will be shown on author page', 'cubewp-framework' ),
 			'required' => array(
 				array( 'show_author_template', 'equals', '1' )
 			)
@@ -475,14 +475,14 @@ $settings['cubewp-css-js'] = array(
 			'type'    => 'ace_editor',
 			'mode'    => 'css',
 			'title'   => __( 'CSS ( Cascading Style Sheets )', 'cubewp-framework' ),
-			'desc'    => __( 'Put CSS code above. It will be enqueued on frontend only.', 'cubewp-framework' ),
+			'desc'    => __( 'Put CSS code above. It will be enqueued on frontend only', 'cubewp-framework' ),
 		),
 		array(
 			'id'      => 'cubewp-js',
 			'type'    => 'ace_editor',
 			'mode'    => 'javascript',
 			'title'   => __( 'JS or jQ ( JavaScript Or jQuery )', 'cubewp-framework' ),
-			'desc'    => __( 'Put JS code above. It will be enqueued on frontend only.', 'cubewp-framework' ),
+			'desc'    => __( 'Put JS code above. It will be enqueued on frontend only', 'cubewp-framework' ),
 		),
 	)
 );

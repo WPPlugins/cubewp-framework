@@ -39,7 +39,7 @@ if ($current_user->user_firstname) {
                             </div>
                             <div class="download-btn">
                                 <a href="https://cubewp.com/pricing/" target="_blank">Download Now<span class="dashicons dashicons-arrow-right-alt"></span></a>
-                                <a href="https://demowp.io/get-demo.php?demo=CubeWP" target="_blank" class="higlighted"> <img src="<?php echo CWP_PLUGIN_URI . 'cube/assets/admin/images/welcome-dashboard/template-library/demowp-rocket.png'; ?>" alt="" /> Create Instant Sandbox</a>
+                                <a href="https://demowp.io/get-demo.php?demo=CubeWP&type=yellowbooks" target="_blank" class="higlighted"> <img src="<?php echo CWP_PLUGIN_URI . 'cube/assets/admin/images/welcome-dashboard/template-library/demowp-rocket.png'; ?>" alt="" /> Create Instant Sandbox</a>
                             </div>
                             <p class="cubewp-library-small-headings">Included with All CubeWP Premium Plans</p>
                         </div>
@@ -63,7 +63,7 @@ if ($current_user->user_firstname) {
                                 </div>
                                 <div class="download-btn">
                                     <a href="https://cubewp.com/pricing/" target="_blank">Download Now<span class="dashicons dashicons-arrow-right-alt"></span></a>
-                                    <a href="https://demowp.io/get-demo.php?demo=CubeWP" target="_blank" class="higlighted"> <img src="<?php echo CWP_PLUGIN_URI . 'cube/assets/admin/images/welcome-dashboard/template-library/demowp-rocket.png'; ?>" alt="" /> Create Instant Sandbox</a>
+                                    <a href="https://demowp.io/get-demo.php?demo=CubeWP&type=dubified" target="_blank" class="higlighted"> <img src="<?php echo CWP_PLUGIN_URI . 'cube/assets/admin/images/welcome-dashboard/template-library/demowp-rocket.png'; ?>" alt="" /> Create Instant Sandbox</a>
                                 </div>
                                 <p class="cubewp-library-small-headings">Included with CubeWP Premium Plans</p>
                             </div>
@@ -87,7 +87,7 @@ if ($current_user->user_firstname) {
                             </div>
                             <div class="download-btn">
                                 <a href="https://cubewp.com/pricing/" target="_blank">Download Now<span class="dashicons dashicons-arrow-right-alt"></span></a>
-                                <a href="https://demowp.io/get-demo.php?demo=CubeWP" target="_blank" class="higlighted"> <img src="<?php echo CWP_PLUGIN_URI . 'cube/assets/admin/images/welcome-dashboard/template-library/demowp-rocket.png'; ?>" alt="" /> Create Instant Sandbox</a>
+                                <a href="https://demowp.io/get-demo.php?demo=CubeWP&type=clx" target="_blank" class="higlighted"> <img src="<?php echo CWP_PLUGIN_URI . 'cube/assets/admin/images/welcome-dashboard/template-library/demowp-rocket.png'; ?>" alt="" /> Create Instant Sandbox</a>
                             </div>
                             <p class="cubewp-library-small-headings">Included with All CubeWP Premium Plans</p>
                         </div>
@@ -110,7 +110,7 @@ if ($current_user->user_firstname) {
                             </div>
                             <div class="download-btn">
                                 <a href="https://cubewp.com/pricing/" target="_blank">Download Now<span class="dashicons dashicons-arrow-right-alt"></span></a>
-                                <a href="https://demowp.io/get-demo.php?demo=CubeWP" target="_blank" class="higlighted"> <img src="<?php echo CWP_PLUGIN_URI . 'cube/assets/admin/images/welcome-dashboard/template-library/demowp-rocket.png'; ?>" alt="" /> Create Instant Sandbox</a>
+                                <a href="https://demowp.io/get-demo.php?demo=CubeWP&type=streetwise" target="_blank" class="higlighted"> <img src="<?php echo CWP_PLUGIN_URI . 'cube/assets/admin/images/welcome-dashboard/template-library/demowp-rocket.png'; ?>" alt="" /> Create Instant Sandbox</a>
                             </div>
                             <p class="cubewp-library-small-headings">Included with CubeWP Premium Plans</p>
                         </div>
@@ -141,6 +141,29 @@ if ($current_user->user_firstname) {
                             <img src="<?php echo CWP_PLUGIN_URI . 'cube/assets/admin/images/welcome-dashboard/template-library/CLASSIFIED-PRO.png'; ?>" alt="" />
                         </div>
                     </div>
+					<div class="cwp-dashboard-data-structure-pages" style="background-color: #fffafa;">
+						<div class="cwp-dashboard-data-structure-pages-details">
+							<h2 class="title">Staybnb</h2>
+							<p class="description">Platform to Buy and Sell Properties</p>
+							<span class="featured-text">CORE HIGHLIGHTED FEATURES</span>
+							<div class="features">
+								<ul>
+									<li><span class="dashicons dashicons-yes"></span> Advanced Date Picker (Check-in / Check-out)</li>
+									<li><span class="dashicons dashicons-yes"></span> Advanced Guest Picker (Check-in / Check-out)</li>
+									<li><span class="dashicons dashicons-yes"></span> Advanced Search & Filtering</li>
+									<li><span class="dashicons dashicons-yes"></span> Report a Listing</li>
+								</ul>
+							</div>
+							<div class="download-btn">
+								<a href="https://cubewp.com/downloads/staybnb/" target="_blank">Purchase Now <span class="dashicons dashicons-arrow-right-alt"></span></a>
+								<a href="https://demowp.io/get-demo.php?demo=CubeWP&type=staybnb" target="_blank" class="higlighted"> <img src="<?php echo CWP_PLUGIN_URI . 'cube/assets/admin/images/welcome-dashboard/template-library/demowp-rocket.png'; ?>" alt="" /> Create Instant Sandbox</a>
+							</div>
+							<p class="cubewp-library-small-headings">Included with CubeWP Premium Plans</p>
+						</div>
+						<div class="cwp-dashboard-data-structure-pages-image">
+							<img src="<?php echo CWP_PLUGIN_URI . 'cube/assets/admin/images/welcome-dashboard/template-library/StayBnb_Preview.png'; ?>" alt="" />
+						</div>
+					</div>
                 </div>
             </div>
         </div>
@@ -194,7 +217,8 @@ if ($current_user->user_firstname) {
                         <a href="https://cubewp.com/downloads/streetwise/" class="cwp-lead-content-imges two" target="_blank"><img src="<?php echo CWP_PLUGIN_URI . 'cube/assets/admin/images/welcome-dashboard/themes-extensions/street.png'; ?>" alt="image" />Real-Estate Theme</a>
                         <a href="https://cubewp.com/downloads/yellowbooks/" class="cwp-lead-content-imges two" target="_blank"><img src="<?php echo CWP_PLUGIN_URI . 'cube/assets/admin/images/welcome-dashboard/themes-extensions/yellow.png'; ?>" alt="image" />Directory Theme</a>
                         <a href="https://themeforest.net/item/classifiedpro-recommerce-classified-wordpress-theme/44528010" class="cwp-lead-content-imges two" target="_blank"><img src="<?php echo CWP_PLUGIN_URI . 'cube/assets/admin/images/welcome-dashboard/themes-extensions/classi.png'; ?>" alt="image" />Classified Ads Theme</a>
-                    </div>
+						<a href="https://cubewp.com/downloads/staybnb/" class="cwp-lead-content-imges two" target="_blank"><img src="<?php echo CWP_PLUGIN_URI . 'cube/assets/admin/images/welcome-dashboard/template-library/StayBnb_Preview.png'; ?>" alt="image" style=" background-color: #FFFAFA;border-radius: 5px;" />Staybnb Theme</a>
+					</div>
                 </div>
                 <div class="cwp-welcome-col-md-12 margin-bottom-10 ">
                         <div class="cwp-welcome-faqs">

@@ -15,10 +15,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class CubeWp_Query{
     
-    private static $meta_key = null;
-    private static $terms = null;
-    private static $q_args = null;
-    private static $meta_query = array();
+    public static $meta_key = null;
+    public static $terms = null;
+    public static $q_args = null;
+    public static $meta_query = array();
     
     public function __construct(array $args) {
         self::$q_args = $args;
@@ -61,6 +61,8 @@ class CubeWp_Query{
             self::$meta_key = $meta_key;
             $field_type     = self::q_field_type();
             
+            do_action( 'cubewp_meta_query' , $meta_key, $field_type );
+
             if($field_type == 'taxonomy'){
                 $query['tax_query']['relation'] = 'AND';
                 $query['tax_query'][] = self::q_type_taxonomy();
@@ -79,6 +81,8 @@ class CubeWp_Query{
             }
         }
 
+        $args = self::$q_args;
+
         if(isset($args['s']) && !empty($args['s'])){
             $query['s'] = $args['s'];
         }
@@ -96,9 +100,9 @@ class CubeWp_Query{
         }
         
         if(isset($args['orderby']) && !empty($args['orderby'])){
-            if($args['orderby'] == 'ASC' || $args['orderby'] == 'DESC'){
-                $query['order'] = $args['orderby'];
-                $query['orderby'] = 'date';
+            if( $args['orderby'] != 'post__in' && $args['orderby'] != 'meta_value_num'){
+                $query['orderby'] = $args['orderby'];
+                $query['order'] = $args['order'];
             }elseif($args['orderby'] == 'post__in'){
                 $query['orderby'] = $args['orderby'];
             }else{
