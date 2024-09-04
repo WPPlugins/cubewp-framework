@@ -122,7 +122,7 @@ jQuery(document).ready(function () {
                 jQuery.ajax({
                     type: 'POST',
                     url: cwp_vars_params.ajax_url,
-                    data:'action=cwp_import_dummy_data&data_type=dummy',
+                    data:'action=cwp_import_dummy_data&data_type=dummy&nonce='+cwp_vars_params.nonce,
                     dataType: 'json',
                     success: function (response) {
                         if( response.success === 'true' ){
@@ -130,7 +130,7 @@ jQuery(document).ready(function () {
                                 jQuery.ajax({
                                     type: 'POST',
                                     url: cwp_vars_params.ajax_url,
-                                    data:'action=cwp_import_dummy_data&data_type=dummy&content=true',
+                                    data:'action=cwp_import_dummy_data&data_type=dummy&content=true&nonce='+cwp_vars_params.nonce,
                                     dataType: 'json',
                                     success: function (response) {
                                         if( response.success === 'false' ){
@@ -184,7 +184,7 @@ jQuery(document).ready(function () {
                                     export_custom_forms = true;
                                 }
                             }
-                            var _ajax_data = 'action=cwp_user_data&export=success';
+                            var _ajax_data = 'action=cwp_user_data&export=success&nonce='+cwp_vars_params.nonce;
                             if (export_custom_forms) {
                                 _ajax_data += '&download_now=false';
                             }
@@ -201,7 +201,7 @@ jQuery(document).ready(function () {
                                             jQuery.ajax({
                                                 type: 'POST',
                                                 url: cwp_vars_params.ajax_url,
-                                                data: 'action=cwp_custom_forms&export=success',
+                                                data: 'action=cwp_custom_forms&export=success&nonce='+cwp_vars_params.nonce,
                                                 dataType: 'json',
                                                 success: function (response) {
                                                     if( response.success === 'false' ){

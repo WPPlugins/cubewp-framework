@@ -307,6 +307,7 @@ class CubeWp_Enqueue extends CubeWp_Admin_Enqueue {
 				$params = array(
 					'ajax_url'  => admin_url( 'admin-ajax.php' ),
 					'admin_url' => admin_url(),
+					'nonce' 	=> wp_create_nonce("cubewp-alert-nonce"),
 				);
 				break;
 			case 'cubewp-map':

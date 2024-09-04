@@ -26,6 +26,10 @@ class CubeWp_Form_Builder {
      * @return void
      */
     public static function cwpform_save_shortcode() {
+		if ( !current_user_can('manage_options') ) {
+            wp_send_json( array( 'success' => 'false', 'msg' => esc_html__('You do not have permission to perform this action.', 'cubewp-framework') ) );
+            wp_die();
+        }
         $form_relation = isset( $_POST['form_relation'] ) ? sanitize_text_field( $_POST['form_relation'] ) : '';
         $form_type     = isset( $_POST['form_type'] ) ? sanitize_text_field( $_POST['form_type'] ) : '';
         if ( $form_type != '' ) {
@@ -57,6 +61,10 @@ class CubeWp_Form_Builder {
      * @since  1.0.0
      */
     public function cwpform_add_section() {
+		if ( !current_user_can('manage_options') ) {
+            wp_send_json( array( 'success' => 'false', 'msg' => esc_html__('You do not have permission to perform this action.', 'cubewp-framework') ) );
+            wp_die();
+        }
         $section_args = [];
         if(isset($_POST['action'])){
             unset($_POST['action']);
