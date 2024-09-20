@@ -320,10 +320,12 @@ class CubeWp_Frontend_Templates {
             );
         }
 
-        foreach ($templates as $template) {
-            $located = locate_template($template);
-            if ($located) {
-                return $located;
+        if(!empty($templates)){
+            foreach ($templates as $template) {
+                $located = locate_template($template);
+                if ($located) {
+                    return $located;
+                }
             }
         }
         return false;
