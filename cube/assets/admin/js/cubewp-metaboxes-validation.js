@@ -6,7 +6,7 @@ jQuery(document).ready(function ($) {
         thisObj.closest('td').find('.cwp-error-message').remove();
 
         if (cubewp_metaboxes_validation_params.existing_post_types.hasOwnProperty(value) && value !== prev_slug) {
-            thisObj.closest('td').append('<div class="cwp-notice cwp-error-message"><p>Slug already exist</p></div>');
+            thisObj.closest('td').append(`<div class="cwp-notice cwp-error-message"><p>${cubewp_metaboxes_validation_params.name_exist_msg}</p></div>`);
             jQuery('.cwp-save-button').prop('disabled', true);
         } else {
             jQuery('.cwp-save-button').prop('disabled', false);
@@ -20,7 +20,7 @@ jQuery(document).ready(function ($) {
         thisObj.closest('td').find('.cwp-error-message').remove();
 
         if (cubewp_metaboxes_validation_params.existing_taxonomies.hasOwnProperty(value) && value !== prev_slug) {
-            thisObj.closest('td').append('<div class="cwp-notice cwp-error-message"><p>Slug already exist</p></div>');
+            thisObj.closest('td').append(`<div class="cwp-notice cwp-error-message"><p>${cubewp_metaboxes_validation_params.name_exist_msg}</p></div>`);
             jQuery('.cwp-save-button').prop('disabled', true);
         } else {
             jQuery('.cwp-save-button').prop('disabled', false);
@@ -32,6 +32,26 @@ jQuery(document).ready(function ($) {
             value = cubewp_validate_input_value(thisObj.val());
         thisObj.prop('value', value);
         thisObj.closest('td').find('.cwp-error-message').remove();
+
+        var valueExists = false;
+
+        // Iterate through existing_custom_fields
+        for (var key in cubewp_metaboxes_validation_params.existing_custom_fields) {
+            if (cubewp_metaboxes_validation_params.existing_custom_fields.hasOwnProperty(key)) {
+                var fields = cubewp_metaboxes_validation_params.existing_custom_fields[key].split(',');
+                if (fields.includes(value)) {
+                    valueExists = true;
+                    break;
+                }
+            }
+        }
+
+        if (valueExists) {
+            thisObj.closest('td').append(`<div class="cwp-notice cwp-error-message"><p>${cubewp_metaboxes_validation_params.name_exist_msg}</p></div>`);
+            jQuery('.cwp-save-button').prop('disabled', true);
+        } else {
+            jQuery('.cwp-save-button').prop('disabled', false);
+        }
     });
 
     if (jQuery('form#post').length > 0) {

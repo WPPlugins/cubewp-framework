@@ -110,7 +110,7 @@ jQuery(document).on('click', '.cwp-saved-post', function (e) {
     jQuery.ajax({
         url: cwp_alert_ui_params.ajax_url,
         type: 'POST',
-        data : 'action=cubewp_remove_saved_posts&post-id='+ pid + '&nonce=' + cwp_alert_ui_params.nonce,
+        data : 'action=cubewp_remove_saved_posts&post-id='+ pid,
         dataType: "json",
         success: function (response) {
             cwp_notification_ui(response.type, response.msg);

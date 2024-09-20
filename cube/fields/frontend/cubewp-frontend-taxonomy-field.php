@@ -116,7 +116,7 @@ class CubeWp_Frontend_Taxonomy_Field extends CubeWp_Frontend {
 			}
 		}
 
-		if ($location == 'forms') {
+		if ($location == 'forms' || $location == 'filters') {
 			if (empty($args['container_attrs'])) {
 				$args['class'] = $args['class'] . ' cwp-taxonomy-field';
 			} else {

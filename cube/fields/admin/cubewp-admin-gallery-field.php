@@ -70,6 +70,7 @@ class CubeWp_Admin_Gallery_Field extends CubeWp_Admin {
                             ' . $attachments_list . '
                         </ul>
                     </div>
+                    <input type="hidden" name="'. $input_name .'[]" value="">
                     <a href="javascript:void(0);" class="button button-primary cwp-gallery-btn" data-allowed-types="' . $accept_types . '">Add Gallery Images</a>
                 </div>
             </div>';

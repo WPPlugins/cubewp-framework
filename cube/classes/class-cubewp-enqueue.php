@@ -62,6 +62,10 @@ class CubeWp_Enqueue extends CubeWp_Admin_Enqueue {
 		if ( ! is_admin() ) {
 			CubeWp_Enqueue::enqueue_style( 'cwp-alert-ui' );
 			CubeWp_Enqueue::enqueue_script( 'cwp-alert-ui' );
+			$file_path = CUBEWP_POST_CARDS_DIR . '/cubewp-post-cards.css';
+			if (file_exists(dirname($file_path))) {
+				CubeWp_Enqueue::enqueue_style( 'cwp-post-cards' );
+			}
 		}
 
 		// CSS Styles.
@@ -99,6 +103,11 @@ class CubeWp_Enqueue extends CubeWp_Admin_Enqueue {
 			),
             'cwp-search-filters'     => array(
 				'src'     => CWP_PLUGIN_URI . 'cube/assets/frontend/js/search-filters.js',
+				'deps'    => array( 'jquery' ),
+				'version' => CUBEWP_VERSION,
+			),
+			'cwp-load-more'     => array(
+				'src'     => CWP_PLUGIN_URI . 'cube/assets/frontend/js/load-more.js',
 				'deps'    => array( 'jquery' ),
 				'version' => CUBEWP_VERSION,
 			),
@@ -154,6 +163,11 @@ class CubeWp_Enqueue extends CubeWp_Admin_Enqueue {
 			),
 			'cwp-repeating-fields'     => array(
 				'src'     => CWP_PLUGIN_URI . 'cube/assets/frontend/js/repeatable-fields.js',
+				'deps'    => array( 'jquery' ),
+				'version' => CUBEWP_VERSION,
+			),
+			'cwp-business-hours-fields'     => array(
+				'src'     => CWP_PLUGIN_URI . 'cube/assets/frontend/js/business-hour-field.js',
 				'deps'    => array( 'jquery' ),
 				'version' => CUBEWP_VERSION,
 			),
@@ -251,6 +265,12 @@ class CubeWp_Enqueue extends CubeWp_Admin_Enqueue {
 				'deps'    => array(),
 				'version' => CUBEWP_VERSION,
 				'media'   => 'all',
+				'has_rtl' => false,
+			),
+			'cwp-post-cards'     => array(
+				'src'     => CUBEWP_POST_CARDS_URL . '/cubewp-post-cards.css',
+				'deps'    => array(),
+				'version' => CUBEWP_VERSION,
 				'has_rtl' => false,
 			),
 		);

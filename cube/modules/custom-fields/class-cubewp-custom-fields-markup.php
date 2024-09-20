@@ -1108,6 +1108,7 @@ class CubeWp_Custom_Fields_Markup
         $field_types[esc_html__('Choice', 'cubewp-framework')]['dropdown'] = esc_html__('Dropdown', 'cubewp-framework');
         $field_types[esc_html__('Choice', 'cubewp-framework')]['checkbox'] = esc_html__('Checkbox', 'cubewp-framework');
         $field_types[esc_html__('Choice', 'cubewp-framework')]['radio'] = esc_html__('Radio Button', 'cubewp-framework');
+        $field_types[esc_html__('Choice', 'cubewp-framework')]['business_hours'] = esc_html__('Business Hours', 'cubewp-framework');
 
 		$field_types[esc_html__('jQuery', 'cubewp-framework')]['google_address'] = esc_html__('Google Address', 'cubewp-framework');
         $field_types[esc_html__('jQuery', 'cubewp-framework')]['date_picker'] = esc_html__('Date Picker', 'cubewp-framework');

@@ -423,6 +423,51 @@ trait CubeWp_Single_Page_Trait {
 
 		return apply_filters('cubewp/singlecpt/field/radio', $output, $args);
 	}
+
+		/**
+	 * Method field_business_hours
+	 *
+	 * @param array $args field data
+	 *
+	 * @return string html
+	 * @since  1.0.0
+	 */
+	public static function field_business_hours($args = array()) {
+		$args['field_size'] = isset($args['field_size']) ? $args['field_size'] : '';
+		$args['container_class'] = isset($args['container_class']) ? $args['container_class'] : '';
+        $output = null;
+        if (!empty($args['value']) && is_array($args['value'])) {
+			$status = cwp_business_hours_status($args['value']);
+            $output = '<div class="cwp-cpt-single-business_hours cwp-cpt-single-field-container' . esc_attr($args['container_class']) . ' ' . esc_attr($args['field_size']) . '">
+				<h4>' . $args['label'] . '</h4>
+				<p class="cwp-business-status '.$status.'">'.$status.'</p>
+				<div class="cwp-business-hours ' . $args['class'] . '">';
+			$time_format = get_option('time_format');
+			foreach ($args['value'] as $day => $times) {
+				$output .= '<div class="cwp-cpt-single-field-container">';
+				$output .= '<h6>' . ucfirst($day) . '</h6>';
+				if(!is_array($times) && is_string($times) && $times == '24-hours-open'){
+					$output .= '<p> '. __('24 Hours Open','cubewp-framework') .'</p>';
+				}else{
+					$openTimes = $times['open'];
+					$closeTimes = $times['close'];
+					$output .= '<div class="cwp-single-day-timings">';
+					for ($i = 0; $i < count($openTimes); $i++) {
+						$otime = date_i18n($time_format, strtotime($openTimes[$i]));
+						$ctime = date_i18n($time_format, strtotime($closeTimes[$i]));
+						$output .= '<p>' . $otime . ' ~ ' . $ctime . '</p>';
+					}
+					$output .= '</div>';
+				}
+				
+				
+				$output .= '</div>';
+			}
+            $output .= '</div>
+			</div>';
+        }
+		return apply_filters('cubewp/singlecpt/field/business_hour', $output, $args);
+	}
 	
 	/**
 	 * Method field_google_address
@@ -447,10 +492,11 @@ trait CubeWp_Single_Page_Trait {
 			$address = $args['value']['address'];
 			$lat     = $args['value']['lat'];
 			$lng     = $args['value']['lng'];
+			$pin     = is_single() ? apply_filters( 'cubewp/search_result/map/pin', '', get_the_ID() ) : '';
 			$output  .= '<div class="cwp-cpt-single-google_address cwp-cpt-single-field-container '.esc_attr($args['container_class']).' '.esc_attr($args['field_size']).'">
                 <h4>' . $args['label'] . '</h4>
                 <div class="cwp-single-loc ' . $args['class'] . '">
-                    <div class="cpt-single-map" data-latitude="' . $lat . '" data-longitude="' . $lng . '" style="height: 300px;width: 100%;"></div>
+                    <div class="cpt-single-map" data-latitude="' . $lat . '" data-longitude="' . $lng . '" data-pinicon="' . $pin . '" style="height: 300px;width: 100%;"></div>
                     <div class="cwp-map-address">
                         <p>
                             <span id="cpt-single" class="address">' . $address . '</span>

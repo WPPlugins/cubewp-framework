@@ -110,13 +110,15 @@ jQuery(document).ready(function () {
         });
     });
     jQuery(document).on('click', '.cwp-file-field-preview span', function () {
-        var $this = jQuery(this), parent = $this.closest('.cwp-file-field-container'),
-            preview = parent.find('.cwp-file-field-preview'), preview_img = preview.find('img');
+        var $this = jQuery(this),
+            parent = $this.closest('.cwp-file-field-preview'),
+            preview_img = parent.find('img');
         preview_img.attr('src', '');
-        parent.find('.cwp-file-field input[type="file"]').val('');
-        preview.find('p').text('');
-        preview.hide();
+        parent.find('.cwp-image-preview').val('');
+        parent.find('p').text('');
+        parent.hide();
     });
+    
 
     // Gallery Field
     jQuery(document).on('click', '.cwp-gallery-field-trigger', function (e) {
@@ -238,8 +240,10 @@ jQuery(document).ready(function () {
 
 
 function cubewp_init_resources() {
-    var cwp_select2 = jQuery(".cwp-select2 select"), date_picker = jQuery(".cwp-field-date_picker"),
-        time_picker = jQuery(".cwp-field-time_picker"), date_time_picker = jQuery(".cwp-field-date_time_picker"),
+    var cwp_select2 = jQuery(".cwp-select2 select"),
+        date_picker = jQuery(".cwp-field-date_picker"),
+        time_picker = jQuery(".cwp-field-time_picker"), 
+        date_time_picker = jQuery(".cwp-field-date_time_picker"),
         range_picker = jQuery(".cwp-field-range");
 
     // Initializing Date Picker
@@ -261,6 +265,7 @@ function cubewp_init_resources() {
     if (date_time_picker.length > 0) {
         cubewp_init_date_time_pickers(date_time_picker);
     }
+
     var date_picker_div, date_picker_div_interval = setInterval(function () {
         date_picker_div = jQuery('#ui-datepicker-div');
         if (date_picker_div.length > 0) {
@@ -273,7 +278,7 @@ function cubewp_init_resources() {
     }, 500);
 
     // Initializing Select2 On Select2 UI Dropdowns
-    if (cwp_select2.length > 0) {
+    if (cwp_select2.length > 0 ) {
         cubewp_init_select2(cwp_select2);
     }
 }
@@ -519,13 +524,13 @@ function cwp_conditional_fields(form_name_method) {
     if (cwp_conditional_logic.length > 0) {
 
         cwp_conditional_logic.each(function () {
-            
             var $this = jQuery(this),
             field = $this.attr('data-field'),
             value = $this.attr('data-value'),
             operator = $this.attr('data-operator');
         
             var parent = $this.closest('form').find('*' +form_name_method+ '[' + field + ']"]');
+            var parentRadio = $this.closest('form').find('*' +form_name_method+ '[' + field + ']"]:checked');
             var parentCheckbox = $this.closest('form').find(form_name_method+ '[' + field + '][]"]');
             var selectedVal = parent.val();
             var tagName = parent.prop('tagName');
@@ -535,7 +540,10 @@ function cwp_conditional_fields(form_name_method) {
                         selectedVal = $this.closest('form').find('*' +form_name_method+ '[' + field + ']"]').val();
                 }
             }
-            if (parent.is(':checked') || selectedVal != '' || selectedVal == ''){
+            if (parent.is(':checked') || (inputType !== 'radio' && (selectedVal != '' || selectedVal == ''))){
+                if(inputType === 'radio'){
+                    selectedVal = parentRadio.val();
+                }
                 cwp_condition_logic(selectedVal, value, operator, field, $this.closest('form'));
             }else if(parentCheckbox.is(':checked')){
                 var selectedVal = parentCheckbox.val();

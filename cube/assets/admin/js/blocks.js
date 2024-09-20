@@ -1,4 +1,3 @@
-
 (function ( wp ) {
   var el = wp.element.createElement;
   var addFilter = wp.hooks.addFilter;
@@ -359,45 +358,50 @@
   
   function addContent(content, select1, select2, select3, contentSource) {
     var blockEditor = wp.data.select('core/block-editor');
-    if (blockEditor) {
-      var currentBlockClientId = blockEditor.getSelectedBlockClientId();
-      if (currentBlockClientId) {
-        var currentBlock = blockEditor.getBlock(currentBlockClientId);
-  
-        if (currentBlock) {
-          if (typeof window.getSelection !== "undefined") {
-            var contentEditable = document.querySelector(`.block-editor-block-list__layout [data-block="${currentBlockClientId}"]`);
+    var dispatch = wp.data.dispatch('core/block-editor');
 
-            var selection = window.getSelection();
-
-            // For text block
-            if (selection.rangeCount > 0) {
-              var range = selection.getRangeAt(0);
-              range.deleteContents();
-              
-              var node = document.createElement('span');
-              node.setAttribute('data-type', select1);
-              node.setAttribute('data-source', select2);
-              node.setAttribute('data-content-source', contentSource);
-              node.setAttribute('data-name', select3);
-              node.setAttribute('class', 'cwp-dynamic-field');
-              node.innerHTML = content;
-  
-              // Remove the existing data-type attribute
-              var existingNode = contentEditable.querySelector('[data-rich-text-placeholder]');
-              if (existingNode) {
-                existingNode.removeAttribute('data-rich-text-placeholder');
-              }
-  
-              range.insertNode(node);
-              selection.removeAllRanges();
-              range.collapse(false);
-            }
-          }
-        }
-      }
+    if (!blockEditor) {
+        console.error("Block editor not found.");
+        return;
     }
+
+    var currentBlockClientId = blockEditor.getSelectedBlockClientId();
+    if (!currentBlockClientId) {
+        console.error("No block is selected.");
+        return;
+    }
+
+    var currentBlock = blockEditor.getBlock(currentBlockClientId);
+    if (!currentBlock) {
+        console.error("Block not found.");
+        return;
+    }
+
+    var contentEditable = document.querySelector(`.block-editor-block-list__layout [data-block="${currentBlockClientId}"]`);
+    if (!contentEditable) {
+        console.error("Content editable element not found.");
+        return;
+    }
+
+    // Remove the existing span with the placeholder
+    var existingNode = contentEditable.querySelector('[data-rich-text-placeholder]');
+    if (existingNode) {
+        existingNode.parentNode.removeChild(existingNode);
+    }
+
+    // Create new node as HTML string
+    var newNodeHTML = `<span data-type="${select1}" data-source="${select2}" data-content-source="${contentSource}" data-name="${select3}" class="cwp-dynamic-field">${content}</span>`;
+
+    // Get current block content
+    var currentContent = blockEditor.getBlockAttributes(currentBlockClientId).content || '';
+
+    // Append new node HTML to current content
+    var updatedContent = currentContent + newNodeHTML;
+
+    // Update the block content using dispatch
+    dispatch.updateBlockAttributes(currentBlockClientId, { content: updatedContent });
   }
+
 
   registerFormatType('my-custom-format/sample-output', {
     title: 'CubeWP Custom Fields',
@@ -475,27 +479,52 @@
             if(crSource === postId){
               contentSource = 'current-source';
             }
-            if (name === 'core/gallery'){
-              const images = [
-                { url: 'http://test.local/wp-content/uploads/2023/05/hassan-ouajbir-MkmcxwwCepY-unsplash-scaled.jpg', id: 49 },
-                { url: 'http://test.local/wp-content/uploads/2023/05/albert-YYZU0Lo1uXE-unsplash-scaled.webp', id: 47 },
-              ];
-              const galleryBlock = wp.data.select('core/block-editor').getBlock(props.clientId);
-              if (galleryBlock) {
-                const imageBlocks = images.map(image => {
-                  const imageAttributes = {
-                      url: image.url,
-                      sizeSlug: 'large',
-                      linkDestination: 'none',
-                      id: image.id
+            if (name === 'core/gallery') {
+              const attachmentIds = FieldValue;
+          
+              async function fetchImageDetails(id) {
+                  const response = await fetch(`/wp-json/wp/v2/media/${id}`);
+                  const data = await response.json();
+                  
+                  return {
+                      id: data.id,
+                      url: data.source_url,
+                      alt: data.alt_text || 'default alt text',  // Add a default alt text if not available
+                      sizeSlug: 'large',  // You can modify this to use actual size slugs if needed
+                      linkDestination: 'none',  // Assuming 'none' as the default link destination
                   };
-                  return wp.blocks.createBlock('core/image', imageAttributes);
-                });
-                imageBlocks.forEach(imageBlock => {
-                    wp.data.dispatch('core/editor').insertBlock(imageBlock, galleryBlock.innerBlocks.length, props.clientId);
-                });
               }
-            }else if (name === 'core/image'){
+          
+              async function fetchAllImageDetails(ids) {
+                  const promises = ids.map(id => fetchImageDetails(id));
+                  const images = await Promise.all(promises);
+                  return images;
+              }
+          
+              fetchAllImageDetails(attachmentIds).then(images => {
+                  const galleryBlock = wp.data.select('core/block-editor').getBlock(props.clientId);
+                  if (galleryBlock) {
+                      const imageBlocks = images.map((image, index) => {
+                        const imageUrl = `${image.url}?data-type=${fType}&data-source=${fSource}&data-content-source=${contentSource}&data-name=${fName}`;
+                          const imageAttributes = {
+                              url: imageUrl,
+                              alt: image.alt,
+                              sizeSlug: image.sizeSlug,
+                              linkDestination: image.linkDestination,
+                              id: `${index}_image`,
+                              
+                          };
+                          console.log(imageUrl);
+                          return wp.blocks.createBlock('core/image', imageAttributes);
+                      });
+                      imageBlocks.forEach(imageBlock => {
+                          wp.data.dispatch('core/editor').insertBlock(imageBlock, galleryBlock.innerBlocks.length, props.clientId);
+                      });
+                  }
+              }).catch(error => {
+                  console.error('Error fetching image details:', error);
+              });
+          }else if (name === 'core/image'){
               setAttributes({
                 url: `https://imgv3.fotor.com/images/cover-photo-image/a-beautiful-girl-with-gray-hair-and-lucxy-neckless-generated-by-Fotor-AI.jpg?data-type=${fType}&data-source=${fSource}&data-content-source=${contentSource}&data-name=${fName}`,
                 alt: 'alt hai ye',
@@ -504,7 +533,7 @@
             
             setOpen(!isOpen);
           };
-          
+        
           const getSourceOptions = () => {
             // Define the options for the second select control based on the selected value of the first select control
             switch (fType) {

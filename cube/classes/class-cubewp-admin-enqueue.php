@@ -52,6 +52,39 @@ class CubeWp_Admin_Enqueue{
         return array_merge( $core, $public, $private );
 	}
 
+	private static function get_all_cwp_group_fields_values() {
+		$post_types = ['cwp_form_fields', 'cwp_settings_fields', 'cwp_user_fields'];
+		$group_fields_values = [];
+	
+		foreach ($post_types as $post_type) {
+			$args = array(
+				'post_type'      => $post_type,
+				'post_status'    => 'publish',
+				'posts_per_page' => -1,
+			);
+	
+			$query = new WP_Query($args);
+	
+			if ($query->have_posts()) {
+				while ($query->have_posts()) {
+					$query->the_post();
+	
+					// Get the _cwp_group_fields metabox value
+					$group_fields_value = get_post_meta(get_the_ID(), '_cwp_group_fields', true);
+	
+					if (!empty($group_fields_value)) {
+						$group_fields_values[] = $group_fields_value;
+					}
+				}
+			}
+	
+			wp_reset_postdata();
+			wp_reset_query();
+		}
+	
+		return $group_fields_values;
+	}
+
 	/**
 	 * Method get_cf_types_types
 	 *
@@ -64,6 +97,7 @@ class CubeWp_Admin_Enqueue{
         return array_merge($default,$post_types);
 	}
 
+
     /**
      * Method get_registered_taxonomies
      *
@@ -75,7 +109,7 @@ class CubeWp_Admin_Enqueue{
         $public                = get_taxonomies( [ '_builtin' => false, 'public' => true ] );
         $private               = get_taxonomies( [ '_builtin' => false, 'public' => false ] );
         return array_merge( $core, $public, $private, array("categories" => "categories") );
-	} 
+	}
     
 	/**
 	 * Register a script for use.
@@ -152,11 +186,6 @@ class CubeWp_Admin_Enqueue{
 	 */
 	private static function register_scripts() {
 		$register_scripts = array(
-			'cwp-form-builder'      => array(
-				'src'     => CWP_PLUGIN_URI . 'cube/assets/admin/js/cwp-form-builder.js',
-				'deps'    => array( 'jquery' ),
-				'version' => '',
-			),
             'cwp_vars'      => array(
 				'src'     => CWP_PLUGIN_URI . 'cube/assets/admin/js/cubewp-admin.js',
 				'deps'    => array( 'jquery' ),
@@ -180,6 +209,11 @@ class CubeWp_Admin_Enqueue{
             'cubewp-google-address-field'      => array(
 				'src'     => CWP_PLUGIN_URI . 'cube/assets/admin/js/google-admin-address-field.js',
 				'deps'    => array( 'google_map_api' ),
+				'version' => CUBEWP_VERSION,
+			),
+			'cubewp-business-hour'      => array(
+				'src'     => CWP_PLUGIN_URI . 'cube/assets/frontend/js/business-hour-field.js',
+				'deps'    => array( 'jquery' ),
 				'version' => CUBEWP_VERSION,
 			),
             'cubewp-term-meta'      => array(
@@ -207,6 +241,11 @@ class CubeWp_Admin_Enqueue{
 				'deps'    => array( 'jquery' ),
 				'version' => CUBEWP_VERSION,
 			), 
+			'cwp-form-builder'      => array(
+				'src'     => CWP_PLUGIN_URI . 'cube/assets/admin/js/cwp-form-builder.js',
+				'deps'    => array( 'jquery' ),
+				'version' => CUBEWP_VERSION,
+			),
             
             // JS for cubewp Settings
             'ace-editor'      => array(
@@ -335,13 +374,25 @@ class CubeWp_Admin_Enqueue{
         
         self::enqueue_script( 'jquery-ui-sortable' );
 
+		if(CWP()->is_admin_screen('cubewp') || $pagenow == 'post.php' || $pagenow == 'post-new.php' || $pagenow == 'edit.php' || $pagenow == 'user-new.php' || $pagenow == 'user-edit.php' || $pagenow == 'profile.php')
+       {
+		self::enqueue_script( 'cwp_vars' );
+        }
+		self::enqueue_style( 'cubewp-admin' );
+
+		if ( CWP()->is_admin_screen('cubewp_loop_builder') ) {
+			self::enqueue_script( 'ace-editor' );
+		}
+
        if(CWP()->is_admin_screen('cubewp_admin_search_filters') || 
+	   	  CWP()->is_admin_screen('cubewp_loop_builder')||
           CWP()->is_admin_screen('cubewp_admin_search_fields'))
        {
             self::enqueue_style( 'cwp-form-builder' );
             self::enqueue_script( 'cwp-form-builder' );
             
         }
+		
 
         if(CWP()->is_admin_screen('custom_fields') || CWP()->is_admin_screen('user_custom_fields') || CWP()->is_admin_screen('settings_custom_fields') || CWP()->is_admin_screen('taxonomy_custom_fields')){
             self::enqueue_script('cubewp-custom-fields');
@@ -406,14 +457,8 @@ class CubeWp_Admin_Enqueue{
             
         }
 		
-        if(CWP()->is_admin_screen('cubewp') || $pagenow == 'post.php' || $pagenow == 'post-new.php' || $pagenow == 'user-new.php' || $pagenow == 'user-edit.php' || $pagenow == 'profile.php')
-       {
-		self::enqueue_script( 'cwp_vars' );
-        }
-        if(CWP()->is_admin_screen('cubewp'))
-       {
-        self::enqueue_style( 'cubewp-admin' );
-        }
+        
+		
         
         
         echo apply_filters( 'admin/script/enqueue', '');
@@ -479,10 +524,14 @@ class CubeWp_Admin_Enqueue{
                 break;
             case 'cubewp-metaboxes-validation':
 				$params = array(
-                    'post_type_slug_exist'   =>   esc_html__( 'Slug already exist', 'cubewp-framework' ),
+                    'name_exist_msg'   =>   esc_html__( 'This Name already exists, Please choose something different', 'cubewp-framework' ),
                     'existing_post_types'    =>   self::get_registered_types_types(),
                     'existing_taxonomies'    =>   self::get_registered_taxonomies(),
                 );
+				if(CWP()->is_admin_screen('custom_fields') || CWP()->is_admin_screen('user_custom_fields') || CWP()->is_admin_screen('settings_custom_fields'))
+				{
+					$params['existing_custom_fields'] = self::get_all_cwp_group_fields_values();
+				}
 				break;
 			case 'cubewp-metaboxes':
 				$params = array(

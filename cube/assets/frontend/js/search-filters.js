@@ -99,13 +99,13 @@ jQuery(document).ready(function () {
         cwp_search_filters_ajax_content();
     });
     
-    jQuery(document).on("change input", '.cwp-search-field .cwp-date-hidden-field', function() {
-        cwp_search_filters_ajax_content();
-    });
+    // jQuery(document).on("change input", '.cwp-search-field .cwp-date-hidden-field', function() {
+    //     cwp_search_filters_ajax_content();
+    // });
     
-    jQuery('.cwp-search-field .cwp-date-hidden-field').change(function(){
-        cwp_search_filters_ajax_content();
-    });
+    // jQuery(document).on("change", '.cwp-search-field .cwp-date-hidden-field', function() {
+    //     cwp_search_filters_ajax_content();
+    // });
     
     jQuery(document).on("cwp-address-change", '.cwp-search-field-google_address .address', function() {
         clearTimeout(typingTimer);
@@ -153,6 +153,7 @@ jQuery(document).ready(function () {
         jQuery(this).closest('.cwp-search-filters').find('.cwp-search-filters-fields input[type="checkbox"]').prop('checked', false);
         jQuery(this).closest('.cwp-search-filters').find('.cwp-search-filters-fields select').val('');
         jQuery(this).closest('.cwp-search-filters').find('input[name="page_num"]').val('1');
+        jQuery('select[name="cwp_orderby"]').val('');
         jQuery(this).closest('.cwp-search-filters').find('.cwp-search-filters-fields input[type="google_address"]').val('');
 
         if (jQuery(this).closest('.cwp-search-filters').find('.cwp-address-range').length > 0) {
@@ -178,34 +179,81 @@ function cubewp_posts_pagination_ajax( page_num ){
     cwp_search_filters_ajax_content(page_num,'');
 }
 
+jQuery(document).on("change", '#cwp-order-filter', function() {
+    cwp_search_filters_ajax_content();
+});
+
 jQuery(document).on("change", '#cwp-sorting-filter', function() {
-        cwp_search_filters_ajax_content();
+    var val = jQuery(this).val();
+    if (val == 'rand') {
+        jQuery('select[name="cwp_order"]').prop('disabled', true);
+    } else {
+        jQuery('select[name="cwp_order"]').prop('disabled', false);
+    }
+    cwp_search_filters_ajax_content();
 });
 
 function cwp_search_filters_ajax_content( page_num=''){
-    jQuery('.cwp-search-result-output').empty();
-    jQuery('.cwp-archive-container').addClass('cwp-active-ajax');
-    var state = jQuery('.cwp-search-filters-fields').find('input[name="page"]').val();
+
+    // Loading SKeleton 
+    if (jQuery('.cwp-archive-container .cwp-grids-container').length > 0) {
+        jQuery('.cwp-archive-container .cwp-grids-container div').html(
+            '<div class="cwp-processing-post-grid">' +
+            '<div class="cwp-processing-post-thumbnail"></div>' +
+            '<div class="cwp-processing-post-content"><p></p><p></p><p></p></div>' +
+            '</div>'
+        );
+    } else {
+        let processingGrid = '';
+        for (let i = 0; i < 6; i++) {
+            processingGrid += 
+                '<div class="cwp-col-md-4">' +
+                '<div class="cwp-processing-post-grid">' +
+                '<div class="cwp-processing-post-thumbnail"></div>' +
+                '<div class="cwp-processing-post-content"><p></p><p></p><p></p></div>' +
+                '</div></div>';
+        }
+        jQuery('.cwp-archive-container .cwp-search-result-output').html(
+            '<div class="cwp-grids-container cwp-row">' + processingGrid + '</div>'
+        );
+    }
+
+    // Getting filter form
+    var FilterForm = jQuery('.cwp-search-filters'),
+        state = jQuery('.cwp-search-filters-fields').find('input[name="page"]').val(),
+        is_tax = FilterForm.find('.is_tax').val();
+
     page_num = page_num || 1;    
 
     var action = '&action=cwp_search_filters_ajax_content';
 
-    var FilterForm = jQuery('.cwp-search-filters');
     FilterForm.find('input[name="page_num"]').val( page_num );
+
     var FilterFields = FilterForm.serialize();
     
+    if(jQuery('#cwp-order-filter').length > 0){
+        FilterFields += '&order='+jQuery('#cwp-order-filter').val();
+    }
+    if(jQuery('#cwp-sorting-filter').length > 0){
         FilterFields += '&orderby='+jQuery('#cwp-sorting-filter').val();
+    }
     var data_vals = FilterFields;
     
     data_vals = urlCombine(data_vals,window.location.search);
     data_vals = stripUrlParams(data_vals);
-    data_vals = data_vals.replace(/[^&]+=\.?(?:&|$)/g, ''); // remove extra and empty variables
+    data_vals = data_vals.replace(/(?!s=)[^&]+=\.?(?:&|$)/g, function(match) {
+        return match.endsWith('&') ? '' : '&';
+    }).replace(/&$/, ''); // remove all empty variables except s= and handle trailing '&'
+    
     data_vals = data_vals.replace('undefined', ''); // remove extra and empty variables
     
-    if(state !== 'page'){
+    if(state !== 'page' && (is_tax == '' || is_tax == undefined)){
         var current_url = location.protocol + "//" + location.host + location.pathname + "?" + data_vals;
         window.history.pushState(null, null, decodeURIComponent(current_url));
     }
+
+    // Remove _ST_ from parameter names from query Strings like if there is a taxonomy property_type it will come in query string _ST_property_type
+    data_vals = stripPrefixFromParams(data_vals, '_ST_');
     
     jQuery.ajax({
         url: cwp_search_filters_params.ajax_url,
@@ -220,7 +268,12 @@ function cwp_search_filters_ajax_content( page_num=''){
             }
             jQuery('.cwp-search-result-output').html(response.grid_view_html);
             jQuery('.cwp-total-results').html(response.post_data_details);
-            CWP_Cluster_Map(response.map_cordinates);
+
+            // Listing update on Map
+            if (typeof CWP_Cluster_Map === 'function') {
+                CWP_Cluster_Map(response.map_cordinates);
+            }
+            
             jQuery('.cwp-archive-container').removeClass('cwp-active-ajax');
             jQuery( document.body ).trigger( 'cubewp_search_results_loaded' );
         }
@@ -266,6 +319,29 @@ function stripUrlParams(args) {
     return parts.join('&');
 }
 
+function stripPrefixFromParams(params, prefix) {
+    let paramMap = new Map();
+    
+    // Split the query string into individual parameters
+    params.split('&').forEach(function(param) {
+        let [key, value] = param.split('=');
+        
+        // If the parameter starts with the prefix, remove it and store it in the map
+        if (key.startsWith(prefix)) {
+            key = key.substring(prefix.length);
+            paramMap.set(key, value);
+        } else if (!paramMap.has(key)) {
+            // Only add the parameter if it isn't already in the map (i.e., prefixed version doesn't exist)
+            paramMap.set(key, value);
+        }
+    });
+
+    // Reconstruct the query string from the map
+    return Array.from(paramMap)
+        .map(([key, value]) => `${key}=${value}`)
+        .join('&');
+}
+
 
 function cwp_remove_string_value( list, value, separator ) {
     if (list === undefined) return false;
@@ -298,11 +374,6 @@ function getDate(element) {
 
     return date;
 }
-jQuery(document).ready(function(){
-	jQuery(".cwp-reset-search-filters p").click(function(){
-        jQuery(".cwp-search-filters-fields").slideToggle("slow");
-      });
-});
 
 jQuery(document).ready(function(){
 	if(jQuery(".listing-switcher").length > 0 ){
@@ -315,7 +386,55 @@ jQuery(document).ready(function(){
 			}
         });
     }
+
+    if (jQuery('.cwp-taxonomy-field').length > 0) {
+        cwp_display_groups_meta_by_terms_onLoad();
+        jQuery(document).on('change', '.cwp-taxonomy-field', function () {
+            cwp_display_groups_meta_by_terms_onLoad();
+     });
+    }
+
 });
+
+function cwp_display_groups_meta_by_terms_onLoad(){
+    jQuery(".cwp-conditional-by-term").hide();
+    jQuery(".cwp-taxonomy-field").each(function() {
+        var thisObj  = jQuery(this),
+            type     = thisObj.attr('type'),
+            id       = thisObj.attr('id'),
+            val = '';
+        if (type == 'checkbox'){
+            if (thisObj.is(':checked')){
+                var val = jQuery(this).val();
+            }
+        }else {
+            var val = jQuery(this).val();
+        }
+        if(val != ''){
+            cwp_display_groups_meta_by_terms(val,id);
+        }
+        
+    });
+}
+
+function cwp_display_groups_meta_by_terms(objectVal,objectID){
+    jQuery(".cwp-conditional-by-term").each(function() {
+        var thisObj     = jQuery(this);
+        var group_terms = thisObj.data('terms');
+        if( typeof group_terms !== 'undefined' && group_terms !== '' ){
+            var group_terms_arr = group_terms.toString().split(",");
+            if(Array.isArray(objectVal) && objectVal.length != 0){
+                jQuery.each(objectVal, function(index, item) {
+                    if( jQuery.inArray(item, group_terms_arr) != '-1' ){
+                        thisObj.show();
+                    }
+                }.bind(this));
+            }else if( jQuery.inArray(objectVal, group_terms_arr) != '-1' ){
+                thisObj.show();
+            }
+        }
+    });
+}
 	
 function cwp_setCookie(cname, cvalue, exdays) {
   const d = new Date();

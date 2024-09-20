@@ -11,6 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 add_filter( 'render_block', 'cubewp_render_blocks', 10, 3 );
 function cubewp_render_blocks($block_content, $block, $wp_block) {
+    //cwp_pre($block_content);
         $block_content = html_entity_decode($block_content);
         if ( 'core/image' === $block['blockName'] ||  'kadence/image' === $block['blockName'] ) {
             preg_match('/src="([^"]+)"/', $block_content, $matches);
@@ -53,10 +54,94 @@ function cubewp_render_blocks($block_content, $block, $wp_block) {
                         }
                     }
                     $output = get_any_field_value($args);
-                    return preg_replace('/(<img[^>]+)src="([^"]+)"/', '$1src="' . $output . '"', $block_content);
+                    $imageIDAttr = $block['attrs']['id'];
+                    if (is_string($imageIDAttr) && strpos($imageIDAttr, '_') !== false) {
+                        $parts = explode('_', $imageIDAttr);
+                        $imgID = $parts[0];
+                        $ImgPostfix = $parts[1];
+                    }
+                    if(count($output) <= $imgID){
+                        if(is_numeric($output)){
+                            $field = get_field_options($args['f_name']);
+                            if($field['type'] == 'image' && $field['files_save'] == 'ids'){
+                                $output = wp_get_attachment_url( $output, 'full' );
+                            }
+                        }else if(is_array($output)){
+                            $field = get_field_options($args['f_name']);
+
+                            if($field['type'] == 'gallery' && $field['files_save'] == 'ids'){
+                                if(isset($output[$imgID])){
+                                    $value = wp_get_attachment_url( $output[$imgID], 'full' );
+                                    return preg_replace('/(<img[^>]+)src="([^"]+)"/', '$1src="' . $value . '"', $block_content);
+                                }
+                            }
+                        }
+                        if(!is_array($output)){
+                            //return preg_replace('/(<img[^>]+)src="([^"]+)"/', '$1src="' . $output . '"', $block_content);
+                        }
+                    }
                 }
+            }
+            //return $block_content;
         }
-            return $block_content;
+
+        if ( 'core/gallery' === $block['blockName'] ) {
+            preg_match('/src="([^"]+)"/', $block_content, $matches);
+            
+            if (isset($matches[1])) {
+                $src = $matches[1];
+
+                // Parse the URL
+                $parsedUrl = parse_url($src);
+
+                // Check if the URL has query strings
+                if (isset($parsedUrl['query'])) {
+                    
+                    // Get the URL without query strings
+                    $url = $parsedUrl['scheme'] . '://' . $parsedUrl['host'] . $parsedUrl['path'];
+
+                    // Parse the query strings
+                    parse_str($parsedUrl['query'], $queryStrings);
+
+                    // Access individual query strings
+                    foreach ($queryStrings as $name => $value) {
+                        if('data-type' == $name){
+                            if($value == 'post_custom_fields'){
+                                $c_source = get_the_ID();
+                            }elseif($value == 'user_custom_fields'){
+                                global $current_user;
+                                $c_source = $current_user->ID;
+                            }
+                            $args['f_type'] = $value;
+                        }elseif('data-source' == $name){
+                            $args['f_source'] = $value;
+                        }elseif('data-content-source' == $name){
+                            if($value == 'current-source'){
+                                $args['p_id'] = $c_source;
+                            }else{
+                                $args['p_id'] = $value;
+                            }
+                        }elseif('data-name' == $name){
+                            $args['f_name'] = $value;
+                        }
+                    }
+                    $output = get_any_field_value($args);
+                    
+                    if(is_array($output)){
+                        $field = get_field_options($args['f_name']);
+                        foreach($output as $imgID){
+                            if($field['type'] == 'gallery' && $field['files_save'] == 'ids'){
+                                $value = wp_get_attachment_url( $imgID, 'full' );
+                                return preg_replace('/(<img[^>]+)src="([^"]+)"/', '$1src="' . $value . '"', $block_content);
+                            }
+                        }
+                    }
+                    if(!is_array($output)){
+                        //return preg_replace('/(<img[^>]+)src="([^"]+)"/', '$1src="' . $output . '"', $block_content);
+                    }
+                }
+            }
+            return;
         }
 
         $pattern = '/<span\s+((?:data-[\w-]+=(?:"|\').*?(?:"|\')\s+)+)class=(?:"|\').*?cwp-dynamic-field.*?(?:"|\')\s*>(.*?)<\/span>/s';

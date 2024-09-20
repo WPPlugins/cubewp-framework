@@ -42,7 +42,7 @@ class CubeWp_Saved{
      * @since  1.0.0
      */
     public static function cubewp_save_post(){
-		if ( !isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'cubewp-alert-nonce') ) {
+        if ( !isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'cubewp-alert-nonce') ) {
             wp_send_json( array( 'success' => 'false', 'msg' => esc_html__('Invalid nonce. You are not authorized to perform this action.', 'cubewp-framework') ) );
             wp_die();
         }
@@ -83,7 +83,7 @@ class CubeWp_Saved{
      * @since  1.0.0
      */
     public static function cubewp_remove_saved_posts(){
-		if ( !isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'cubewp-alert-nonce') ) {
+        if ( !isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'cubewp-alert-nonce') ) {
             wp_send_json( array( 'success' => 'false', 'msg' => esc_html__('Invalid nonce. You are not authorized to perform this action.', 'cubewp-framework') ) );
             wp_die();
         }

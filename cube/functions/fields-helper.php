@@ -520,20 +520,25 @@ if ( ! function_exists("cwp_render_switch_input")) {
 
 		$defaults = array(
 			'type'        => 'checkbox',
-			'id'          => '',
+			'id'          => 'id-'.rand(),
 			'name'        => '',
 			'placeholder' => '',
 			'class'       => '',
-			'value'       => 'yes',
+			'value'       => '1',
 			'extra_attrs' => '',
 		);
 		$attrs    = wp_parse_args($attrs, $defaults);
+		$checked = '';
+		if (isset($attrs['value']) && !empty($attrs['value']) && $attrs['value'] == '1') {
+			$checked = ' checked="checked"';
+		}
 
-		$html = '<label class="switch" for="' . $attrs['id'] . '">
-        <input type="' . $attrs['type'] . '" id="' . $attrs['id'] . '" class="switch-field ' . $attrs['class'] . '" name="' . $attrs['name'] . '" value="yes">
-        <span class="slider round"></span>
-    </label>';
-
+		$html = '<label class="cwp-switch" for="' . $attrs['id'] . '">
+		<input type="checkbox" id="' . $attrs['id'] . '" name="' . $attrs['name'] . '" class="switch-field checkbox cwp-switch-check cwp-switch-field ' . $attrs['class'] . '" value="1" '.$attrs['extra_attrs'] .$checked. '>
+		<span class="cwp-switch-slider"></span>
+		<span class="cwp-switch-text-no">No</span>
+		<span class="cwp-switch-text-yes">Yes</span>
+		</label>';
 		return $html;
 	}
 }

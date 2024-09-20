@@ -429,3 +429,102 @@ tr.cwp-repeating-field{
 .cubewp-toolbar-control img{
 	width:24px
 }
+
+/*----------------- Business Hour Field (Admin) --------------*/
+.yb-business-hour-fields {
+    display: inline-flex;
+    flex-wrap: wrap;
+    width: 100%;
+    margin: 10px 0;
+}
+
+.yb-business-hour-field-admin {
+    width: calc(33.3% - 23px) !important;
+    padding: 0 15px 0 0;
+}
+
+.yb-business-hour-field-admin input:disabled {
+    color: #a7aaad;
+    border-color: #dcdcde;
+    background-color: #f6f7f7;
+    box-shadow: none;
+    text-shadow: 0 1px 0 #fff;
+    cursor: default;
+    transform: none;
+}
+
+.yb-business-hour-field-admin select {
+    min-width: unset !important;
+}
+
+.yb_business_hour_fulldayopen {
+    display: flex;
+    align-items: center;
+}
+
+.yb_business_hour_fulldayopen>label {
+    font-size: 12px;
+    display: inline-block;
+    margin: 0 0 5px 0;
+    letter-spacing: 0.1px;
+    word-spacing: 0px;
+    line-height: 1.6;
+}
+
+button.cwp-add-new-business_hour {
+    float: right;
+    background: #2271b1;
+    border: none;
+    padding: 6px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button.cwp-add-new-business_hour svg {
+    color: #ffffff;
+    display: block;
+    stroke: #fff;
+}
+
+.business-hours {
+    float: left;
+    width: 100%;
+    line-height: 27px;
+}
+
+.business-hours>span {
+    float: left;
+    width: 7px;
+}
+
+.business-hours>span.weekday {
+    font-weight: 700;
+    width: 200px;
+    float: left;
+    text-transform: capitalize;
+}
+
+.business-hours>span.start-end.fullday {
+    width: auto;
+}
+
+.business-hours>span.open {
+    width: 65px;
+    float: left;
+}
+
+.business-hours>span.close {
+    float: left;
+    margin-left: 15px;
+    width: 70px;
+}
+
+a.remove-business-hours {
+    margin-left: 15px;
+    text-decoration: none;
+}
+
+a.remove-business-hours span {
+    color: red;
+    line-height: 1.3;
+}

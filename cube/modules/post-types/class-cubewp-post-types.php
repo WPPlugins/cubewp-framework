@@ -303,7 +303,7 @@ class CubeWp_Post_Types {
         $postType = wp_parse_args($postType, $defaults);
         
         ?>
-        <div class="cpt-form">
+        <div class="cpt-form wrap cubewp-wrap">
             <form id="post" class="cwpposttype" method="post" action="" enctype="multipart/form-data">				
                 <div class="wrap cwp-post-type-title">
                     <?php echo self::_title();	?>	
@@ -319,7 +319,7 @@ class CubeWp_Post_Types {
                             <?php echo self::post_type_options($postType); ?>
 
                         </div>
-
+                        <div class="clear"></div>
                     </div>
                 </div>
             </form>

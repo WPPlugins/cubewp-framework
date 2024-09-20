@@ -101,6 +101,7 @@ class CubeWp_Frontend_File_Field extends CubeWp_Frontend {
 					<?php
 					$input_attrs = array(
 						'name'  => ! empty($args['custom_name']) ? $args['custom_name'] : $args['name'],
+						'class'  => 'cwp-image-preview',
 						'value' => $args['value'],
 					);
 					echo cwp_render_hidden_input($input_attrs);
