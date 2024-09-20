@@ -318,6 +318,16 @@ class CubeWp_Frontend_Templates {
                 'author-' . $author->user_nicename . '.php',
                 'author.php'
             );
+        }elseif (is_search()) {
+            if ( isset( $_GET['post_type'] ) && !empty( $_GET['post_type'] ) ) {
+                // Sanitize the post_type value from the query string
+                $post_type = sanitize_text_field( $_GET['post_type'] );
+                
+                // Define the template array
+                $templates = array(
+                    'search-' . $post_type . '.php'
+                );
+            }   
         }
 
         if(!empty($templates)){
