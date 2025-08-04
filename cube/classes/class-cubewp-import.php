@@ -1,12 +1,11 @@
 <?php
+
 /**
  * CubeWp Import to import only cubewp related data.
  *
  * @version 1.0
  * @package cubewp/cube/classes
  */
-
-// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals
 
 if (! defined('ABSPATH')) {
     exit;
@@ -24,10 +23,8 @@ class CubeWp_Import
         add_action('cubewp_import', array($this, 'manage_import'));
         add_action('wp_ajax_cwp_import_data', array($this, 'cwp_import_data_callback'));
         add_action('wp_ajax_cwp_import_dummy_data', array($this, 'cwp_import_dummy_data_callback'));
-        $cwp_import_flag  = isset( $_GET['import'] ) ? sanitize_key( wp_unslash( $_GET['import'] ) ) : '';
-        $cwp_import_nonce = isset( $_GET['security_nonce'] ) ? sanitize_text_field( wp_unslash( $_GET['security_nonce'] ) ) : '';
-        if ( 'success' === $cwp_import_flag && $cwp_import_nonce && wp_verify_nonce( $cwp_import_nonce, 'cwp_import_data_nonce' ) ) {
-            new CubeWp_Admin_Notice( 'cubewp-import-success', esc_html__( 'Data Imported Successfully', 'cubewp-framework' ), 'success', false );
+        if (isset($_GET['import']) && $_GET['import'] == 'success') {
+            new CubeWp_Admin_Notice("cubewp-import-success", esc_html__('Data Imported Successfully', 'cubewp-framework'), 'success', false);
         }
     }
 
@@ -49,12 +46,8 @@ class CubeWp_Import
      */
     public function manage_import()
     {
-        $cwp_import_flag  = isset( $_GET['import'] ) ? sanitize_key( wp_unslash( $_GET['import'] ) ) : '';
-        $cwp_import_nonce = isset( $_GET['security_nonce'] ) ? sanitize_text_field( wp_unslash( $_GET['security_nonce'] ) ) : '';
-        if ( 'success' === $cwp_import_flag && $cwp_import_nonce && wp_verify_nonce( $cwp_import_nonce, 'cwp_import_data_nonce' ) && isset( $_SESSION['terms'] ) ) {
-            // The imported terms payload is sanitized inside cubewp_core_data().
-            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-            $this->cwp_import_terms( cubewp_core_data( $_SESSION['terms'] ) );
+        if (isset($_GET['import']) && $_GET['import'] == 'success' && isset($_SESSION['terms'])) {
+            $this->cwp_import_terms(cubewp_core_data($_SESSION['terms']));
             session_destroy();
         }
 ?>
@@ -68,7 +61,7 @@ class CubeWp_Import
             </div>
             <form id="import_form" method="post" action="" enctype="multipart/form-data">
                 <input type="hidden" name="action" value="cwp_import_data">
-                <input type="hidden" name="cwp_import_nonce" value="<?php echo esc_attr(wp_create_nonce('cwp_import_data_nonce')); ?>">
+                <input type="hidden" name="cwp_import_nonce" value="<?php echo wp_create_nonce('cwp_import_data_nonce'); ?>">
                 <div class="cubewp-import-box-container">
                     <div class="cubewp-import-box">
                         <div class="cubewp-import-card">
@@ -99,7 +92,7 @@ class CubeWp_Import
                             </div>
                         </div>
                         <button type="submit" class="button-primary cwp_import_demo" name="cwp_import">
-                            <?php esc_html_e('Import', 'cubewp-framework'); ?>
+                            <?php esc_html_e('Import', 'cubewp'); ?>
                         </button>
                     </div>
                 </div>
@@ -130,11 +123,10 @@ class CubeWp_Import
             if (is_dir($file_path)) {
                 $this->rmdir_recursive($file_path); // Recursive call
             } else {
-                wp_delete_file($file_path); // Delete file
+                unlink($file_path); // Delete file
             }
         }
 
-        // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_rmdir
         return rmdir($dir); // Remove directory and return result
     }
     /**
@@ -149,7 +141,7 @@ class CubeWp_Import
             // User doesn't have the required capabilities
             wp_send_json(array('success' => 'false', 'msg' => esc_html__("You do not have permission to perform this action.", 'cubewp-framework')));
         }
-        if (isset($_FILES["file"]["name"]) && isset($_POST['cwp_import_nonce']) && wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['cwp_import_nonce'])), 'cwp_import_data_nonce')) {
+        if (isset($_FILES["file"]["name"]) && isset($_POST['cwp_import_nonce']) && wp_verify_nonce($_POST['cwp_import_nonce'], 'cwp_import_data_nonce')) {
             $import_file = $_FILES;
             $filename = sanitize_file_name($import_file["file"]["name"]);
             $source = $import_file["file"]["tmp_name"];
@@ -173,7 +165,6 @@ class CubeWp_Import
             $upload_dir = wp_upload_dir();
             $path  = $upload_dir['path'] . '/cubewp/import/';  // absolute path to the directory where zipper.php is in
             if (! is_dir($path)) {
-                // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_mkdir
                 mkdir($path, 0777, true);
             }
             $filenoext = basename($filename, '.zip');  // absolute path to the directory where zipper.php is in (lowercase)
@@ -187,19 +178,17 @@ class CubeWp_Import
 
             if (is_dir($targetdir))  $this->rmdir_recursive($targetdir);
 
-            // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_mkdir
             mkdir($targetdir, 0777);
 
             /* here it is really happening */
 
-            // phpcs:ignore Generic.PHP.ForbiddenFunctions.Found
             if (move_uploaded_file($source, $targetzip)) {
                 $zip = new ZipArchive();
                 $x = $zip->open($targetzip);  // open the zip file to extract
                 if ($x === true) {
                     $zip->extractTo($targetdir); // place in the directory with same name  
                     $zip->close();
-                    wp_delete_file($targetzip);
+                    unlink($targetzip);
                 }
                 $moved = true;
             } else {
@@ -230,7 +219,7 @@ class CubeWp_Import
                 }
                 $message = !empty($message) ? $message : esc_html__('Data imported successfull.', 'cubewp-framework');
                 $this->rmdir_recursive($targetdir);
-                wp_send_json(array('success' => 'true', 'msg' => $message, 'redirectURL' => admin_url('admin.php?page=cubewp-import&import=success&security_nonce='.wp_create_nonce('cwp_import_data_nonce'))));
+                wp_send_json(array('success' => 'true', 'msg' => $message, 'redirectURL' => admin_url('admin.php?page=cubewp-import&import=success')));
             }
 
             wp_die();
@@ -251,7 +240,7 @@ class CubeWp_Import
             wp_send_json(array('success' => 'false', 'msg' => esc_html__('You do not have permission to perform this action.', 'cubewp-framework')));
             wp_die();
         }
-        if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['nonce'])), 'cubewp-admin-nonce')) {
+        if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'cubewp-admin-nonce')) {
             wp_send_json(array('success' => 'false', 'msg' => esc_html__('Invalid nonce. You are not authorized to perform this action.', 'cubewp-framework')));
             wp_die();
         }
@@ -293,7 +282,7 @@ class CubeWp_Import
             }
             do_action('cwp_actions_after_demo_imported');
             $message = !empty($message) ? $message : esc_html__('Dummy data imported successfully.', 'cubewp-framework');
-            $redirectURL = apply_filters('cubewp/after/import/redirect', admin_url('admin.php?page=cubewp-import&import=success&security_nonce='.wp_create_nonce('cwp_import_data_nonce')));
+            $redirectURL = apply_filters('cubewp/after/import/redirect', admin_url('admin.php?page=cubewp-import&import=success'));
             $success = apply_filters('cubewp/after/import/success_message', '');
             $successMessage = '';
             if (is_array($success) && isset($success['selecter']) && isset($success['message'])) {
@@ -309,7 +298,7 @@ class CubeWp_Import
     /**
      * Method cwp_import_dummy_content
      *
-     * @return mixed string or array
+     * @return void
      * @since  1.0.0
      */
     public function cwp_import_files($setup = false, $content = false)
@@ -358,7 +347,6 @@ class CubeWp_Import
     {
         if (is_dir($source)) {
             // Create destination directory if it doesn't exist
-            // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_mkdir
             @mkdir($destination);
             $directory = dir($source);
             while (false !== ($readdirectory = $directory->read())) {
@@ -386,9 +374,8 @@ class CubeWp_Import
         }
         $files = array_diff(scandir($dir), array('.', '..'));
         foreach ($files as $file) {
-            (is_dir("$dir/$file")) ? $this->remove_directory("$dir/$file") : wp_delete_file("$dir/$file");
+            (is_dir("$dir/$file")) ? $this->remove_directory("$dir/$file") : unlink("$dir/$file");
         }
-        // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_rmdir
         return rmdir($dir);
     }
 
@@ -471,7 +458,7 @@ class CubeWp_Import
      *
      * @param $targetdir $targetdir path of files
      *
-     * @return mixed string or array
+     * @return void
      */
     public function cwp_import_wordpress_content($targetdir = '', $file = '')
     {

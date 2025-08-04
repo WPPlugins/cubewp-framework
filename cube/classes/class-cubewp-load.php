@@ -6,9 +6,6 @@
  * @package cubewp/cube/classes
  * @version 1.0
  */
-
-// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals
-
 defined('ABSPATH') || exit;
 
 /**
@@ -25,7 +22,7 @@ final class CubeWp_Load
      *
      * @var string
      */
-    public static $CubeWp_version = '1.1.34';
+    public static $CubeWp_version = '1.1.25';
 
     /**
      * Wordpress required version.
@@ -126,42 +123,17 @@ final class CubeWp_Load
         add_action('elementor/dynamic_tags/register', array('CubeWp_Admin', 'register_elementor_tags'), 10);
 
         add_action('cubewp_loaded', array('CubeWp_Shortcodes', 'init'));
-        add_action('cubewp_loaded', array('CubeWp_Addons_Admin', 'init'), 9);
         // Frontend Page Builders
         add_action('cubewp_loaded', array('CubeWp_Elementor', 'init'));
         add_action('cubewp_loaded', array('CubeWp_Vc_Elements', 'init'));
         add_action('cubewp_loaded', array('CubeWp_Relationships', 'init'));
         require_once(CUBEWP_FILES . 'modules/theme-update/theme-updater.php');
-        // Google Address City and Terms Modules
-        add_action('cubewp_loaded', array('CubeWp_Google_Address_City_Module', 'init'), 12);
-        add_action('cubewp_loaded', array('CubeWp_Google_Address_Terms_Module', 'init'), 12);
         if (self::is_request('admin')) {
             new CubeWp_Ping();
         }
         if (self::is_request('frontend')) {
             self::frontend_includes();
         }
-
-        add_action('elementor/init', array($this, 'cubewp_load_elementor_typography'));
-    }
-
-    public function cubewp_load_elementor_typography()
-    {
-        $typography_class_file = CUBEWP_FILES . 'classes/class-cubewp-elementor-typography.php';
-        if (file_exists($typography_class_file)) {
-            require_once $typography_class_file;
-        }
-        // Override existing Elementor Typography group control to allow CSS vars in font-family.
-        add_action('elementor/controls/register', array('CubeWp_Elementor_Typography', 'register_typography_group_control_override'), 100, 1);
-
-        // Add CubeWP typography variables in existing font-family dropdown.
-        add_filter('elementor/fonts/groups', array('CubeWp_Elementor_Typography', 'register_cubewp_font_group'), 10, 1);
-
-        add_filter('elementor/fonts/additional_fonts', array('CubeWp_Elementor_Typography', 'add_fonts_to_elementor_typography_control'), 10, 1);
-
-        add_action('elementor/editor/after_enqueue_scripts', array('CubeWp_Elementor_Typography', 'enqueue_editor_font_option_label_script'), 20);
-
-        add_action('wp_head', array('CubeWp_Elementor_Typography', 'print_root_typography_css_variables'), 10);
     }
 
     /**
@@ -173,7 +145,6 @@ final class CubeWp_Load
     public function frontend_includes()
     {
         add_action('cubewp_loaded', array('CubeWp_Frontend', 'init'), 9);
-        add_action('cubewp_loaded', array('CubeWp_Keyword_Suggestions', 'init'), 10);
     }
 
     /**

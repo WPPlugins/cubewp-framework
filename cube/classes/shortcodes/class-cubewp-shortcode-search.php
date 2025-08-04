@@ -22,6 +22,8 @@ class CubeWp_Shortcode_Search
 	public function __construct()
 	{
 		add_filter('cubewp_search_shortcode_output', array($this, 'cubewp_search'), 10, 2);
+		add_filter('cubewp/frontend/search/button/field', array($this, 'cubewp_search_button'), 11, 2);
+		add_filter('cubewp/frontend/search/form', array($this, 'cubewp_search_form_container'), 11, 3);
 	}
 
 
@@ -34,8 +36,6 @@ class CubeWp_Shortcode_Search
 
 	public function cubewp_search($output, $atts)
 	{
-		add_filter('cubewp/frontend/search/button/field', array($this, 'cubewp_search_button'), 11, 2);
-		add_filter('cubewp/frontend/search/form', array($this, 'cubewp_search_form_container'), 11, 3);
 
 		$get_post_type = isset($atts['post_type']) ? $atts['post_type'] : 'post';
 		$submit_button_icon = isset($atts['submit_button_icon']) ? $atts['submit_button_icon'] : '';
@@ -79,7 +79,7 @@ class CubeWp_Shortcode_Search
 				$active = $index === 0 ? 'active' : '';
 				$aria_selected = $index === 0 ? 'true' : 'false';
 				echo '<li class="nav-item" role="presentation">';
-				echo '<button class="tabber-btn nav-link ' . esc_attr($active) . '" id="tab-' . esc_attr($post_type) . '" data-bs-toggle="tab" data-bs-target="#tab-content-' . esc_attr($post_type) . '" type="button" role="tab" aria-controls="tab-content-' . esc_attr($post_type) . '" aria-selected="' . esc_attr($aria_selected) . '">' . /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ $tab_icon_html . ' ' . esc_html($title) . '</button>';
+				echo '<button class="tabber-btn nav-link ' . $active . '" id="tab-' . esc_attr($post_type) . '" data-bs-toggle="tab" data-bs-target="#tab-content-' . esc_attr($post_type) . '" type="button" role="tab" aria-controls="tab-content-' . esc_attr($post_type) . '" aria-selected="' . $aria_selected . '">' . $tab_icon_html . ' ' . esc_html($title) . '</button>';
 				echo '</li>';
 			}
 			echo '</ul>';
@@ -88,7 +88,7 @@ class CubeWp_Shortcode_Search
 			echo '<div class="tab-content" id="cubewp_searchTabContent">';
 			foreach ($post_types as $index => $post_type) {
 				$active = $index === 0 ? 'show active' : '';
-				echo '<div class="tab-pane fade ' . esc_attr($active) . '" id="tab-content-' . esc_attr($post_type) . '" role="tabpanel" aria-labelledby="tab-' . esc_attr($post_type) . '">';
+				echo '<div class="tab-pane fade ' . $active . '" id="tab-content-' . esc_attr($post_type) . '" role="tabpanel" aria-labelledby="tab-' . esc_attr($post_type) . '">';
 				echo do_shortcode('[cwpSearch type="' . esc_attr($post_type) . '"]');
 				echo '</div>';
 			}
@@ -125,15 +125,14 @@ class CubeWp_Shortcode_Search
 		$form_id                  =  isset($cwp_search_fields[$type]['form']['form_id'])              ? $cwp_search_fields[$type]['form']['form_id']                : 'cwp-search-' . $type;
 
 
-		$html = '<div class="cwp-frontend-form-container">
-		<div class="cwp-frontend-search-form ' . esc_attr($form_container_class) . '">
+		$html = '<div class="cwp-frontend-search-form ' . esc_attr($form_container_class) . '">
             <form method="GET" id="' . esc_attr($form_id) . '" class="' . esc_attr($form_class) . '" action="' . esc_url(home_url('/')) . '" class="cwp-search-form">
                 <input type="hidden" name="post_type" value="' . esc_attr($type) . '">';
 
 		$html .= $this->cubewp_frontend_search_form_fields($search_fields , $params);
 
 		$html .= '</form>
-        </div></div>';
+        </div>';
 
 
 		return $html;
@@ -156,21 +155,14 @@ class CubeWp_Shortcode_Search
 				$fieldOptions['custom_name_lng'] =   $fieldOptions['name'] . '_lng';
 				$fieldOptions['custom_name_range'] =   $fieldOptions['name'] . '_range';
 			}
-			$fieldname = $fieldOptions['name'];
 			if ($fieldOptions['type'] == 'taxonomy') {
 				$fieldOptions['appearance'] = $fieldOptions['display_ui'];
-				$fieldname = CubeWp_Frontend_Search_Filter::taxonomy_prefix($fieldOptions['name']);
 			}
 			$fieldOptions['form_type'] = 'search';
 
 			if (isset($this->custom_fields[$name['name']]) && !empty($this->custom_fields[$name['name']])) {
 				$fieldOptions = wp_parse_args($fieldOptions, $this->custom_fields[$name['name']]);
 			}
-
-			if(isset($_GET[$fieldname]) && !empty($_GET[$fieldname])){// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-				$fieldOptions['value'] = sanitize_text_field(wp_unslash($_GET[$fieldname]));// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-			}
-
 			$only_fields[] = $fieldOptions;
 
 			$settings = $this->all_setings; 

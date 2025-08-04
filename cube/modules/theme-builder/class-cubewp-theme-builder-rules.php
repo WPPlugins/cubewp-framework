@@ -28,7 +28,7 @@ class CubeWp_Theme_Builder_Rules {
 	 * * @since   1.1.16
      */
 	private static function get_public_taxonomies() {
-		$core                  = get_taxonomies( [ '_builtin' => true, 'public' => true ], 'objects', 'and' );
+		$core                  = get_taxonomies( [ '_builtin' => true, 'public' => true, 'hierarchical' => true ], 'objects', 'and' );
 		$public                = get_taxonomies( [ '_builtin' => false, 'public' => true, 'hierarchical' => true ], 'objects', 'and' );
 		$taxonomies = array_merge($core,$public);
 		$taxonomies = array_map(function($taxonomy) {
@@ -124,88 +124,6 @@ class CubeWp_Theme_Builder_Rules {
         $template_options .= '</optgroup>';
         return $template_options;
     }
-
-    /**
-     * Method render_postcard_options
-     *
-     * @return string
-     * @since   1.1.28
-     */
-    public static function render_postcard_options() {
-        $template_options = '';
-        $template_options .= '<optgroup label="Posts">';
-        foreach (self::get_public_post_types() as $post_type) {
-            $template_options .= '<option value="postcard_' . esc_attr($post_type['name']) . '">Post Card ' . esc_html($post_type['label']) . '</option>';
-        }
-        /**
-         * Allow insertion of extra postcard options.
-         *
-         * @param string $template_options Current template options HTML (passed by reference).
-         */
-        do_action_ref_array('cubewp/theme_builder/postcard_options', array(&$template_options));
-        $template_options .= '</optgroup>';
-        return $template_options;
-    }
-
-    /**
-     * Method render_termcard_options
-     *
-     * @return string
-     * @since   1.1.28
-     */
-    public static function render_termcard_options() {
-        $template_options = '';
-        $template_options .= '<optgroup label="Taxonomies">';
-        foreach (self::get_public_taxonomies() as $taxonomy) {
-            $template_options .= '<option value="termcard_' . esc_attr($taxonomy['name']) . '">' . esc_html($taxonomy['label']) . '</option>';
-        }
-        $template_options .= '</optgroup>';
-        return $template_options;
-    }
-
-    /**
-     * Method render_usercard_options
-     *
-     * @return string
-     * @since   1.1.30
-     */
-    public static function render_usercard_options() {
-        $template_options = '';
-        $template_options .= '<optgroup label="User Roles">';
-        $template_options .= '<option value="usercard_all">' . esc_html__('All Users', 'cubewp-framework') . '</option>';
-        if (! function_exists('get_editable_roles')) {
-            require_once ABSPATH . 'wp-admin/includes/user.php';
-        }
-        foreach (get_editable_roles() as $role_key => $role_data) {
-            $label = isset($role_data['name']) ? $role_data['name'] : $role_key;
-            $template_options .= '<option value="usercard_' . esc_attr($role_key) . '">' . esc_html($label) . '</option>';
-        }
-        $template_options .= '</optgroup>';
-        return $template_options;
-    }
-    
-    /**
-     * Method render_pages_options
-     *
-     * @return string
-     * @since   1.1.xx
-     */
-    public static function render_pages_options()
-    {
-        $template_options = '';
-        $pages = get_pages(array(
-            'sort_column' => 'post_title',
-            'sort_order'  => 'ASC',
-        ));
-        if (! empty($pages)) {
-            $template_options .= '<optgroup label="Specific Pages">';
-            foreach ($pages as $page) {
-                $template_options .= '<option value="single_page_' . esc_attr($page->ID) . '">' . esc_html($page->post_title) . '</option>';
-            }
-            $template_options .= '</optgroup>';
-        }
-        return $template_options;
-    }
     
     /**
      * Method render_block_options
@@ -215,7 +133,6 @@ class CubeWp_Theme_Builder_Rules {
      */
     public static function render_block_options() {
         $template_options = '';
-        $template_options .= '<option value="cubewp_post_loop_promotional_card">' . esc_html('CubeWP Post Loop Promotional Card' , 'cubewp-framework') . '</option>';
         $blocks = is_array(apply_filters('cubewp/theme_builder/blocks', array())) ? apply_filters('cubewp/theme_builder/blocks', array()): array();
         foreach ($blocks as $key => $label) {
             $template_options .= '<option value="' . esc_attr($key) . '">' . esc_html($label) . '</option>';
@@ -266,34 +183,6 @@ class CubeWp_Theme_Builder_Rules {
         $template_options .= '</optgroup>';
         return $template_options;
     }
-
-    /**
-     * Method render_no_results_options
-     *
-     * @return string
-     * @since   1.1.30
-     */
-    public static function render_no_results_options() {
-        $template_options = '';
-        $template_options .= '<optgroup label="Global">';
-        $template_options .= '<option value="all">' . esc_html__('All (site-wide)', 'cubewp-framework') . '</option>';
-        $template_options .= '</optgroup>';
-
-        $template_options .= '<optgroup label="Post Types">';
-        foreach (self::get_public_post_types() as $post_type) {
-            // Prefix to avoid collisions with taxonomy slugs.
-            $template_options .= '<option value="pt_' . esc_attr($post_type['name']) . '">' . esc_html($post_type['label']) . '</option>';
-        }
-        $template_options .= '</optgroup>';
-
-        $template_options .= '<optgroup label="Taxonomies">';
-        foreach (self::get_public_taxonomies() as $taxonomy) {
-            // Prefix to avoid collisions with post type slugs.
-            $template_options .= '<option value="tax_' . esc_attr($taxonomy['name']) . '">' . esc_html($taxonomy['label']) . '</option>';
-        }
-        $template_options .= '</optgroup>';
-        return $template_options;
-    }
     
     /**
      * Method get_template_options
@@ -301,75 +190,39 @@ class CubeWp_Theme_Builder_Rules {
      * @return JSON
      * @since   1.1.16
      */
-    public static function get_template_options()
-    {
-        // Security (2026-09-17): admin screen helper; lists post types, taxonomies and pages.
-        if (!current_user_can('manage_options')) {
-            wp_send_json_error(['message' => 'Not allowed'], 403);
-        }
-        /* phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.NonceVerification.Missing */
+    public static function get_template_options() {
         if (!isset($_POST['template_type'])) {
             wp_send_json_error(['message' => 'Template type not specified']);
         }
-        /* phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.NonceVerification.Missing */
-        $template_type = sanitize_text_field(wp_unslash($_POST['template_type']));
-        $custom_template_types = apply_filters('cubewp/theme_builder/options/register', array());
+    
+        $template_type = sanitize_text_field($_POST['template_type']);
         $template_options = '';
         //$exclude_options = '';
-        if (isset($custom_template_types[$template_type])) {
-            $custom_template_options = apply_filters('cubewp_tb_custom_template_options', '', $template_type);
-            if (!empty($custom_template_options)) {
-                $template_options .= $custom_template_options;
-            } else {
+    
+        switch ($template_type) {
+            case 'single':
+                $template_options .= self::render_single_options();
+                break;
+    
+            case 'archive':
+                $template_options .= self::render_archive_options();
+                break;
+    
+            case 'block':
+                $template_options .= self::render_block_options(); 
+                break;
+    
+            case '404':
+            case 'mega-menu':
+            case 'shop':
+                $template_options .= '<option value="all">all</option>';
+                break;
+    
+            default:
                 $template_options .= self::render_default_options();
-            }
-        } else {
-            switch ($template_type) {
-                case 'single':
-                    $template_options .= self::render_single_options();
-                    break;
-
-                case 'archive':
-                    $template_options .= self::render_archive_options();
-                    break;
-
-                case 'postcard':
-                    $template_options .= self::render_postcard_options();
-                    break;
-                
-                case 'termcard':
-                    $template_options .= self::render_termcard_options();
-                    break;
-
-                case 'usercard':
-                    $template_options .= self::render_usercard_options();
-                    break;
-
-                case 'block':
-                    $template_options .= self::render_block_options();
-                    break;
-
-                case 'header':
-                case 'footer':
-                    $template_options .= self::render_default_options();
-                    $template_options .= self::render_pages_options();
-                    break;
-
-                case '404':
-                case 'mega-menu':
-                case 'shop':
-                    $template_options .= '<option value="all">all</option>';
-                    break;
-
-                case 'no-results':
-                        $template_options .= self::render_no_results_options();
-                        break;
-
-                default:
-                    $template_options .= self::render_default_options();
-                    break;
-            }
+                break;
         }
+    
         wp_send_json_success([
             'template_options' => $template_options,
             //'exclude_options' => $exclude_options

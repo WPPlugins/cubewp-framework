@@ -347,9 +347,8 @@ function cwp_display_groups_meta_by_user_role(){
 
 function cwp_condition_logic(selectedVal, fieldVal, Compare, Target) {
     Target = '.' + Target;
-    var selectedValues = Array.isArray(selectedVal) ? selectedVal : [selectedVal];
     if (Compare === '!empty') {
-        if (selectedValues.length > 0 && selectedValues.join('') !== '' && typeof selectedVal != 'undefined') {
+        if (selectedVal !== '' && typeof selectedVal != 'undefined') {
             jQuery(Target).show();
             return true;
         } else {
@@ -357,7 +356,7 @@ function cwp_condition_logic(selectedVal, fieldVal, Compare, Target) {
             return true;
         }
     } else if (Compare === 'empty') {
-        if (selectedValues.length === 0 || selectedValues.join('') === '' || typeof selectedVal == 'undefined') {
+        if (selectedVal === '' || typeof selectedVal == 'undefined') {
             jQuery(Target).show();
             return true;
         } else {
@@ -367,10 +366,7 @@ function cwp_condition_logic(selectedVal, fieldVal, Compare, Target) {
     } else if (Compare === '==') {
         if (fieldVal.includes('--OR--')) {
             var exploded = fieldVal.split('--OR--');
-            var hasMatch = exploded.some(function (option) {
-                return selectedValues.indexOf(option) !== -1;
-            });
-            if (hasMatch) {
+            if (exploded.includes(selectedVal)) {
                 jQuery(Target+fieldVal).show();
                 return true;
             }else {
@@ -379,7 +375,7 @@ function cwp_condition_logic(selectedVal, fieldVal, Compare, Target) {
                 return true;
             }
         }else {
-            if (selectedValues.indexOf(fieldVal) !== -1) {
+            if (selectedVal === fieldVal) {
                 jQuery(Target+fieldVal).show();
                 return true;
             } else {
@@ -389,7 +385,7 @@ function cwp_condition_logic(selectedVal, fieldVal, Compare, Target) {
             }
         }
     }else if (Compare === '!=') {
-        if (selectedValues.indexOf(fieldVal) === -1 && selectedValues.join('') !== '') {
+        if (selectedVal !== fieldVal && selectedVal !== '') {
             jQuery(Target+fieldVal).show();
             return true;
         } else {
@@ -404,28 +400,6 @@ function cwp_condition_logic(selectedVal, fieldVal, Compare, Target) {
 function cwp_conditional_fields() {
     var cwp_conditional_logic = jQuery('.conditional-logic');
     if (cwp_conditional_logic.length > 0) {
-        var get_conditional_field_value = function (field) {
-            var baseSelector = '*[name="cwp_meta[' + field + ']"]';
-            var multiSelector = '*[name="cwp_meta[' + field + '][]"]';
-            var $baseFields = jQuery(baseSelector);
-            var $checkedBase = jQuery(baseSelector + ':checked');
-            var $checkedMulti = jQuery(multiSelector + ':checked');
-
-            if ($checkedBase.length) {
-                return $checkedBase.first().val();
-            }
-            if ($checkedMulti.length) {
-                return $checkedMulti.map(function () {
-                    return jQuery(this).val();
-                }).get();
-            }
-            if ($baseFields.length) {
-                var val = $baseFields.first().val();
-                return typeof val === 'undefined' || val === null ? '' : val;
-            }
-            return '';
-        };
-
         cwp_conditional_logic.each(function () {
             var $this = jQuery(this),
                 field = $this.attr('data-field'),
@@ -434,13 +408,11 @@ function cwp_conditional_fields() {
 
                 var parent = jQuery('*[name="cwp_meta[' + field + ']"]');
                 var parentCheckbox = jQuery('[name="cwp_meta[' + field + '][]"]');
-                var selectedVal = get_conditional_field_value(field);
+                var selectedVal = parent.val();
                 if (parent.is(':checked') || selectedVal != '' || selectedVal == ''){
                     cwp_condition_logic(selectedVal, value, operator, field);
                 }else if(parentCheckbox.is(':checked')){
                     var selectedVal = parentCheckbox.val();
-                    cwp_condition_logic(selectedVal, value, operator, field);
-                } else {
                     cwp_condition_logic(selectedVal, value, operator, field);
                 }
             
@@ -670,7 +642,7 @@ function cubewp_init_range_pickers(range_picker) {
         var thisObj = jQuery(this),
             current_value_input = thisObj.closest("td");
         if (!current_value_input.find('.cubewp-current-value').length) {
-            current_value_input.prepend(jQuery("<span class='cubewp-current-value'></span>").text(thisObj.val()));
+            current_value_input.prepend("<span class='cubewp-current-value'>" + thisObj.val() + "</span>");
             thisObj.on("input", function () {
                 jQuery(this).closest("td").find(".cubewp-current-value").text(jQuery(this).val());
             });

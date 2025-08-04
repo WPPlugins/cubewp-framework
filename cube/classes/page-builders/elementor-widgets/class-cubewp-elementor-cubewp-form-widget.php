@@ -382,10 +382,9 @@ class CubeWp_Elementor_CubeWP_Form_Widget extends Widget_Base {
             $output .= '</div></form></div>';
             
         } else {
-            $output .= esc_html__( 'Post type not set','cubewp-framework');
+            $output .= _e( 'Post type not set gfrf','cubewp-framework');
         }
 
-        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
         echo apply_filters( 'cubewp/elementor/archive/posts', $output );
     }
     

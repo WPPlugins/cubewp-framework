@@ -150,20 +150,6 @@ class CubeWp_Elementor_Nav_Menu_Widget extends Widget_Base
 
 
 		$this->add_control(
-			'show_mobile_menu_toggle',
-			[
-				'label'        => esc_html__('Mobile / Tablet Menu Toggle', 'cubewp-framework'),
-				'type'         => Controls_Manager::SWITCHER,
-				'label_on'     => esc_html__('Show', 'cubewp-framework'),
-				'label_off'    => esc_html__('Hide', 'cubewp-framework'),
-				'return_value' => 'yes',
-				'default'      => 'yes',
-				'description'  => esc_html__('Show the icon on tablet and mobile that opens the off-canvas sidebar menu.', 'cubewp-framework'),
-				'separator'    => 'before',
-			]
-		);
-
-		$this->add_control(
 			'off_canvas_logo',
 			[
 				'label' => esc_html__('Off-Canvas Logo', 'cubewp-framework'),
@@ -174,9 +160,6 @@ class CubeWp_Elementor_Nav_Menu_Widget extends Widget_Base
 				'label_block' => true,
 				'separator' => 'before',
 				'frontend_available' => true,
-				'condition' => [
-					'show_mobile_menu_toggle' => 'yes',
-				],
 			]
 		);
 
@@ -429,63 +412,6 @@ class CubeWp_Elementor_Nav_Menu_Widget extends Widget_Base
 				],
 			]
 		);
-		$this->add_responsive_control(
-			'menu_align_items',
-			[
-				'label' => esc_html__( 'Align Items', 'cubewp-framework' ),
-				'type'  => \Elementor\Controls_Manager::CHOOSE,
-				'options' => [
-					'flex-start' => [
-						'title' => esc_html__( 'Start', 'cubewp-framework' ),
-						'icon'  => 'eicon-v-align-top',
-					],
-					'center' => [
-						'title' => esc_html__( 'Center', 'cubewp-framework' ),
-						'icon'  => 'eicon-v-align-middle',
-					],
-					'flex-end' => [
-						'title' => esc_html__( 'End', 'cubewp-framework' ),
-						'icon'  => 'eicon-v-align-bottom',
-					],
-					'stretch' => [
-						'title' => esc_html__( 'Stretch', 'cubewp-framework' ),
-						'icon'  => 'eicon-v-align-stretch',
-					],
-				],
-				'selectors' => [
-					'{{WRAPPER}} .elementor-cubewp-nav-menu' => 'align-items: {{VALUE}};',
-				],
-			]
-		);
-
-		$this->add_responsive_control(
-			'menu_justify_content',
-			[
-				'label' => esc_html__( 'Justify Content', 'cubewp-framework' ),
-				'type'  => \Elementor\Controls_Manager::CHOOSE,
-				'options' => [
-					'flex-start' => [
-						'title' => esc_html__( 'Start', 'cubewp-framework' ),
-						'icon'  => 'eicon-h-align-left',
-					],
-					'center' => [
-						'title' => esc_html__( 'Center', 'cubewp-framework' ),
-						'icon'  => 'eicon-h-align-center',
-					],
-					'flex-end' => [
-						'title' => esc_html__( 'End', 'cubewp-framework' ),
-						'icon'  => 'eicon-h-align-right',
-					],
-					'space-between' => [
-						'title' => esc_html__( 'Space Between', 'cubewp-framework' ),
-						'icon'  => 'eicon-h-align-stretch',
-					],
-				],
-				'selectors' => [
-					'{{WRAPPER}} .elementor-cubewp-nav-menu' => 'justify-content: {{VALUE}};',
-				],
-			]
-		);
 		$this->end_controls_section();
 
 		$this->start_controls_section(
@@ -601,7 +527,7 @@ class CubeWp_Elementor_Nav_Menu_Widget extends Widget_Base
 				'global' => [
 					'default' => Global_Typography::TYPOGRAPHY_PRIMARY,
 				],
-				'exclude' => ['line_height'],// phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude
+				'exclude' => ['line_height'],
 				'selector' => '{{WRAPPER}} .elementor-cubewp-nav-menu--dropdown .elementor-cubewp-item, {{WRAPPER}} .elementor-cubewp-nav-menu--dropdown  .elementor-sub-item , {{WRAPPER}} .elementor-cubewp-nav-menu--dropdown  .elementor-cubewp-sub-item',
 				'separator' => 'before',
 			]
@@ -634,7 +560,7 @@ class CubeWp_Elementor_Nav_Menu_Widget extends Widget_Base
 			Group_Control_Box_Shadow::get_type(),
 			[
 				'name' => 'dropdown_box_shadow',
-				'exclude' => [// phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude
+				'exclude' => [
 					'box_shadow_position',
 				],
 				'selector' => '{{WRAPPER}} .elementor-cubewp-nav-menu--main .elementor-cubewp-nav-menu--dropdown, {{WRAPPER}} .elementor-cubewp-nav-menu__container.elementor-cubewp-nav-menu--dropdown',
@@ -835,11 +761,8 @@ class CubeWp_Elementor_Nav_Menu_Widget extends Widget_Base
 		$this->start_controls_section(
 			'section_style_offcanvas_menu',
 			[
-				'label'     => esc_html__('Off-Canvas Menu Button', 'cubewp-framework'),
-				'tab'       => Controls_Manager::TAB_STYLE,
-				'condition' => [
-					'show_mobile_menu_toggle' => 'yes',
-				],
+				'label' => esc_html__('Off-Canvas Menu Button', 'cubewp-framework'),
+				'tab' => \Elementor\Controls_Manager::TAB_STYLE,
 			]
 		);
 		
@@ -1006,14 +929,6 @@ class CubeWp_Elementor_Nav_Menu_Widget extends Widget_Base
 	}
 
 
-	protected function add_render_attributes() {
-		parent::add_render_attributes();
-
-		if ( ! $this->is_mobile_menu_toggle_enabled( $this->get_settings_for_display() ) ) {
-			$this->add_render_attribute( '_wrapper', 'class', 'cubewp-nav-menu--no-mobile-toggle' );
-		}
-	}
-
 	protected function render()
 	{
 		$menu_options = $this->get_wordpress_menu_options();
@@ -1060,21 +975,14 @@ class CubeWp_Elementor_Nav_Menu_Widget extends Widget_Base
 			return;
 		}
 		if ('dropdown' !== $settings['layout_type']) :
-			$main_menu_classes = array(
+			$this->add_render_attribute('main-menu', 'class', [
 				'elementor-cubewp-nav-menu--main',
-				'elementor-cubewp-nav-menu__container',
-				'cubwp-menu-desktop',
+				'elementor-cubewp-nav-menu__container cubwp-menu-desktop',
 				'elementor-cubewp-nav-menu--layout-' . $settings['layout_type'],
-			);
-
-			if ( ! $this->is_mobile_menu_toggle_enabled( $settings ) ) {
-				$main_menu_classes[] = 'cubewp-nav-menu--no-mobile-toggle';
-			}
-
-			$this->add_render_attribute( 'main-menu', 'class', $main_menu_classes );
+			]); 
 ?>
 
-			<nav <?php $this->print_render_attribute_string('main-menu'); ?> data-icons='<?php /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ echo Icons_Manager::render_icon($settings['submenu_icon']); ?>'>
+			<nav <?php $this->print_render_attribute_string('main-menu'); ?> data-icons='<?php echo Icons_Manager::render_icon($settings['submenu_icon']); ?>'>
 				<?php
 
 				// PHPCS - escaped by WordPress with "wp_nav_menu"
@@ -1082,30 +990,31 @@ class CubeWp_Elementor_Nav_Menu_Widget extends Widget_Base
 				?>
 
 			</nav>
-			<?php $this->render_mobile_offcanvas_toggle( $settings ); ?>
+			<button class="cubwp-menu-desktop mobile cubewp-cubewp-menus-open" type="button" data-bs-toggle="offcanvas" data-bs-target="#cubewp-menus" aria-controls="cubewp-menus">
+				 <?php 
+				 if (!empty($settings['offcanvas_menu_icon']['value'])) {
+					Icons_Manager::render_icon($settings['offcanvas_menu_icon'], ['aria-hidden' => 'true']);
+				}
+				 ?>
+			</button>
 
 		<?php
 		endif;
 		if ('dropdown'  == $settings['layout_type']) :
 			$this->render_menu_toggle($settings);
 		?>
-			<nav class="elementor-cubewp-nav-menu--dropdown  elementor-cubewp-nav-menu__container" aria-hidden="true" data-icons='<?php /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ echo Icons_Manager::render_icon($settings['submenu_icon']); ?>'>
+			<nav class="elementor-cubewp-nav-menu--dropdown  elementor-cubewp-nav-menu__container" aria-hidden="true" data-icons='<?php echo Icons_Manager::render_icon($settings['submenu_icon']); ?>'>
 				<?php
-				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				echo $menu_html;
 				?>
 			</nav>
 		<?php
 		endif;
-		if ( ! $this->is_mobile_menu_toggle_enabled( $settings ) ) {
-			return;
-		}
-
-		$off_canvas_logo = $settings['off_canvas_logo'];
+		$off_canvas_logo = 	$settings['off_canvas_logo'];
 		?>
 		<div class="cubewp-offcanvas-menus">
 			<div class="offcanvas-header">
-				<a href="<?php echo esc_url(site_url());  ?>"> <img src="<?php echo esc_url($off_canvas_logo['url']);  ?>" alt="logo"></a>
+				<a href="<?php echo  site_url();  ?>"> <img src="<?php echo esc_url($off_canvas_logo['url']);  ?>" alt="logo"></a>
 				<button class="cubewp-menu-closed"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
 						<path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
 					</svg></button>
@@ -1113,7 +1022,6 @@ class CubeWp_Elementor_Nav_Menu_Widget extends Widget_Base
 			<div class="offcanvas-body">
 				<nav class="menu-offcanvas elementor-cubewp-nav-menu__container" aria-hidden="true">
 					<?php
-					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					echo $menu_html;
 					?>
 				</nav>
@@ -1171,36 +1079,6 @@ class CubeWp_Elementor_Nav_Menu_Widget extends Widget_Base
 		return $classes;
 	}
 
-	/**
-	 * Whether the mobile / tablet off-canvas toggle button should render.
-	 *
-	 * @param array $settings Widget settings.
-	 * @return bool
-	 */
-	private function is_mobile_menu_toggle_enabled( $settings ) {
-		return ! isset( $settings['show_mobile_menu_toggle'] ) || 'yes' === $settings['show_mobile_menu_toggle'];
-	}
-
-	/**
-	 * Off-canvas sidebar open button (tablet / mobile).
-	 *
-	 * @param array $settings Widget settings.
-	 */
-	private function render_mobile_offcanvas_toggle( $settings ) {
-		if ( ! $this->is_mobile_menu_toggle_enabled( $settings ) ) {
-			return;
-		}
-		?>
-		<button class="cubwp-menu-desktop mobile cubewp-cubewp-menus-open" type="button" data-bs-toggle="offcanvas" data-bs-target="#cubewp-menus" aria-controls="cubewp-menus" aria-label="<?php echo esc_attr__( 'Open menu', 'cubewp-framework' ); ?>">
-			<?php
-			if ( ! empty( $settings['offcanvas_menu_icon']['value'] ) ) {
-				Icons_Manager::render_icon( $settings['offcanvas_menu_icon'], array( 'aria-hidden' => 'true' ) );
-			}
-			?>
-		</button>
-		<?php
-	}
-
 	private function render_menu_toggle($settings)
 	{
 		if ('dropdown' !== $settings['layout_type']) {
@@ -1216,7 +1094,10 @@ class CubeWp_Elementor_Nav_Menu_Widget extends Widget_Base
 		]);
 
 	?>
-		<?php $this->render_mobile_offcanvas_toggle( $settings ); ?>
+		<button class="cubwp-menu-desktop mobile cubewp-cubewp-menus-open" data-target="cubewp-menus"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+				<path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
+			</svg>
+		</button>
 		<div <?php $this->print_render_attribute_string('menu-toggle'); ?>>
 			<?php
 

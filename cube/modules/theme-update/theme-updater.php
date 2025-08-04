@@ -2,17 +2,7 @@
 /**
  * CubeWP Theme Updater
  *
- * @package cubewp/cube/modules/theme-update
- */
-
-// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals
-
-if ( ! defined( 'ABSPATH' ) ) {
-    exit;
-}
-
-/**
- * CubeWP Theme Updater
+ * @package Theme Update
  */
 if ( !class_exists( 'EDD_Theme_Updater' ) ) {
 	// Load our custom theme updater

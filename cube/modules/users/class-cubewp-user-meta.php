@@ -8,10 +8,10 @@ class CubeWp_User_Meta
         $args = array(
             'numberposts' => -1,
             'post_type' => 'cwp_user_fields',
-            'meta_key' => '_cwp_group_order',// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+            'meta_key' => '_cwp_group_order',
             'orderby' => 'meta_value_num',
             'order' => 'ASC',
-            'meta_query' => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+            'meta_query' => array(
                 'key' => '_cwp_group_user_roles',
                 'value' => '',
                 'compare' => '!=',
@@ -110,7 +110,6 @@ class CubeWp_User_Meta
             $output .= '</div>';
             $output .= '</div>';
         }
-        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
         echo cubewp_core_data($output);
     }
 
@@ -121,7 +120,7 @@ class CubeWp_User_Meta
         }
 
         // Verify nonce
-        if (isset($_POST['cwp_meta_box_nonce']) && !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['cwp_meta_box_nonce'])), basename(__FILE__))) {
+        if (!wp_verify_nonce($_POST['cwp_meta_box_nonce'], basename(__FILE__))) {
             return $user_id;
         }
 
@@ -139,12 +138,17 @@ class CubeWp_User_Meta
         $fieldOptions = CWP()->get_custom_fields('user');
         $allowed_meta_keys = array_keys($fieldOptions);
 
+        // Add prefix to allowed keys
+        $prefixed_allowed_keys = array_map(function ($key) {
+            return 'cwp-' . $key;
+        }, $allowed_meta_keys);
+
         // Sanitize input
-        $fields = CubeWp_Sanitize_Fields_Array($_POST['cwp_meta'], 'user'); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+        $fields = CubeWp_Sanitize_Fields_Array($_POST['cwp_meta'], 'user');
 
         foreach ($fields as $key => $value) {
             // Skip if key is not in our allowed list
-            if (!in_array($key, $allowed_meta_keys)) {
+            if (!in_array($key, $prefixed_allowed_keys)) {
                 continue;
             }
 

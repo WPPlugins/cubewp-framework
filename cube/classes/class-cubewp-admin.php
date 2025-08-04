@@ -41,11 +41,6 @@ class CubeWp_Admin {
         add_action( 'cubewp_loaded', array( 'CubeWp_Theme_Builder_Rules', 'init' ) );
         add_filter('elementor/documents/register', [$this, 'add_elementor_support']);
         add_filter('cubewp/posttypes/new', [$this, 'register_theme_builder_post_type']);
-        /*
-         * Security (2026-10-07): close anonymous reads of the Theme Builder over
-         * the core REST API. Registered here, beside the post type that opens it.
-         */
-        add_filter('rest_pre_dispatch', array($this, 'restrict_theme_builder_rest'), 10, 3);
         add_filter('cubewp-submenu', array($this, 'Cubewp_Menu'), 10);
         new CubeWp_Ajax( '', 'CubeWp_Theme_Builder', 'cubewp_theme_builder_template' );
         add_action('admin_footer', ['CubeWp_Theme_Builder', 'add_custom_popup_form']);
@@ -103,17 +98,13 @@ class CubeWp_Admin {
      */
     public static function cubewp_get_builder_widgets() {
 
-        if ( empty( $_POST['security_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['security_nonce'] ) ), 'cubewp-admin-nonce' ) ) {
+        if ( ! wp_verify_nonce($_POST['security_nonce'], "cubewp-admin-nonce")) {
 			wp_send_json_error(array(
 				'msg' => esc_html__('Sorry! Security Verification Failed.', 'cubewp-framework'),
 			), 404);
 		}
-
-		$nested_switcher = isset( $_POST['nested_switcher'] ) ? sanitize_text_field( wp_unslash( $_POST['nested_switcher'] ) ) : '';
-		$form_type       = isset( $_POST['form_type'] ) ? sanitize_text_field( wp_unslash( $_POST['form_type'] ) ) : '';
-		$slug            = isset( $_POST['slug'] ) ? sanitize_key( wp_unslash( $_POST['slug'] ) ) : '';
-
-		$widgets_ui = self::cubewp_builder_widgets_display( $nested_switcher, $form_type, $slug );
+        
+        $widgets_ui = self::cubewp_builder_widgets_display($_POST['nested_switcher'],$_POST['form_type'],$_POST['slug']);
 		wp_send_json_success(array( 'sidebar' => $widgets_ui));
 	}
 
@@ -125,48 +116,15 @@ class CubeWp_Admin {
      * @return void
      * @since  1.0.0
      */
-    /**
-     * Rebuild uploads/cubewp-post-cards/cubewp-post-cards.css from the saved
-     * option. Called by the front-end enqueue when the file is missing. Returns
-     * true only when the file exists afterwards; false when there is no saved
-     * CSS yet (nothing has ever been saved on the Post Cards screen) or the
-     * directory is not writable — in both cases the stylesheet is simply not
-     * enqueued, which is a missing style, not a 404.
-     */
-    public static function cubewp_rebuild_post_card_css() {
-        if ( ! defined( 'CUBEWP_POST_CARDS_DIR' ) ) {
-            return false;
-        }
-        $css_code = (string) get_option( 'cubewp_post_cards_css', '' );
-        if ( $css_code === '' ) {
-            return false;
-        }
-        $file_path = CUBEWP_POST_CARDS_DIR . '/cubewp-post-cards.css';
-        if ( ! file_exists( dirname( $file_path ) ) ) {
-            wp_mkdir_p( dirname( $file_path ) );
-        }
-        if ( ! is_writable( dirname( $file_path ) ) ) {
-            return false;
-        }
-        return @file_put_contents( $file_path, $css_code ) !== false && file_exists( $file_path );
-    }
-
     public static function cubewp_process_post_card_css() {
-        if ( empty( $_POST['security_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['security_nonce'] ) ), 'cubewp-admin-nonce' ) ) {
+        if ( ! wp_verify_nonce($_POST['security_nonce'], "cubewp-admin-nonce")) {
 			wp_send_json_error(array(
 				'msg' => esc_html__('Sorry! Security Verification Failed.', 'cubewp-framework'),
 			), 404);
 		}
-        // Security (2026-09-17): writes a site-wide stylesheet and option; admins only.
-        if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error(array(
-				'msg' => esc_html__('Sorry! Security Verification Failed.', 'cubewp-framework'),
-			), 403);
-		}
-        if ( isset( $_POST['styles'] ) ) {
-            /*phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized */
-            $raw_styles = wp_unslash( $_POST['styles'] );
-            $data = is_string( $raw_styles ) ? json_decode( $raw_styles, true ) : null;
+        if (isset($_POST['styles']) && is_string($_POST['styles'])) {
+
+            $data = json_decode(stripslashes($_POST['styles']), true);
             if (is_array($data)) {
                 $cleaned_data = array_map(function($item) {
                     // Remove surrounding quotes
@@ -175,8 +133,6 @@ class CubeWp_Admin {
                     $item = str_replace('\n', "\n", $item);
                     // Replace plus signs with spaces
                     $item = str_replace('+', ' ', $item);
-                    // Sanitize each line as textarea content to avoid unsafe content
-                    $item = sanitize_textarea_field( $item );
                     return $item;
                 }, $data);
 
@@ -188,17 +144,10 @@ class CubeWp_Admin {
                 }
                 $file_path = CUBEWP_POST_CARDS_DIR . '/cubewp-post-cards.css';
     
-                if ( ! file_exists( dirname( $file_path ) ) ) {
-                    wp_mkdir_p( dirname( $file_path ) );
+                if (!file_exists(dirname($file_path))) {
+                    mkdir(dirname($file_path), 0755, true);
                 }
     
-                // Keep the SOURCE of the file, not just the file. The stylesheet lives in
-                // uploads/, outside the media library, so a migration or a restore can
-                // carry the directory and lose the file — and then every page 404s on it
-                // until someone re-saves this screen (site 417, 2026-09-07). With the CSS
-                // in an option, the front end rebuilds the file on its own.
-                update_option( 'cubewp_post_cards_css', $css_code, false );
-
                 if (file_put_contents($file_path, $css_code) !== false) {
                     wp_send_json_success(array('message' => 'CSS file created successfully', 'file' => $file_path));
                 } else {
@@ -267,22 +216,20 @@ class CubeWp_Admin {
             return null;
         }
         $modules = array(
-            'custom-fields'      => 'modules/',
-            'theme-builder'      => 'modules/',
-            'post-types'         => 'modules/',
-            'users'              => 'modules/',
-            'search'             => 'modules/',
-            'settings'           => 'modules/',
-            'taxonomies'         => 'modules/',
-            'list-tables'        => 'modules/',
-            'elementor'          => 'modules/',
-            'elementor/taxonomy' => 'modules/',
-            'elementor/user'     => 'modules/',
-            'recaptcha'          => 'modules/',
-            'builder'            => 'modules/',
-            'google-address-city'=> 'modules/',
-            'widgets'            => 'includes/',
-            'shortcodes'         => 'includes/',
+            'custom-fields' => 'modules/',
+            'theme-builder'  => 'modules/',
+            'post-types' => 'modules/',
+            'users'      => 'modules/',
+            'search'     => 'modules/',
+            'settings'   => 'modules/',
+            'taxonomies' => 'modules/',
+            'list-tables'=> 'modules/',
+            'elementor'  => 'modules/',
+            'recaptcha'  => 'modules/',
+            'builder'  => 'modules/',
+            
+            'widgets'    => 'includes/',
+            'shortcodes' => 'includes/',
         );
         foreach($modules as $module=>$path){
             $file_name = $path.$module.'/class-' .str_replace('_', '-', strtolower($className)).'.php';
@@ -293,6 +240,7 @@ class CubeWp_Admin {
             }
         }
 
+        
         return;
     }
     
@@ -348,7 +296,7 @@ class CubeWp_Admin {
      * @return void
      * @since  1.0.0
      */
-public static function register_elementor_tags($module) {
+    public static function register_elementor_tags($module) {
         $tags = CubeWp_Custom_Fields_Markup::cwp_form_field_types( 'elementor_dynamic_tags' );
         $module->register_group( 'cubewp-fields', [
         'title' => esc_html__( 'CubeWP Custom Fields', 'cubewp-framework' ),
@@ -367,17 +315,12 @@ public static function register_elementor_tags($module) {
         $single_tags = array(
             "title" => esc_html__("Post Title", "cubewp-framework"),
             "post_content" => esc_html__("Post Content", "cubewp-framework"),
-            "post_excerpt" => esc_html__("Post Excerpt", "cubewp-framework"),
             "featured_image" => esc_html__("Featured Image", "cubewp-framework"),
             "post_author" => esc_html__("Post Author", "cubewp-framework"),
             "post_info" => esc_html__("Post Info", "cubewp-framework"),
             "post_term" => esc_html__("Post Term", "cubewp-framework"),
-            "post_count" => esc_html__("Post Count", "cubewp-framework"),
             "post_share" => esc_html__("Post Share Button", "cubewp-framework"),
             "post_save" => esc_html__("Post Save Button", "cubewp-framework"),
-            "post_url" => esc_html__("Post URL", "cubewp-framework"),
-            "post_date" => esc_html__("Post Date", "cubewp-framework"),
-            "nearby_post_distance" => esc_html__("Nearby Post Distance", "cubewp-framework"),
             "custom_fields" => esc_html__("CubeWP Custom Fields", "cubewp-framework")
         );
         foreach ( $single_tags as $tag => $label ) {
@@ -386,100 +329,31 @@ public static function register_elementor_tags($module) {
                 $module->register( new $tag() );
             }
         }
-        $module->register_group( 'cubewp-taxonomy-fields', [
-            'title' => esc_html__( 'CubeWP Taxonomy Custom Fields', 'cubewp-framework' ),
-        ] );
-        $taxonomy_tags = array(
-            "term_name" => esc_html__("Term Name", "cubewp-framework"),
-            "term_url" => esc_html__("Term URL", "cubewp-framework"),
-            "term_count" => esc_html__("Term Count", "cubewp-framework"),
-            "term_description" => esc_html__("Term Description", "cubewp-framework"),
-            "taxonomy_text" => esc_html__("Field Type (Text)", "cubewp-framework"),
-            "taxonomy_textarea" => esc_html__("Field Type (Textarea)", "cubewp-framework"),
-            "taxonomy_image" => esc_html__("Field Type (Image)", "cubewp-framework"),
-            "taxonomy_color" => esc_html__("Field Type (Color)", "cubewp-framework"),
-            "taxonomy_url" => esc_html__("Field Type (URL)", "cubewp-framework"),
-            "taxonomy_gallery" => esc_html__("Field Type (Gallery)", "cubewp-framework"),
-            "taxonomy_oembed" => esc_html__("Field Type (oEembed)", "cubewp-framework"),
-            "taxonomy_google_address" => esc_html__("Field Type (Google Address)", "cubewp-framework"),
-        );
-        foreach ( $taxonomy_tags as $tag => $label ) {
-            $tag = 'CubeWp_Tag_'.ucfirst($tag);
-            if(class_exists($tag)){
-                $module->register( new $tag() );
-            }
-        }
-        $module->register_group( 'cubewp-user-data', [
-            'title' => esc_html__( 'CubeWP User Data', 'cubewp-framework' ),
-        ] );
-        $user_tags = array(
-            "user_name" => esc_html__("User Name", "cubewp-framework"),
-            "user_email" => esc_html__("User Email", "cubewp-framework"),
-            "user_url" => esc_html__("User URL", "cubewp-framework"),
-            "user_biographical_info" => esc_html__("User Biographical Info", "cubewp-framework"),
-            "user_role" => esc_html__("User Role", "cubewp-framework"),
-            "user_avatar" => esc_html__("User Avatar", "cubewp-framework"),
-            "user_registered" => esc_html__("User Registered", "cubewp-framework"),
-            "user_statistics" => esc_html__("User Statistics", "cubewp-framework"),
-        );
-        
-        foreach ( $user_tags as $tag => $label ) {
-            $tag = 'CubeWp_Tag_'.ucfirst($tag);
-            if(class_exists($tag)){
-                $module->register( new $tag() );
-            }
-        }
-        $module->register_group( 'cubewp-settings-fields', [
-            'title' => esc_html__( 'CubeWP Settings', 'cubewp-framework' ),
-        ] );
-        if (class_exists('CubeWp_Tag_Cwp_Settings')) {
-            $module->register( new CubeWp_Tag_Cwp_Settings() );
-        }
-        $module->register_group( 'cubewp-form-fields', array(
-            'title' => esc_html__( 'CubeWP Form Fields', 'cubewp-framework' ),
-        ) );
-        
-        // Register extra Elementor dynamic tags (e.g. CubeWP Frontend Pro field name tag).
-        do_action( 'cubewp/elementor/register_dynamic_tags', $module );
     }
 
     public function cubewp_updated_post_type_messages( $messages ) {
-        /* phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.NonceVerification.Missing */
         global $post, $post_ID;
         $post_types = get_post_types( array( 'show_ui' => true, '_builtin' => false ), 'objects' );
         foreach ( $post_types as $post_type => $post_object ) {
            $messages[ $post_type ] = array(
               0  => '', // Unused. Messages start at index 1.
-              /* translators: 1: Post type singular name, 2: URL to view, 3: Post type singular name */
-              1  => sprintf( __( '%1$s updated. <a href="%2$s">View %3$s</a>', 'cubewp-framework' ), $post_object->labels->singular_name, esc_url( get_permalink( $post_ID ) ), $post_object->labels->singular_name ),
-              2  => __( 'Custom field updated.', 'cubewp-framework' ),
-              3  => __( 'Custom field deleted.', 'cubewp-framework' ),
-              /* translators: 1: Post type singular name */
-              4  => sprintf( __( '%1$s updated.', 'cubewp-framework' ), $post_object->labels->singular_name ),
-              /* translators: 1: Post type singular name, 2: Revision title*/
-              5  => isset( $_GET['revision'] ) ? sprintf( __( '%1$s restored to revision from %2$s', 'cubewp-framework' ), $post_object->labels->singular_name, wp_post_revision_title( (int) sanitize_text_field(wp_unslash($_GET['revision'])), false ) ) : false,/* phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only use of query vars to render notice; no state change performed. WordPress.Security.NonceVerification.Missing -- Back-compat: legacy admin form may not include a nonce. */
-              /* translators: 1: Post type singular name, 2: URL to view, 3: Post type singular name */
-              6  => sprintf( __( '%1$s published. <a href="%2$s">View %3$s</a>', 'cubewp-framework' ), $post_object->labels->singular_name, esc_url( get_permalink( $post_ID ) ), $post_object->labels->singular_name ),
-              /* translators: 1: Post type singular name */
-              7  => sprintf( __( '%1$s saved.', 'cubewp-framework' ), $post_object->labels->singular_name ),
-              /* translators: 1: Post type singular name, 2: URL to preview, 3: Post type singular name */
-              8  => sprintf( __( '%1$s submitted. <a target="_blank" href="%2$s">Preview %3$s</a>', 'cubewp-framework' ), $post_object->labels->singular_name, esc_url( add_query_arg( 'preview', 'true', get_permalink( $post_ID ) ) ), $post_object->labels->singular_name ),
-              /* translators: 1: Post type singular name, 2: Scheduled date, 3: URL to preview, 4: Post type singular name */
-              9  => sprintf( __( '%1$s scheduled for: <strong>%2$s</strong>. <a target="_blank" href="%3$s">Preview %4$s</a>', 'cubewp-framework' ), $post_object->labels->singular_name, date_i18n( __( 'M j, Y @ G:i', 'cubewp-framework' ), strtotime( $post->post_date ) ), esc_url( get_permalink( $post_ID ) ), $post_object->labels->singular_name ),
-              /* translators: 1: Post type singular name, 2: URL to preview, 3: Post type singular name */
-              10 => sprintf( __( '%1$s draft updated. <a target="_blank" href="%2$s">Preview %3$s</a>', 'cubewp-framework' ), $post_object->labels->singular_name, esc_url( add_query_arg( 'preview', 'true', get_permalink( $post_ID ) ) ), $post_object->labels->singular_name ),
+              1  => sprintf( __( '%s updated. <a href="%s">View %s</a>' ), $post_object->labels->singular_name, esc_url( get_permalink( $post_ID ) ), $post_object->labels->singular_name ),
+              2  => __( 'Custom field updated.' ),
+              3  => __( 'Custom field deleted.' ),
+              4  => sprintf( __( '%s updated.' ), $post_object->labels->singular_name ),
+              5  => isset( $_GET['revision'] ) ? sprintf( __( '%s restored to revision from %s' ), $post_object->labels->singular_name, wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
+              6  => sprintf( __( '%s published. <a href="%s">View %s</a>' ), $post_object->labels->singular_name, esc_url( get_permalink( $post_ID ) ), $post_object->labels->singular_name ),
+              7  => sprintf( __( '%s saved.' ), $post_object->labels->singular_name ),
+              8  => sprintf( __( '%s submitted. <a target="_blank" href="%s">Preview %s</a>' ), $post_object->labels->singular_name, esc_url( add_query_arg( 'preview', 'true', get_permalink( $post_ID ) ) ), $post_object->labels->singular_name ),
+              9  => sprintf( __( '%s scheduled for: <strong>%1$s</strong>. <a target="_blank" href="%2$s">Preview %s</a>' ), $post_object->labels->singular_name, date_i18n( __( 'M j, Y @ G:i' ), strtotime( $post->post_date ) ), esc_url( get_permalink( $post_ID ) ), $post_object->labels->singular_name ),
+              10 => sprintf( __( '%s draft updated. <a target="_blank" href="%s">Preview %s</a>' ), $post_object->labels->singular_name, esc_url( add_query_arg( 'preview', 'true', get_permalink( $post_ID ) ) ), $post_object->labels->singular_name ),
            );
            if ($post_type == 'price_plan') {
-              /* translators: 1: Post type singular name */
-              $messages[ $post_type ][1] = sprintf( __( '%1$s updated.', 'cubewp-framework' ), $post_object->labels->singular_name );
-              /* translators: 1: Post type singular name */
-              $messages[ $post_type ][6] = sprintf( __( '%1$s published.', 'cubewp-framework' ), $post_object->labels->singular_name );
-              /* translators: 1: Post type singular name */
-              $messages[ $post_type ][8] = sprintf( __( '%1$s submitted.', 'cubewp-framework' ), $post_object->labels->singular_name );
-              /* translators: 1: Post type singular name, 2: Scheduled date */
-              $messages[ $post_type ][9] = sprintf( __( '%1$s scheduled for: <strong>%2$s</strong>.', 'cubewp-framework' ), $post_object->labels->singular_name, date_i18n( __( 'M j, Y @ G:i', 'cubewp-framework' ), strtotime( $post->post_date ) ) );
-              /* translators: 1: Post type singular name */
-              $messages[ $post_type ][10] = sprintf( __( '%1$s draft updated.', 'cubewp-framework' ), $post_object->labels->singular_name );
+              $messages[ $post_type ][1] = sprintf( __( '%s updated.' ), $post_object->labels->singular_name );
+              $messages[ $post_type ][6] = sprintf( __( '%s published.' ), $post_object->labels->singular_name );
+              $messages[ $post_type ][8] = sprintf( __( '%s submitted.' ), $post_object->labels->singular_name );
+              $messages[ $post_type ][9] = sprintf( __( '%s scheduled for: <strong>%1$s</strong>.' ), $post_object->labels->singular_name, date_i18n( __( 'M j, Y @ G:i' ), strtotime( $post->post_date ) ) );
+              $messages[ $post_type ][10] = sprintf( __( '%s draft updated.' ), $post_object->labels->singular_name );
            }
         }
      
@@ -746,13 +620,12 @@ public static function register_elementor_tags($module) {
      */
     public static function cwp_field_wrap_start( $args = array() ) {
 
-        if( !isset($args['wrap']) || $args['wrap'] != true ) return;
+        if($args['wrap'] != true ) return;
         $tooltip = isset($args['tooltip']) && !empty($args['tooltip']) ? $args['tooltip'] : '';
         $output = self::cwp_tr_start($args);
-        if (isset($args['label']) && $args['label'] != '') {
+        if(isset($args['label']) && $args['label'] != ''){
             $output .= self::cwp_th_start();
-                $required = isset($args['required']) ? $args['required'] : false;
-                $output .= self::cwp_label( $args['id'], $args['label'], $required, $tooltip );
+                $output .= self::cwp_label( $args['id'], $args['label'], $args['required'], $tooltip );
             $output .= self::cwp_th_end();
         }
         $output .= self::cwp_td_start();
@@ -777,63 +650,6 @@ public static function register_elementor_tags($module) {
         $output .= self::cwp_tr_end();
 
         return $output;
-    }
-
-    /**
-     * Refuse anonymous reads of `/wp/v2/cubewp-tb`.
-     *
-     * THE EXPOSURE. `cubewp-tb` is registered below as `public => false` but with
-     * `show_in_rest => true`, so WordPress publishes `/wp/v2/cubewp-tb` and served
-     * it to anybody. Measured 2026-10-07: HTTP 200 and a list of Theme Builder
-     * documents on every site tried, customer sites included.
-     *
-     * WHY THAT MATTERS even though templates hold no personal data: the slugs name
-     * the template a site was built from (`classic-2-post-archive-tags`,
-     * `automotive-header-single`), which is exactly what a white-labelled agency
-     * site must not disclose. It is also a free map of a site's structure. The
-     * related `guid` leak of the template SOURCE domain was closed in
-     * `cwp-white-label`, but the feed itself stayed open — this closes the feed.
-     *
-     * WHY NOT JUST SET `show_in_rest => false`. Two reasons. Theme Builder editing
-     * may rely on the route, and breaking template editing across the estate is a
-     * worse outcome than the leak. And the framework's own REST API decides which
-     * types it supports from that same flag
-     * (`CubeWp_Rest_Api::get_types()` drops anything with `empty($object->show_in_rest)`),
-     * so flipping it would silently withdraw `cubewp-tb` from our own API too.
-     * Gating the core route changes one thing only.
-     *
-     * `edit_posts` is the bar because that is what editing a template already
-     * requires, so every legitimate caller keeps working.
-     *
-     * @param mixed            $result  Pre-computed response, if any.
-     * @param WP_REST_Server   $server  Server instance.
-     * @param WP_REST_Request  $request Request.
-     * @return mixed
-     */
-    public function restrict_theme_builder_rest($result, $server, $request) {
-        /* Something already answered this request; do not override it. */
-        if (null !== $result) {
-            return $result;
-        }
-
-        if (! is_object($request) || ! method_exists($request, 'get_route')) {
-            return $result;
-        }
-
-        /* The collection and single-item routes, and nothing that merely starts alike. */
-        if (! preg_match('#^/wp/v2/cubewp-tb(/|$)#', (string) $request->get_route())) {
-            return $result;
-        }
-
-        if (current_user_can('edit_posts')) {
-            return $result;
-        }
-
-        return new WP_Error(
-            'rest_forbidden',
-            __('Sorry, you are not allowed to do that.', 'cubewp-framework'),
-            array('status' => function_exists('rest_authorization_required_code') ? rest_authorization_required_code() : 401)
-        );
     }
 
     public function register_theme_builder_post_type($defaultCPT) {
@@ -868,7 +684,6 @@ public static function register_elementor_tags($module) {
         register_post_status( 'inactive', array(
             'label'                     => _x( 'Inactive ', 'Inactive', 'cubewp-framework' ),
             'public'                    => true,
-            /* translators: %s: number of posts. */
             'label_count'               => _n_noop( 'Inactive s <span class="count">(%s)</span>', 'Inactive s <span class="count">(%s)</span>', 'cubewp-framework' ),
             'post_type'                 => array( 'cubewp-tb'), 
             'show_in_admin_all_list'    => true,
@@ -880,7 +695,7 @@ public static function register_elementor_tags($module) {
         $settings[]	=	array(
             'id'        => 'cubewp-theme-builder', // Expected to be overridden if dashboard is enabled.
             'parent'    => 'cube_wp_dashboard',
-            'title'     => esc_html__('Theme Builder', 'cubewp-framework'),
+            'title'     => esc_html__('Theme Builder', 'cubewp-framework').'<span class="new-feature-tag"></span>',
             'callback'  => 'cubewp-theme-builder',
             'position'     => 5
         );

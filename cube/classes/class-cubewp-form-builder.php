@@ -30,25 +30,17 @@ class CubeWp_Form_Builder {
             wp_send_json( array( 'success' => 'false', 'msg' => esc_html__('You do not have permission to perform this action.', 'cubewp-framework') ) );
             wp_die();
         }
-        // phpcs:ignore WordPress.Security.NonceVerification.Missing
-        $form_relation = isset( $_POST['form_relation'] ) ? sanitize_text_field( wp_unslash( $_POST['form_relation'] ) ) : '';
-        // phpcs:ignore WordPress.Security.NonceVerification.Missing
-        $form_type     = isset( $_POST['form_type'] ) ? sanitize_text_field( wp_unslash( $_POST['form_type'] ) ) : '';
+        $form_relation = isset( $_POST['form_relation'] ) ? sanitize_text_field( $_POST['form_relation'] ) : '';
+        $form_type     = isset( $_POST['form_type'] ) ? sanitize_text_field( $_POST['form_type'] ) : '';
         if ( $form_type != '' ) {
             $cwp_forms = CWP()->get_form( $form_type );
             if ( isset( $form_relation ) && ! empty( $form_relation ) ) {
-                // phpcs:ignore WordPress.Security.NonceVerification.Missing
                 if ( isset( $_POST['cwpform'] ) && ! empty( $_POST['cwpform'] ) ) {
                     
                     if ( $form_type == 'loop_builder' ) {
-                        /*phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification.Missing */
                         $cwp_forms[ $form_relation ] = apply_filters( 'cubewp/loop/builder/save', array() , $_POST['cwpform'], $form_relation );
                     }else {
-                        // phpcs:ignore WordPress.Security.NonceVerification.Missing
-                        if(isset($_POST['cwpform'][ $form_relation ])){
-                            /*phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification.Missing */
-                            $cwp_forms[ $form_relation ] = CubeWp_Sanitize_Dynamic_Array( $_POST['cwpform'][ $form_relation ] );
-                        }
+                        $cwp_forms[ $form_relation ] = CubeWp_Sanitize_Dynamic_Array( $_POST['cwpform'][ $form_relation ] );
                     }
 
                     CWP()->update_form( $form_type, $cwp_forms );
@@ -74,14 +66,11 @@ class CubeWp_Form_Builder {
             wp_die();
         }
         $section_args = [];
-        // phpcs:ignore WordPress.Security.NonceVerification.Missing
         if(isset($_POST['action'])){
-            unset($_POST['action']);// phpcs:ignore WordPress.Security.NonceVerification.Missing
-            unset($_POST['section_id']);// phpcs:ignore WordPress.Security.NonceVerification.Missing
+            unset($_POST['action']);
+            unset($_POST['section_id']);
         }
-        // phpcs:ignore WordPress.Security.NonceVerification.Missing
         if(isset($_POST['form_relation']) && isset($_POST['form_type'])){
-            // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Handler is gated by current_user_can('manage_options') above; values are sanitized by cwpform_form_section().
             foreach($_POST as $key => $POST){
                 $section_args[$key] = $POST;
             }
@@ -102,7 +91,7 @@ class CubeWp_Form_Builder {
      */
     public function cwpform_form_section( $args = array() ) {
         $defaults         = array(
-            'section_id'          => wp_rand( 123456789, 111111111 ),
+            'section_id'          => rand( 123456789, 111111111 ),
             'section_title'       => '',
             'section_description' => '',
             'section_type'        => '',
@@ -392,82 +381,6 @@ class CubeWp_Form_Builder {
             'value'       => $field['name'],
             'extra_attrs' => 'data-name="name"',
         );
-        // Date Picker Style — per-field selector for the Search Form Date Picker.
-        // Only shown when BOTH conditions hold so other field types / form types
-        // are untouched. Default 'default' preserves the existing appearance
-        // for every saved Search Form that doesn't carry this key.
-        if ($field['form_type'] == 'search_fields' && $field['type'] == 'date_picker') {
-            $field_args['date_picker_style'] = array(
-                'class'       => 'group-field field-date-picker-style',
-                'label'       => esc_html__('Date Picker Style', 'cubewp-framework'),
-                'name'        => 'date_picker_style',
-                'type'        => 'dropdown',
-                // Empty placeholder suppresses the default "Select Option"
-                // placeholder <option> that cwp_render_dropdown_input emits —
-                // operator should only see Default / Style 1 in the list.
-                'placeholder' => '',
-                'options'     => array(
-                    'default' => esc_html__('Default', 'cubewp-framework'),
-                    'style_1' => esc_html__('Style 1', 'cubewp-framework'),
-                ),
-                'value'       => isset($field['date_picker_style']) && !empty($field['date_picker_style']) ? $field['date_picker_style'] : 'default',
-                'extra_attrs' => 'data-name="date_picker_style"',
-            );
-            // Style 1 accent colour. `type` stays 'text' because the builder
-            // routes renderers by that key (cwp_render_<type>_input) and there
-            // is no cwp_render_color_input; `input_type` swaps the rendered
-            // <input>'s HTML type attribute instead (see the input_type branch
-            // further down this method), giving a native colour swatch.
-            $field_args['date_picker_primary_color'] = array(
-                'class'       => 'group-field field-date-picker-primary-color',
-                'label'       => esc_html__('Date Picker Primary Color (Style 1)', 'cubewp-framework'),
-                'name'        => 'date_picker_primary_color',
-                'type'        => 'text',
-                'input_type'  => 'color',
-                'value'       => isset($field['date_picker_primary_color']) && !empty($field['date_picker_primary_color'])
-                    ? $field['date_picker_primary_color'] : '#007bff',
-                'extra_attrs' => 'data-name="date_picker_primary_color"',
-            );
-        }
-        if($field['form_type'] == 'search_filters' || $field['form_type'] == 'search_fields' && $field['type'] == 'number'){
-            $field_args['range_slider_ui'] = array(
-                'class'       => 'group-field field-range_number',
-                'label'       => esc_html__( "Range Slider UI", "cubewp-framework" ),
-                'name'       => 'range_slider_ui',
-                'type'       => 'dropdown',
-                'options'     => array( '0' => __( "No", "cubewp-framework" ), '1' => __( "Yes", "cubewp-framework" ) ),
-                'value'       => isset($field['range_slider_ui']) && !empty($field['range_slider_ui']) ? $field['range_slider_ui'] : '0',
-                'extra_attrs' => 'data-name="range_slider_ui"',
-            );
-
-            if ( isset( $field['type'] ) && $field['type'] === 'number' ) {
-                $field_args['min'] = array(
-                    'class'       => 'group-field field-range_number_min',
-                    'label'       => esc_html__( "Range Min", "cubewp-framework" ),
-                    'name'        => 'min',
-                    'type'        => 'number',
-                    'value'       => isset( $field['min'] ) && $field['min'] !== '' ? $field['min'] : 0,
-                    'extra_attrs' => 'data-name="min"',
-                );
-                $field_args['max'] = array(
-                    'class'       => 'group-field field-range_number_max',
-                    'label'       => esc_html__( "Range Max", "cubewp-framework" ),
-                    'name'        => 'max',
-                    'type'        => 'number',
-                    'value'       => isset( $field['max'] ) && $field['max'] !== '' ? $field['max'] : 100,
-                    'extra_attrs' => 'data-name="max"',
-                );
-                $field_args['step'] = array(
-                    'class'       => 'group-field field-range_number_step',
-                    'label'       => esc_html__( "Range Step", "cubewp-framework" ),
-                    'name'        => 'step',
-                    'type'        => 'number',
-                    'value'       => isset( $field['step'] ) && $field['step'] !== '' ? $field['step'] : 1,
-                    'extra_attrs' => 'data-name="step"',
-                );
-            }
-            
-        }
         $input_attrs = apply_filters( 'cubewp/builder/cubes/fields', $field_args, $field );
         $output = '';
         foreach($input_attrs as $input_attr){
@@ -536,9 +449,9 @@ class CubeWp_Form_Builder {
                 'name'        => 'display_ui',
                 'value'       => $appearance,
                 'options'     => array(
-                    'select'       => __( "Dropdown", "cubewp-framework" ),
-                    'multi_select' => __( "Multi Dropdown", "cubewp-framework" ),
-                    'checkbox'     => __( "checkbox", "cubewp-framework" )
+                    'select'       => __( "Dropdown" ),
+                    'multi_select' => __( "Multi Dropdown" ),
+                    'checkbox'     => __( "checkbox" )
                 ),
                 'extra_attrs' => 'data-name="display_ui"',
             );
@@ -550,7 +463,7 @@ class CubeWp_Form_Builder {
                 'class'       => 'group-field field-select2_ui',
                 'name'        => 'select2_ui',
                 'value'       => isset( $field['select2_ui'] ) && ! empty( $field['select2_ui'] ) ? $field['select2_ui'] : '0',
-                'options'     => array( '0' => __( "No", "cubewp-framework" ), '1' => __( "Yes", "cubewp-framework" ) ),
+                'options'     => array( '0' => __( "No" ), '1' => __( "Yes" ) ),
                 'extra_attrs' => 'data-name="select2_ui"',
             );
             $output      .= cwp_render_dropdown_input( $input_attrs );
@@ -572,7 +485,7 @@ class CubeWp_Form_Builder {
                 'class'       => 'group-field field-select2_ui',
                 'name'        => 'select2_ui',
                 'value'       => isset( $field['select2_ui'] ) && ! empty( $field['select2_ui'] ) ? $field['select2_ui'] : '0',
-                'options'     => array( '0' => __( "No", "cubewp-framework" ), '1' => __( "Yes", "cubewp-framework" ) ),
+                'options'     => array( '0' => __( "No" ), '1' => __( "Yes" ) ),
                 'extra_attrs' => 'data-name="select2_ui"',
             );
             $output      .= cwp_render_dropdown_input( $input_attrs );
@@ -646,7 +559,7 @@ class CubeWp_Form_Builder {
                 'class'       => 'group-field field-required',
                 'name'        => 'required',
                 'value'       => isset( $field['required'] ) ? $field['required'] : $default_required,
-                'options'     => array( '1' => __( "Required", "cubewp-framework" ), '0' => __( "Not required", "cubewp-framework" ) ),
+                'options'     => array( '1' => __( "Required" ), '0' => __( "Not required" ) ),
                 'extra_attrs' => 'data-name="required"',
             );
             $output      .= cwp_render_dropdown_input( $input_attrs );
@@ -684,7 +597,7 @@ class CubeWp_Form_Builder {
                 'class'       => 'group-field field-sorting',
                 'name'        => 'sorting',
                 'value'       => isset( $field['sorting'] ) && ! empty( $field['sorting'] ) ? $field['sorting'] : '',
-                'options'     => array( '1' => __( "Yes", "cubewp-framework" ), '0' => __( "No", "cubewp-framework" ) ),
+                'options'     => array( '1' => __( "Yes" ), '0' => __( "No" ) ),
                 'extra_attrs' => 'data-name="sorting"',
             );
             $output      .= cwp_render_dropdown_input( $input_attrs );
@@ -861,7 +774,7 @@ class CubeWp_Form_Builder {
                         if(!empty($fields)){
                             foreach($fields as $input_attr){
                                 if($input_attr['type'] == 'hidden'){
-                                    echo call_user_func('cwp_render_hidden_input', $input_attr); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                    echo call_user_func('cwp_render_hidden_input',$input_attr);
                                 }else{
                                     $field_type = $input_attr['type'];
                                     if(isset($input_attr['input_type']) && !empty($input_attr['input_type'])){
@@ -870,9 +783,9 @@ class CubeWp_Form_Builder {
                                     ?>
                                     <div class="section-form-field">
                                         <?php if(isset($input_attr['label']) && !empty($input_attr['label'])){ ?>
-                                        <label for="section_class"><?php echo esc_html( $input_attr['label'] ); ?></label>
+                                        <label for="section_class"><?php echo $input_attr['label']; ?></label>
                                         <?php } ?>
-                                        <?php echo call_user_func( 'cwp_render_'.$field_type.'_input', $input_attr ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+                                        <?php echo call_user_func('cwp_render_'.$field_type.'_input',$input_attr); ?>
                                     </div>
                                     <?php
                                 }

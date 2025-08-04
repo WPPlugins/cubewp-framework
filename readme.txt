@@ -1,11 +1,11 @@
-=== CubeWP Framework ===
+=== CubeWP - All-in-One Dynamic Content Framework ===
 Contributors: cubewp1211, teamcubewp
-Donate link: https://cubewp.com/
+Donate link: NA
 Tags: custom fields, custom post types, custom taxonomies, acf, metabox
-Requires at least: 6.5
+Requires at least: 5.0
 Requires PHP: 7.4
-Tested up to: 7.2
-Stable tag: 1.1.34
+Tested up to: 6.8
+Stable tag: 1.1.25
 License: GPLv2 or later
 
 CubeWP is an end-to-end dynamic content framework for WordPress to help you shrink time and cut cost of development up to 90%.
@@ -376,123 +376,7 @@ To getting started with the plugin, please go to [Documentation](https://support
 
 == Changelog ==
 
-= 1.1.34 2026-11-26
-
-- SECURITY: Fixed a cross-site scripting issue in the keyword suggestions dropdown, where taxonomy term names and related values were inserted into the suggestion markup without escaping.
-- IMPROVED: Range field current value display no longer builds its markup from the field value.
-- IMPROVED: Declared compatibility with WordPress 7.2.
-
-= 1.1.33 2026-11-23
-
-- SECURITY: Fixed a privilege escalation issue where subscriber and contributor accounts were granted post editing capabilities on XML-RPC and admin-ajax requests. The capability change is now limited to CubeWP's own front-end requests and is never applied to XML-RPC, REST or core ajax actions.
-
-= 1.1.32 2026-11-13
-
-- SECURITY: Fixed a stored cross-site scripting issue where custom field values saved through the REST API (cubewp_user_meta, cubewp_post_meta and cubewp_term_meta) were stored without sanitisation and then printed on author and single pages. A subscriber could store a script in a colour field through /wp/v2/users/me. Values are now sanitised by field type before they are saved, the colour field only outputs a valid hex colour in its style attribute, and the Google address field escapes its address and coordinates.
-- SECURITY: Fixed a stored cross-site scripting issue in the Business Hours field, where the day key of a saved schedule was stored exactly as submitted and then concatenated into class, name and data attributes. A subscriber could store a script through the cubewp_user_meta REST field that ran when an administrator opened their profile under Users. Day keys are now restricted to the seven week-day values the field itself offers, and the day, field name and times are escaped everywhere the schedule is rendered.
-
-= 1.1.31 2026-07-30
-
-- SECURITY: Fixed a SQL injection vulnerability in the cubewp_remove_relation AJAX action by casting request IDs to integers, using prepared statements, and adding a capability check on the object the relation belongs to..
-- SECURITY: Fixed an arbitrary post and user meta disclosure (IDOR) in the cubewp-custom-fields/v1/render REST route by adding per-object read authorization and restricting requests to registered CubeWP custom fields..
-- SECURITY: Fixed a path traversal issue (CVE-2026-13339) that allowed arbitrary local files to be read through slider arrow icon parameters. Icon files are now restricted to .svg files inside the uploads or plugin directory, with the resolved path canonicalised and containment verified before reading.
-- SECURITY: Fixed a cross-site scripting issue where search filter hidden field values were output without escaping.
-- ADDED: New CubeWP Users Widget for Elementor and cubewp_shortcode_users shortcode to display users with filtering by roles, specific IDs, current user, or post author, including slider, grid, and boxed view layouts.
-- ADDED: CubeWP typography settings are now available inside the Elementor typography control, allowing site-wide font variables to be selected on any Elementor widget.
-- ADDED: Responsive font size options (Desktop, Tablet, and Mobile) for typography settings in CubeWP Settings.
-- ADDED: Typography color selection support in the CubeWP Settings dynamic tag.
-- ADDED: Support for assigning multiple display locations to a single template in CubeWP Theme Builder, with automatic deactivation of conflicting templates.
-- ADDED: Hierarchical child term support in the CubeWP Search Filter Builder taxonomy checkbox filter, with child terms accordion, hide child terms by default, View More toggle, and full styling controls for child term labels, indent, spacing, and typography.
-- ADDED: Parent term options in CubeWP Taxonomy Widget, allowing terms to be limited by parent term ID or slug, or by using the current archive term as the parent.
-- ADDED: Vertical slider direction with responsive control and arrow rotation options in CubeWP Taxonomy Widget.
-- ADDED: Term IDs, term slugs, and parent term source options in the CubeWP Taxonomy shortcode, with output ordered by the selection order.
-- ADDED: Mobile and tablet off-canvas menu toggle with button styling options in CubeWP Nav Menu Widget.
-- ADDED: Container, focus, spacing, width, and button icon styling options in CubeWP Search Widget.
-- ADDED: Image position and icon styling options in CubeWP Archive Map Widget.
-- ADDED: Registered date display options for the CubeWP Post Author dynamic tag, including date format, custom format, and human readable "time ago" output.
-- ADDED: Line limit and maximum lines options for the CubeWP Term Name dynamic tag.
-- ADDED: Custom reading time text option in the CubeWP Post Info dynamic tag.
-- ADDED: Allowed file types (MIME) option for file and image fields in CubeWP Taxonomy Custom Fields.
-- ADDED: Separate desktop, tablet, and mobile width options for promotional cards in CubeWP Archive Posts.
-- ADDED: New cubewpLoadMoreSuccess JavaScript event so developers can hook into load more completion.
-- CHANGED: Removed the built-in add-on and theme update checkers to comply with WordPress.org plugin guidelines. Premium add-on and theme updates will be handled by the products themselves in an upcoming release.
-- IMPROVED: reCAPTCHA is now loaded only on forms where it is enabled, reducing unnecessary script loading on other pages.
-- IMPROVED: Post slider now supports vertical mode per device and respects RTL layouts.
-- IMPROVED: Enhanced CubeWP admin interface styling and dashboard experience.
-- FIXED: Address and taxonomy custom field values are now escaped correctly when rendered through Elementor dynamic tags.
-- IMPROVED: General code hardening across the plugin, including prepared database statements, direct file access protection, safer redirects, and improved input sanitization and output escaping.
-
-= 1.1.30 2026-05-06
-
-- ADDED: CubeWP.com integration in the dashboard with connect/disconnect, license management, and one-click install/activate for purchased extensions and themes.
-- ADDED: Mobile view template support in CubeWP Theme Builder for header, footer, single, and archive layouts.
-- ADDED: No Results template type in CubeWP Theme Builder with post type selection for custom no-results display.
-- FIXED: Category and tag pages created via CubeWP Theme Builder now load correctly instead of default index pages.
-- ADDED: Author filter option in CubeWP Posts Widget to display posts by author.
-- ADDED: Styling options for pagination in CubeWP Archive Posts Widget.
-- ADDED: Responsiveness of CubeWP Archive Map Widget and also options for map to show in Popup.
-- ADDED: User data support for CubeWP Custom Fields dynamic tags with a Data Source selector, allowing Elementor tags to access CubeWP user custom fields.
-- ADDED: Taxonomy term relationship field in CubeWP Taxonomy Custom Fields.
-- ADDED: Term ID filtering support to CubeWP Taxonomy Field, allowing restriction of taxonomy options by specific term IDs.
-- ADDED: Restrict to single business hour slot per day with auto-increment to next weekday after adding.
-- ADDED: Mobile-only slider, advanced grid & styling options, and option to get associated terms for current post in CubeWP Taxonomy widget.
-- ADDED: Option to restrict Google Address custom field to city-only results on both frontend and admin.
-- ADDED: Drop pin option in Google Address field, allowing users to set location by placing a pin.
-- ADDED: Nearme Button against google address field in CubeWP Search Filter Builder Widget.
-- ADDED: Advanced filter options and styling controls in CubeWP Search Filter Builder.
-- ADDED: Icon option for terms in keyword Suggestion.
-- FIXED: List/Grid view issue on page load when no switcher is present on the page.
-- FIXED: Conditional field display issue on admin and frontend for CubeWP custom fields.
-- ADDED: Term Card Cache option in cubewp settings.
-- IMPROVED: Enhanced CubeWP Elementor widgets with advanced styling controls.
-- IMPROVED: Enhanced CubeWP dynamic tags with additional controls and refinements for better flexibility and usability.
-- FIXED: CubeWP custom JS from settings now properly enqueues and executes on frontend.
-- ADDED: UI Improvements.
-
-= 1.1.29 2026-01-08
-
-- ENHANCED: CubeWP dynamic tags extended to support Business Hours, Taxonomy Text, Google Address, Number, Text, Post Term, and Title tags for greater design flexibility.
-- FIXED: Resolved control conflict warning caused by duplicate control name cwp_click_target_remove_css_transform_x.
-- FIXED: Corrected issues where File, Image, and Gallery fields were not properly selecting items.
-- IMPROVED: Added advanced styling controls for Search Fields in the CubeWP Search Elementor Widget.
-- ADDED: New Elementor Archive Grid/List Switcher Widget for CubeWP Archive Posts.
-- ENHANCED: Advanced styling options introduced for the CubeWP Archive Map Widget.
-- ADDED: New Elementor CubeWP Search Filter Builder Widget for creating custom search filters.
-- ADDED: CubeWP Posts Widget now supports displaying Nearby Posts and Related Posts options.
-- ADDED: Introduced a keyword suggestions option for the keyword search field, configurable from CubeWP settings.
-
-= 1.1.28 2025-12-15
-
-- ADDED: Option to create and manage Post Cards directly from the Theme Builder, allowing full visual editing with Elementor for a seamless and flexible design experience.
-- ADDED: New dynamic tags — Post Excerpt, Post URL, and Post Date — for greater flexibility when building content with Elementor.
-- ADDED: Line Limit option in Post Title dynamic tag for multiline truncation with ellipsis.
-- ADDED: Term Cards support in CubeWP Theme Builder with Elementor editing, enhanced Taxonomy Widget to select Term Card styles, and added slider option with advanced styling controls.
-- ADDED: Dynamic term tags for CubeWP taxonomy fields, including default tags such as Term Name, Term URL, and Term Count.
-- FIXED: CubeWP Search Widget overrides the CubeWP Search Shortcode output even if not using the CubeWP Search Elementor widget.
-- FIXED: Custom search filter field values now pass correctly to frontend arguments.
-- SECURITY: Restricted CubeWP Search AJAX to allowed post types and published (public) posts only.
-- ADDED: Option to select Header and Footer for specific page in CubeWP Theme Builder.
-- FIXED: Pagination issue on Author Page.
-- ADDED: Option in CubeWP Settings to enbale cache for Header,Footer built with CubeWP Theme Builder.
-- ADDED: Option to cache the CubeWP Post Cards.
-- FIXED: Compatibility with WordPress 6.9.
-- SECURITY: Strengthened plugin security with nonce and capability checks, hardened input sanitization and output escaping, standardized translations and JSON handling, improved safe redirects.
-- FIXED: Few Warnings and Notices
-
-= 1.1.27 2025-09-01
-
-- UPDATED: Refactored CubeWP Posts Elementor Widget to use AJAX for loading posts, improving performance, adding a posts-per-row control, and fixing slick slider issues.
-- ADDED: Option in CubeWP Posts and CubWP Archive Posts widget to enable a promotional card in the loop with enhanced controls.
-- ADDED: Filter hook support for custom cubes in CubeWP Builder.
-- SECURITY: Improved sanitization and escaping in cubewp posts and cubewp taxonomy shortcode outputs.
-
-= 1.1.26 2025-08-26
-
-- FIXED: User Meta update issue for CubeWP user fields in the admin.
-- FIXED: "Make this Post Card Primary" checkbox in Post Card Builder resetting when making changes.
-- FIXED: Burger menu display issue for Nav Menu on responsive screens.
-
-= 1.1.25 2025-08-26
+= 1.1.25 2025-08-04
 
 - UPDATED: Wrapped theme builder footer template with <footer> tag for semantic consistency.
 - ADDED: New Elementor widgets for Nav Menu and Mega Menu.
@@ -914,11 +798,3 @@ Note: It is necessory to update if you want to update Frontend PRO or CubeWP For
 = 1.0.0 - 2022-09-30 
 
 Plug released.
-
-== Upgrade Notice ==
-
-= 1.1.32 =
-Security release. Fixes a stored cross-site scripting issue in custom fields saved through the REST API. Updating is strongly recommended.
-
-= 1.1.31 =
-Security release. Fixes a SQL injection, an arbitrary post and user meta disclosure, a path traversal (CVE-2026-13339), and a cross-site scripting issue. Updating is strongly recommended.

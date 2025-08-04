@@ -94,8 +94,8 @@ class CubeWp_Single_Cpt
                             $value = self::get_single_meta_value($meta_key, $field_type);
                             $args[$meta_key] = array(
                                 'type'                  =>    $field_type,
-                                'meta_key'              =>    $meta_key,// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
-                                'meta_value'            =>    $value,// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
+                                'meta_key'              =>    $meta_key,
+                                'meta_value'            =>    $value,
                                 'label'                 =>    $label,
                             );
                         }
@@ -213,7 +213,7 @@ class CubeWp_Single_Cpt
     public static function field_author()
     {
         $user_id = self::$author_id;
-        return cubewp_get_user_details($user_id);
+        return get_user_details($user_id);
     }
 
     /**
@@ -284,13 +284,13 @@ class CubeWp_Single_Cpt
             } else if (method_exists(__CLASS__, 'field_' . $field_type)) {
                 $output .= call_user_func(array(__CLASS__, 'field_' . $field_type), $options);
             } else {
-                /* translators: %s: field type. */
-                $output .= '<p style="color: #ff0000">' . sprintf( esc_html__( "Invalid Field Type: %s", "cubewp-framework" ), $field_type ) . '</p>';
+                $output .= '<p style="color: #ff0000">' . sprintf(esc_html__("Invalid Field Type: %s", "cubewp-framework"), $field_type) . '</p>';
             }
         }
         return $output;
     }
- /**
+
+    /**
      * Method get_single_meta_value
      *
      * @param string $meta_key
@@ -299,10 +299,9 @@ class CubeWp_Single_Cpt
      * @return array
      * @since  1.0.0
      */
-    public static function get_single_meta_value($meta_key = '', $field_type = '', $postID = '')
+    public static function get_single_meta_value($meta_key = '', $field_type = '')
     {
-        self::$post_id = isset($postID) && !empty($postID) ? $postID : get_the_ID() ;
-       
+
         if ($meta_key == 'the_title' || $meta_key == 'the_content' || $meta_key == 'the_excerpt' || $meta_key == 'featured_image') {
             return '';
         } elseif ($field_type == 'taxonomy') {
@@ -412,7 +411,6 @@ class CubeWp_Single_Cpt
      */
     public static function get_single_sidebar_area()
     {
-        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
         echo self::get_post_sidebar();
     }
     /**
@@ -422,7 +420,6 @@ class CubeWp_Single_Cpt
      */
     public static function get_single_content_area()
     {
-        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
         echo self::get_post_content();
     }
 

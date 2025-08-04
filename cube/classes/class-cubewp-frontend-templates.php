@@ -1,12 +1,11 @@
 <?php
+
 /**
  * CubeWp Frontend templates is for display of single post and archive templates
  *
  * @version 1.0.5
  * @package cubewp/cube/classes
  */
-
- // phpcs:disable WordPress.NamingConventions.PrefixAllGlobals
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -28,8 +27,6 @@ class CubeWp_Frontend_Templates {
         $is_cubewp_author = (isset($cwpOptions['show_author_template']) && ! empty($cwpOptions['show_author_template'])) ? $cwpOptions['show_author_template'] : 0;
         
         if (CWP()->is_request('frontend')) {
-
-            add_action('wp_enqueue_scripts', array($this, 'enqueue_active_theme_builder_elementor_css'), 20);
 
             // CubeWP theme builder All single
             if (!is_singular( 'product' ) ) {
@@ -89,7 +86,7 @@ class CubeWp_Frontend_Templates {
                     $hook = get_post_meta( $template_id, 'template_location', true );
                     $content_to_echo = CubeWp_Theme_Builder::do_cubewp_theme_builder('block', $template_id, true);
                     add_action( $hook, function() use ( $content_to_echo ) {
-                        echo wp_kses_post($content_to_echo);
+                        echo $content_to_echo;
                     });
                 }
             }
@@ -311,38 +308,6 @@ class CubeWp_Frontend_Templates {
     }
 
     /**
-     * Enqueue Elementor CSS for active CubeWP theme builder templates early.
-     *
-     * @return void
-     */
-    public function enqueue_active_theme_builder_elementor_css() {
-        if (is_admin() || !class_exists('\Elementor\Plugin')) {
-            return;
-        }
-        $template_types = array('header', 'footer', 'single', 'archive', '404');
-        $template_ids   = array();
-        foreach ($template_types as $type) {
-            $id = CubeWp_Theme_Builder::get_current_template_post_id($type);
-            if (!empty($id) && !is_array($id)) {
-                $template_ids[] = (int) $id;
-            }
-        }
-        if (empty($template_ids)) {
-            return;
-        }
-        $template_ids = array_values(array_unique($template_ids));
-        foreach ($template_ids as $template_id) {
-            // Core Elementor CSS file enqueue for template document.
-            if (class_exists('\Elementor\Core\Files\CSS\Post')) {
-                $post_css = new \Elementor\Core\Files\CSS\Post($template_id);
-                if (method_exists($post_css, 'enqueue')) {
-                    $post_css->enqueue();
-                }
-            }
-        }
-    }
-
-    /**
      * Method init
      *
      */
@@ -386,11 +351,9 @@ class CubeWp_Frontend_Templates {
                 'author.php'
             );
         }elseif (is_search()) {
-            // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only use of query vars to render notice; no state change performed.
             if ( isset( $_GET['post_type'] ) && !empty( $_GET['post_type'] ) ) {
                 // Sanitize the post_type value from the query string
-                // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only use of query vars to render notice; no state change performed.
-                $post_type = sanitize_text_field( wp_unslash($_GET['post_type']) );
+                $post_type = sanitize_text_field( $_GET['post_type'] );
                 
                 // Define the template array
                 $templates = array(

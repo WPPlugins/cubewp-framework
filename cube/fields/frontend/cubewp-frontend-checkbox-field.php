@@ -72,7 +72,7 @@ class CubeWp_Frontend_Checkbox_Field extends CubeWp_Frontend {
             $output .= '</div>';
         $output .= '</div>';
 
-        $output = CubeWp_Frontend::cwp_field_output_filter($output, $args);
+        $output = apply_filters("cubewp/frontend/{$args['name']}/field", $output, $args);
 
         return $output;
     }
@@ -133,7 +133,7 @@ class CubeWp_Frontend_Checkbox_Field extends CubeWp_Frontend {
             $output .= '</div>';
         $output .= '</div>';
 
-        $output = CubeWp_Frontend::cwp_field_output_filter($output, $args);
+        $output = apply_filters("cubewp/frontend/{$args['name']}/field", $output, $args);
 
         return $output;
     }

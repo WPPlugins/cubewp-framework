@@ -1,5 +1,4 @@
 <?php
-
 /**
  * CubeWp Admin Enqueue.
  *
@@ -7,11 +6,10 @@
  * @version 1.0
  */
 
- // phpcs:disable WordPress.NamingConventions.PrefixAllGlobals
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
 
 
 /**
@@ -44,7 +42,7 @@ class CubeWp_Admin_Enqueue{
 	/**
 	 * Method get_registered_types_types
 	 *
-	 * @return array
+	 * @return void
 	 * * @since  1.0.0
 	 */
 	private static function get_registered_types_types() {
@@ -81,6 +79,7 @@ class CubeWp_Admin_Enqueue{
 			}
 	
 			wp_reset_postdata();
+			wp_reset_query();
 		}
 	
 		return $group_fields_values;
@@ -89,7 +88,7 @@ class CubeWp_Admin_Enqueue{
 	/**
 	 * Method get_cf_types_types
 	 *
-	 * @return array
+	 * @return void
 	 * * @since  1.0.0
 	 */
 	private static function get_cf_types_types() {
@@ -102,7 +101,7 @@ class CubeWp_Admin_Enqueue{
     /**
      * Method get_registered_taxonomies
      *
-     * @return array
+     * @return void
 	 * * @since  1.0.0
      */
     private static function get_registered_taxonomies() {
@@ -285,13 +284,7 @@ class CubeWp_Admin_Enqueue{
 			'cwp-form-builder'                  => array(
 				'src'     => CWP_PLUGIN_URI . 'cube/assets/admin/css/cwpform-builder.css' ,
 				'deps'    => array(),
-				// Keyed on the file's mtime rather than the plugin version: this
-				// stylesheet changes between releases, and a stale cached copy
-				// silently hides builder CSS fixes. Falls back to the plugin
-				// version if the file cannot be stat'd.
-				'version' => file_exists( CWP_PLUGIN_PATH . 'cube/assets/admin/css/cwpform-builder.css' )
-					? filemtime( CWP_PLUGIN_PATH . 'cube/assets/admin/css/cwpform-builder.css' )
-					: CUBEWP_VERSION,
+				'version' => CUBEWP_VERSION,
 				'has_rtl' => false,
 			),
             'cubewp-admin'                  => array(
@@ -411,7 +404,7 @@ class CubeWp_Admin_Enqueue{
 			CWP()->is_admin_screen('cubewp_taxonomies') ||
 			CWP()->is_admin_screen('cubewp_settings') ||
 			$pagenow == 'user-new.php' || $pagenow == 'user-edit.php' || $pagenow == 'profile.php' ||
-			$pagenow == 'post.php' || $pagenow == 'post-new.php' || $pagenow == 'edit-tags.php' || $pagenow == 'term.php'
+			$pagenow == 'post.php' || $pagenow == 'post-new.php'
 		)
        {
 			wp_enqueue_media();
@@ -419,8 +412,6 @@ class CubeWp_Admin_Enqueue{
 			self::enqueue_style('cubewp-metaboxes');
 			self::enqueue_script('cubewp-metaboxes-validation');
 			self::enqueue_script('cubewp-metaboxes');
-			self::enqueue_style('select2');
-			self::enqueue_script('select2');
             
         }
 		if ( $pagenow == 'post.php' || $pagenow == 'post-new.php') {
@@ -446,13 +437,6 @@ class CubeWp_Admin_Enqueue{
             self::enqueue_script('cubewp-term-meta');
             wp_enqueue_media();
         }
-
-		if ( CWP()->is_admin_screen( 'cubewp_theme_builder' ) ) {
-            self::enqueue_style( 'select2' );
-            self::enqueue_script( 'select2' );
-            self::enqueue_style( 'cubewp-metaboxes' );
-        }
-
         
         if(CWP()->is_admin_screen('cubewp_settings'))
         {
@@ -477,10 +461,7 @@ class CubeWp_Admin_Enqueue{
 		
         
         
-        $cubewp_admin_inline_output = apply_filters( 'admin/script/enqueue', '' );
-        if ( ! empty( $cubewp_admin_inline_output ) ) {
-            echo wp_kses_post( $cubewp_admin_inline_output );
-        }
+        echo apply_filters( 'admin/script/enqueue', '');
 				
 	}
     
