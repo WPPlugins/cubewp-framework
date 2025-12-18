@@ -53,7 +53,7 @@ class CubeWp_Tag_Google_Address extends \Elementor\Core\DynamicTags\Tag {
             $value = $value['address'];
         }
         
-		echo cubewp_core_data($value);
+		echo esc_html(cubewp_core_data($value));
 	}
     
 

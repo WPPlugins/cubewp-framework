@@ -162,7 +162,8 @@ final class CubeWp_Elementor {
 				if (class_exists($class)) {
 					$widgets_manager->register(new $class());
 				}else {
-					wp_die(sprintf(esc_html__("%s Class Doesn't Exist.", "cubewp-framework"), $class));
+					/* translators: %s: class name. */
+					wp_die(sprintf(esc_html__("%s Class Doesn't Exist.", "cubewp-framework"), esc_html($class)));
 				}
 			}
 		}

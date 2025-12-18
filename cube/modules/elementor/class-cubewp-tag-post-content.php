@@ -30,8 +30,10 @@ class CubeWp_Tag_Post_Content extends \Elementor\Core\DynamicTags\Tag {
 
     public function render() {
         if (cubewp_is_elementor_editing()) {
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             echo get_the_content(null,false,cubewp_get_elementor_preview_post_id());
         }else {
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             echo get_the_content();
         }
     }

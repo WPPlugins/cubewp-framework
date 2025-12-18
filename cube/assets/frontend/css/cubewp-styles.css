@@ -571,6 +571,7 @@ ul.cwp-single-category-widget-inner {
 .cwp-single-save-btns.cwp-single-widget {
     position: relative;
     display: inline-block;
+    width: fit-content;
 }
 
 .cwp-single-save-btns.cwp-single-widget span.cwp-main,
@@ -613,6 +614,7 @@ ul.cwp-single-category-widget-inner {
     right: 0px;
     z-index: 999;
     padding: 10px 0;
+    display: none;
 }
 
 .cwp-single-share-btn.cwp-single-widget:hover .cwp-share-modal {
@@ -764,6 +766,53 @@ ul.cwp-single-category-widget-inner li p {
     transition: width 0.3s ease;
 }
 
+/* CubeWP Term Slider */
+/* vp term slider */
+.cwp-taxonomy-term>.elementor {
+    height: 100%;
+}
+.cwp-taxonomy-terms.cubewp-term-slider.slick-initialized {
+    display: flex !important;
+    width: 100% !important;
+  }
+  
+  /* slider style */
+  .cubewp-term-slider {
+    position: relative;
+  }
+  
+  .cubewp-term-slider .slick-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    width: auto;
+    height: fit-content;
+    z-index: 999;
+  }
+  
+  /* slick dots style */
+  .cubewp-term-slider .slick-dots {
+    padding: 0;
+    margin: 0;
+    width: fit-content;
+    height: fit-content;
+  }
+  
+  .cubewp-term-slider .slick-dots li {
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+  }
+  
+  .cubewp-term-slider .slick-dots li button {
+    padding: 0px;
+    border: none;
+    background: none;
+    font-size: 0px;
+    outline: none;
+  }
+
 /* CubeWP Search Widget  */
 #cubewp_searchTabContent .tab-pane {
     display: none;
@@ -792,6 +841,10 @@ ul.cwp-single-category-widget-inner li p {
 .cwp-field-radio-container li {
     padding: 0;
     margin: 0 !important;
+}
+
+body .cwp-frontend-search-form .cubewp-field-container .cwp-field-container.cwp-search-field {
+    width: 100% !important;
 }
 
 .cubewp-search-element .cubewp-field-container .cwp-field-checkbox {
@@ -1424,5 +1477,204 @@ ul.cwp-single-category-widget-inner li p {
 
     .cubwp-menu-desktop.mobile {
         display: block !important;
+    }
+}
+
+/* CubeWP Title Tag Styling */
+.cubewp-post-title-tag {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cubewp-post-title-tag.cubewp-clamp-1 {
+    -webkit-line-clamp: 1;
+}
+
+.cubewp-post-title-tag.cubewp-clamp-2 {
+    -webkit-line-clamp: 2;
+}
+
+.cubewp-post-title-tag.cubewp-clamp-3 {
+    -webkit-line-clamp: 3;
+}
+
+.cubewp-post-title-tag.cubewp-clamp-4 {
+    -webkit-line-clamp: 4;
+}
+
+.cubewp-post-title-tag.cubewp-clamp-5 {
+    -webkit-line-clamp: 5;
+}
+
+/* CubeWP Hover Effects for Elementor Post Cards */
+
+/* Base transition for all hover elements */
+.cwp-hover-element {
+    transition: all var(--cwp-hover-duration, 0.3s) ease !important;
+}
+
+/* ===================================
+   ANIMATION DIRECTIONS (Default State)
+   =================================== */
+
+/* Top to Bottom Animation */
+.cwp-elementor-post-card .cwp-hover-element[data-cwp-direction="top"],
+.cwp-elementor-term-card .cwp-hover-element[data-cwp-direction="top"] {
+    transform: translateY(calc(-1 * var(--cwp-hover-distance, 30px))) !important;
+}
+
+/* Bottom to Top Animation */
+.cwp-elementor-post-card .cwp-hover-element[data-cwp-direction="bottom"],
+.cwp-elementor-term-card .cwp-hover-element[data-cwp-direction="bottom"] {
+    transform: translateY(var(--cwp-hover-distance, 30px)) !important;
+}
+
+/* Left to Right Animation */
+.cwp-elementor-post-card .cwp-hover-element[data-cwp-direction="left"],
+.cwp-elementor-term-card .cwp-hover-element[data-cwp-direction="left"] {
+    transform: translateX(calc(-1 * var(--cwp-hover-distance, 30px))) !important;
+}
+
+/* Right to Left Animation */
+.cwp-elementor-post-card .cwp-hover-element[data-cwp-direction="right"],
+.cwp-elementor-term-card .cwp-hover-element[data-cwp-direction="right"] {
+    transform: translateX(var(--cwp-hover-distance, 30px)) !important;
+}
+
+/* Fade In Animation */
+.cwp-elementor-post-card .cwp-hover-element[data-cwp-direction="fade"],
+.cwp-elementor-term-card .cwp-hover-element[data-cwp-direction="fade"] {
+    opacity: 0 !important;
+}
+
+/* Fade Out Animation (initially visible) */
+.cwp-elementor-post-card .cwp-hover-element[data-cwp-direction="fadeout"],
+.cwp-elementor-term-card .cwp-hover-element[data-cwp-direction="fadeout"] {
+    opacity: 1 !important;
+}
+
+/* ===================================
+   HOVER STATES FOR ANIMATIONS
+   =================================== */
+
+/* Reset transform and show on hover (for all except fadeout) */
+.cwp-elementor-post-card:hover .cwp-hover-element[data-cwp-direction="top"],
+.cwp-elementor-term-card:hover .cwp-hover-element[data-cwp-direction="top"],
+.cwp-elementor-term-card:hover .cwp-hover-element[data-cwp-direction="bottom"],
+.cwp-elementor-post-card:hover .cwp-hover-element[data-cwp-direction="bottom"],
+.cwp-elementor-post-card:hover .cwp-hover-element[data-cwp-direction="left"],
+.cwp-elementor-term-card:hover .cwp-hover-element[data-cwp-direction="left"],
+.cwp-elementor-post-card:hover .cwp-hover-element[data-cwp-direction="right"],
+.cwp-elementor-term-card:hover .cwp-hover-element[data-cwp-direction="right"],
+.cwp-elementor-post-card:hover .cwp-hover-element[data-cwp-direction="fade"],
+.cwp-elementor-term-card:hover .cwp-hover-element[data-cwp-direction="fade"] {
+    transform: none !important;
+    opacity: 1 !important;
+}
+
+/* Fade Out on hover */
+.cwp-elementor-post-card:hover .cwp-hover-element[data-cwp-direction="fadeout"],
+.cwp-elementor-term-card:hover .cwp-hover-element[data-cwp-direction="fadeout"] {
+    opacity: 0 !important;
+}
+
+/* ===================================
+   VISIBILITY CONTROLS
+   =================================== */
+
+/* Show on Hover (hidden by default) */
+.cwp-elementor-post-card .cwp-hover-element[data-cwp-visibility="show"],
+.cwp-elementor-term-card .cwp-hover-element[data-cwp-visibility="show"] {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transition: opacity 0.6s ease, visibility 0.6s ease !important;
+}
+
+/* For non-absolute elements, remove from flow when hidden */
+.cwp-elementor-post-card .cwp-hover-element[data-cwp-visibility="show"]:not([style*="position:absolute"]),
+.cwp-elementor-term-card .cwp-hover-element[data-cwp-visibility="show"]:not([style*="position:absolute"]) {
+    position: absolute !important;
+}
+
+/* Restore position on hover */
+.cwp-elementor-post-card:hover .cwp-hover-element[data-cwp-visibility="show"]:not([style*="position:absolute"]),
+.cwp-elementor-term-card:hover .cwp-hover-element[data-cwp-visibility="show"]:not([style*="position:absolute"]) {
+    position: relative !important;
+}
+
+/* Show on hover */
+.cwp-elementor-post-card:hover .cwp-hover-element[data-cwp-visibility="show"],
+.cwp-elementor-term-card:hover .cwp-hover-element[data-cwp-visibility="show"] {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    display: flex !important;
+}
+
+/* Hide on Hover (visible by default) */
+.cwp-elementor-post-card .cwp-hover-element[data-cwp-visibility="hide"],
+.cwp-elementor-term-card .cwp-hover-element[data-cwp-visibility="hide"] {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transition: opacity 0.6s ease, visibility 0.6s ease !important;
+}
+
+/* Hide on hover */
+.cwp-elementor-post-card:hover .cwp-hover-element[data-cwp-visibility="hide"],
+.cwp-elementor-term-card:hover .cwp-hover-element[data-cwp-visibility="hide"] {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+/* Remove from flow when hidden on hover */
+.cwp-elementor-post-card:hover .cwp-hover-element[data-cwp-visibility="hide"]:not([style*="position:absolute"]),
+.cwp-elementor-term-card:hover .cwp-hover-element[data-cwp-visibility="hide"]:not([style*="position:absolute"]) {
+    position: absolute !important;
+}
+
+/* ===================================
+   BUTTON SPECIFIC HOVER EFFECTS
+   =================================== */
+
+/* Button background color on card hover - only when custom colors are set */
+.cwp-elementor-post-card:hover .cwp-hover-element[data-cwp-button-colors="true"] .elementor-button,
+.cwp-elementor-term-card:hover .cwp-hover-element[data-cwp-button-colors="true"] .elementor-button {
+    background-color: var(--cwp-hover-bg) !important;
+}
+
+/* Button text and icon color on card hover - only when custom colors are set */
+.cwp-elementor-post-card:hover .cwp-hover-element[data-cwp-button-colors="true"] .elementor-button,
+.cwp-elementor-term-card:hover .cwp-hover-element[data-cwp-button-colors="true"] .elementor-button,
+.cwp-elementor-post-card:hover .cwp-hover-element[data-cwp-button-colors="true"] .elementor-button .elementor-button-icon,
+.cwp-elementor-term-card:hover .cwp-hover-element[data-cwp-button-colors="true"] .elementor-button .elementor-button-icon {
+    color: var(--cwp-hover-color) !important;
+}
+
+/* Button icon SVG fill color on card hover - only when custom colors are set */
+.cwp-elementor-post-card:hover .cwp-hover-element[data-cwp-button-colors="true"] .elementor-button .elementor-button-icon svg path,
+.cwp-elementor-term-card:hover .cwp-hover-element[data-cwp-button-colors="true"] .elementor-button .elementor-button-icon svg path {
+    fill: var(--cwp-hover-color) !important;
+}
+
+/* ===================================
+   RESPONSIVE OPTIMIZATIONS
+   =================================== */
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+    .cwp-hover-element {
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Performance optimization for mobile devices */
+@media (max-width: 768px) {
+    .cwp-hover-element {
+        will-change: transform, opacity;
     }
 }

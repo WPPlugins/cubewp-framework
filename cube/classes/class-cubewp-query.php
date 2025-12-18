@@ -88,16 +88,16 @@ class CubeWp_Query{
 
         // Sorting
         if(isset($args['orderby']) && !empty($args['orderby'])){
-            if (substr($args['orderby'], -strlen('-DESC')) === '-DESC') {
+			if (substr($args['orderby'], -strlen('-DESC')) === '-DESC') {
                 $custom_sort_field = substr($args['orderby'], 0, -strlen('-DESC'));
                 $query['order'] = 'DESC';
-                $query['orderby'] = 'meta_value_num';
-                $query['meta_key'] = $custom_sort_field;
+				$query['orderby'] = 'meta_value_num'; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+				$query['meta_key'] = $custom_sort_field; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
             }elseif (substr($args['orderby'], -strlen('-ASC')) === '-ASC') {
                 $custom_sort_field = substr($args['orderby'], 0, -strlen('-ASC'));
                 $query['order'] = 'ASC';
-                $query['orderby'] = 'meta_value_num';
-                $query['meta_key'] = $custom_sort_field;
+				$query['orderby'] = 'meta_value_num'; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+				$query['meta_key'] = $custom_sort_field; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
             }else{
                 if(isset($args['orderby']) && ($args['orderby'] == 'DESC' || $args['orderby'] == 'ASC')){
                     $query['order'] = $args['orderby'];
@@ -115,9 +115,9 @@ class CubeWp_Query{
         $extra_meta_query = isset($args['meta_query']) && !empty($args['meta_query']) ? $args['meta_query'] : array();
        
         if(!empty(self::$meta_query) && count(self::$meta_query) > 0){
-            $query['meta_query'] = array_merge(self::$meta_query,$extra_meta_query);
+			$query['meta_query'] = array_merge(self::$meta_query,$extra_meta_query); // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
         }elseif(!empty($extra_meta_query) && count($extra_meta_query) > 0){
-            $query['meta_query'] = $extra_meta_query;
+			$query['meta_query'] = $extra_meta_query; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
         }
 
         // Default Query arguments
@@ -125,7 +125,7 @@ class CubeWp_Query{
             $query['s'] = $args['s'];
         }
         if(isset($args['post__not_in']) && !empty($args['post__not_in'])){
-            $query['post__not_in'] = $args['post__not_in'];
+			$query['post__not_in'] = $args['post__not_in']; // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_post__not_in
         }
         if(isset($args['fields']) && !empty($args['fields'])){
             $query['fields'] = $args['fields'];

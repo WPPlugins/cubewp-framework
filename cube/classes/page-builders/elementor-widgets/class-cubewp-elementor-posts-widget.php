@@ -114,6 +114,14 @@ class CubeWp_Elementor_Posts_Widget extends Widget_Base
 			),
 			'default' => '3'
 		));
+		$this->add_control('ajax_base_posts', array(
+			'type'    => Controls_Manager::SWITCHER,
+			'label'   => esc_html__('Load via AJAX', 'cubewp-framework'),
+			'label_on' => esc_html__('Yes', 'cubewp-framework'),
+			'label_off' => esc_html__('No', 'cubewp-framework'),
+			'return_value' => 'yes',
+			'default' => 'no',
+		));
 		$this->add_control('load_more', array(
 			'type'      => Controls_Manager::SWITCHER,
 			'label'     => esc_html__('Load More Button', 'cubewp-framework'),
@@ -199,6 +207,7 @@ class CubeWp_Elementor_Posts_Widget extends Widget_Base
 			'default' => '4',
 			'condition' => array(
 				'posts_per_row' => 'auto',
+				'ajax_base_posts' => 'no',
 			),
 		));
 
@@ -216,7 +225,7 @@ class CubeWp_Elementor_Posts_Widget extends Widget_Base
 		$this->end_controls_section();
 
 		$this->start_controls_section('cubewp_posts_widget_additional_setting_section', array(
-			'label' => esc_html__('Filter By Meta / Custom Fields', 'cubewp-classifiad'),
+			'label' => esc_html__('Filter By Meta / Custom Fields', 'cubewp-framework'),
 			'tab'   => Controls_Manager::TAB_CONTENT,
 			'condition' => array(
 				'posts_by'  => array('all', 'taxonomy'),
@@ -230,11 +239,11 @@ class CubeWp_Elementor_Posts_Widget extends Widget_Base
 
 		$this->add_control('meta_relation', array(
 			'type'      => Controls_Manager::SELECT,
-			'label'     => esc_html__('Select Relation', 'cubewp-classifiad'),
+			'label'     => esc_html__('Select Relation', 'cubewp-framework'),
 			'description'   => esc_html__("e.g. If you have multiple custom field's conditions and you set relation OR then system will get result if one of these conditions will be true.", "cubewp-framework"),
 			'options'   => array(
-				'OR'  => esc_html__('OR', 'cubewp-classifiad'),
-				'AND'  => esc_html__("AND", 'cubewp-classifiad'),
+				'OR'  => esc_html__('OR', 'cubewp-framework'),
+				'AND'  => esc_html__("AND", 'cubewp-framework'),
 			),
 			'default'   => 'or',
 			'condition' => array(
@@ -261,7 +270,7 @@ class CubeWp_Elementor_Posts_Widget extends Widget_Base
 
 		$repeater->add_control('meta_compare', array(
 			'type'      => Controls_Manager::SELECT,
-			'label'     => esc_html__('Select Operator to compare ', 'cubewp-classifiad'),
+			'label'     => esc_html__('Select Operator to compare ', 'cubewp-framework'),
 			'description'   => esc_html__("e.g. If going to select BETWEEN or NOT BETWEEN then add value like this [100, 200].", "cubewp-framework"),
 			'options'   => array(
 				'='  => esc_html__('Equal', 'cubewp-framework'),
@@ -287,7 +296,7 @@ class CubeWp_Elementor_Posts_Widget extends Widget_Base
 		));
 
 		$this->add_control('filter_by_custom_fields', array(
-			'label'       => esc_html__('Add Conditions', 'cubewp-classifiad'),
+			'label'       => esc_html__('Add Conditions', 'cubewp-framework'),
 			'type'        => Controls_Manager::REPEATER,
 			'fields'      => $repeater->get_controls(),
 			'title_field' => '{{{ meta_key }}}',
@@ -324,7 +333,7 @@ class CubeWp_Elementor_Posts_Widget extends Widget_Base
 			$this->add_control('posttype', array(
 				'type'        => Controls_Manager::SELECT2,
 				'multiple'    => true,
-				'label'       => esc_html__('Select Post Types', 'cubewp-classifiad'),
+				'label'       => esc_html__('Select Post Types', 'cubewp-framework'),
 				'description' => esc_html__('You can select one or multiple post types to show post cards.', 'cubewp-framework'),
 				'options'     => $post_types,
 				'default'     => array('post'),
@@ -341,7 +350,8 @@ class CubeWp_Elementor_Posts_Widget extends Widget_Base
 		if (!empty(cubewp_post_card_styles($post_type))) {
 			$this->add_control($post_type . '_card_style', array(
 				'type'        => Controls_Manager::SELECT,
-				'label'       => esc_html__('Card Style for ' . self::get_post_type_name_by_slug($post_type), 'cubewp-framework'),
+				/* translators: %s: post type singular name. */
+				'label'       => sprintf( esc_html__( 'Card Style for %s', 'cubewp-framework' ), self::get_post_type_name_by_slug($post_type) ),
 				'options'     => cubewp_post_card_styles($post_type),
 				'default'     => 'default_style',
 				'condition'   => array(
@@ -357,12 +367,12 @@ class CubeWp_Elementor_Posts_Widget extends Widget_Base
 		$post_types = self::$post_types;
 		if (is_array($post_types) && ! empty($post_types)) {
 			$options = array(
-				"all" => esc_html__("All"),
-				"taxonomy" => esc_html__("By Taxonomy"),
-				"post_ids" => esc_html__("By IDs"),
+				'all' => esc_html__('All', 'cubewp-framework'),
+				'taxonomy' => esc_html__('By Taxonomy', 'cubewp-framework'),
+				'post_ids' => esc_html__('By IDs', 'cubewp-framework'),
 			);
 			if (class_exists('CubeWp_Booster_Load')) {
-				$options['boosted'] = esc_html__("Boosted Only");
+				$options['boosted'] = esc_html__('Boosted Only', 'cubewp-framework');
 			}
 			$this->add_control('posts_by', array(
 				'type'    => Controls_Manager::SELECT,
@@ -387,7 +397,8 @@ class CubeWp_Elementor_Posts_Widget extends Widget_Base
 		if (is_array($taxonomies) && ! empty($taxonomies)) {
 			$this->add_control('taxonomy-' . $post_type, array(
 				'type'      => Controls_Manager::SELECT2,
-				'label'     => esc_html__('Select Terms for ' . self::get_post_type_name_by_slug($post_type), 'cubewp-framework'),
+				/* translators: %s: post type singular name. */
+				'label'     => sprintf( esc_html__( 'Select Terms for %s', 'cubewp-framework' ), self::get_post_type_name_by_slug($post_type) ),
 				'description' => esc_html__('Leave empty if you want to display all posts.', 'cubewp-framework'),
 				'options'   => self::get_terms_by_post_type($post_type),
 				'multiple'  => true,
@@ -496,9 +507,9 @@ class CubeWp_Elementor_Posts_Widget extends Widget_Base
 
 		$widget_id = $this->get_id();
 		if ($settings['enable_scroll_on_small_devices'] === 'yes') {
-			echo '<style>
+			echo '<style type="text/css">
             @media (max-width: 767px) {
-                .elementor-element-' . $widget_id . ' .cwp-row {
+                .elementor-element-' . esc_attr($widget_id) . ' .cwp-row {
                     overflow: scroll;
                     flex-wrap: nowrap;
                 }
@@ -512,9 +523,10 @@ class CubeWp_Elementor_Posts_Widget extends Widget_Base
 			'orderby'         => $settings['orderby'],
 			'order'           => $settings['order'],
 			'number_of_posts' => $settings['number_of_posts'],
+			'load_via_ajax'   => (isset($settings['ajax_base_posts']) && $settings['ajax_base_posts'] === 'yes') ? 'yes' : 'no',
 			'load_more'       => $settings['load_more'],
 			'posts_per_page'  => $settings['posts_per_page'],
-			'processing_grids_per_row' => $settings['processing_grids_per_row'],
+			'processing_grids_per_row' => $settings['processing_grids_per_row'] ?? '4',
 			'layout'          => $settings['layout'],
 			'posts_per_row'   => isset($settings['posts_per_row']) ? $settings['posts_per_row'] : 'auto',
 			'posts_per_row_tablet'   => isset($settings['posts_per_row_tablet']) ? $settings['posts_per_row_tablet'] : 'auto',
@@ -594,11 +606,12 @@ class CubeWp_Elementor_Posts_Widget extends Widget_Base
 		}
 
 		if ($filter_by_meta == 'yes') {
-			$meta_query['query'] = isset($settings['filter_by_custom_fields']) ? $settings['filter_by_custom_fields'] : array();
+			$meta_query['query'] = isset($settings['filter_by_custom_fields']) ? $settings['filter_by_custom_fields'] : array();// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 			$meta_query['relation'] = isset($settings['meta_relation']) ? $settings['meta_relation'] : 'OR';
-			$args['meta_query'] = self::_meta_query($meta_query);
+			$args['meta_query'] = self::_meta_query($meta_query); // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 		}
 
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo apply_filters('cubewp_shortcode_posts_output', '', $args);
 	}
 
@@ -638,7 +651,7 @@ class CubeWp_Elementor_Posts_Widget extends Widget_Base
 				'selectors'  => [
 					'{{WRAPPER}} .cubewp-post-slider .slick-slide>div ' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}} !important;',
 					'{{WRAPPER}} .cwp-row>div' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}} !important;',
-				],
+				]
 			]
 		);
 
@@ -721,9 +734,9 @@ class CubeWp_Elementor_Posts_Widget extends Widget_Base
 			'fade_effect',
 			[
 				'type' => Controls_Manager::SWITCHER,
-				'label' => esc_html__('Fade Effect', 'value-pack'),
+				'label' => esc_html__('Fade Effect', 'cubewp-framework'),
 				'default' => '',
-				'description' => esc_html__('Enable fade effect for slides transition.', 'value-pack'),
+				'description' => esc_html__('Enable fade effect for slides transition.', 'cubewp-framework'),
 				'condition' => [
 					'cwp_enable_slider' => 'yes',
 				],
@@ -1232,9 +1245,13 @@ class CubeWp_Elementor_Posts_Widget extends Widget_Base
 			Group_Control_Box_Shadow::get_type(),
 			[
 				'name' => 'slider_arrow_box_shadow',
-				'label' => __('Arrow Box Shadow', 'value-pack'),
+				'label' => __('Arrow Box Shadow', 'cubewp-framework'),
 				'selector' => '{{WRAPPER}} .cubewp-post-slider .slick-arrow',
 				'separator' => 'before',
+				'condition' => [
+					'cwp_enable_slider' => 'yes',
+					'custom_arrows' => 'yes',
+				],
 			]
 		);
 
@@ -2013,7 +2030,7 @@ class CubeWp_Elementor_Posts_Widget extends Widget_Base
 		$this->add_control(
 			'slider_dots_wrap_settings_heading',
 			[
-				'label' => esc_html__('Wrap Dots With Arrows', 'value-pack'),
+				'label' => esc_html__('Wrap Dots With Arrows', 'cubewp-framework'),
 				'type' => Controls_Manager::HEADING,
 				'separator' => 'before',
 				'condition'   => [
@@ -2025,10 +2042,10 @@ class CubeWp_Elementor_Posts_Widget extends Widget_Base
 		$this->add_control(
 			'enable_wrap_dots_arrows',
 			[
-				'label'        => esc_html__('Enable Wrap Dots With Arrows', 'value-pack'),
+				'label'        => esc_html__('Enable Wrap Dots With Arrows', 'cubewp-framework'),
 				'type'         => Controls_Manager::SWITCHER,
-				'label_on'     => esc_html__('Yes', 'value-pack'),
-				'label_off'    => esc_html__('No', 'value-pack'),
+				'label_on'     => esc_html__('Yes', 'cubewp-framework'),
+				'label_off'    => esc_html__('No', 'cubewp-framework'),
 				'return_value' => 'yes',
 				'default'      => '',
 				'condition'   => [
@@ -2062,7 +2079,7 @@ class CubeWp_Elementor_Posts_Widget extends Widget_Base
 		$this->add_responsive_control(
 			'vp_scrollbar_Top_position',
 			[
-				'label' => esc_html__('Top Position', 'value-pack'),
+				'label' => esc_html__('Top Position', 'cubewp-framework'),
 				'type' => Controls_Manager::SLIDER,
 				'size_units' => ['px', '%', 'em'],
 				'default' => [
@@ -2098,7 +2115,7 @@ class CubeWp_Elementor_Posts_Widget extends Widget_Base
 		$this->add_responsive_control(
 			'vp_scrollbar_bottom_position',
 			[
-				'label' => esc_html__('Bottom Position', 'value-pack'),
+				'label' => esc_html__('Bottom Position', 'cubewp-framework'),
 				'type' => Controls_Manager::SLIDER,
 				'size_units' => ['px', '%', 'em'],
 				'default' => [
@@ -2158,7 +2175,7 @@ class CubeWp_Elementor_Posts_Widget extends Widget_Base
 		$this->add_responsive_control(
 			'vp_scrollbar_right_position',
 			[
-				'label' => esc_html__('Right Position', 'value-pack'),
+				'label' => esc_html__('Right Position', 'cubewp-framework'),
 				'type' => Controls_Manager::SLIDER,
 				'size_units' => ['px', '%', 'em'],
 				'default' => [
@@ -2194,7 +2211,7 @@ class CubeWp_Elementor_Posts_Widget extends Widget_Base
 		$this->add_responsive_control(
 			'vp_scrollbar_left_position',
 			[
-				'label' => esc_html__('Left Position', 'value-pack'),
+				'label' => esc_html__('Left Position', 'cubewp-framework'),
 				'type' => Controls_Manager::SLIDER,
 				'size_units' => ['px', '%', 'em'],
 				'default' => [
@@ -2230,7 +2247,7 @@ class CubeWp_Elementor_Posts_Widget extends Widget_Base
 		$this->add_responsive_control(
 			'gap_between_items',
 			[
-				'label' => esc_html__('Gap Between Items', 'value-pack'),
+				'label' => esc_html__('Gap Between Items', 'cubewp-framework'),
 				'type' => Controls_Manager::SLIDER,
 				'size_units' => ['px', '%', 'em'],
 				'default' => [
@@ -2267,15 +2284,15 @@ class CubeWp_Elementor_Posts_Widget extends Widget_Base
 		$this->add_responsive_control(
 			'wrap_justify_content',
 			[
-				'label' => esc_html__('Justify Content', 'value-pack'),
+				'label' => esc_html__('Justify Content', 'cubewp-framework'),
 				'type' => Controls_Manager::SELECT,
 				'options' => [
-					'flex-start' => esc_html__('Flex Start', 'value-pack'),
-					'center' => esc_html__('Center', 'value-pack'),
-					'flex-end' => esc_html__('Flex End', 'value-pack'),
-					'space-between' => esc_html__('Space Between', 'value-pack'),
-					'space-around' => esc_html__('Space Around', 'value-pack'),
-					'space-evenly' => esc_html__('Space Evenly', 'value-pack'),
+					'flex-start' => esc_html__('Flex Start', 'cubewp-framework'),
+					'center' => esc_html__('Center', 'cubewp-framework'),
+					'flex-end' => esc_html__('Flex End', 'cubewp-framework'),
+					'space-between' => esc_html__('Space Between', 'cubewp-framework'),
+					'space-around' => esc_html__('Space Around', 'cubewp-framework'),
+					'space-evenly' => esc_html__('Space Evenly', 'cubewp-framework'),
 				],
 				'default' => 'center',
 				'condition' => [
@@ -2291,7 +2308,7 @@ class CubeWp_Elementor_Posts_Widget extends Widget_Base
 		$this->add_responsive_control(
 			'wrap_dots_arrows_padding',
 			[
-				'label' => esc_html__('Padding', 'value-pack'),
+				'label' => esc_html__('Padding', 'cubewp-framework'),
 				'type' => Controls_Manager::DIMENSIONS,
 				'size_units' => ['px', '%', 'em'],
 				'default' => [

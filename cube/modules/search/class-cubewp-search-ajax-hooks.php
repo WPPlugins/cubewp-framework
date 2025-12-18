@@ -36,9 +36,17 @@ class CubeWp_Search_Ajax_Hooks
             $grid_class = 'cwp-col-12 cwp-col-md-4';
         }
         $latLng = array();
-        $post_data = CubeWp_Sanitize_text_Array($_POST);
+        $post_data = CubeWp_Sanitize_text_Array($_POST); // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 
-        $post_type = isset($post_data['post_type']) ? $post_data['post_type'] : '';
+        $allowed_post_types = CWP_all_post_types();
+        $post_type = isset($post_data['post_type']) ? sanitize_text_field($post_data['post_type']) : '';
+
+        $post_data['post_status'] = 'publish'; // Ensure only published posts are queried
+
+        // Validate post_type against allowed list
+        if (!in_array($post_type, $allowed_post_types, true)) {
+            $post_type = '';
+        }
 
         $post_data['posts_per_page'] = apply_filters('cubewp/search/post_per_page', $posts_per_page, $post_data);
 
@@ -63,6 +71,7 @@ class CubeWp_Search_Ajax_Hooks
                 'data' => $_DATA,
             );
             $data = apply_filters('cubewp_frontend_search_data', '', $data_args);
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             echo apply_filters('cubewp/frontend/before/search/loop', '');
 
             $promotional_cards = [];
@@ -94,8 +103,10 @@ class CubeWp_Search_Ajax_Hooks
                         if (isset($promotional_cards[$counter]) && !empty($promotional_cards[$counter])) {
                             $promotional_cardID =  $promotional_cards[$counter]['option'];
                             $width = $promotional_cards[$counter]['width'];
+                            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                             echo cubewp_promotional_card_output($promotional_cardID, $width);
                         }
+                        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                         echo CubeWp_frontend_grid_HTML(get_the_ID(), $grid_class, $style);
                         $counter++;
                     }
@@ -108,14 +119,16 @@ class CubeWp_Search_Ajax_Hooks
                 'posts_per_page' => $post_per_page,
                 'page_num'       => $page_num
             );
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             echo apply_filters('cubewp_frontend_posts_pagination', '', $pagination_args);
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             echo apply_filters('cubewp/frontend/after/search/loop', '');
             $grid_view_html = ob_get_contents();
             ob_end_clean();
         } else {
             $grid_view_html = self::cwp_no_result_found();
         }
-        wp_reset_query();
+        wp_reset_postdata();
         if (empty($latLng)) $latLng = '';
         if (empty($data)) $data = '';
 

@@ -291,6 +291,7 @@ class CubeWp_Elementor_Search_Widget extends Widget_Base
                 $this->add_control(
                     'tabber_button_icon_' . $post_type_key,
                     [
+                        /* translators: %s: post type singular name. */
                         'label' => sprintf(esc_html__('%s Tab Icon', 'cubewp-framework'), $post_type_label),
                         'type' => Controls_Manager::ICONS,
                         'fa4compatibility' => 'icon',
@@ -2101,7 +2102,8 @@ class CubeWp_Elementor_Search_Widget extends Widget_Base
                     $this->start_controls_section(
                         'field_' . $field_key . '_style_section',
                         [
-                            'label' =>  esc_html__($field_label . ' ( ' . $postType . ' Field Container)', 'cubewp-framework'),
+                            /* translators: %1$s: field label, %2$s: post type singular name. */
+                            'label' =>  sprintf( esc_html__( '%1$s ( %2$s Field Container)', 'cubewp-framework' ), $field_label, $postType ),
                             'tab' => \Elementor\Controls_Manager::TAB_STYLE,
                             'condition' => [
                                 'post_type' => $postType,
@@ -2795,6 +2797,7 @@ class CubeWp_Elementor_Search_Widget extends Widget_Base
             'settings' => $settings,
         );
 
+        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
         echo apply_filters('cubewp_search_shortcode_output', '', $args);
     }
 }

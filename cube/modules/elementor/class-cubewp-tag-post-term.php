@@ -41,13 +41,29 @@ class CubeWp_Tag_Post_Term extends Data_Tag {
 				return $terms[0]->name;
 			} else if ( $field == 'term_url' ) {
 				return get_term_link( $terms[0]->term_id );
+			} else if ( $field == 'term_description' ) {
+				return $terms[0]->description;
 			} else if ( $field == 'custom_meta' ) {
 				$field = $this->get_settings( 'post_term_custom_field' );
 				if ( ! $field ) {
 					return '';
+				} 
+				$use_for_icon = $this->get_settings( 'use_for_icon' );
+				$icon_width = $this->get_settings( 'icon_width' );
+				$icon_width_unit = $icon_width['unit'];
+				$icon_width_size = $icon_width['size'];
+				$icon_width_style =   $icon_width_size . $icon_width_unit;
+				
+				$value = get_term_meta( $terms[0]->term_id, $field, true ); 
+				if( $use_for_icon == 'yes' ) {
+					if ( preg_match( '/^data:image\/[a-zA-Z]+;base64,/', $value ) || preg_match( '/^https?:\/\/.+\.(jpg|jpeg|png|gif|svg|webp)$/i', $value ) ) {
+						return '<img src="' . $value . '" alt="" style="max-width:100%; max-height:100%; width: ' . $icon_width_style . ';" />';
+					} else {
+						return '<i class="' . $value . '" style="font-size: ' . $icon_width_style . ';"></i>';
+					}
+				} else {
+					return wp_kses_post($value);
 				}
-
-				return get_term_meta( $terms[0]->term_id, $field, true );
 			} else if ( $field == 'all_terms' ) {
 				$output = '';
 				foreach ( $terms as $key => $term ) {
@@ -74,10 +90,11 @@ class CubeWp_Tag_Post_Term extends Data_Tag {
 				'type'      => Controls_Manager::SELECT,
 				'label'     => esc_html__( 'Select Term Field', 'cubewp-framework' ),
 				'options'   => array(
-					"term_name"   => esc_html__( "Term Name", "cubewp-framework" ),
-					"term_url"    => esc_html__( "Term URL", "cubewp-framework" ),
-					"custom_meta" => esc_html__( "Custom Term Meta", "cubewp-framework" ),
-					"all_terms"   => esc_html__( "All Selected Terms", "cubewp-framework" )
+					"term_name"        => esc_html__( "Term Name", "cubewp-framework" ),
+					"term_url"         => esc_html__( "Term URL", "cubewp-framework" ),
+					"term_description" => esc_html__( "Term Description", "cubewp-framework" ),
+					"custom_meta"      => esc_html__( "Custom Term Meta", "cubewp-framework" ),
+					"all_terms"        => esc_html__( "All Selected Terms", "cubewp-framework" )
 				),
 				'default'   => 'term_name',
 				'condition' => array(
@@ -91,6 +108,40 @@ class CubeWp_Tag_Post_Term extends Data_Tag {
 					'post_taxonomy!'  => '',
 					"post_term_field" => "custom_meta",
 				),
+			] );
+		$this->add_control( 'use_for_icon', [
+				'type' => Controls_Manager::SWITCHER,
+				'label' => esc_html__( 'Use For Icon', 'cubewp-framework' ),
+				'default' => 'no',
+				'return_value' => 'yes',
+				'condition' => array(
+					'post_taxonomy!'  => '',
+					"post_term_field" => "custom_meta",
+				),
+			] );
+		$this->add_control( 'icon_width', [
+				'type' => Controls_Manager::SLIDER,
+				'label' => esc_html__( 'Icon Width', 'cubewp-framework' ),
+				'size_units' => [ 'px', '%' ],
+				'range' => [
+					'px' => [
+						'min' => 8,
+						'max' => 256,
+					],
+					'%' => [
+						'min' => 1,
+						'max' => 100,
+					],
+				],
+				'default' => [
+					'unit' => 'px',
+					'size' => 24,
+				],
+				'condition' => [
+					'post_taxonomy!'  => '',
+					"post_term_field" => "custom_meta",
+					"use_for_icon"    => "yes",
+				],
 			] );
 	}
 
@@ -115,3 +166,4 @@ class CubeWp_Tag_Post_Term extends Data_Tag {
 	}
 
 }
+ 

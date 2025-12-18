@@ -6,6 +6,8 @@
  * @package cubewp/cube/functions/settings
  */
 
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -184,42 +186,42 @@ $settings['archive_settings']    = array(
 		array(
 			'id'      => 'archive_map',
 			'title'   => __( 'Map', 'cubewp-framework' ),
-			'desc'    => __( 'You can easily On/Off map on CubeWP default archive page' ),
+			'desc'    => __( 'You can easily On/Off map on CubeWP default archive page', 'cubewp-framework' ),
 			'type'    => 'switch',
 			'default' => '0',
 		),
 		array(
 			'id'      => 'archive_filters',
 			'title'   => __( 'Filters', 'cubewp-framework' ),
-			'desc'    => __( 'You can easily On/Off filters on CubeWP default archive page' ),
+			'desc'    => __( 'You can easily On/Off filters on CubeWP default archive page', 'cubewp-framework' ),
 			'type'    => 'switch',
 			'default' => '0',
 		),
 		array(
 			'id'      => 'archive_sort_filter',
 			'title'   => __( 'Sorting Filter', 'cubewp-framework' ),
-			'desc'    => __( 'You can easily On/Off sorting filter on CubeWP default archive page' ),
+			'desc'    => __( 'You can easily On/Off sorting filter on CubeWP default archive page', 'cubewp-framework' ),
 			'type'    => 'switch',
 			'default' => '1',
 		),
 		array(
 			'id'      => 'archive_layout',
 			'title'   => __( 'Layout Switcher', 'cubewp-framework' ),
-			'desc'    => __( 'You can easily On/Off layout switcher on CubeWP default archive page' ),
+			'desc'    => __( 'You can easily On/Off layout switcher on CubeWP default archive page', 'cubewp-framework' ),
 			'type'    => 'switch',
 			'default' => '1',
 		),
 		array(
 			'id'      => 'archive_found_text',
 			'title'   => __( 'Found Text', 'cubewp-framework' ),
-			'desc'    => __( 'You can easily On/Off found text on CubeWP default archive page' ),
+			'desc'    => __( 'You can easily On/Off found text on CubeWP default archive page', 'cubewp-framework' ),
 			'type'    => 'switch',
 			'default' => '1',
 		),
 		array(
 			'id'      => 'archive_posts_per_page',
 			'title'   => __( 'Posts Per Page', 'cubewp-framework' ),
-			'desc'    => __( 'Set number of posts per page in search for CubeWP default archive page' ),
+			'desc'    => __( 'Set number of posts per page in search for CubeWP default archive page', 'cubewp-framework' ),
 			'type'    => 'text',
 			'default' => 10,
 		),
@@ -243,7 +245,7 @@ $settings['post_settings'] = array(
 			array(
 				'id'      => 'cubewp_singular',
 				'title'   => __( 'CubeWP Single Post Layout Builder', 'cubewp-framework' ),
-				'desc'    => __( 'Enable/Disable CubeWP Single Post Layout Builder for managing default single post layout if you are not using CubeWP Theme Builder.' ),
+				'desc'    => __( 'Enable/Disable CubeWP Single Post Layout Builder for managing default single post layout if you are not using CubeWP Theme Builder.', 'cubewp-framework' ),
 				'type'    => 'switch',
 				'default' => '1',
 			),
@@ -369,10 +371,10 @@ $settings['author_settings'] = array(
 		array(
 			'id'       => 'profile_page',
 			'type'     => 'pages',
-			'title'    => __('User Profile Form Page', 'cubewp'),
-			'subtitle' => __('This must be an URL.', 'cubewp'),
+			'title'    => __('User Profile Form Page', 'cubewp-framework'),
+			'subtitle' => __('This must be an URL.', 'cubewp-framework'),
 			'validate' => 'url',
-			'desc'     => __('Select the page used for the User Profile Form (Page must include the Profile Form Shortcode)', 'cubewp'),
+			'desc'     => __('Select the page used for the User Profile Form (Page must include the Profile Form Shortcode)', 'cubewp-framework'),
 			'default'  => '',
 			'required' => array(
 				array( 'show_author_template', 'equals', '1' )
@@ -392,9 +394,9 @@ $settings['author_settings'] = array(
 			'id'       => 'author_post_types',
 			'type'     => 'select',
 			'multi'   =>  true,
-			'title'    => __( 'Select Post Types', 'cubewp-reviews' ),
+			'title'    => __( 'Select Post Types', 'cubewp-framework' ),
 			'subtitle' => '',
-			'desc'     => __( 'Tabs for above selected post types will be added other than all posts tab on author page', 'cubewp-reviews' ),
+			'desc'     => __( 'Tabs for above selected post types will be added other than all posts tab on author page', 'cubewp-framework' ),
 			'options'  => cwp_post_types(),
 			'required' => array(
 				array( 'show_author_template', 'equals', '1' )
@@ -414,18 +416,42 @@ $settings['author_settings'] = array(
 );
 
 $settings['cubewp-theme-builder'] = array(
-	'title'  => __( 'Theme Builder', 'cubewp-framework' ),
-	'id'     => 'cubewp-theme-builder',
-	'icon'   => 'dashicons-editor-code',
-	'fields' => array(
-		array(
-			'id'       => 'cwp_tb_hooks',
-			'type'     => 'repeating_field',
-			'title'    => __( 'Add WordPress Hooks For Theme builder', 'cubewp-framework' ),
-			'child_type'  => 'text',
-			'desc'     => __( 'Add WordPress Hooks here and then you will be able to select these hooks in theme builder and you can create template to show on these hooks wherever you want.', 'cubewp-framework' ),
-		),
-	)
+    'title'  => __( 'Theme Builder', 'cubewp-framework' ),
+    'id'     => 'cubewp-theme-builder',
+    'icon'   => 'dashicons-editor-code',
+    'fields' => array(
+        array(
+            'id'       => 'cwp_tb_hooks',
+            'type'     => 'repeating_field',
+            'title'    => __( 'Add WordPress Hooks For Theme builder', 'cubewp-framework' ),
+            'child_type'  => 'text',
+            'desc'     => __( 'Add WordPress Hooks here and then you will be able to select these hooks in theme builder and you can create template to show on these hooks wherever you want.', 'cubewp-framework' ),
+        ),
+        array(
+            'id'      => 'cwp_tb_enable_cache',
+            'type'    => 'switch',
+            'title'   => __( 'Cache Header & Footer (Theme Builder)', 'cubewp-framework' ),
+            'default' => '0',
+            'desc'    => __( 'Cache the rendered header and footer templates generated by the theme builder to improve load times.', 'cubewp-framework' ),
+        ),
+        array(
+            'id'      => 'cwp_posts_enable_cache',
+            'type'    => 'switch',
+            'title'   => __( 'Enable Posts Cache', 'cubewp-framework' ),
+            'default' => '1',
+            'desc'    => __( 'Enable caching for posts output to improve performance. Cache type is automatically detected based on server capabilities (Object Cache when available, SQL Cache otherwise).', 'cubewp-framework' ),
+        ),
+        array(
+            'id'       => 'cwp_posts_cache_ttl',
+            'type'     => 'text',
+            'title'    => __( 'Posts Cache Duration (Hours)', 'cubewp-framework' ),
+            'desc'     => __( 'Set how long the posts cache should be stored in hours. Default is 12 hours.', 'cubewp-framework' ),
+            'default'  => '12',
+            'required' => array(
+                array( 'cwp_posts_enable_cache', 'equals', '1' )
+            )
+        ),
+    )
 );
 
 $settings['cubewp-css-js'] = array(

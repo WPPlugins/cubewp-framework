@@ -1,11 +1,13 @@
 <?php
-
 /**
  * CubeWp Initialization.
  *
  * @package cubewp/cube/classes
  * @version 1.0
  */
+
+ // phpcs:disable WordPress.NamingConventions.PrefixAllGlobals
+
 defined('ABSPATH') || exit;
 
 /**
@@ -22,7 +24,7 @@ final class CubeWp_Load
      *
      * @var string
      */
-    public static $CubeWp_version = '1.1.27';
+    public static $CubeWp_version = '1.1.28';
 
     /**
      * Wordpress required version.
