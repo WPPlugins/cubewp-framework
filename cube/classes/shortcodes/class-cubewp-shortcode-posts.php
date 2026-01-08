@@ -1,4 +1,5 @@
 <?php
+
 /**
  * CubeWp Posts Shortcode.
  *
@@ -251,7 +252,12 @@ class CubeWp_Shortcode_Posts
 			$args['post__in'] = array_filter(array_map('intval', array_map('trim', $post_ids)));
 		}
 
-		if (isset($parameters['taxonomy']) && ! empty($parameters['taxonomy']) && is_array($parameters['taxonomy'])) {
+		// Handle related posts query
+		$is_related_posts = isset($parameters['posts_by']) && $parameters['posts_by'] === 'related';
+		if ($is_related_posts) {
+			self::cubewp_handle_related_posts_query($parameters, $args);
+		} elseif (isset($parameters['taxonomy']) && ! empty($parameters['taxonomy']) && is_array($parameters['taxonomy'])) {
+			// Handle regular taxonomy query (not related posts)
 			foreach ($parameters['taxonomy'] as $taxonomy) {
 				if (isset($parameters[$taxonomy . '-terms']) && ! empty($parameters[$taxonomy . '-terms'])) {
 					$terms_raw = $parameters[$taxonomy . '-terms'];
@@ -275,7 +281,11 @@ class CubeWp_Shortcode_Posts
 			}
 		}
 
-
+		// Handle nearby posts query
+		$is_nearby_posts = isset($parameters['posts_by']) && $parameters['posts_by'] === 'nearby';
+		if ($is_nearby_posts) {
+			self::cubewp_handle_nearby_posts_query($parameters, $args);
+		}
 
 		$layout = $parameters['layout'];
 		$row_class = 'grid-view';
@@ -623,6 +633,15 @@ class CubeWp_Shortcode_Posts
 			isset($parameters['meta_query']) ? md5(serialize($parameters['meta_query'])) : '',
 			isset($parameters['layout']) ? $parameters['layout'] : 'grid',
 			isset($parameters['card_style']) ? md5(serialize($parameters['card_style'])) : '',
+			isset($parameters['posts_by']) ? $parameters['posts_by'] : '',
+			isset($parameters['nearby_address_field']) ? $parameters['nearby_address_field'] : '',
+			isset($parameters['nearby_radius_unit']) ? $parameters['nearby_radius_unit'] : '',
+			isset($parameters['nearby_min_radius']) ? $parameters['nearby_min_radius'] : '',
+			isset($parameters['nearby_default_radius']) ? $parameters['nearby_default_radius'] : '',
+			isset($parameters['nearby_max_radius']) ? $parameters['nearby_max_radius'] : '',
+			isset($parameters['nearby_source_post_id']) ? $parameters['nearby_source_post_id'] : '',
+			// Include source post ID in cache key for related posts (since results depend on source post)
+			(isset($parameters['posts_by']) && $parameters['posts_by'] === 'related') ? self::get_related_source_post_id($parameters) : '',
 		);
 
 		// Include site URL to make cache unique per site
@@ -759,5 +778,232 @@ class CubeWp_Shortcode_Posts
 			// Clear all post caches when post card template is updated
 			$this->clear_posts_cache($post_id);
 		}
+	}
+
+	/**
+	 * Handle related posts query - get source post's terms and find related posts
+	 * 
+	 * @param array $parameters Query parameters
+	 * @param array &$args Query arguments (passed by reference)
+	 * @return void
+	 */
+	private static function cubewp_handle_related_posts_query($parameters, &$args)
+	{
+		// Get source post ID - check for specific post ID first, then fall back to current post
+		$post_types = isset($parameters['post_type']) ? (is_array($parameters['post_type']) ? $parameters['post_type'] : array($parameters['post_type'])) : array();
+		$source_post_id = null;
+
+		foreach ($post_types as $post_type) {
+			$source_post_id_key = 'related_source_post_id_' . $post_type;
+			if (isset($parameters[$source_post_id_key]) && intval($parameters[$source_post_id_key]) > 0) {
+				$source_post_id = intval($parameters[$source_post_id_key]);
+				break; // Use first found specific post ID
+			}
+		}
+
+		// If no specific post ID, use current post
+		if (!$source_post_id) {
+			$source_post_id = get_the_ID();
+		}
+
+		if (!$source_post_id) {
+			// No source post available, return no results
+			$args['post__in'] = array(0);
+			return;
+		}
+
+		// Get source post's post type
+		$source_post_type = get_post_type($source_post_id);
+
+		// Get related posts settings from parameters - check all post types in query
+		$related_settings = array();
+		foreach ($post_types as $post_type) {
+			$related_settings_key = 'related_posts_' . $post_type;
+			if (isset($parameters[$related_settings_key]) && !empty($parameters[$related_settings_key])) {
+				$related_settings = array_merge($related_settings, $parameters[$related_settings_key]);
+			}
+		}
+
+		if (empty($related_settings)) {
+			// No related settings, return no results
+			$args['post__in'] = array(0);
+			return;
+		}
+
+		$taxonomies_to_query = array();
+		$matching_term_ids = array();
+		$tax_post_ids = array();
+
+		// Collect terms from all selected taxonomies
+		foreach ($related_settings as $related_setting) {
+			if (isset($related_setting['related_taxonomy'])) {
+				$taxonomy = $related_setting['related_taxonomy'];
+
+				// Get source post's terms for this taxonomy
+				$source_post_terms = wp_get_post_terms($source_post_id, $taxonomy, array('fields' => 'ids'));
+				if (!is_wp_error($source_post_terms) && !empty($source_post_terms)) {
+					// Use all source post's terms for this taxonomy
+					$matching_terms = $source_post_terms;
+
+					if (!empty($matching_terms)) {
+						// Add to matching term IDs array
+						$matching_term_ids = array_merge($matching_term_ids, $matching_terms);
+
+						// Store taxonomy for query
+						$taxonomies_to_query[] = array(
+							'taxonomy' => $taxonomy,
+							'field' => 'term_id',
+							'terms' => $matching_terms
+						);
+					}
+				}
+			}
+		}
+
+		// Query for posts with matching terms
+		if (empty($taxonomies_to_query) || empty($matching_term_ids)) {
+			// No matching terms found
+			$args['post__in'] = array(0);
+			return;
+		}
+
+		// Remove duplicate term IDs
+		$matching_term_ids = array_unique($matching_term_ids);
+
+		// Set up tax query
+		if (count($taxonomies_to_query) > 1) {
+			$taxonomies_to_query['relation'] = 'OR';
+		}
+
+		$tax_args = array(
+			'post_type' => $parameters['post_type'],
+			'post_status' => 'publish',
+			'posts_per_page' => -1,
+			'fields' => 'ids',
+			'post__not_in' => array($source_post_id), // Exclude source post
+			'tax_query' => $taxonomies_to_query
+		);
+
+		$tax_query = new WP_Query($tax_args);
+
+		if ($tax_query->have_posts()) {
+			$tax_post_ids = $tax_query->posts;
+		}
+
+		wp_reset_postdata();
+
+		// Set taxonomies for query
+		if (!empty($tax_post_ids)) {
+			// Exclude the source post from results
+			$tax_post_ids = array_diff($tax_post_ids, array($source_post_id));
+
+			if (!empty($tax_post_ids)) {
+				$args['post__in'] = $tax_post_ids;
+				// Order by relevance (posts with more matching terms first)
+				if (count($tax_post_ids) > 1) {
+					$args['orderby'] = 'post__in';
+				}
+			} else {
+				$args['post__in'] = array(0);
+			}
+		} else {
+			// No related posts found
+			$args['post__in'] = array(0);
+		}
+	}
+
+	/**
+	 * Handle nearby posts query - using CubeWP's proximity SQL approach (same as q_type_google)
+	 * 
+	 * @param array $parameters Query parameters
+	 * @param array &$args Query arguments (passed by reference)
+	 * @return void
+	 */
+	private static function cubewp_handle_nearby_posts_query($parameters, &$args)
+	{
+		// Get the address field name from parameters (set by widget)
+		$nearby_address_field = isset($parameters['nearby_address_field']) ? $parameters['nearby_address_field'] : '';
+
+		if (empty($nearby_address_field)) {
+			// If nearby posts is selected but no address field configured, return no results
+			$args['post__in'] = array(0);
+			return;
+		}
+
+		$meta_key = $nearby_address_field;
+		$field_indicator = isset($parameters[$meta_key]) ? $parameters[$meta_key] : '';
+
+		if (empty($field_indicator)) {
+			// If nearby posts is selected but field indicator not set, return no results
+			$args['post__in'] = array(0);
+			return;
+		}
+
+		// Get lat/lng from parameters (set by widget as $args[$meta_key.'_lat'] and $args[$meta_key.'_lng'])
+		$lat = isset($parameters[$meta_key . '_lat']) ? floatval($parameters[$meta_key . '_lat']) : '';
+		$lng = isset($parameters[$meta_key . '_lng']) ? floatval($parameters[$meta_key . '_lng']) : '';
+
+		// Get range from parameters, fallback to default radius
+		$range = isset($parameters[$meta_key . '_range']) ? floatval($parameters[$meta_key . '_range']) : '';
+		if (empty($range)) {
+			$range = isset($parameters['nearby_default_radius']) ? floatval($parameters['nearby_default_radius']) : 10;
+		}
+
+		// Get radius unit from parameters (set by widget)
+		$radius_unit = isset($parameters['nearby_radius_unit']) ? $parameters['nearby_radius_unit'] : 'km';
+
+		if (empty($lat) || empty($lng)) {
+			// No valid coordinates, return no results
+			$args['post__in'] = array(0);
+			return;
+		}
+
+		// Use CubeWP's proximity SQL function (same as q_type_google)
+		// Get nearby post IDs using proximity SQL
+		$nearby_post_ids = cubewp_get_nearby_post_ids($meta_key . '_lat', $meta_key . '_lng', $lat, $lng, $radius_unit, $range, array());
+		
+		// Ensure it's an array
+		if (!is_array($nearby_post_ids)) {
+			$nearby_post_ids = array();
+		}
+
+		// Filter the main query by nearby post IDs
+		if (!empty($nearby_post_ids)) {
+			// Merge with existing post__in if any
+			if (isset($args['post__in']) && !empty($args['post__in'])) {
+				$args['post__in'] = array_intersect($args['post__in'], $nearby_post_ids);
+			} else {
+				$args['post__in'] = $nearby_post_ids;
+			}
+			
+			// If no posts match after intersection, set to empty array to return no results
+			if (empty($args['post__in'])) {
+				$args['post__in'] = array(0); // Force no results
+			}
+		} else {
+			// No nearby posts found, return no results
+			$args['post__in'] = array(0); // Force no results
+		}
+	}
+
+	/**
+	 * Get source post ID for related posts
+	 * 
+	 * @param array $parameters Query parameters
+	 * @return int Source post ID or 0
+	 */
+	private static function get_related_source_post_id($parameters)
+	{
+		$post_types = isset($parameters['post_type']) ? (is_array($parameters['post_type']) ? $parameters['post_type'] : array($parameters['post_type'])) : array();
+
+		foreach ($post_types as $post_type) {
+			$source_post_id_key = 'related_source_post_id_' . $post_type;
+			if (isset($parameters[$source_post_id_key]) && intval($parameters[$source_post_id_key]) > 0) {
+				return intval($parameters[$source_post_id_key]);
+			}
+		}
+
+		// Fall back to current post ID
+		return get_the_ID();
 	}
 }

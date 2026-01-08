@@ -838,4 +838,22 @@ function initTermSlider($scope, clicked) {
         })
     });
 
+    //Grid/List Switcher
+    jQuery(document).on('click', '.cubewp-view-btn', function (e) {
+        e.preventDefault();
+
+        var $btn = jQuery(this);
+        var view = $btn.data('view');
+        var $wrapper = $btn.closest('.cubewp-view-switcher');
+
+        // Active button
+        $wrapper.find('.cubewp-view-btn').removeClass('active');
+        $btn.addClass('active');
+
+        // Apply view class to archive container
+        var $archive = jQuery('.cwp-search-result-output .cwp-grids-container');
+        $archive.removeClass('grid-view list-view')
+            .addClass(view + '-view ');
+    });
+
 })(jQuery);

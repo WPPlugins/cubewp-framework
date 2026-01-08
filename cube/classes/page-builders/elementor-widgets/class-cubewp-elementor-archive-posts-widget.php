@@ -197,10 +197,10 @@ class CubeWp_Elementor_Archive_Posts_Widget extends Widget_Base
 
         CubeWp_Enqueue::enqueue_script('cwp-search-filters');
 
-        echo wp_kses_post( CubeWp_Frontend_Search_Filter::cwp_filter_results() );
+        echo CubeWp_Frontend_Search_Filter::cwp_filter_results();
         echo '<form name="cwp-search-filters" class="cwp-search-filters" method="post">';
-        echo wp_kses_post( CubeWp_Frontend_Search_Filter::filter_hidden_fields( $type, $page_num, $card_style ) );
-        echo wp_kses_post( CubeWp_Frontend_Search_Filter::get_hidden_field_if_tax() );
+        echo CubeWp_Frontend_Search_Filter::filter_hidden_fields( $type, $page_num, $card_style );
+        echo CubeWp_Frontend_Search_Filter::get_hidden_field_if_tax();
         $count = 1;
         if ($promotional_card && !empty($promotional_card_list) && is_array($promotional_card_list)) {
             foreach ($promotional_card_list as $_promotional_card) {

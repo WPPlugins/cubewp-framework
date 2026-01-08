@@ -253,11 +253,42 @@ class CubeWp_Elementor_Posts_Widget extends Widget_Base
 
 		$repeater = new Repeater();
 
+		// Get fields by type for options
+		$field_options = get_fields_by_type(array('number', 'text', 'checkbox', 'dropdown'));
+		// Add "custom" option at the beginning
+		$field_options = array('custom' => esc_html__('Custom Key', 'cubewp-framework')) + $field_options;
+
 		$repeater->add_control('meta_key', array(
 			'type'      => Controls_Manager::SELECT2,
 			'label'     => esc_html__('Select Custom Field', 'cubewp-framework'),
-			'options'   => get_fields_by_type(array('number', 'text', 'checkbox', 'dropdown')),
+			'options'   => $field_options,
 			'label_block' => true,
+		));
+
+		$repeater->add_control('custom_field_name', array(
+			'type'      => Controls_Manager::TEXT,
+			'label'     => esc_html__('Custom Field Name', 'cubewp-framework'),
+			'placeholder'   => esc_html__("e.g. my_custom_field", "cubewp-framework"),
+			'description'   => esc_html__("Enter the custom field name (meta key) to filter by.", "cubewp-framework"),
+			'label_block' => true,
+			'condition' => array(
+				'meta_key' => 'custom',
+			),
+		));
+
+		$repeater->add_control('meta_value_source', array(
+			'type'      => Controls_Manager::SELECT,
+			'label'     => esc_html__('Meta Value Source', 'cubewp-framework'),
+			'description'   => esc_html__("Select where to get the meta value from.", "cubewp-framework"),
+			'options'   => array(
+				'custom_value'  => esc_html__('Custom Value', 'cubewp-framework'),
+				'current_post_id'  => esc_html__('Current Post ID', 'cubewp-framework'),
+				'specific_user_id'  => esc_html__('Specific User ID', 'cubewp-framework'),
+			),
+			'default'   => 'custom_value',
+			'condition' => array(
+				'meta_key!'  => '',
+			),
 		));
 
 		$repeater->add_control('meta_value', array(
@@ -266,6 +297,10 @@ class CubeWp_Elementor_Posts_Widget extends Widget_Base
 			'placeholder'   => esc_html__("e.g. APPLE", "cubewp-framework"),
 			'description'   => esc_html__("e.g. If custom field is BRAND NAME, you can set value as APPLE to get all those posts who set this meta.", "cubewp-framework"),
 			'label_block' => true,
+			'condition' => array(
+				'meta_key!'  => '',
+				'meta_value_source' => 'custom_value',
+			),
 		));
 
 		$repeater->add_control('meta_compare', array(
@@ -291,7 +326,6 @@ class CubeWp_Elementor_Posts_Widget extends Widget_Base
 			'default'   => 'LIKE',
 			'condition' => array(
 				'meta_key!'  => '',
-				'meta_value!' => '',
 			),
 		));
 
@@ -370,6 +404,8 @@ class CubeWp_Elementor_Posts_Widget extends Widget_Base
 				'all' => esc_html__('All', 'cubewp-framework'),
 				'taxonomy' => esc_html__('By Taxonomy', 'cubewp-framework'),
 				'post_ids' => esc_html__('By IDs', 'cubewp-framework'),
+				'related' => esc_html__('Related Posts', 'cubewp-framework'),
+				'nearby' => esc_html__('Nearby Posts', 'cubewp-framework'),
 			);
 			if (class_exists('CubeWp_Booster_Load')) {
 				$options['boosted'] = esc_html__('Boosted Only', 'cubewp-framework');
@@ -386,6 +422,8 @@ class CubeWp_Elementor_Posts_Widget extends Widget_Base
 			foreach ($post_types as $slug => $post_type) {
 				$this->add_taxonomy_controls($slug);
 				$this->add_posttype_controls($slug);
+				$this->add_related_posts_controls($slug);
+				$this->add_nearby_posts_controls($slug);
 			}
 		}
 	}
@@ -422,6 +460,177 @@ class CubeWp_Elementor_Posts_Widget extends Widget_Base
 				'posttype' => $post_type
 			),
 			'label_block' => true,
+		));
+	}
+
+	private function add_related_posts_controls($post_type)
+	{
+		$taxonomies = get_object_taxonomies($post_type);
+		if (empty($taxonomies)) {
+			return;
+		}
+
+		// Source post selection
+		$this->add_control('related_source_post_' . $post_type, array(
+			'type'        => Controls_Manager::SELECT,
+			'label'       => sprintf(esc_html__('Source Post for %s', 'cubewp-framework'), self::get_post_type_name_by_slug($post_type)),
+			'description' => esc_html__('Select which post to use as the source for finding related posts.', 'cubewp-framework'),
+			'options'     => array(
+				'current'  => esc_html__('Current Post', 'cubewp-framework'),
+				'specific' => esc_html__('Specific Post', 'cubewp-framework'),
+			),
+			'default'     => 'current',
+			'condition'   => array(
+				'posts_by' => 'related',
+				'posttype' => $post_type,
+			),
+		));
+
+		$this->add_control('related_source_post_id_' . $post_type, array(
+			'type'        => Controls_Manager::NUMBER,
+			'label'       => sprintf(esc_html__('Source Post ID for %s', 'cubewp-framework'), self::get_post_type_name_by_slug($post_type)),
+			'description' => esc_html__('Enter the post ID to use as the source for finding related posts.', 'cubewp-framework'),
+			'default'     => '',
+			'min'         => 1,
+			'condition'   => array(
+				'posts_by' => 'related',
+				'posttype' => $post_type,
+				'related_source_post_' . $post_type => 'specific',
+			),
+		));
+
+		$repeater = new Repeater();
+
+		$taxonomy_options = array();
+		foreach ($taxonomies as $taxonomy) {
+			$taxonomy_obj = get_taxonomy($taxonomy);
+			if ($taxonomy_obj) {
+				$taxonomy_options[$taxonomy] = $taxonomy_obj->label;
+			}
+		}
+
+		$repeater->add_control('related_taxonomy', array(
+			'type'    => Controls_Manager::SELECT,
+			'label'   => esc_html__('Taxonomy', 'cubewp-framework'),
+			'options' => $taxonomy_options,
+			'default' => !empty($taxonomy_options) ? array_key_first($taxonomy_options) : '',
+		));
+
+		$this->add_control('related_posts_' . $post_type, array(
+			'type'        => Controls_Manager::REPEATER,
+			'label'       => sprintf(esc_html__('Related Posts Settings for %s', 'cubewp-framework'), self::get_post_type_name_by_slug($post_type)),
+			'fields'      => $repeater->get_controls(),
+			'default'     => array(),
+			'title_field' => '{{{ related_taxonomy }}}',
+			'condition'   => array(
+				'posts_by' => 'related',
+				'posttype' => $post_type,
+			),
+		));
+	}
+
+	private function add_nearby_posts_controls($post_type)
+	{
+		// Source post selection
+		$this->add_control('nearby_source_post_' . $post_type, array(
+			'type'        => Controls_Manager::SELECT,
+			'label'       => sprintf(esc_html__('Source Post for %s', 'cubewp-framework'), self::get_post_type_name_by_slug($post_type)),
+			'description' => esc_html__('Select which post to use as the source for finding nearby posts.', 'cubewp-framework'),
+			'options'     => array(
+				'current'  => esc_html__('Current Post', 'cubewp-framework'),
+				'specific' => esc_html__('Specific Post', 'cubewp-framework'),
+			),
+			'default'     => 'current',
+			'condition'   => array(
+				'posts_by' => 'nearby',
+				'posttype' => $post_type,
+			),
+		));
+
+		$this->add_control('nearby_source_post_id_' . $post_type, array(
+			'type'        => Controls_Manager::NUMBER,
+			'label'       => sprintf(esc_html__('Source Post ID for %s', 'cubewp-framework'), self::get_post_type_name_by_slug($post_type)),
+			'description' => esc_html__('Enter the post ID to use as the source for finding nearby posts.', 'cubewp-framework'),
+			'default'     => '',
+			'min'         => 1,
+			'condition'   => array(
+				'posts_by' => 'nearby',
+				'posttype' => $post_type,
+				'nearby_source_post_' . $post_type => 'specific',
+			),
+		));
+
+		// Get google address fields for this post type
+		$google_address_fields = self::get_google_address_fields($post_type);
+		
+		if (!empty($google_address_fields)) {
+			$this->add_control('nearby_address_field_' . $post_type, array(
+				'type'        => Controls_Manager::SELECT,
+				'label'       => sprintf(esc_html__('Address Field for %s', 'cubewp-framework'), self::get_post_type_name_by_slug($post_type)),
+				'description' => esc_html__('Select the address field to use for finding nearby posts.', 'cubewp-framework'),
+				'options'     => $google_address_fields,
+				'default'     => !empty($google_address_fields) ? array_key_first($google_address_fields) : '',
+				'condition'   => array(
+					'posts_by' => 'nearby',
+					'posttype' => $post_type,
+				),
+				'label_block' => true,
+			));
+		}
+
+		// Radius controls
+		$this->add_control('nearby_min_radius_' . $post_type, array(
+			'type'        => Controls_Manager::NUMBER,
+			'label'       => sprintf(esc_html__('Minimum Radius for %s', 'cubewp-framework'), self::get_post_type_name_by_slug($post_type)),
+			'description' => esc_html__('Minimum radius value.', 'cubewp-framework'),
+			'default'     => 1,
+			'min'         => 0,
+			'step'        => 0.1,
+			'condition'   => array(
+				'posts_by' => 'nearby',
+				'posttype' => $post_type,
+			),
+		));
+
+		$this->add_control('nearby_default_radius_' . $post_type, array(
+			'type'        => Controls_Manager::NUMBER,
+			'label'       => sprintf(esc_html__('Default Radius for %s', 'cubewp-framework'), self::get_post_type_name_by_slug($post_type)),
+			'description' => esc_html__('Default radius value to use for nearby posts search.', 'cubewp-framework'),
+			'default'     => 10,
+			'min'         => 0,
+			'step'        => 0.1,
+			'condition'   => array(
+				'posts_by' => 'nearby',
+				'posttype' => $post_type,
+			),
+		));
+
+		$this->add_control('nearby_max_radius_' . $post_type, array(
+			'type'        => Controls_Manager::NUMBER,
+			'label'       => sprintf(esc_html__('Maximum Radius for %s', 'cubewp-framework'), self::get_post_type_name_by_slug($post_type)),
+			'description' => esc_html__('Maximum radius value.', 'cubewp-framework'),
+			'default'     => 100,
+			'min'         => 0,
+			'step'        => 0.1,
+			'condition'   => array(
+				'posts_by' => 'nearby',
+				'posttype' => $post_type,
+			),
+		));
+
+		$this->add_control('nearby_radius_unit_' . $post_type, array(
+			'type'        => Controls_Manager::SELECT,
+			'label'       => sprintf(esc_html__('Radius Unit for %s', 'cubewp-framework'), self::get_post_type_name_by_slug($post_type)),
+			'description' => esc_html__('Select the unit for radius measurement.', 'cubewp-framework'),
+			'options'     => array(
+				'km'    => esc_html__('Kilometers', 'cubewp-framework'),
+				'miles' => esc_html__('Miles', 'cubewp-framework'),
+			),
+			'default'     => 'km',
+			'condition'   => array(
+				'posts_by' => 'nearby',
+				'posttype' => $post_type,
+			),
 		));
 	}
 
@@ -465,6 +674,27 @@ class CubeWp_Elementor_Posts_Widget extends Widget_Base
 		return null;
 	}
 
+	/**
+	 * Get google address fields for a specific post type
+	 * 
+	 * @param string $post_type Post type slug
+	 * @return array Array of field_key => field_label
+	 */
+	private static function get_google_address_fields($post_type)
+	{
+		$fields = array('' => esc_html__('Select Address Field', 'cubewp-framework'));
+		if (function_exists('get_fields_by_post_type')) {
+			$post_type_fields = get_fields_by_post_type($post_type);
+			foreach ($post_type_fields as $field_key => $field_label) {
+				$field_options = get_field_options($field_key);
+				if (isset($field_options['type']) && $field_options['type'] === 'google_address') {
+					$fields[$field_key] = $field_label;
+				}
+			}
+		}
+		return $fields;
+	}
+
 	protected static function split_taxonomy_and_term($input)
 	{
 		if (preg_match('/\[(.*?)\](.*)/', $input, $matches)) {
@@ -485,11 +715,50 @@ class CubeWp_Elementor_Posts_Widget extends Widget_Base
 			$meta_query['relation'] = $args['relation'];
 			$numeric_comparisons = ['=', '!=', '>', '>=', '<', '<=', 'BETWEEN', 'NOT BETWEEN'];
 			foreach ($args['query'] as $index => $query) {
+				// Determine the meta key
+				$meta_key = '';
+				if (isset($query['meta_key'])) {
+					if ($query['meta_key'] === 'custom') {
+						// Use custom field name if meta_key is "custom"
+						$meta_key = isset($query['custom_field_name']) ? $query['custom_field_name'] : '';
+					} else {
+						// Use the selected field
+						$meta_key = $query['meta_key'];
+					}
+				}
+
+				if (empty($meta_key)) {
+					continue; // Skip if no meta key
+				}
+
+				// Determine the meta value based on source
+				$meta_value = '';
+				$meta_value_source = isset($query['meta_value_source']) ? $query['meta_value_source'] : 'custom_value';
+				
+				if ($meta_value_source === 'current_post_id') {
+					// Get meta value from current post
+					$meta_value = get_the_ID();
+				} elseif ($meta_value_source === 'current_user_id') {
+					// Get meta value from current user
+					$meta_value = get_current_user_id();
+				} else {
+					// Use custom value
+					$meta_value = isset($query['meta_value']) ? $query['meta_value'] : '';
+				}
+
+				// Build meta query array
 				$meta_query[$index] = array(
-					'key'  => $query['meta_key'],
-					'value'	    => $query['meta_value'],
-					'compare'   => $query['meta_compare'],
+					'key'  => $meta_key,
+					'compare'   => isset($query['meta_compare']) ? $query['meta_compare'] : 'LIKE',
 				);
+
+				// Add value only if not EXISTS/NOT EXISTS (these don't need values)
+				$compare = isset($query['meta_compare']) ? $query['meta_compare'] : 'LIKE';
+				if (!in_array($compare, array('EXISTS', 'NOT EXISTS'))) {
+					$meta_query[$index]['value'] = $meta_value;
+				}
+
+				// Set numeric type for numeric comparisons
 				if (isset($query['meta_compare']) && in_array($query['meta_compare'], $numeric_comparisons)) {
 					$meta_query[$index]['type'] = 'NUMERIC';
 				}
@@ -537,6 +806,7 @@ class CubeWp_Elementor_Posts_Widget extends Widget_Base
 			'cwp_enable_slider' => $settings['cwp_enable_slider'] === 'yes' ? 'cubewp-post-slider' : '',
 			'promotional_card' => $settings['cubewp_promotional_card'] === 'yes' ? true : false,
 			'promotional_cards' => $settings['cubewp_promotional_cards_list'],
+			'posts_by'        => $posts_by, // Pass posts_by to shortcode
 		);
 
 		// Add slider parameters only if the slider is enabled
@@ -588,6 +858,91 @@ class CubeWp_Elementor_Posts_Widget extends Widget_Base
 							if ($result) {
 								$args['taxonomy'] = array_unique(array_merge($args['taxonomy'], array($result['taxonomy'])));
 								$args[$result['taxonomy'] . '-terms'][] = $result['term_slug'];
+							}
+						}
+					}
+				} elseif ($posts_by == 'related') {
+					// Handle related posts - pass settings to shortcode for processing
+					$related_settings = isset($settings['related_posts_' . $post_type]) ? $settings['related_posts_' . $post_type] : array();
+					if (!empty($related_settings)) {
+						// Store related posts settings in args for shortcode to process
+						$args['related_posts_' . $post_type] = $related_settings;
+						
+						// Get source post ID
+						$source_post_option = isset($settings['related_source_post_' . $post_type]) ? $settings['related_source_post_' . $post_type] : 'current';
+						if ($source_post_option === 'specific') {
+							$source_post_id = isset($settings['related_source_post_id_' . $post_type]) ? intval($settings['related_source_post_id_' . $post_type]) : 0;
+							if ($source_post_id > 0) {
+								$args['related_source_post_id_' . $post_type] = $source_post_id;
+							}
+						}
+					}
+				} elseif ($posts_by == 'nearby') {
+					// Handle nearby posts based on address field - using CubeWP's proximity SQL approach
+					$address_field = isset($settings['nearby_address_field_' . $post_type]) ? $settings['nearby_address_field_' . $post_type] : '';
+					
+					if (!empty($address_field)) {
+						// Get source post ID
+						$source_post_option = isset($settings['nearby_source_post_' . $post_type]) ? $settings['nearby_source_post_' . $post_type] : 'current';
+						$source_post_id = null;
+						
+						if ($source_post_option === 'specific') {
+							$source_post_id = isset($settings['nearby_source_post_id_' . $post_type]) ? intval($settings['nearby_source_post_id_' . $post_type]) : 0;
+						} else {
+							// Use current post
+							$source_post_id = get_the_ID();
+						}
+						
+						// Get address coordinates from source post
+						$lat = null;
+						$lng = null;
+						
+						if ($source_post_id && $source_post_id > 0) {
+							// Try to get from meta field directly
+							$lat = get_post_meta($source_post_id, $address_field . '_lat', true);
+							$lng = get_post_meta($source_post_id, $address_field . '_lng', true);
+							// If not found, try getting from address array
+							if (empty($lat) || empty($lng)) {
+								$address_meta = get_post_meta($source_post_id, $address_field, true);
+								
+								if (is_array($address_meta)) {
+									$lat = isset($address_meta['latitude']) ? $address_meta['latitude'] : (isset($address_meta['lat']) ? $address_meta['lat'] : null);
+									$lng = isset($address_meta['longitude']) ? $address_meta['longitude'] : (isset($address_meta['lng']) ? $address_meta['lng'] : null);
+								}
+							}
+						}
+						
+						// If we have coordinates, add parameters for nearby query
+						if (!empty($lat) && !empty($lng)) {
+							$args[$address_field] = 1; // Indicate this field should be used
+							$args[$address_field . '_lat'] = floatval($lat);
+							$args[$address_field . '_lng'] = floatval($lng);
+
+							// Get radius settings
+							$min_radius = isset($settings['nearby_min_radius_' . $post_type]) ? floatval($settings['nearby_min_radius_' . $post_type]) : 1;
+							$default_radius = isset($settings['nearby_default_radius_' . $post_type]) ? floatval($settings['nearby_default_radius_' . $post_type]) : 10;
+							$max_radius = isset($settings['nearby_max_radius_' . $post_type]) ? floatval($settings['nearby_max_radius_' . $post_type]) : 100;
+							$radius_unit = isset($settings['nearby_radius_unit_' . $post_type]) ? $settings['nearby_radius_unit_' . $post_type] : 'km';
+							
+							// Check if range is provided (for dynamic radius)
+							$range = isset($settings[$address_field . '_range']) ? floatval($settings[$address_field . '_range']) : $default_radius;
+							
+							// Ensure range is within min/max bounds
+							if ($range < $min_radius) {
+								$range = $min_radius;
+							}
+							if ($range > $max_radius) {
+								$range = $max_radius;
+							}
+							
+							$args[$address_field . '_range'] = $range;
+							$args['nearby_address_field'] = $address_field;
+							$args['nearby_radius_unit'] = $radius_unit;
+							$args['nearby_min_radius'] = $min_radius;
+							$args['nearby_max_radius'] = $max_radius;
+							
+							if ($source_post_option === 'specific' && $source_post_id > 0) {
+								$args['nearby_source_post_id'] = $source_post_id;
 							}
 						}
 					}

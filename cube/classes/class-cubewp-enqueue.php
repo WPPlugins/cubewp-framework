@@ -176,6 +176,11 @@ class CubeWp_Enqueue extends CubeWp_Admin_Enqueue {
 				'deps'    => array( 'jquery' ),
 				'version' => CUBEWP_VERSION,
 			),
+			'cwp-filter-builder'     => array(
+                'src'     => CWP_PLUGIN_URI . 'cube/assets/frontend/js/cubewp-elementor-filter-builder.js',
+                'deps'    => array( 'jquery' ),
+                'version' => CUBEWP_VERSION,
+            ),
 			'cwp-google-address-field' => array(
 				'src'     => CWP_PLUGIN_URI . 'cube/assets/frontend/js/google-address-field.js',
 				'deps'    => array( 'google_map_api' ),

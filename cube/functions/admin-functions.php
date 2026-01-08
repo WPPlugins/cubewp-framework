@@ -1174,7 +1174,6 @@ if (! function_exists("cubewp_get_svg_content")) {
 			// First, try to get from attachment ID (most reliable for local files)
 			if (isset($icon['value']['id']) && is_numeric($icon['value']['id'])) {
 				$file_path = get_attached_file($icon['value']['id']);
-
 				if ($file_path && file_exists($file_path)) {
 					$svg_content = file_get_contents($file_path);
 					if (!empty($svg_content) && is_string($svg_content)) {
@@ -1351,13 +1350,14 @@ if (! function_exists("cubewp_kses_allowed_svg")) {
  * @since  1.1.28
  */
 if (! function_exists("cubewp_kses_allowed_protocols")) {
-	function cubewp_kses_allowed_protocols( $protocols = array() ) {
-		if ( ! in_array( 'data', $protocols, true ) ) {
+	function cubewp_kses_allowed_protocols($protocols = array())
+	{
+		if (! in_array('data', $protocols, true)) {
 			$protocols[] = 'data';
 		}
 		return $protocols;
 	}
-	add_filter( 'kses_allowed_protocols', 'cubewp_kses_allowed_protocols', 10, 1 );
+	add_filter('kses_allowed_protocols', 'cubewp_kses_allowed_protocols', 10, 1);
 }
 
 /**
@@ -1367,8 +1367,9 @@ if (! function_exists("cubewp_kses_allowed_protocols")) {
  * @since  1.1.28
  */
 if (! function_exists("cubewp_kses_allowed_html")) {
-	function cubewp_kses_allowed_html( $allowed = array(), $context = 'post') {
-		if ( $context !== 'post' ) {
+	function cubewp_kses_allowed_html($allowed = array(), $context = 'post')
+	{
+		if ($context !== 'post') {
 			return $allowed;
 		}
 		$allowed['svg'] = [
@@ -1388,13 +1389,15 @@ if (! function_exists("cubewp_kses_allowed_html")) {
 		];
 		$allowed['span'] = [
 			'class' => true,
+			'style' => true,
 		];
 		$allowed['div'] = [
 			'class' => true,
+			'style' => true,
 		];
 		return $allowed;
 	}
-	add_filter( 'wp_kses_allowed_html', 'cubewp_kses_allowed_html', 10, 2 );
+	add_filter('wp_kses_allowed_html', 'cubewp_kses_allowed_html', 10, 2);
 }
 
 /**
@@ -1572,6 +1575,61 @@ if (! function_exists("render_map_value")) {
 		}
 		return $output;
 	}
+}
+
+/**
+ * Method cubewp_get_nearby_post_ids
+ *
+ * @param string $lat_meta_key
+ * @param string $lng_meta_key
+ * @param string $lat
+ * @param string $lng
+ * @param string $units
+ * @param int $proximity
+ * @param array $additional_query_args
+ *
+ * @return array Post IDs
+ * @since  1.1.29
+ */
+if ( ! function_exists('cubewp_get_nearby_post_ids') ) {
+    function cubewp_get_nearby_post_ids( $lat_meta_key = '', $lng_meta_key = '', $lat = '', $lng = '', $units = 'mi', $proximity = 50, $additional_query_args = array() ) {
+        global $wpdb;
+        
+        $earth_radius = $units == 'mi' ? 3959 : 6371;
+        
+        // Base SQL query
+        $sql = "
+        SELECT $wpdb->posts.ID,
+        ( %s * IFNULL( acos(
+            cos( radians(%s) ) *
+            cos( radians( latitude.meta_value ) ) *
+            cos( radians( longitude.meta_value ) - radians(%s) ) +
+            sin( radians(%s) ) *
+            sin( radians( latitude.meta_value ) )
+        ), 0 ) )
+        AS distance, latitude.meta_value AS latitude, longitude.meta_value AS longitude
+        FROM $wpdb->posts
+        INNER JOIN $wpdb->postmeta AS latitude ON $wpdb->posts.ID = latitude.post_id
+        INNER JOIN $wpdb->postmeta AS longitude ON $wpdb->posts.ID = longitude.post_id";
+
+        $sql .= " WHERE 1=1
+            AND ($wpdb->posts.post_status = 'publish' )
+            AND latitude.meta_key = %s
+            AND longitude.meta_key = %s";
+
+        // Finalize SQL query
+        $sql .= "
+        HAVING distance < %s
+        ORDER BY distance ASC";
+        // Prepare the SQL query
+        $sql = $wpdb->prepare( $sql, $earth_radius, $lat, $lng, $lat, $lat_meta_key, $lng_meta_key, $proximity );
+
+        // Execute the query and get the post IDs
+        $post_ids = (array) $wpdb->get_col( $sql ); // Get only post IDs
+        if ( empty( $post_ids ) ) { return; }
+
+        return $post_ids;
+    }
 }
 
 if (! function_exists("render_taxonomy_value")) {
@@ -3949,182 +4007,35 @@ if (!function_exists('cubewp_elementor_post_card_preview_styles')) {
  * Detect template type: postcard or termcard
  */
 if (!function_exists('cubewp_get_template_type')) {
-    function cubewp_get_template_type() {
-        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-        $post_id = get_the_ID() ?: (isset($_GET['post']) ? absint($_GET['post']) : 0);
+	function cubewp_get_template_type()
+	{
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$post_id = get_the_ID() ?: (isset($_GET['post']) ? absint($_GET['post']) : 0);
 
-        if (! $post_id) return false;
-        if (get_post_type($post_id) !== 'cubewp-tb') return false;
+		if (! $post_id) return false;
+		if (get_post_type($post_id) !== 'cubewp-tb') return false;
 
-        return get_post_meta($post_id, 'template_type', true); // postcard | termcard
-    }
+		return get_post_meta($post_id, 'template_type', true); // postcard | termcard
+	}
 }
 
 /**
  * Register hover controls for container/button elements
  */
 if (!function_exists('cubewp_register_hover_controls')) {
-    function cubewp_register_hover_controls($element, $args, $element_type) {
-        $template_type = cubewp_get_template_type();
-
-        if (!in_array($template_type, ['postcard', 'termcard'])) {
-            return;
-        }
-
-        $label_prefix = ($template_type === 'postcard') ? 'CubeWP Post Card Hover' : 'CubeWP Term Card Hover Effects';
-
-        $section_id = ($template_type === 'postcard')
-            ? "cwp_postcard_hover_section"
-            : "cwp_termcard_hover_section";
-
-        $element->start_controls_section(
-            $section_id,
-            [
-                'label' => esc_html__($label_prefix, 'cubewp-framework'), // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
-                'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
-            ]
-        );
-
-        /* Common Controls */
-        cubewp_add_common_hover_controls($element);
-
-        /* Button specific controls */
-        if ($element_type === 'button') {
-            $card_class = ($template_type === 'postcard') ? 'cwp-elementor-post-card' : 'cwp-elementor-term-card';
-
-            $element->add_control(
-                'cwp_hover_button_bg_color',
-                [
-                    'label' => __('Background Color', 'cubewp-framework'),
-                    'type'  => \Elementor\Controls_Manager::COLOR,
-                    'selectors' => [
-                        ".$card_class:hover .elementor-element-{$element->get_id()} .elementor-button" 
-                            => 'background-color: {{VALUE}};',
-                    ],
-                    'frontend_available' => true,
-                ]
-            );
-
-            $element->add_control(
-                'cwp_hover_button_icon_color',
-                [
-                    'label' => __('Button Text & Icon Color', 'cubewp-framework'),
-                    'type'  => \Elementor\Controls_Manager::COLOR,
-                    'selectors' => [
-                        ".$card_class:hover .elementor-element-{$element->get_id()} .elementor-button,
-                         .$card_class:hover .elementor-element-{$element->get_id()} .elementor-button .elementor-button-icon" 
-                            => 'color: {{VALUE}};',
-                        ".$card_class:hover .elementor-element-{$element->get_id()} .elementor-button .elementor-button-icon svg path" 
-                            => 'fill: {{VALUE}};',
-                    ],
-                    'frontend_available' => true,
-                ]
-            );
-        }
-
-        $element->end_controls_section();
-    }
-}
-
-/**
- * Hook: Container Controls
- */
-add_action('elementor/element/container/section_layout/after_section_end', function($element, $args) {
-    cubewp_register_hover_controls($element, $args, 'container');
-	cubewp_register_click_controls($element, $args, 'container');
-}, 20, 2);
-
-
-/**
- * Hook: Button Controls
- */
-add_action('elementor/element/button/section_style/after_section_end', function($element, $args) {
-    cubewp_register_hover_controls($element, $args, 'button');
-}, 20, 2);
-
-
-/**
- * Common Hover Controls (shared)
- */
-if (!function_exists('cubewp_add_common_hover_controls')) {
-    function cubewp_add_common_hover_controls($element)
-    {
-        $element->add_control(
-            'cwp_hover_animation_direction',
-            [
-                'label' => __('Animation Direction', 'cubewp-framework'),
-                'type' => \Elementor\Controls_Manager::SELECT,
-                'default' => 'none',
-                'options' => [
-                    'none'   => __('None', 'cubewp-framework'),
-                    'top'    => __('Top to Bottom', 'cubewp-framework'),
-                    'bottom' => __('Bottom to Top', 'cubewp-framework'),
-                    'left'   => __('Left to Right', 'cubewp-framework'),
-                    'right'  => __('Right to Left', 'cubewp-framework'),
-                    'fade'   => __('Fade In', 'cubewp-framework'),
-                    'fadeout'=> __('Fade Out', 'cubewp-framework'),
-                ],
-                'frontend_available' => true,
-            ]
-        );
-
-        $element->add_control(
-            'cwp_hover_translate_distance',
-            [
-                'label' => __('Translate Distance', 'cubewp-framework'),
-                'type' => \Elementor\Controls_Manager::SLIDER,
-                'size_units' => ['px'],
-                'range' => ['px' => ['min' => 0, 'max' => 200]],
-                'default' => ['size' => 30],
-                'condition' => ['cwp_hover_animation_direction!' => ['none', 'fade', 'fadeout']],
-                'frontend_available' => true,
-            ]
-        );
-
-        $element->add_control(
-            'cwp_hover_transition_duration',
-            [
-                'label' => __('Transition Duration (s)', 'cubewp-framework'),
-                'type' => \Elementor\Controls_Manager::SLIDER,
-                'range' => ['px' => ['min' => 0.1, 'max' => 3, 'step' => 0.1]],
-                'default' => ['size' => 0.3],
-                'condition' => ['cwp_hover_animation_direction!' => 'none'],
-                'frontend_available' => true,
-            ]
-        );
-
-        $element->add_control(
-            'cwp_hover_visibility',
-            [
-                'label' => __('Visibility on Hover', 'cubewp-framework'),
-                'type' => \Elementor\Controls_Manager::SELECT,
-                'default' => 'default',
-                'options' => [
-                    'default' => __('No Change', 'cubewp-framework'),
-                    'show'    => __('Show on Hover', 'cubewp-framework'),
-                    'hide'    => __('Hide on Hover', 'cubewp-framework'),
-                ],
-                'condition' => ['cwp_hover_animation_direction' => 'none'],
-                'frontend_available' => true,
-            ]
-        );
-    }
-}
-
-
-if (!function_exists('cubewp_register_click_controls')) {
-	function cubewp_register_click_controls($element, $args, $element_type)
+	function cubewp_register_hover_controls($element, $args, $element_type)
 	{
 		$template_type = cubewp_get_template_type();
+
 		if (!in_array($template_type, ['postcard', 'termcard'])) {
 			return;
 		}
 
-		$label_prefix = ($template_type === 'postcard') ? 'CubeWP Post Card Click' : 'CubeWP Term Card Click Effects';
+		$label_prefix = ($template_type === 'postcard') ? 'CubeWP Post Card Hover' : 'CubeWP Term Card Hover Effects';
 
 		$section_id = ($template_type === 'postcard')
-			? "cwp_postcard_click_section"
-			: "cwp_termcard_click_section";
+			? "cwp_postcard_hover_section"
+			: "cwp_termcard_hover_section";
 
 		$element->start_controls_section(
 			$section_id,
@@ -4133,10 +4044,186 @@ if (!function_exists('cubewp_register_click_controls')) {
 				'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
 			]
 		);
-		cubewp_add_common_click_controls($element);
+
+		/* Common Controls */
+		cubewp_add_common_hover_controls($element);
+
+		/* Button specific controls */
+		if ($element_type === 'button') {
+			$card_class = ($template_type === 'postcard') ? 'cwp-elementor-post-card' : 'cwp-elementor-term-card';
+
+			$element->add_control(
+				'cwp_hover_button_bg_color',
+				[
+					'label' => __('Background Color', 'cubewp-framework'),
+					'type'  => \Elementor\Controls_Manager::COLOR,
+					'selectors' => [
+						".$card_class:hover .elementor-element-{$element->get_id()} .elementor-button"
+						=> 'background-color: {{VALUE}};',
+					],
+					'frontend_available' => true,
+				]
+			);
+
+			$element->add_control(
+				'cwp_hover_button_icon_color',
+				[
+					'label' => __('Button Text & Icon Color', 'cubewp-framework'),
+					'type'  => \Elementor\Controls_Manager::COLOR,
+					'selectors' => [
+						".$card_class:hover .elementor-element-{$element->get_id()} .elementor-button,
+                         .$card_class:hover .elementor-element-{$element->get_id()} .elementor-button .elementor-button-icon"
+						=> 'color: {{VALUE}};',
+						".$card_class:hover .elementor-element-{$element->get_id()} .elementor-button .elementor-button-icon svg path"
+						=> 'fill: {{VALUE}};',
+					],
+					'frontend_available' => true,
+				]
+			);
+		}
 
 		$element->end_controls_section();
 	}
+}
+
+/**
+ * Hook: Container Controls
+ */
+add_action('elementor/element/container/section_layout/after_section_end', function ($element, $args) {
+	cubewp_register_hover_controls($element, $args, 'container');
+	cubewp_register_click_controls($element, $args, 'container');
+}, 20, 2);
+
+
+/**
+ * Hook: Button Controls
+ */
+add_action('elementor/element/button/section_style/after_section_end', function ($element, $args) {
+	cubewp_register_hover_controls($element, $args, 'button');
+}, 20, 2);
+
+
+/**
+ * Common Hover Controls (shared)
+ */
+if (!function_exists('cubewp_add_common_hover_controls')) {
+	function cubewp_add_common_hover_controls($element)
+	{
+		$element->add_control(
+			'cwp_hover_animation_direction',
+			[
+				'label' => __('Animation Direction', 'cubewp-framework'),
+				'type' => \Elementor\Controls_Manager::SELECT,
+				'default' => 'none',
+				'options' => [
+					'none'   => __('None', 'cubewp-framework'),
+					'top'    => __('Top to Bottom', 'cubewp-framework'),
+					'bottom' => __('Bottom to Top', 'cubewp-framework'),
+					'left'   => __('Left to Right', 'cubewp-framework'),
+					'right'  => __('Right to Left', 'cubewp-framework'),
+					'fade'   => __('Fade In', 'cubewp-framework'),
+					'fadeout' => __('Fade Out', 'cubewp-framework'),
+				],
+				'frontend_available' => true,
+			]
+		);
+
+		$element->add_control(
+			'cwp_hover_translate_distance',
+			[
+				'label' => __('Translate Distance', 'cubewp-framework'),
+				'type' => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => ['px'],
+				'range' => ['px' => ['min' => 0, 'max' => 200]],
+				'default' => ['size' => 30],
+				'condition' => ['cwp_hover_animation_direction!' => ['none', 'fade', 'fadeout']],
+				'frontend_available' => true,
+			]
+		);
+
+		$element->add_control(
+			'cwp_hover_transition_duration',
+			[
+				'label' => __('Transition Duration (s)', 'cubewp-framework'),
+				'type' => \Elementor\Controls_Manager::SLIDER,
+				'range' => ['px' => ['min' => 0.1, 'max' => 3, 'step' => 0.1]],
+				'default' => ['size' => 0.3],
+				'condition' => ['cwp_hover_animation_direction!' => 'none'],
+				'frontend_available' => true,
+			]
+		);
+
+		$element->add_control(
+			'cwp_hover_visibility',
+			[
+				'label' => __('Visibility on Hover', 'cubewp-framework'),
+				'type' => \Elementor\Controls_Manager::SELECT,
+				'default' => 'default',
+				'options' => [
+					'default' => __('No Change', 'cubewp-framework'),
+					'show'    => __('Show on Hover', 'cubewp-framework'),
+					'hide'    => __('Hide on Hover', 'cubewp-framework'),
+				],
+				'condition' => ['cwp_hover_animation_direction' => 'none'],
+				'frontend_available' => true,
+			]
+		);
+	}
+}
+
+
+if (!function_exists('cubewp_register_click_controls')) {
+    function cubewp_register_click_controls($element, $args, $element_type)
+    {
+        $template_type = cubewp_get_template_type();
+        if (!in_array($template_type, ['postcard', 'termcard'])) {
+            return;
+        }
+        $label_prefix = ($template_type === 'postcard') ? 'CubeWP Post Card Click' : 'CubeWP Term Card Click Effects';
+        $section_id = ($template_type === 'postcard')
+            ? "cwp_postcard_click_section"
+            : "cwp_termcard_click_section";
+        $element->start_controls_section(
+            $section_id,
+            [
+                'label' => esc_html__($label_prefix, 'cubewp-framework'), // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
+                'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
+            ]
+        );
+        cubewp_add_common_click_controls($element);
+        $element->end_controls_section();
+        $element->start_controls_section(
+            'cwp_view_switcher_section',
+            [
+                'label' => esc_html__('CubeWP View Switcher', 'cubewp-framework'), // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
+                'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
+            ]
+        );
+        $element->add_control(
+            'cwp_view_switcher_enable',
+            [
+                'label' => __('Enable View Switcher', 'cubewp-framework'),
+                'type' => \Elementor\Controls_Manager::SWITCHER,
+                'default' => 'no',
+                'frontend_available' => true,
+            ]
+        );
+        $element->add_control(
+            'cwp_view_switcher_trigger_type',
+            [
+                'label' => __('Trigger Type', 'cubewp-framework'),
+                'type' => \Elementor\Controls_Manager::SELECT,
+                'options' => [
+                    'list' => __('List View', 'cubewp-framework'),
+                    'grid' => __('Grid View', 'cubewp-framework'),
+                ],
+                'default' => 'grid',
+                'condition' => ['cwp_view_switcher_enable' => 'yes'],
+                'frontend_available' => true,
+            ]   
+        );
+        $element->end_controls_section();
+    }
 }
 
 if (!function_exists('cubewp_add_common_click_controls')) {
@@ -4330,7 +4417,7 @@ if (!function_exists('cubewp_add_common_click_controls')) {
 			]
 		);
 		$element->add_control(
-			'cwp_click_target_remove_css_transform_x',
+			'cwp_click_target_remove_css_transition',
 			[
 				'label' => __('Transition', 'cubewp-framework'),
 				'type' => \Elementor\Controls_Manager::SLIDER,
@@ -4376,6 +4463,8 @@ if (!function_exists('cubewp_woo_elementor_before_render')) {
 			'cwp_click_target_remove_css_transform',
 			'cwp_click_target_remove_css_transform_x',
 			'cwp_click_target_remove_css_transition',
+			'cwp_view_switcher_enable',
+			'cwp_view_switcher_trigger_type',
 		];
 
 		$has_settings = false;
@@ -4394,7 +4483,12 @@ if (!function_exists('cubewp_woo_elementor_before_render')) {
 		$visibility = $display['cwp_hover_visibility'] ?? 'default';
 
 		$css = [];
-		$attr = ['class' => 'cwp-hover-element'];
+		if (isset($display['cwp_view_switcher_enable']) && $display['cwp_view_switcher_enable'] === 'yes') {
+            $visibility_list = $display['cwp_view_switcher_trigger_type'] === 'list' ? ' cubewp-view-list' : ' cubewp-view-grid';
+            $attr = ['class' => 'cwp-hover-element cubewp-view-switcher ' . $visibility_list];
+        }else{
+            $attr = ['class' => 'cwp-hover-element'];
+        }
 
 		if (!($direction === 'none' && $visibility === 'default')) {
 			$css[] = "--cwp-hover-distance: {$distance}px";
@@ -4402,7 +4496,7 @@ if (!function_exists('cubewp_woo_elementor_before_render')) {
 
 			$attr['data-cwp-direction']  = $direction;
 			$attr['data-cwp-visibility'] = $visibility;
-		} 
+		}
 		if ($element->get_name() === 'button') {
 			if (!empty($display['cwp_hover_button_bg_color'])) {
 				$css[] = "--cwp-hover-bg: {$display['cwp_hover_button_bg_color']}";
@@ -4414,7 +4508,7 @@ if (!function_exists('cubewp_woo_elementor_before_render')) {
 			if (!empty($display['cwp_hover_button_bg_color']) || !empty($display['cwp_hover_button_icon_color'])) {
 				$attr['data-cwp-button-colors'] = 'true';
 			}
-		} 
+		}
 		/**
 		 * Click data attributes
 		 */

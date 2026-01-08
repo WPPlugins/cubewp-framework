@@ -5,7 +5,7 @@ Tags: custom fields, custom post types, custom taxonomies, acf, metabox
 Requires at least: 5.0
 Requires PHP: 7.4
 Tested up to: 6.9
-Stable tag: 1.1.28
+Stable tag: 1.1.29
 License: GPLv2 or later
 
 CubeWP is an end-to-end dynamic content framework for WordPress to help you shrink time and cut cost of development up to 90%.
@@ -376,7 +376,19 @@ To getting started with the plugin, please go to [Documentation](https://support
 
 == Changelog ==
 
-= 1.1.28 2025-12-17
+= 1.1.29 2026-01-08
+
+- ENHANCED: CubeWP dynamic tags extended to support Business Hours, Taxonomy Text, Google Address, Number, Text, Post Term, and Title tags for greater design flexibility.
+- FIXED: Resolved control conflict warning caused by duplicate control name cwp_click_target_remove_css_transform_x.
+- FIXED: Corrected issues where File, Image, and Gallery fields were not properly selecting items.
+- IMPROVED: Added advanced styling controls for Search Fields in the CubeWP Search Elementor Widget.
+- ADDED: New Elementor Archive Grid/List Switcher Widget for CubeWP Archive Posts.
+- ENHANCED: Advanced styling options introduced for the CubeWP Archive Map Widget.
+- ADDED: New Elementor CubeWP Search Filter Builder Widget for creating custom search filters.
+- ADDED: CubeWP Posts Widget now supports displaying Nearby Posts and Related Posts options.
+- ADDED: Introduced a keyword suggestions option for the keyword search field, configurable from CubeWP settings.
+
+= 1.1.28 2025-12-15
 
 - ADDED: Option to create and manage Post Cards directly from the Theme Builder, allowing full visual editing with Elementor for a seamless and flexible design experience.
 - ADDED: New dynamic tags — Post Excerpt, Post URL, and Post Date — for greater flexibility when building content with Elementor.

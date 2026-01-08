@@ -20,6 +20,7 @@ class CubeWp_Tag_Text extends \Elementor\Core\DynamicTags\Tag {
 	public function get_categories() {
 		return [ 
                 \Elementor\Modules\DynamicTags\Module::TEXT_CATEGORY,
+				\Elementor\Modules\DynamicTags\Module::URL_CATEGORY,
                ];
 	}
 

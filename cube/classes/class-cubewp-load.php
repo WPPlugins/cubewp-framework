@@ -24,7 +24,7 @@ final class CubeWp_Load
      *
      * @var string
      */
-    public static $CubeWp_version = '1.1.28';
+    public static $CubeWp_version = '1.1.29';
 
     /**
      * Wordpress required version.
@@ -147,6 +147,7 @@ final class CubeWp_Load
     public function frontend_includes()
     {
         add_action('cubewp_loaded', array('CubeWp_Frontend', 'init'), 9);
+        add_action('cubewp_loaded', array('CubeWp_Keyword_Suggestions', 'init'), 10);
     }
 
     /**

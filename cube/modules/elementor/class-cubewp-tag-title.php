@@ -57,6 +57,18 @@ protected function register_controls()
                 ],
             ]
         );
+        $this->add_control(
+            'text_limit',
+            [
+                'label' => esc_html__('Text Limit', 'cubewp-framework'),
+                'type' => \Elementor\Controls_Manager::NUMBER,
+                'default' => 10,
+                'min' => 1,
+                'max' => 100,
+                'step' => 1,
+                'description' => esc_html__('Set how many characters to show before truncating with ellipsis.', 'cubewp-framework'),
+            ]
+        );
     }
 
     public function render()
@@ -73,7 +85,9 @@ protected function register_controls()
         $settings = $this->get_settings_for_display();
         $enable_limit = ! empty($settings['line_limit_enable']) && $settings['line_limit_enable'] === 'yes';
         $line_limit   = ! empty($settings['line_limit']) ? intval($settings['line_limit']) : 1;
-        if ($enable_limit) {
+        $text_limit   = ! empty($settings['text_limit']) ? intval($settings['text_limit']) : 10;
+        $title = wp_trim_words($title, $text_limit, '...'); 
+        if ($enable_limit) { 
             echo '<span class="cubewp-post-title-tag cubewp-clamp-' . intval($line_limit) . '">' . esc_html($title) . '</span>';
         } else {
             echo esc_html($title);

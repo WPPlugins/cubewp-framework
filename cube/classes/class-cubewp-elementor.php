@@ -152,6 +152,8 @@ final class CubeWp_Elementor {
 			'Archive_Posts_Widget',
 			'Archive_Result_Data_Widget',
 			'Archive_Sorting_Widget',
+			'Archive_Posts_List_Grid_Widget',
+			'Search_Filter_Builder_Widget',
 			'Mega_Menu_Widget',
 			'Nav_Menu_Widget',
 		);

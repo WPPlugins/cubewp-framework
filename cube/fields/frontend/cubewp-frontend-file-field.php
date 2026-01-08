@@ -64,7 +64,7 @@ class CubeWp_Frontend_File_Field extends CubeWp_Frontend {
 						'name'  => ! empty($args['custom_name']) ? $args['custom_name'] : $args['name'],
 						'value' => '0',
 					);
-					echo wp_kses_post( cwp_render_hidden_input( $input_attrs ) );
+					echo cwp_render_hidden_input( $input_attrs );
 				}
 				$input_attrs = array(
 					'type'  => ! empty($args['type']) ? $args['type'] : 'file',
@@ -74,7 +74,7 @@ class CubeWp_Frontend_File_Field extends CubeWp_Frontend {
 					'value' => '',
 					'extra_attrs' => $args['extra_attrs'],
 				);
-				echo wp_kses_post( cwp_render_file_input( $input_attrs ) );
+				echo cwp_render_file_input( $input_attrs );
 				?>
 			</div>
 			<?php
