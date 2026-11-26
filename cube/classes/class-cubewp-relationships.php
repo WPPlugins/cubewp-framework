@@ -154,7 +154,7 @@ class CubeWp_Relationships {
 				}
 			}
 			$output .= '</div>';
-
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			echo $output;
 		}
 	}
@@ -236,20 +236,21 @@ class CubeWp_Relationships {
 			}
 			$output .= '</div>';
 
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			echo $output;
 		}
 	}
 
 	public function cubewp_remove_relation() {
-		if ( ! wp_verify_nonce( sanitize_text_field( $_POST['nonce'] ), 'cubewp_remove_nonce' ) ) {
+		if (!isset($_POST['nonce']) || ! wp_verify_nonce( sanitize_text_field( wp_unslash($_POST['nonce']) ), 'cubewp_remove_nonce' ) ) {
 			wp_send_json( array(
 				'status' => 'error',
 				'msg'    => esc_html__( "Security verification failed. Try again later.", "cubewp-framework" )
 			) );
 		}
-		$relation_id   = sanitize_text_field( $_POST['relation_id'] );
-		$relation_of   = sanitize_text_field( $_POST['relation_of'] );
-		$relation_with = sanitize_text_field( $_POST['relation_with'] );
+		$relation_id   = isset($_POST['relation_id']) ? absint( wp_unslash($_POST['relation_id']) ) : 0;
+		$relation_of   = isset($_POST['relation_of']) ? absint( wp_unslash($_POST['relation_of']) ) : 0;
+		$relation_with = isset($_POST['relation_with']) ? absint( wp_unslash($_POST['relation_with']) ) : 0;
 		if ( empty( $relation_id ) || empty( $relation_of ) || empty( $relation_with ) ) {
 			wp_send_json( array(
 				'status' => 'error',
@@ -257,11 +258,20 @@ class CubeWp_Relationships {
 			) );
 		}
 
-		$query_results = $this->wp_db->get_row( "SELECT * FROM {$this->wp_db->prefix}cube_relationships WHERE ID = '{$relation_id}' ", ARRAY_A );
+		$query_results = $this->wp_db->get_row( $this->wp_db->prepare( "SELECT * FROM {$this->wp_db->prefix}cube_relationships WHERE ID = %d", $relation_id ), ARRAY_A );
 		if ( ! empty( $query_results ) && count( $query_results ) > 0 ) {
 			$relation_data = is_serialized( $query_results['relation_data'] ) ? unserialize( $query_results['relation_data'] ) : $query_results['relation_data'];
 			$relation_key  = $query_results['relation_key'];
 			$relation_type = $query_results['relation_type'];
+
+			$relation_with_cap = ( $relation_type === 'PTU' || $relation_type === 'UTU' ) ? 'edit_user' : 'edit_post';
+			if ( ! current_user_can( $relation_with_cap, $relation_with ) ) {
+				wp_send_json( array(
+					'status' => 'error',
+					'msg'    => esc_html__( "You are not authorized to remove this relation.", "cubewp-framework" )
+				) );
+			}
+
 			if ( ! empty( $relation_data ) ) {
 				if ( isset( $relation_data[ $relation_of ] ) && ! empty( $relation_data[ $relation_of ] ) ) {
 					$position = array_search( $relation_with, $relation_data[ $relation_of ] );

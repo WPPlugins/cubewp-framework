@@ -14,13 +14,12 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class CubeWp_Frontend_Search_Fields {
     
-    private $type;
-    private $form_container_class;
-    private $form_class;
-    private $search_result_page;
-    private $search_type;
-    private $custom_fields;
-    private $search_fields;
+    public $type;
+    public $form_container_class;
+    public $form_class;
+    public $custom_fields;
+    public $form_id;
+	public $search_fields;
     
     public function __construct() {
         add_shortcode('cwpSearch', array($this, 'cwp_search'));
@@ -41,7 +40,6 @@ class CubeWp_Frontend_Search_Fields {
                 'form_container_class'  => '',
                 'form_class'            => '',
                 'form_id'               => '',
-                'search_result_page'    => '',
             ), $params)
         );
 
@@ -49,25 +47,21 @@ class CubeWp_Frontend_Search_Fields {
         $cwp_search_fields        =   CWP()->get_form('search_fields');
         $this->search_fields      =  isset($cwp_search_fields[$type]['fields']) ? $cwp_search_fields[$type]['fields'] : array();
         
+        if(empty($this->search_fields)){
+            return cwp_alert_ui('Sorry! Search form is empty.');
+        }
+
         $this->form_container_class     =  isset($cwp_search_fields[$type]['form']['form_container_class']) ? $cwp_search_fields[$type]['form']['form_container_class']   : '';
         $this->form_class               =  isset($cwp_search_fields[$type]['form']['form_class'])           ? 'cwp-search-form '.$cwp_search_fields[$type]['form']['form_class'] : 'cwp-search-form';
         $this->form_id                  =  isset($cwp_search_fields[$type]['form']['form_id'])              ? $cwp_search_fields[$type]['form']['form_id']                : 'cwp-search-'.$type;
-        $this->search_result_page       =  isset($cwp_search_fields[$type]['form']['search_result_page']) && $cwp_search_fields[$type]['form']['search_result_page'] != 'default' ? get_permalink($cwp_search_fields[$type]['form']['search_result_page'])    : home_url('/');
 
         $this->type = $type;
-        $this->search_type = $cwp_search_fields[$type]['form']['search_result_page'] == 'default' ? 'post_type' : 'search_type';
 
         wp_enqueue_style( 'frontend-fields' );
         wp_enqueue_script( 'cwp-search' );
         wp_enqueue_script('cwp-frontend-fields');
 
-        
-        
-        if(empty($this->search_fields)){
-            return cwp_alert_ui('Sorry! Search form is empty.');
-        }else{
-            return $this->cwp_search_form($params);
-        }
+        return $this->cwp_search_form($params);
     }
         
     /**
@@ -80,14 +74,17 @@ class CubeWp_Frontend_Search_Fields {
      */
     public function cwp_search_form( $params = array() ) {
         
-        $output = '<div class="cwp-frontend-search-form '. esc_attr($this->form_container_class) .'">
-            <form method="GET" id="'. esc_attr($this->form_id) .'" class="'. esc_attr($this->form_class) .'" action="'.esc_url($this->search_result_page).'" class="cwp-search-form">
-                <input type="hidden" name="'.esc_attr($this->search_type).'" value="'. esc_attr($this->type) .'">';
+        $output = '<div class="cwp-frontend-form-container">
+        <div class="cwp-frontend-search-form '. esc_attr($this->form_container_class) .'">
+            <form method="GET" id="'. esc_attr($this->form_id) .'" class="'. esc_attr($this->form_class) .'" action="'.esc_url(home_url('/')).'" class="cwp-search-form">
+                <input type="hidden" name="post_type" value="'. esc_attr($this->type) .'">
+                <input type="hidden" name="s" value="">';
         
-                $output .= $this->cwp_search_form_fields();
+                $fields_output = $this->cwp_search_form_fields();
+                $output .= is_string($fields_output) ? $fields_output : '';
    
                 $output .= '</form>
-        </div>';
+        </div></div>';
         
         $output = apply_filters('cubewp/frontend/search/form', $output, $params, $this->search_fields);
         
@@ -101,7 +98,8 @@ class CubeWp_Frontend_Search_Fields {
      * @since  1.0.0
      */
     public function cwp_search_form_fields( ) {
-        
+
+        $only_fields = [];
         $output ='<div class="search-form-fields">';
             foreach($this->search_fields as $name){
                 $fieldOptions = $name;
@@ -113,17 +111,29 @@ class CubeWp_Frontend_Search_Fields {
                     $fieldOptions['custom_name_lng'] =   $fieldOptions['name'].'_lng';
                     $fieldOptions['custom_name_range'] =   $fieldOptions['name'].'_range';
                 }
+                $fieldname = $fieldOptions['name'];
                 if($fieldOptions['type'] == 'taxonomy'){
                     $fieldOptions['appearance'] = $fieldOptions['display_ui'];
+                    $fieldname = CubeWp_Frontend_Search_Filter::taxonomy_prefix($fieldname);
                 }
                 $fieldOptions['form_type'] = 'search';
 
                 if( isset($this->custom_fields[$name['name']]) && !empty($this->custom_fields[$name['name']]) ){
                     $fieldOptions = wp_parse_args($fieldOptions, $this->custom_fields[$name['name']]);
                 }
-                
+
+                if(isset($_GET[$fieldname]) && !empty($_GET[$fieldname])){// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+                    $fieldOptions['value'] = sanitize_text_field(wp_unslash($_GET[$fieldname]));// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+                }
+
+                $only_fields[]= $fieldOptions;
                 $output .=  apply_filters("cubewp/frontend/search/{$fieldOptions['type']}/field", '', $fieldOptions);
             }
+            
+            if(wp_is_serving_rest_request()){
+                return $only_fields;
+            }
+
         $output .= '</div>';
         
         return $output;

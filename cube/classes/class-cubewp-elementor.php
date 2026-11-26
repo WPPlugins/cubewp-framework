@@ -145,7 +145,19 @@ final class CubeWp_Elementor {
 	public function register_widgets($widgets_manager) {
 		$classes = array(
 			'Taxonomy_Widget',
-			'Posts_Widget'
+			'Posts_Widget',
+			'Users_Widget',
+			'Saved_Posts_Widget',
+			'CubeWP_Form_Widget',
+			'Search_Widget',
+			'Archive_Map_Widget',
+			'Archive_Posts_Widget',
+			'Archive_Result_Data_Widget',
+			'Archive_Sorting_Widget',
+			'Archive_Posts_List_Grid_Widget',
+			'Search_Filter_Builder_Widget',
+			'Mega_Menu_Widget',
+			'Nav_Menu_Widget',
 		);
 		$classes = apply_filters("cubewp/elementor/widgets/classes", $classes);
 		if (!empty($classes && is_array($classes))) {
@@ -154,7 +166,8 @@ final class CubeWp_Elementor {
 				if (class_exists($class)) {
 					$widgets_manager->register(new $class());
 				}else {
-					wp_die(sprintf(esc_html__("%s Class Doesn't Exist.", "cubewp-framework"), $class));
+					/* translators: %s: class name. */
+					wp_die(sprintf(esc_html__("%s Class Doesn't Exist.", "cubewp-framework"), esc_html($class)));
 				}
 			}
 		}

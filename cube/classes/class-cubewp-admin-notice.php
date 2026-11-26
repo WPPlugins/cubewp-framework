@@ -33,6 +33,7 @@ class CubeWp_Admin_Notice {
 					add_action( 'admin_print_footer_scripts', array( $this, 'cubewp_admin_notice_script_event' ), 10 );
 				}
 				add_action( 'admin_notices', array( $this, 'cubewp_build_admin_notices_ui' ), 10 );
+				add_action( 'cubewp_admin_notices', array( $this, 'cubewp_build_admin_notices_ui' ), 10 );
 			}
 		}
 	}
@@ -60,6 +61,7 @@ class CubeWp_Admin_Notice {
 	public function cubewp_load_default_notices() {
 		add_action( 'admin_print_footer_scripts', array( $this, 'cubewp_admin_notice_script_event' ), 10 );
 		add_action( 'admin_notices', array( $this, 'cubewp_admin_notices' ), 10 );
+		add_action( 'cubewp_admin_notices', array( $this, 'cubewp_admin_notices' ), 10 );
 	}
 
 	/**
@@ -77,7 +79,7 @@ class CubeWp_Admin_Notice {
 		$notice_ui .= '<p>' . cubewp_core_data( $this->message ) . '</p>';
 		$notice_ui .= '</div>';
 
-		print( $notice_ui );
+		echo wp_kses_post( $notice_ui );
 	}
 
 	/**
@@ -104,18 +106,21 @@ class CubeWp_Admin_Notice {
 			$notice_ui .= '
 			<div class="cwp-welcome-page-section"><div class="flot-left cwp-logo">
 				<a href="https://cubewp.com" target="_blank"><img src="' . CWP_PLUGIN_URI . 'cube/assets/admin/images/CubeWP-light-logo.png" alt="image" /></a>
-			</div>
-			<div class="cwp-title-menu flot-left">
+			</div>';
+			if( class_exists( 'CubeWp_Forms_Custom' ) ){
+				$notice_ui .= '<div class="flot-left form-templates">
+					<a href="' . admin_url( 'admin.php?page=cubewp-custom-form-templates' ) . '">Form Templates <span class="new">New!</span></a>
+				</div>';
+			}else{
+				$notice_ui .= '<div class="flot-left form-templates">
+					<a href="' . admin_url( 'admin.php?page=cubewp-forms-unsubscribed-templates' ) . '">Form Templates <span class="new">New!</span></a>
+				</div>';
+			}
+			$notice_ui .= '<div class="cwp-title-menu flot-left">
 				<ul>
 					<li><a href="' . admin_url( 'admin.php?page=cubewp-settings' ) . '"><span class="dashicons dashicons-admin-settings"></span>Settings</a></li>
 				</ul> 
 			</div>';
-			if( !class_exists('CubeWp_Frontend_Load') ){
-				$notice_ui .= '
-				<div class="float-right cwp-update-plugin-btn">
-					<a target="_blank" href="https://appsumo.com/products/cubewp/"><span class="dashicons dashicons-lock"></span>' . esc_attr__( 'AppSumo Lifetime Deal | $49', 'cubewp-framework' ) . '</a>
-				</div>';
-			}
 			$notice_ui .= '
 			<div class="cwp-title-menu float-right">
 				<ul>
@@ -127,7 +132,8 @@ class CubeWp_Admin_Notice {
 						$notice_ui .= '<li><a href="https://cubewp.com/store" target="_blank"><span class="dashicons dashicons-buddicons-groups"></span>Add-ons</a></li>';
 					}
 			$notice_ui .= ' </ul> 
-			</div>	
+			<p class="grdnt-bg-counters linear"><a href="https://cubewp.com/pricing/" target="_Blank">All Access Starts at $19</a></p>
+			</div>
 			</div>	
 			<div class="clearfix"></div>';
 			$notice_ui .= '</div>';
@@ -157,75 +163,6 @@ class CubeWp_Admin_Notice {
 		if ( empty( get_option( 'cubewp_framework_installed_on' ) ) ) {
 			update_option( 'cubewp_framework_installed_on', strtotime( "NOW" ) );
 		}
-		$framework_installed_on = get_option( 'cubewp_framework_installed_on' );
-		$max_age = 15 * 24 * 60 * 60;
-		if (time() - $framework_installed_on > $max_age) {
-			$permanently_removed_notices = get_option( 'permanently_removed_notices' );
-			$permanently_removed_notices = ! empty( $permanently_removed_notices ) && is_array( $permanently_removed_notices ) ? $permanently_removed_notices : array();
-			if ( ! isset( $_COOKIE['cubewp-notice-rating'] ) && ! in_array( 'cubewp-notice-rating', $permanently_removed_notices ) ) {
-				$current_url = cubewp_get_current_url();
-				$current_url = add_query_arg( array(
-					'cubewp-remove-notice-permanently' => 'cubewp-notice-rating'
-				), $current_url );
-				$notice_ui .= '<div class="notice notice-info is-dismissible cubewp-notice" data-notice="cubewp-notice-rating">';
-				$notice_ui .= '<p>';
-				$notice_ui .= esc_html__( 'Hey, I noticed you\' have been using CubeWP Framework for a few weeks! Could you do me a favor and give the plugin 5-Star rating on WordPress?', 'cubewp-framework' );
-				$notice_ui .= '<br />';
-				$notice_ui .= '<a href="https://wordpress.org/support/plugin/cubewp-framework/reviews/#new-post" target="_blank">' . esc_html__( 'Yes, Take me there', 'cubewp-framework' ) . '</a>';
-				$notice_ui .= '<br />';
-				$notice_ui .= '<a href="' . esc_url( $current_url ) . '" class="cubewp-remove-notice-permanently">' . esc_html__( 'Already did it', 'cubewp-framework' ) . '</a>';
-				$notice_ui .= '</p>';
-				$notice_ui .= '<p>';
-				$notice_ui   .= '<a href="https://profiles.wordpress.org/cubewp1211/" target="_blank"><strong>' . esc_html__( '~ Emraan Cheema - Co-founder at CubeWP', 'cubewp-framework' ) . '</strong></a>';
-				$notice_ui .= '</p>';
-				$notice_ui .= '<a class="notice-dismiss" style="display: flex;justify-content: center;align-items: center;">' . esc_html__( 'Maybe Later.', 'cubewp-framework' ) . '</a>';
-				$notice_ui .= '</div>';
-			}
-		}
-		if ( ! class_exists( 'CubeWp_Frontend_Load' ) && ! class_exists( 'Classified_Load' ) ) {
-			if ( ! isset( $_COOKIE['cubewp-appsumo-promotion-notice'] ) && CWP()->is_admin_screen( 'cubewp' ) ) {
-				$notice_ui .= '<div class="cubewp-notice cubewp-appsumo-notice notice is-dismissible" data-notice="cubewp-appsumo-promotion-notice">
-					<a href="https://appsumo.com/products/cubewp" target="_blank">
-					<div class="cubewp-appsumo-notice-container">
-						<div class="cwp-promotion-display-col">
-							<div class="cwp-appsumo-notice-image">
-								<img src="' . CWP_PLUGIN_URI . '/cube/assets/admin/images/appsumo/appsumo-promotion.png" alt="image" />
-							</div>
-						</div>
-						<div class="cwp-promotion-display-col">
-							<div class="cwp-appsumo-notice-logos">
-								<img src="' . CWP_PLUGIN_URI . '/cube/assets/admin/images/CubeWP-light-logo.png" alt="image" />
-								<img src="' . CWP_PLUGIN_URI . '/cube/assets/admin/images/appsumo/appsumo.png" alt="image" />
-							</div>
-						</div>
-						<div class="cwp-promotion-display-col-70">
-							<div class="cube-notice-addons-list">
-								<ul class="cube-addons-list">
-									<li><span class="dashicons dashicons-yes"></span>Lifetime all access</li>
-									<li><span class="dashicons dashicons-yes"></span>All future add-ons</li>
-									<li><span class="dashicons dashicons-yes"></span>GDPR complaint</li>
-									<li><span class="dashicons dashicons-yes"></span>CubeWP Frontend Pro</li>
-									<li><span class="dashicons dashicons-yes"></span>CubeWP Payments</li>
-									<li><span class="dashicons dashicons-yes"></span>CubeWP inbox</li>
-									<li><span class="dashicons dashicons-yes"></span>CubeWP Reviews</li>
-									<li><span class="dashicons dashicons-yes"></span>CubeWP Booster</li>
-									<li><span class="dashicons dashicons-yes"></span>Plus, a lot More...</li>
-								</ul>
-							</div>
-						</div>
-						<div class="cwp-promotion-display-col">
-							<div class="cwp-appsumo-notice-promotion-price">
-								<div class="cwp-appsumo-notice-price">
-									<p>$49<span>/lifetime</span></p>
-								</div>
-								<img src="' . CWP_PLUGIN_URI . '/cube/assets/admin/images/appsumo/buyers-protection.png" alt="image" />
-							</div>
-						</div>
-					</div>
-					</a>
-				</div>';
-			}
-		}
         self::cubewp_remove_notices_permanently();
 
 		echo wp_kses_post( $notice_ui );
@@ -238,14 +175,16 @@ class CubeWp_Admin_Notice {
 	 * @since  1.0.0
 	 */
 	private static function cubewp_remove_notices_permanently() {
+		/* phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.NonceVerification.Missing */
 		if ( isset( $_GET['cubewp-remove-notice-permanently'] ) && ! empty( $_GET['cubewp-remove-notice-permanently'] ) ) {
 		   $permanently_removed_notices = get_option( 'permanently_removed_notices' );
 		   $permanently_removed_notices = ! empty( $permanently_removed_notices ) && is_array( $permanently_removed_notices ) ? $permanently_removed_notices : array();
-		   $permanently_removed_notices[] = sanitize_text_field( $_GET['cubewp-remove-notice-permanently'] );
+		   /* phpcs:ignore WordPress.Security.NonceVerification.Recommended */
+		   $permanently_removed_notices[] = sanitize_text_field( wp_unslash($_GET['cubewp-remove-notice-permanently'] ));
 		   update_option( 'permanently_removed_notices', $permanently_removed_notices );
 		   $current_url = cubewp_get_current_url();
 		   $current_url = remove_query_arg( 'cubewp-remove-notice-permanently', $current_url );
-		   wp_redirect( esc_url( $current_url ) );
+		   wp_safe_redirect( $current_url );
 		   exit;
 		}
 	}
@@ -264,13 +203,24 @@ class CubeWp_Admin_Notice {
 			'wordpress' => [
 				'version' => CubeWp_Load::$wp_req_version,
 				'i18n'    => [
-					'requirements' => sprintf( __( 'CubeWP requires WordPress version %1$s or higher. You are using version %2$s. Please upgrade WordPress to use CubeWP.', 'cubewp-framework' ), CubeWp_Load::$wp_req_version, $GLOBALS['wp_version'] ),
+					'requirements' => sprintf(
+						/* translators: 1: Required WordPress version, 2: Current WordPress version */
+						__( 'CubeWP requires WordPress version %1$s or higher. You are using version %2$s. Please upgrade WordPress to use CubeWP.', 'cubewp-framework' ),
+						CubeWp_Load::$wp_req_version,
+						$GLOBALS['wp_version']
+					),
 				],
 			],
-			'php'       => [
+			'php' => [
 				'version' => CubeWp_Load::$php_req_version,
 				'i18n'    => [
-					'requirements' => sprintf( __( 'CubeWP requires PHP version %1$s or higher. You are using version %2$s. Please <a href="%3$s">upgrade PHP</a> to use CubeWP.', 'cubewp-framework' ), CubeWp_Load::$php_req_version, PHP_VERSION, 'https://wordpress.org/support/upgrade-php/' ),
+					'requirements' => sprintf(
+						/* translators: 1: Required PHP version, 2: Current PHP version, 3: URL to upgrade PHP */
+						__( 'CubeWP requires PHP version %1$s or higher. You are using version %2$s. Please <a href="%3$s">upgrade PHP</a> to use CubeWP.', 'cubewp-framework' ),
+						CubeWp_Load::$php_req_version,
+						PHP_VERSION,
+						'https://wordpress.org/support/upgrade-php/'
+					),
 				],
 			],
 		];

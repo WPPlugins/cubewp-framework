@@ -39,6 +39,7 @@ jQuery(document).ready(function () {
                     cubewp_init_range_pickers(new_row.find('.cwp-field-range'));
                     new_row.find(".cwp-repeating-single-field-content").show();
                     new_row.find(".cwp-repeating-single-field-actions").addClass("cubewp-collapse");
+                    jQuery(document).trigger("cubewp-repeating-field-added", [container, new_row]);
                 },
                 before_remove: null,
                 after_remove: null,
@@ -67,6 +68,14 @@ jQuery(document).ready(function () {
             jQuery(this).closest('label').find('input[type="hidden"]').val('Yes').trigger('input');
         } else {
             jQuery(this).closest('label').find('input[type="hidden"]').val('').trigger('input');
+        }
+    });
+    jQuery(document).on('input', '.cwp-field-number input[maxlength]', function () {
+        var maxDigits = jQuery(this).attr('maxlength');
+        var inputValue = jQuery(this).val().trim();
+    
+        if (inputValue.length > maxDigits) {
+            jQuery(this).val(inputValue.slice(0, maxDigits)).trigger('input');
         }
     });
 
@@ -102,15 +111,15 @@ jQuery(document).ready(function () {
         });
     });
     jQuery(document).on('click', '.cwp-file-field-preview span', function () {
-        var $this = jQuery(this), parent = $this.closest('.cwp-file-field-container'),
-            preview = parent.find('.cwp-file-field-preview'), preview_img = preview.find('img');
+        var $this = jQuery(this),
+            parent = $this.closest('.cwp-file-field-preview'),
+            preview_img = parent.find('img');
         preview_img.attr('src', '');
-        parent.find('.cwp-file-field input[type="file"]').val('');
-        parent.find('.cwp-file-field input[type="hidden"]').val('');
-        preview.find('p').text('');
-        preview.hide();
-        preview.find('input').remove();
+        parent.find('.cwp-image-preview').val('');
+        parent.find('p').text('');
+        parent.hide();
     });
+    
 
     // Gallery Field
     jQuery(document).on('click', '.cwp-gallery-field-trigger', function (e) {
@@ -132,7 +141,7 @@ jQuery(document).ready(function () {
         field_parent.append('<div class="cwp-gallery-field-inputs">' + '<input type="hidden" name="' + hidden_file_name + '" value="' + rand_id + '">' + '<input type="file" id="' + rand_id + '" name="' + new_file_name + '" accept="' + accept + '" multiple="' + multiple + '">' + '</div>');
         cubewp_process_input_type_file($this, "image", function (fileName, fileSize, preview_) {
             var previewNew = preview.clone();
-            parent.append(previewNew);
+            parent.find('.cwp-gallery-field-preview-container').append(previewNew);
             previewNew.find('p').text(fileName + ' - ' + fileSize);
             previewNew.find('img').attr('src', preview_.target.result);
             previewNew.addClass('cloned batch-' + rand_id).css('display', 'block').attr('data-batch-id', 'batch-' + rand_id);
@@ -232,9 +241,12 @@ jQuery(document).ready(function () {
 
 
 function cubewp_init_resources() {
-    var cwp_select2 = jQuery(".cwp-select2 select"), date_picker = jQuery(".cwp-field-date_picker"),
-        time_picker = jQuery(".cwp-field-time_picker"), date_time_picker = jQuery(".cwp-field-date_time_picker"),
-        range_picker = jQuery(".cwp-field-range");
+    var cwp_select2 = jQuery(".cwp-select2 select"),
+        date_picker = jQuery(".cwp-field-date_picker"),
+        time_picker = jQuery(".cwp-field-time_picker"), 
+        date_time_picker = jQuery(".cwp-field-date_time_picker"),
+        range_picker = jQuery(".cwp-field-range"),
+        range_number_slider = jQuery(".cwp-range-number-slider-ui");
 
     // Initializing Date Picker
     if (date_picker.length > 0) {
@@ -251,10 +263,16 @@ function cubewp_init_resources() {
         cubewp_init_range_pickers(range_picker);
     }
 
+    // Initializing Number Range Slider (min/max)
+    if (range_number_slider.length > 0) {
+        cubewp_init_range_number_sliders(jQuery(document));
+    }
+
     // Initializing Date & Time Picker
     if (date_time_picker.length > 0) {
         cubewp_init_date_time_pickers(date_time_picker);
     }
+
     var date_picker_div, date_picker_div_interval = setInterval(function () {
         date_picker_div = jQuery('#ui-datepicker-div');
         if (date_picker_div.length > 0) {
@@ -267,9 +285,143 @@ function cubewp_init_resources() {
     }, 500);
 
     // Initializing Select2 On Select2 UI Dropdowns
-    if (cwp_select2.length > 0) {
+    if (cwp_select2.length > 0 ) {
         cubewp_init_select2(cwp_select2);
     }
+}
+
+function cubewp_init_range_number_sliders($scope) {
+    if (typeof jQuery.ui === 'undefined' || typeof jQuery.ui.slider === 'undefined') {
+        return;
+    }
+
+    var $sliders = $scope.find('.cwp-range-number-slider-ui');
+    if (!$sliders.length) {
+        return;
+    }
+
+    $sliders.each(function () {
+        var $ui = jQuery(this);
+        if ($ui.hasClass('cwp-range-slider-initialized')) {
+            return;
+        }
+
+        var $wrap = $ui.closest('.cwp-range-number-slider');
+        var min = parseFloat($wrap.attr('data-min'));
+        var max = parseFloat($wrap.attr('data-max'));
+        var step = parseFloat($wrap.attr('data-step'));
+
+        if (isNaN(min)) min = 0;
+        if (isNaN(max)) max = 100;
+        if (isNaN(step) || step <= 0) step = 1;
+
+        var $minInput = $wrap.find('input.cwp-range-number-min');
+        var $maxInput = $wrap.find('input.cwp-range-number-max');
+
+        var currentMin = parseFloat($minInput.val());
+        var currentMax = parseFloat($maxInput.val());
+
+        if (isNaN(currentMin)) currentMin = min;
+        if (isNaN(currentMax)) currentMax = max;
+
+        // Clamp
+        currentMin = Math.max(min, Math.min(currentMin, max));
+        currentMax = Math.max(min, Math.min(currentMax, max));
+        if (currentMin > currentMax) {
+            var tmp = currentMin;
+            currentMin = currentMax;
+            currentMax = tmp;
+        }
+
+        // Prevent recursion between slider <-> input syncing
+        var isUpdating = false;
+        var lastMin = currentMin;
+        var lastMax = currentMax;
+
+        /**
+         * Apply values to inputs and trigger events like real typing.
+         * We intentionally trigger `keyup` because Search Filters uses keyup (debounced) for number inputs.
+         *
+         * @param {number} v1 min value
+         * @param {number} v2 max value
+         * @param {boolean} commit true on slider "change", false on "slide"
+         */
+        var setInputs = function (v1, v2, commit) {
+            isUpdating = true;
+
+            // Set values first
+            $minInput.val(v1);
+            $maxInput.val(v2);
+
+            // Trigger per-side like your working noUiSlider approach
+            if (v1 !== lastMin) {
+                $minInput.trigger('input');
+                $minInput.trigger('keyup');
+                if (commit) {
+                    $minInput.trigger('change');
+                }
+            }
+
+            if (v2 !== lastMax) {
+                $maxInput.trigger('input');
+                $maxInput.trigger('keyup');
+                if (commit) {
+                    $maxInput.trigger('change');
+                }
+            }
+
+            // On commit, also trigger change once more in a stable order (max then min)
+            // to satisfy any code that serializes/builds URL on change.
+            if (commit) {
+                $maxInput.trigger('change');
+                $minInput.trigger('change');
+            }
+
+            lastMin = v1;
+            lastMax = v2;
+            isUpdating = false;
+        };
+
+        $ui.slider({
+            range: true,
+            min: min,
+            max: max,
+            step: step,
+            values: [currentMin, currentMax],
+            slide: function (event, ui) {
+                // While dragging, keep inputs in sync and trigger events so filters can react immediately.
+                setInputs(ui.values[0], ui.values[1], false);
+            },
+            change: function (event, ui) {
+                // On commit, ensure `change` is fired (in case some browsers skip during drag).
+                setInputs(ui.values[0], ui.values[1], true);
+            }
+        });
+
+        $ui.addClass('cwp-range-slider-initialized');
+
+        var syncFromInputs = function () {
+            if (isUpdating) {
+                return;
+            }
+            var v1 = parseFloat($minInput.val());
+            var v2 = parseFloat($maxInput.val());
+            if (isNaN(v1)) v1 = min;
+            if (isNaN(v2)) v2 = max;
+            v1 = Math.max(min, Math.min(v1, max));
+            v2 = Math.max(min, Math.min(v2, max));
+            if (v1 > v2) {
+                var t = v1;
+                v1 = v2;
+                v2 = t;
+            }
+            $ui.slider('values', [v1, v2]);
+            updateTexts(v1, v2);
+        };
+
+        $minInput.on('change input', syncFromInputs);
+        $maxInput.on('change input', syncFromInputs);
+    });
 }
 
 function cubewp_init_select2(selects) {
@@ -412,19 +564,26 @@ function cubewp_process_input_type_file($this, handle_as, $callbackFunction = ()
 }, $typeErrorFunction = () => {
 }) {
     var files = $this.prop('files'), sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'], type_compare = Array(),
-        allowed_image_types = Array('image/png', 'image/jpg', 'image/gif', 'image/jpeg'),
-        allowed_file_types = Array('application/gzip', 'text/calendar', 'application/pdf', 'text/plain', 'application/zip', 'application/x-7z-compressed', 'application/x-zip-compressed', 'multipart/x-zip', 'application/x-compressed');
+        allowed_image_types = Array('image/png', 'image/jpg', 'image/gif', 'image/jpeg', 'image/webp'),
+        allowed_file_types = Array('application/gzip', 'text/calendar', 'application/pdf', 'text/plain', 'application/zip', 'application/x-7z-compressed', 'application/x-zip-compressed', 'multipart/x-zip', 'application/x-compressed'),
+        max_allowed_images = $this.closest('.cwp-gallery-field').attr('data-max-files'),
+        files_count = files.length;
     if (handle_as === 'image') {
         type_compare = allowed_image_types;
     } else if (handle_as === 'file') {
         type_compare = allowed_file_types;
+    }
+    files_count += $this.closest('.cwp-gallery-field-container').find('.cwp-gallery-field-preview.cloned').length;
+    if ( files_count > max_allowed_images ) {
+        alert(cwp_frontend_fields_params.max_upload_files);
+        return false;
     }
     for (var files_counter = 0; files_counter < files.length; files_counter++) {
         (function (file_index) {
             var file = files[file_index], fileType = file["type"], fileName = file["name"], fileSize = file["size"],
                 i = parseInt(Math.floor(Math.log(fileSize) / Math.log(1024))), previewTempUrl = null,
                 file_size = (fileSize / 1024 / 1024).toFixed(2),
-                allowed_file_size = $this.attr('data-max-upload');
+                allowed_file_size = $this.closest('.cwp-gallery-field').attr('data-max-upload');
             fileSize = Math.round(fileSize / Math.pow(1024, i), 2) + ' ' + sizes[i];
             if ( file_size > allowed_file_size ) {
                 alert(cwp_frontend_fields_params.max_upload_size);
@@ -450,7 +609,7 @@ function cubewp_init_range_pickers(range_picker) {
             current_value_input = thisObj.find("input[type=range]");
         if (thisObj.parents('.cwp-repeating-single-field-template').length == 0) {
             if (!thisObj.find('.cubewp-current-value').length) {
-                current_value_input.before("<span class='cubewp-current-value'>" + current_value_input.val() + "</span>");
+                current_value_input.before(jQuery("<span class='cubewp-current-value'></span>").text(current_value_input.val()));
                 current_value_input.on("input", function () {
                     jQuery(this).closest(".cwp-field-range").find(".cubewp-current-value").text(jQuery(this).val());
                 });
@@ -461,8 +620,9 @@ function cubewp_init_range_pickers(range_picker) {
 
 function cwp_condition_logic(selectedVal, fieldVal, Compare, Target) {
     Target = '.' + Target;
+    var selectedValues = Array.isArray(selectedVal) ? selectedVal : [selectedVal];
     if (Compare === '!empty') {
-        if (selectedVal !== '' && typeof selectedVal != 'undefined') {
+        if (selectedValues.length > 0 && selectedValues.join('') !== '' && typeof selectedVal != 'undefined') {
             jQuery(Target).show();
             return true;
         } else {
@@ -470,7 +630,7 @@ function cwp_condition_logic(selectedVal, fieldVal, Compare, Target) {
             return true;
         }
     } else if (Compare === 'empty') {
-        if (selectedVal === '' || typeof selectedVal == 'undefined') {
+        if (selectedValues.length === 0 || selectedValues.join('') === '' || typeof selectedVal == 'undefined') {
             jQuery(Target).show();
             return true;
         } else {
@@ -478,7 +638,7 @@ function cwp_condition_logic(selectedVal, fieldVal, Compare, Target) {
             return true;
         }
     } else if (Compare === '==') {
-        if (selectedVal === fieldVal) {
+        if (selectedValues.indexOf(fieldVal) !== -1) {
             jQuery(Target+fieldVal).show();
             return true;
         } else {
@@ -486,7 +646,7 @@ function cwp_condition_logic(selectedVal, fieldVal, Compare, Target) {
             return true;
         }
     } else if (Compare === '!=') {
-        if (selectedVal !== fieldVal && selectedVal !== '' && typeof selectedVal != 'undefined') {
+        if (selectedValues.indexOf(fieldVal) === -1 && selectedValues.join('') !== '' && typeof selectedVal != 'undefined') {
             jQuery(Target+fieldVal).show();
             return true;
         } else {
@@ -499,45 +659,127 @@ function cwp_condition_logic(selectedVal, fieldVal, Compare, Target) {
 
 
 function cwp_conditional_fields(form_name_method) {
+    if (cwp_conditional_fields._hasRun === true) {
+        return false;
+    }
     if(form_name_method == ''){
         return false;
     }
+    cwp_conditional_fields._hasRun = true;
     var cwp_conditional_logic = jQuery('.conditional-logic');
     if (cwp_conditional_logic.length > 0) {
+        var get_conditional_field_value = function ($form, field, visibleOnly) {
+            var visibilitySelector = visibleOnly ? ':visible' : '';
+            var selector = '*' + form_name_method + '[' + field + ']"]' + visibilitySelector;
+            var multiSelector = '*' + form_name_method + '[' + field + '][]"]' + visibilitySelector;
+            var $fields = $form.find(selector);
+            var $multiFields = $form.find(multiSelector);
+            var $checkedRadio = $form.find(selector + ':checked');
+            var $checkedMulti = $form.find(multiSelector + ':checked');
+            var selectedVal = '';
 
-        cwp_conditional_logic.each(function () {
-            
+            if ($checkedRadio.length) {
+                return $checkedRadio.val();
+            }
+            if ($checkedMulti.length) {
+                return $checkedMulti.map(function () {
+                    return jQuery(this).val();
+                }).get();
+            }
+
+            if (!$fields.length && !$multiFields.length) {
+                return selectedVal;
+            }
+
+            var $firstField = $fields.length ? $fields.first() : $multiFields.first();
+            var tagName = ($firstField.prop('tagName') || '').toUpperCase();
+            var inputType = ($firstField.prop('type') || '').toLowerCase();
+
+            if (tagName === 'INPUT' && (inputType === 'checkbox' || inputType === 'radio')) {
+                return $firstField.is(':checked') ? $firstField.val() : '';
+            }
+
+            selectedVal = $firstField.val();
+            return typeof selectedVal === 'undefined' || selectedVal === null ? '' : selectedVal;
+        };
+
+        cwp_conditional_logic.each(function () { 
             var $this = jQuery(this),
-                field = $this.attr('data-field'),
-                value = $this.attr('data-value'),
-                operator = $this.attr('data-operator');
+            field = $this.attr('data-field'),
+            value = $this.attr('data-value'),
+            operator = $this.attr('data-operator');
+         
+            var parent = $this.closest('form').find('*' +form_name_method+ '[' + field + ']"]');
+            var parentRadio = $this.closest('form').find('*' +form_name_method+ '[' + field + ']"]:checked');
+            var parentCheckbox = $this.closest('form').find(form_name_method+ '[' + field + '][]"]');
+            var selectedVal = get_conditional_field_value($this.closest('form'), field, false);
+            var tagName = parent.prop('tagName');
+            if ( tagName === 'INPUT' ) {
+                var inputType = parentRadio.prop('type');
+                if ( inputType === 'radio' ) {
+                        selectedVal = $this.closest('form').find('*' +form_name_method+ '[' + field + ']"]').val();
+                }
+            }
+            if (parent.is(':checked') || (inputType !== 'radio' && (selectedVal != '' || selectedVal == ''))){
+                if(inputType === 'radio'){
+                    selectedVal = parentRadio.val();
+                }
+                cwp_condition_logic(selectedVal, value, operator, field, $this.closest('form'));
+            }else if(parentCheckbox.is(':checked')){
+                var selectedVal = parentCheckbox.val();
+                cwp_condition_logic(selectedVal, value, operator, field, $this.closest('form'));
+            } else {
+                cwp_condition_logic(selectedVal, value, operator, field, $this.closest('form'));
+            }
+
             
-                var parent = jQuery('*' +form_name_method+ '[' + field + ']"]');
-                var parentCheckbox = jQuery(form_name_method+ '[' + field + '][]"]');
-                var selectedVal = parent.val();
-                var tagName = parent.prop('tagName');
-                if ( tagName === 'INPUT' ) {
-                    var inputType = parent.prop('type');
-                    if ( inputType === 'radio' ) {
-                        selectedVal = jQuery('*' +form_name_method+ '[' + field + ']"]:selected').val();
-                    }
-                }
-                if (parent.is(':checked') || selectedVal != '' || selectedVal == ''){
-                    cwp_condition_logic(selectedVal, value, operator, field);
-                }else if(parentCheckbox.is(':checked')){
-                    var selectedVal = parentCheckbox.val();
-                    cwp_condition_logic(selectedVal, value, operator, field);
-                }
-            jQuery(document).on('change input', '*' +form_name_method+ '[' + field + ']"]', function (event) {
+            $this.closest('form').on('change input', '*' +form_name_method+ '[' + field + ']"]', function (event) {
                 event.preventDefault();
-                
                 var selectedVal = jQuery(this).val();
-                cwp_condition_logic(selectedVal, value, operator, field);
+                cwp_condition_logic(selectedVal, value, operator, field, $this.closest('form'));
+                
+                jQuery('div[class*="'+field+'"]').each(function() {
+                    if (jQuery(this).hasClass('conditional-logic')) {
+                        if (!jQuery(this).hasClass( field+selectedVal )) {
+                            jQuery('div[class*="'+jQuery(this).data('name')+'"]').each(function() {
+                                jQuery(this).hide();
+                            });
+                        }else{
+                            selected = jQuery(this).closest('form').find('*' +form_name_method+ '[' + jQuery(this).data('name') + ']"]:visible:checked').val();
+                            jQuery('div[class*="'+jQuery(this).data('name')+selected+'"]').each(function() {
+                                var $thisx = jQuery(this),
+                                fieldx = $thisx.attr('data-field'),
+                                valuex = $thisx.attr('data-value'),
+                                operatorx = $thisx.attr('data-operator');
+                            
+                                var parent = $thisx.closest('form').find('*' +form_name_method+ '[' + fieldx + ']"]:visible');
+                                var parentCheckbox = $thisx.closest('form').find(form_name_method+ '[' + fieldx + '][]"]');
+                                var selectedVal = get_conditional_field_value($thisx.closest('form'), fieldx, true);
+                                var tagName = parent.prop('tagName');
+                                if ( tagName === 'INPUT' ) {
+                                    var inputType = parent.prop('type');
+                                    if ( inputType === 'radio' ) {
+                                            selectedVal = $thisx.closest('form').find('*' +form_name_method+ '[' + fieldx + ']"]:visible:checked').val();
+                                    }
+                                }
+                                if (parent.is(':checked') || selectedVal != '' || selectedVal == ''){
+                                    cwp_condition_logic(selectedVal, valuex, operatorx, fieldx, $thisx.closest('form'));
+                                }else if(parentCheckbox.is(':checked')){
+                                    var selectedVal = parentCheckbox.val();
+                                    cwp_condition_logic(selectedVal, valuex, operatorx, fieldx, $thisx.closest('form'));
+                                } else {
+                                    cwp_condition_logic(selectedVal, valuex, operatorx, fieldx, $thisx.closest('form'));
+                                }
+                            });
+                        }
+                    }
+                });
+                
             });
 
             var value_condition = '[value="' + value + '"]';
             if (operator === '!empty' || operator === 'empty' || operator === '!=') value_condition = '';
-            jQuery(document).on('input', '*' +form_name_method+ '[' + field + '][]"]' + value_condition, function (event) {
+            $this.closest('form').on('input', '*' +form_name_method+ '[' + field + '][]"]' + value_condition, function (event) {
                 event.preventDefault();
                 var $this = jQuery(this),
                     selectedVal = '';
@@ -554,7 +796,7 @@ function cwp_conditional_fields(form_name_method) {
                         selectedVal = target_field.val();
                     }
                 }
-                cwp_condition_logic(selectedVal, value, operator, field);
+                cwp_condition_logic(selectedVal, value, operator, field, $this.closest('form'));
             });
         });
     }

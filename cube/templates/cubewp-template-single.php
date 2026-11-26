@@ -1,11 +1,12 @@
 <?php
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-if ( !cubewp_check_if_elementor_active() || cubewp_check_if_elementor_active(true)) {
-	echo cwp_alert_ui('Sorry! "CubeWP Single Post" page template only works with elementor (Free).');
+if ( !cubewp_check_if_elementor_active()) {
+	echo 'Sorry! "CubeWP Single Post" page template only works with elementor';
 	return false;
 }
 

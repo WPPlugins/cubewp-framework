@@ -1,32 +1,35 @@
 <?php
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 /**
  * The template for displaying all cubewp post type's single posts
  *
  * @link https://developer.wordpress.org/themes/basics/template-hierarchy/#single-post
  *
- * @package Blocksy
+ * @package CubeWP
  */
 
 get_header();
+global $cubewp_frontend,$cwpOptions;
 
-do_action('cubewp_single_page_notification', get_the_ID());
+$cubewp_frontend->cubewp_post_notification();
 
-$post_type = get_post_type(get_the_ID());
-if (is_cubewp_single_page_builder_active($post_type)) {
-   echo cubewp_single_page_builder_output($post_type);
-}else {
-    global $cubewp_frontend,$cwpOptions;
+if (CubeWp_Theme_Builder::is_cubewp_theme_builder_active('single')) {
+    CubeWp_Theme_Builder::do_cubewp_theme_builder('single');
+ }else {
     $single = $cubewp_frontend->single();
     wp_enqueue_style('single-cpt-styles');
     ?>
         <div class="cwp-cpt-single-container-outer">
             <div class="cwp-container">
-                 <?php echo $single->get_post_featured_image(); ?>
+                 <?php echo wp_kses_post($single->get_post_featured_image()); ?>
                 <div class="cwp-row cwp-cpt-single-content">
                     <div class="cwp-col-12 cwp-col-lg-8">
                         <div class="cwp-single-title-container cwp-row">
                           <div class="cwp-col-12 cwp-col-lg-8">
-                            <h1 class="cwp-single-title"><?php echo get_the_title(get_the_ID()); ?></h1>
+                            <h1 class="cwp-single-title"><?php echo esc_html(get_the_title(get_the_ID())); ?></h1>
                           </div>
                             <div class="cwp-col-12 cwp-col-lg-4">
                                 <div class="cwp-single-quick-actions">
@@ -61,5 +64,6 @@ if (is_cubewp_single_page_builder_active($post_type)) {
         </div>
     <?php    
 }
-do_action('cubewp_post_confirmation', get_the_ID());
+$cubewp_frontend->cubewp_post_confirmation();
+
 get_footer();

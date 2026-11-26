@@ -34,6 +34,8 @@ class CubeWp_Admin_File_Field extends CubeWp_Admin {
 		$input_name = ! empty($args['custom_name']) ? $args['custom_name'] : 'cwp_meta[' . $args['name'] . ']';
 		$class      = '';
 		$attr       = '';
+        $args['not_formatted_value'] = $args['value'];
+        $args['value'] = cwp_get_attachment_id( $args['value'] );
 		if (isset($args['value']) && ! empty($args['value'])) {
 			$remove_button = '';
 		}
@@ -49,6 +51,7 @@ class CubeWp_Admin_File_Field extends CubeWp_Admin {
         }else {
             $accept = esc_html__("PDF, zip, txt, word and other file types", 'cubewp-framework');
         }
+        /* translators: %s: allowed file types. */
         $attr   .= 'placeholder="'.sprintf(esc_html__("Allowed only: '%s'.", 'cubewp-framework'), $accept).'"';
 		$output .= '<div class="cwp-custom-field cwp-upload-field">
             <div class="cwp-field">
