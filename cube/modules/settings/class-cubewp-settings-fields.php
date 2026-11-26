@@ -56,7 +56,8 @@ class CubeWp_Settings_Fields {
             );
             $field_args['class'] = $field_args['class'] . ' cwp-single-select';
             $output .= cwp_render_dropdown_input( $field_args );
-            $args['desc'] = sprintf(__( 'Select The Page Used For %s Submission (Page must include the %s Submission Shortcode)', 'cubewp-framework' ), $postTypeLabel, $postTypeLabel);
+            /* translators: %1$s: post type label, %2$s: post type label. */
+            $args['desc'] = sprintf(__( 'Select The Page Used For %1$s Submission (Page must include the %2$s Submission Shortcode)', 'cubewp-framework' ), esc_html($postTypeLabel), esc_html($postTypeLabel));
             $output .= apply_filters( "cubewp/settings/desc/field", '', $args );
             $output .= '</fieldset>';
         }
@@ -275,13 +276,13 @@ class CubeWp_Settings_Fields {
             $output   .= '<fieldset id="cwp-'. esc_attr($args['id']).'" class="cwp-field-container cwp-'. esc_attr($args['type']).'-container" data-id="'. esc_attr($args['id']).'" data-type="'. esc_attr($args['type']).'">';
             
                 $field_args = array(
-                    'id'                =>  $args['id'],
-                    'name'              =>  $args['id'],
-                    'placeholder'       =>  $args['placeholder'],
-                    'class'             =>  $args['class'],
-                    'value'             =>  $args['value'],
-                    'extra_attrs'       =>  $args['extra_attrs'],
-                    'row'               =>  $args['row'],
+                    'id'                =>  isset($args['id']) ? $args['id'] : '',
+                    'name'              =>  isset($args['id']) ? $args['id'] : '',
+                    'placeholder'       =>  isset($args['placeholder']) ? $args['placeholder'] : '',
+                    'class'             =>  isset($args['class']) ? $args['class'] : '',
+                    'value'             =>  isset($args['value']) ? $args['value'] : '',
+                    'extra_attrs'       =>  isset($args['extra_attrs']) ? $args['extra_attrs'] : '',
+                    'row'               =>  isset($args['row']) ? $args['row'] : 10,
                 );
                 $output .= cwp_render_textarea_input( $field_args );
                 $output .= apply_filters("cubewp/settings/desc/field", '', $args);
@@ -504,7 +505,7 @@ class CubeWp_Settings_Fields {
                     }
                 }
                 $output .= '<a href="' . $image_thumb . '" target="_blank"><img id="' . $args['id'] . '_preview" class="image_preview" alt="image" src="' . $image_thumb . '" /></a>' . "\n";
-                $output .= '<input id="' . $args['id'] . '_button" data-multiple="false" type="button" data-uploader_title="' . __('Upload', 'cubewp-framework') . '" data-uploader_button_text="' . __('Use image', 'cubewp-framework') . '" class="image_upload_button button" value="' . __('Upload', 'plugin_textdomain') . '" />' . "\n";
+                $output .= '<input id="' . $args['id'] . '_button" data-multiple="false" type="button" data-uploader_title="' . __('Upload', 'cubewp-framework') . '" data-uploader_button_text="' . __('Use image', 'cubewp-framework') . '" class="image_upload_button button" value="' . __('Upload', 'cubewp-framework') . '" />' . "\n";
                 $output .= '<input id="' . $args['id'] . '_delete" type="button" class="image_delete_button button" value="' . __('Remove', 'cubewp-framework') . '" />' . "\n";
                 $output .= '<input id="' . $args['id'] . '" class="image_data_field" type="hidden" name="' . $args['id'] . '" value="' . $args['value'] . '"/><br/>' . "\n";
 
@@ -562,6 +563,15 @@ class CubeWp_Settings_Fields {
     
     public function typography_field( $output = '', $args = array() ){
         $args   =  $this->default_input_parameters( $args );
+
+        if ( function_exists( 'cubewp_typography_responsive_default_keys' ) ) {
+            $responsive_defaults = cubewp_typography_responsive_default_keys();
+            if ( isset( $args['value'] ) && is_array( $args['value'] ) ) {
+                $args['value'] = wp_parse_args( $args['value'], $responsive_defaults );
+            } else {
+                $args['value'] = $responsive_defaults;
+            }
+        }
         
         $output = apply_filters("cubewp/settings/heading/field", '', $args);
         
@@ -623,7 +633,7 @@ class CubeWp_Settings_Fields {
                     $output .= '</div>';
 
                     $output .= '<div class="input_wrapper font-size">';
-                        $output .= '<label for="'. $args['id']. '-font-size">'.esc_html__("Font Size (px)", "cubewp-framework") .'</label>';
+                        $output .= '<label for="'. $args['id']. '-font-size">'.esc_html__("Font Size (Desktop)", "cubewp-framework") .'</label>';
                         $field_args = array(
                             'id'                =>  $args['id'].'-font-size',
                             'name'              =>  $args['id'].'[font-size]',
@@ -634,6 +644,30 @@ class CubeWp_Settings_Fields {
                         $output .= cwp_render_text_input( $field_args );
                         $output .= apply_filters("cubewp/settings/desc/field", '', $args);
                     $output .= '</div>';
+
+                    $output .= '<div class="input_wrapper font-size-tablet">';
+                        $output .= '<label for="'. esc_attr( $args['id'] ) . '-font-size-tablet">'.esc_html__( 'Font Size (Tablet)', 'cubewp-framework' ) .'</label>';
+                        $field_args = array(
+                            'id'                =>  $args['id'] . '-font-size-tablet',
+                            'name'              =>  $args['id'] . '[font-size-tablet]',
+                            'placeholder'       =>  esc_attr__( 'e.g. 18px — max-width 1024px', 'cubewp-framework' ),
+                            'class'             =>  $args['class'],
+                            'value'             =>  isset( $args['value']['font-size-tablet'] ) ? $args['value']['font-size-tablet'] : '',
+                        );
+                        $output .= cwp_render_text_input( $field_args );
+                    $output .= '</div>';
+
+                    $output .= '<div class="input_wrapper font-size-mobile">';
+                        $output .= '<label for="'. esc_attr( $args['id'] ) . '-font-size-mobile">'.esc_html__( 'Font Size (Mobile)', 'cubewp-framework' ) .'</label>';
+                        $field_args = array(
+                            'id'                =>  $args['id'] . '-font-size-mobile',
+                            'name'              =>  $args['id'] . '[font-size-mobile]',
+                            'placeholder'       =>  esc_attr__( 'e.g. 16px — max-width 767px', 'cubewp-framework' ),
+                            'class'             =>  $args['class'],
+                            'value'             =>  isset( $args['value']['font-size-mobile'] ) ? $args['value']['font-size-mobile'] : '',
+                        );
+                        $output .= cwp_render_text_input( $field_args );
+                    $output .= '</div>';
                     
                     $output .= '<div class="input_wrapper line-height">';
                         $output .= '<label for="'. $args['id']. '-line-height">'.esc_html__("Line Height (px)", "cubewp-framework") .'</label>';
@@ -643,6 +677,19 @@ class CubeWp_Settings_Fields {
                             'placeholder'       =>  $args['placeholder'],
                             'class'             =>  $args['class'],
                             'value'             =>  isset($args['value']['line-height']) ? $args['value']['line-height'] : '',
+                        );
+                        $output .= cwp_render_text_input( $field_args );
+                        $output .= apply_filters("cubewp/settings/desc/field", '', $args);
+                    $output .= '</div>';
+
+                    $output .= '<div class="input_wrapper letter-spacing">';
+                        $output .= '<label for="'. $args['id']. '-letter-spacing">'.esc_html__("Letter Spacing (px)", "cubewp-framework") .'</label>';
+                        $field_args = array(
+                            'id'                =>  $args['id'].'-letter-spacing',
+                            'name'              =>  $args['id'].'[letter-spacing]',
+                            'placeholder'       =>  $args['placeholder'],
+                            'class'             =>  $args['class'],
+                            'value'             =>  isset($args['value']['letter-spacing']) ? $args['value']['letter-spacing'] : '',
                         );
                         $output .= cwp_render_text_input( $field_args );
                         $output .= apply_filters("cubewp/settings/desc/field", '', $args);
@@ -719,7 +766,12 @@ class CubeWp_Settings_Fields {
         $taxonomy = $args['args']['taxonomies'];
    
         unset($args['args']['taxonomies']);
-        $terms    = get_terms( $taxonomy, $args['args'] );
+        // Merge taxonomy into args array
+        $terms_args = array_merge( $args['args'], array(
+            'taxonomy' => $taxonomy,
+            'hide_empty' => false,
+        ));
+        $terms = get_terms( $terms_args );
         
         $options = array();
         if(isset($terms) && !empty($terms) && !isset($terms->errors)){

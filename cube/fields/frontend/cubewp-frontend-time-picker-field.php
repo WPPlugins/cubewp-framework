@@ -44,7 +44,7 @@ class CubeWp_Frontend_Time_Picker_Field extends CubeWp_Frontend {
         $output         = self::cwp_frontend_post_field_container($args);
         
         if($args['value'] != '' && is_numeric($args['value'])){
-            $args['value'] = date(get_option('time_format'), $args['value']);
+            $args['value'] = wp_date(get_option('time_format'), $args['value']);
         }
             $output .= self::cwp_frontend_field_label($args);
             $input_attrs = array( 
@@ -66,7 +66,7 @@ class CubeWp_Frontend_Time_Picker_Field extends CubeWp_Frontend {
 
         $output .= '</div>';
 
-        $output = apply_filters("cubewp/frontend/{$args['name']}/field", $output, $args);
+        $output = CubeWp_Frontend::cwp_field_output_filter($output, $args);
         
         return $output;
     }

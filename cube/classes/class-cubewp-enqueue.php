@@ -6,6 +6,8 @@
  * @package cubewp/cube/classes
  */
 
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -63,7 +65,15 @@ class CubeWp_Enqueue extends CubeWp_Admin_Enqueue {
 			CubeWp_Enqueue::enqueue_style( 'cwp-alert-ui' );
 			CubeWp_Enqueue::enqueue_script( 'cwp-alert-ui' );
 			$file_path = CUBEWP_POST_CARDS_DIR . '/cubewp-post-cards.css';
-			if (file_exists(dirname($file_path))) {
+			// Test the FILE, not its directory: the directory survives a migration
+			// while the file may not, and a <link> to a missing stylesheet is a 404
+			// on every page load (site 417, 2026-09-07). The file is written only
+			// when Post Cards settings are saved in wp-admin; if it is missing but its
+			// source exists, rebuild it here so one lost file does not need a human.
+			if ( ! file_exists( $file_path ) && class_exists( 'CubeWp_Admin' ) && method_exists( 'CubeWp_Admin', 'cubewp_rebuild_post_card_css' ) ) {
+				CubeWp_Admin::cubewp_rebuild_post_card_css();
+			}
+			if ( file_exists( $file_path ) ) {
 				CubeWp_Enqueue::enqueue_style( 'cwp-post-cards' );
 			}
 		}
@@ -80,7 +90,10 @@ class CubeWp_Enqueue extends CubeWp_Admin_Enqueue {
 			}
 		}
 
-		echo apply_filters( 'frontend/script/enqueue', '' );
+		$cubewp_front_inline = apply_filters( 'frontend/script/enqueue', '' );
+		if ( ! empty( $cubewp_front_inline ) ) {
+			echo wp_kses_post( $cubewp_front_inline );
+		}
 		self::cubewp_enqueue_settings_css_js();
 
 	}
@@ -158,7 +171,7 @@ class CubeWp_Enqueue extends CubeWp_Admin_Enqueue {
 			),
 			'cwp-frontend-fields'      => array(
 				'src'     => CWP_PLUGIN_URI . 'cube/assets/frontend/js/frontend-fields.js',
-				'deps'    => array( 'jquery' ),
+				'deps'    => array( 'jquery', 'jquery-ui-slider' ),
 				'version' => CUBEWP_VERSION,
 			),
 			'cwp-repeating-fields'     => array(
@@ -171,6 +184,11 @@ class CubeWp_Enqueue extends CubeWp_Admin_Enqueue {
 				'deps'    => array( 'jquery' ),
 				'version' => CUBEWP_VERSION,
 			),
+			'cwp-filter-builder'     => array(
+                'src'     => CWP_PLUGIN_URI . 'cube/assets/frontend/js/cubewp-elementor-filter-builder.js',
+                'deps'    => array( 'jquery' ),
+                'version' => CUBEWP_VERSION,
+            ),
 			'cwp-google-address-field' => array(
 				'src'     => CWP_PLUGIN_URI . 'cube/assets/frontend/js/google-address-field.js',
 				'deps'    => array( 'google_map_api' ),
@@ -345,6 +363,20 @@ class CubeWp_Enqueue extends CubeWp_Admin_Enqueue {
 			case 'cubewp-map':
 				$params = _get_map_settings();
 				break;
+			case 'cwp-filter-builder':
+				$params = array(
+					'ajax_url'  => admin_url( 'admin-ajax.php' ),
+					'admin_url' => admin_url(),
+					'nonce' 	=> wp_create_nonce("cubewp_filters_conditional_nonce"),
+				);
+				break;
+			case 'cwp-google-address-field':
+				$cwp_options  = ! empty( $cwpOptions ) && is_array( $cwpOptions ) ? $cwpOptions : get_option( 'cwpOptions', array() );
+				$params = array(
+					'google_address_city_location' => isset( $cwp_options['google_address_city_location'] ) && $cwp_options['google_address_city_location'] == '1',
+					'google_address_country_code'  => isset( $cwp_options['google_address_country_code'] ) ? sanitize_text_field( $cwp_options['google_address_country_code'] ) : '',
+				);
+				break;
 			default:
 				$params = false;
 		}
@@ -359,20 +391,24 @@ class CubeWp_Enqueue extends CubeWp_Admin_Enqueue {
 			  global $cwpOptions;
 			  $cwpOptions = ! empty( $cwpOptions ) && is_array( $cwpOptions ) ? $cwpOptions : get_option( 'cwpOptions' );
 			  $cubewp_css = isset( $cwpOptions['cubewp-css'] ) && ! empty( $cwpOptions['cubewp-css'] ) ? $cwpOptions['cubewp-css'] : '';
-			  echo '<style type="text/css">
-				 ' . $cubewp_css . '
-				</style>';
+			  if ( ! empty( $cubewp_css ) ) {
+				  // Attach custom CSS inline to a known handle to avoid raw echo.
+				  wp_add_inline_style( 'cwp-styles', $cubewp_css );
+			  }
 		   } );
 	
-		   add_action( 'wp_footer', function(){
+		   // Enqueue custom JS early enough so inline script is printed.
+		   add_action( 'wp_enqueue_scripts', function(){
 			  global $cwpOptions;
 			  $cwpOptions = ! empty( $cwpOptions ) && is_array( $cwpOptions ) ? $cwpOptions : get_option( 'cwpOptions' );
 			  $cubewp_js = isset( $cwpOptions['cubewp-js'] ) && ! empty( $cwpOptions['cubewp-js'] ) ? $cwpOptions['cubewp-js'] : '';
-			  wp_enqueue_script( 'jquery' );
-			  echo '<script type="text/javascript">
-				 ' . $cubewp_js . '
-				</script>';
-		   } );
+			  if ( ! empty( $cubewp_js ) ) {
+				  // Print this inline in the footer and after jQuery.
+				  wp_register_script( 'cwp-scripts', '', array( 'jquery' ), CUBEWP_VERSION, true );
+				  wp_enqueue_script( 'cwp-scripts' );
+				  wp_add_inline_script( 'cwp-scripts', $cubewp_js );
+			  }
+		   }, 20 );
 		}
 	}
 

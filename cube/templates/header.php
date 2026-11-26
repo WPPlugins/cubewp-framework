@@ -1,3 +1,8 @@
+<?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
@@ -15,6 +20,7 @@
 </head>
 <body <?php body_class(); ?>>
 <?php
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals
 	wp_body_open();
 
 	if ( is_singular( 'cubewp-tb' ) ) {

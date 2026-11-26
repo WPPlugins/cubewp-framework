@@ -9,6 +9,8 @@
  * @version 1.0
  */
 
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -140,7 +142,7 @@ class CubeWp_Submenu {
             array(
                 'id'           =>  'cubewp-loop-builder',
                 'parent'       =>  'cube_wp_dashboard',
-                'title'        =>  esc_html__('Post Cards', 'cubewp-framework').'<span class="new-feature-tag"></span>',
+                'title'        =>  esc_html__('Post Cards', 'cubewp-framework'),
                 'callback'     =>  'cubewp-loop-builder',
                 'position'     => 12
             ),

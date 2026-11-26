@@ -1,11 +1,15 @@
 <?php
+
 /**
  * CubeWp Admin Functions
  *
  * @version 1.0
  * @package cubewp/cube/functions
  */
-if ( ! defined('ABSPATH')) {
+
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals
+
+if (! defined('ABSPATH')) {
 	exit;
 }
 
@@ -18,8 +22,9 @@ if ( ! defined('ABSPATH')) {
  * @return string
  * @since  1.0.0
  */
-if ( ! function_exists("cwp_get_meta")) {
-	function cwp_get_meta($meta_key = '', $post_id = '') {
+if (! function_exists("cwp_get_meta")) {
+	function cwp_get_meta($meta_key = '', $post_id = '')
+	{
 		if ($post_id == '' || $post_id == 0) {
 			global $post;
 			$post_id = isset($post->ID) ? $post->ID : '';
@@ -41,8 +46,9 @@ if ( ! function_exists("cwp_get_meta")) {
  * @return string
  * @since  1.0.0
  */
-if ( ! function_exists("cwp_get_image_alt")) {
-	function cwp_get_image_alt($attachment_id = 0) {
+if (! function_exists("cwp_get_image_alt")) {
+	function cwp_get_image_alt($attachment_id = 0)
+	{
 		return get_post_meta($attachment_id, '_wp_attachment_image_alt', true);
 	}
 }
@@ -53,9 +59,10 @@ if ( ! function_exists("cwp_get_image_alt")) {
  * @return bool
  * @since  1.0.0
  */
-function isJson($string) {
-    json_decode($string);
-    return json_last_error() === JSON_ERROR_NONE;
+function isJson($string)
+{
+	json_decode($string);
+	return json_last_error() === JSON_ERROR_NONE;
 }
 
 /**
@@ -64,10 +71,11 @@ function isJson($string) {
  * @return string html
  * @since  1.0.0
  */
-if ( ! function_exists("cwp_breadcrumb")) {
-	function cwp_breadcrumb() {
+if (! function_exists("cwp_breadcrumb")) {
+	function cwp_breadcrumb()
+	{
 		$output = '';
-		if ( ! is_home()) {
+		if (! is_home()) {
 			$output .= '<div class="quick-breadcrum cal-margin-bottom-30">';
 			$output .= '<ul class="clearfix">';
 
@@ -89,8 +97,9 @@ if ( ! function_exists("cwp_breadcrumb")) {
  * @return array
  * @since  1.0.0
  */
-if ( ! function_exists("cwp_post_types")) {
-	function cwp_post_types() {
+if (! function_exists("cwp_post_types")) {
+	function cwp_post_types()
+	{
 		$args = array(
 			'public' => true,
 		);
@@ -107,8 +116,9 @@ if ( ! function_exists("cwp_post_types")) {
  * @return array
  * @since  1.0.0
  */
-if ( ! function_exists("cwp_pages_list")) {
-	function cwp_pages_list() {
+if (! function_exists("cwp_pages_list")) {
+	function cwp_pages_list()
+	{
 		$pages = get_pages();
 		$list = array();
 		foreach ($pages as $page) {
@@ -126,8 +136,9 @@ if ( ! function_exists("cwp_pages_list")) {
  *
  * @return array $taxonomies List of Taxonomies.
  */
-if ( ! function_exists("cwp_tax_by_PostType")) {
-	function cwp_tax_by_PostType($type = '', $output = '') {
+if (! function_exists("cwp_tax_by_PostType")) {
+	function cwp_tax_by_PostType($type = '', $output = '')
+	{
 		$args = array(
 			'public'      => true,
 			'object_type' => array($type)
@@ -147,8 +158,9 @@ if ( ! function_exists("cwp_tax_by_PostType")) {
  *
  * @return array $taxonomies List of Taxonomies.
  */
-if ( ! function_exists("cwp_taxonomies")) {
-	function cwp_taxonomies() {
+if (! function_exists("cwp_taxonomies")) {
+	function cwp_taxonomies()
+	{
 		$args = array(
 			'public' => true,
 		);
@@ -162,8 +174,9 @@ if ( ! function_exists("cwp_taxonomies")) {
  *
  * @return array $taxonomies List of Taxonomies.
  */
-if ( ! function_exists("cwp_get_taxonomy")) {
-	function cwp_get_taxonomy($taxonomy = '') {
+if (! function_exists("cwp_get_taxonomy")) {
+	function cwp_get_taxonomy($taxonomy = '')
+	{
 		return get_taxonomy($taxonomy);
 	}
 }
@@ -173,8 +186,9 @@ if ( ! function_exists("cwp_get_taxonomy")) {
  *
  * @return array $terms List of Terms|string Empty.
  */
-if ( ! function_exists("cwp_all_terms")) {
-	function cwp_all_terms() {
+if (! function_exists("cwp_all_terms")) {
+	function cwp_all_terms()
+	{
 		$terms      = array();
 		$post_types = get_option('cwp_custom_types');
 		foreach ($post_types as $key => $single) {
@@ -185,7 +199,6 @@ if ( ! function_exists("cwp_all_terms")) {
 					'hide_empty' => false
 				));
 			}
-
 		}
 
 		return $terms;
@@ -197,11 +210,21 @@ if ( ! function_exists("cwp_all_terms")) {
  *
  * @return array $terms List of Terms.
  */
-if ( ! function_exists("cwp_all_terms_by")) {
-	function cwp_all_terms_by($taxonomy = '') {
-		return get_terms($taxonomy, array('hide_empty' => false));
+if (! function_exists('cwp_all_terms_by')) {
+	function cwp_all_terms_by($taxonomy = '')
+	{
+
+		if (empty($taxonomy)) {
+			return array();
+		}
+
+		return get_terms(array(
+			'taxonomy'   => $taxonomy,
+			'hide_empty' => false,
+		));
 	}
 }
+
 
 /**
  * Method get_terms_by_post_type_or_types
@@ -210,44 +233,45 @@ if ( ! function_exists("cwp_all_terms_by")) {
  *
  * @return array
  */
-function cubewp_terms_by_post_types($post_types) {
-    // Ensure $post_types is an array
-    if (!is_array($post_types)) {
-        $post_types = array($post_types);
-    }
+function cubewp_terms_by_post_types($post_types)
+{
+	// Ensure $post_types is an array
+	if (!is_array($post_types)) {
+		$post_types = array($post_types);
+	}
 
-    // Initialize an array to hold the terms
-    $terms_array = array();
+	// Initialize an array to hold the terms
+	$terms_array = array();
 
-    // Loop through each post type
-    foreach ($post_types as $post_type) {
-        // Get all taxonomies for the post type
-        $taxonomies = get_object_taxonomies($post_type);
+	// Loop through each post type
+	foreach ($post_types as $post_type) {
+		// Get all taxonomies for the post type
+		$taxonomies = get_object_taxonomies($post_type);
 
-        // Loop through each taxonomy
-        foreach ($taxonomies as $taxonomy) {
-            // Get all terms for the taxonomy
-            $terms = get_terms(array(
-                'taxonomy' => $taxonomy,
-                'hide_empty' => false,
-            ));
+		// Loop through each taxonomy
+		foreach ($taxonomies as $taxonomy) {
+			// Get all terms for the taxonomy
+			$terms = get_terms(array(
+				'taxonomy' => $taxonomy,
+				'hide_empty' => false,
+			));
 
-            // Check if there are terms and there is no error
-            if (!is_wp_error($terms) && !empty($terms)) {
-                // Loop through each term and add it to the array
-                foreach ($terms as $term) {
-                    $terms_array[$term->term_id] = array(
-                        'slug' => $term->slug,
-                        'name' => $term->name,
-                        'taxonomy' => $taxonomy,
-                        'post_type' => $post_type
-                    );
-                }
-            }
-        }
-    }
+			// Check if there are terms and there is no error
+			if (!is_wp_error($terms) && !empty($terms)) {
+				// Loop through each term and add it to the array
+				foreach ($terms as $term) {
+					$terms_array[$term->term_id] = array(
+						'slug' => $term->slug,
+						'name' => $term->name,
+						'taxonomy' => $taxonomy,
+						'post_type' => $post_type
+					);
+				}
+			}
+		}
+	}
 
-    return $terms_array;
+	return $terms_array;
 }
 
 /**
@@ -257,10 +281,11 @@ function cubewp_terms_by_post_types($post_types) {
  *
  * @return array $terms List of Terms.
  */
-if ( ! function_exists("cwp_term_by")) {
-	function cwp_term_by($by = '', $type = '', $terms = '', $single = false) {
-		if ( ! empty($terms)) {
-			if ( ! $single) {
+if (! function_exists("cwp_term_by")) {
+	function cwp_term_by($by = '', $type = '', $terms = '', $single = false)
+	{
+		if (! empty($terms)) {
+			if (! $single) {
 				$termArr = $terms;
 				if ($type == 'comma') {
 					$termArr = explode(',', $terms);
@@ -312,7 +337,7 @@ if ( ! function_exists("cwp_term_by")) {
 			}
 		}
 
-        return $terms;
+		return $terms;
 	}
 }
 
@@ -324,8 +349,9 @@ if ( ! function_exists("cwp_term_by")) {
  * @return bool
  * @since  1.0.0
  */
-if ( ! function_exists("cwp_plan_exist_status_by_posttype")) {
-	function cwp_plan_exist_status_by_posttype($posttype) {
+if (! function_exists("cwp_plan_exist_status_by_posttype")) {
+	function cwp_plan_exist_status_by_posttype($posttype)
+	{
 		$found = false;
 		$plans = cwp_get_posts('price_plan');
 		foreach ($plans as $id => $plan) {
@@ -347,8 +373,9 @@ if ( ! function_exists("cwp_plan_exist_status_by_posttype")) {
  *
  * @return bool
  */
-if ( ! function_exists("cwp_has_shortcode_pages_array")) {
-	function cwp_has_shortcode_pages_array($shortcode = '') {
+if (! function_exists("cwp_has_shortcode_pages_array")) {
+	function cwp_has_shortcode_pages_array($shortcode = '')
+	{
 		$id        = array();
 		$args      = array('post_type' => 'page');
 		$the_query = new WP_Query($args);
@@ -371,8 +398,9 @@ if ( ! function_exists("cwp_has_shortcode_pages_array")) {
  * @return string
  * @since  1.0.0
  */
-if ( ! function_exists("cwp_google_api_key")) {
-	function cwp_google_api_key() {
+if (! function_exists("cwp_google_api_key")) {
+	function cwp_google_api_key()
+	{
 		global $cwpOptions;
 		if (isset($cwpOptions['google_map_api']) && ! empty($cwpOptions['google_map_api'])) {
 			$mapAPI = $cwpOptions['google_map_api'];
@@ -390,10 +418,11 @@ if ( ! function_exists("cwp_google_api_key")) {
  * @return string html
  * @since  1.0.0
  */
-if ( ! function_exists("cwp_associated_taxonomies_terms_links")) {
-	function cwp_associated_taxonomies_terms_links() {
+if (! function_exists("cwp_associated_taxonomies_terms_links")) {
+	function cwp_associated_taxonomies_terms_links()
+	{
 		// Get post by post ID.
-		if ( ! $post = get_post()) {
+		if (! $post = get_post()) {
 			return '';
 		}
 		// Get post type by post.
@@ -404,7 +433,7 @@ if ( ! function_exists("cwp_associated_taxonomies_terms_links")) {
 		foreach ($taxonomies as $taxonomy_slug => $taxonomy) {
 			// Get the terms related to post.
 			$terms = get_the_terms($post->ID, $taxonomy_slug);
-			if ( ! empty($terms)) {
+			if (! empty($terms)) {
 				$out[] = "<ul class='cwp-loop-terms'>";
 				foreach ($terms as $term) {
 					$out[] = sprintf('<li><a href="%1$s">%2$s</a></li>', esc_url(get_term_link($term->slug, $taxonomy_slug)), esc_html($term->name));
@@ -426,16 +455,17 @@ if ( ! function_exists("cwp_associated_taxonomies_terms_links")) {
  * @return string
  * @since  1.0.0
  */
-if ( ! function_exists("is_cubewp_post_saved")) {
-	function is_cubewp_post_saved($postid, $class = true) {
+if (! function_exists("is_cubewp_post_saved")) {
+	function is_cubewp_post_saved($postid, $class = true)
+	{
 		if (is_user_logged_in()) {
 			$uid       = get_current_user_id();
 			$savePosts = get_user_meta($uid, 'cwp_save_user_post', true);
-			if ( ! is_array($savePosts)) {
+			if (! is_array($savePosts)) {
 				$savePosts = (array) $savePosts;
 			}
 		} else {
-			$savePosts = (isset($_COOKIE['CWP_Saved'])) ? explode(',', (string) sanitize_text_field($_COOKIE['CWP_Saved'])) : array();
+			$savePosts = (isset($_COOKIE['CWP_Saved'])) ? explode(',', (string) sanitize_text_field(wp_unslash($_COOKIE['CWP_Saved']))) : array();
 			$savePosts = array_map('absint', $savePosts); // Clean cookie input, it's user input!
 		}
 		if ($class) {
@@ -444,13 +474,13 @@ if ( ! function_exists("is_cubewp_post_saved")) {
 			} else {
 				return 'cwp-save-post';
 			}
-		}else {
+		} else {
 			if (in_array($postid, $savePosts)) {
 				return true;
 			} else {
 				return false;
 			}
-        }
+		}
 	}
 }
 
@@ -459,8 +489,9 @@ if ( ! function_exists("is_cubewp_post_saved")) {
  *
  * @since  1.0.0
  */
-if ( ! function_exists("get_post_save_button")) {
-	function get_post_save_button($post_id) {
+if (! function_exists("get_post_save_button")) {
+	function get_post_save_button($post_id)
+	{
 		$isSaved = '';
 		if (class_exists('CubeWp_Saved')) {
 			$SavedClass = CubeWp_Saved::is_cubewp_post_saved($post_id, false, true);
@@ -490,40 +521,171 @@ if ( ! function_exists("get_post_save_button")) {
  * @since  1.0.0
  */
 if (!function_exists("CubeWp_frontend_grid_HTML")) {
-    function CubeWp_frontend_grid_HTML($post_id, $col_class = 'cwp-col-12 cwp-col-md-6', $style = false)
-    {
-        $post_type = get_post_type($post_id);
-        $post_card = include(CUBEWP_FILES . 'templates/post-card.php');
-        if (function_exists('cubewp_get_loop_builder_by_post_type')) {
-            $dynamic_layout = cubewp_get_loop_builder_by_post_type(get_post_type($post_id), $style, $post_id);
-            if (!empty($dynamic_layout)) {
-                $post_card = cubewp_core_data($dynamic_layout);
-            }
-        }
-        ob_start();
-        $postID_for_stats = '<span class="cwp-post-hidden-id" data-cwp-stats-posttype="'.$post_type.'" data-cwp-stats-postid="'.$post_id.'" style="display:none !important;"></span>';
-        $insert_position = strpos($post_card, '</div>');
-        $output = substr_replace($post_card, $postID_for_stats, $insert_position, 0);
-        echo apply_filters('cubewp/frontend/loop/grid/html', $output, $post_id, $col_class, $style);
-        return ob_get_clean();
-    }
+	function CubeWp_frontend_grid_HTML($post_id, $col_class = 'cwp-col-12 cwp-col-md-6', $style = false)
+	{
+		$post_type = get_post_type($post_id);
+		$post_card = include(CUBEWP_FILES . 'templates/post-card.php');
+
+		// Check if style includes _cwp_elmentor_ or not
+		if (strpos($style, '_cwp_elmentor_') !== false) {
+			$maybe_elementor = cwp_maybe_render_elementor_postcard_by_style($style, $post_id, $col_class);
+			if (! empty($maybe_elementor)) {
+				$post_card = $maybe_elementor;
+			}
+		}
+
+		$PRIMARY_POSTCARD = cwp_get_elemetor_primary_postcard_by_type($post_type);
+		if (!empty($PRIMARY_POSTCARD) && !$style) {
+			$post_card = cubewp_elementor_loop_html_process($post_id, $PRIMARY_POSTCARD, $col_class);
+		}
+
+		//check if dynamic layout exist
+		if (function_exists('cubewp_get_loop_builder_by_post_type')) {
+			$dynamic_layout = cubewp_get_loop_builder_by_post_type(get_post_type($post_id), $style, $post_id);
+			if (!empty($dynamic_layout)) {
+				$post_card = cubewp_core_data($dynamic_layout);
+			}
+		}
+		ob_start();
+		$postID_for_stats = '<span class="cwp-post-hidden-id" data-cwp-stats-posttype="' . $post_type . '" data-cwp-stats-postid="' . $post_id . '" style="display:none !important;"></span>';
+		$insert_position = strpos($post_card, '</div>');
+		$output = substr_replace($post_card, $postID_for_stats, $insert_position, 0);
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo apply_filters('cubewp/frontend/loop/grid/html', $output, $post_id, $col_class, $style);
+		return ob_get_clean();
+	}
 }
 
-if ( ! function_exists( 'cubewp_get_loop_builder_by_post_type' ) ) {
-    function cubewp_get_loop_builder_by_post_type( $post_type, $style = false, $post_id = '') {
-        $form_options = cubewp_post_card_style_output($post_type, $style);
-        $string = '';
-        if ( isset( $form_options[ 'html' ] ) && ! empty( $form_options[ 'html' ] ) ) {
-            $string =  cubewp_process_post_card( $form_options['html'] , $post_id);
-        }
-
-        return $string;
-    }
+/**
+ * Resolve an Elementor post card style key (ID or slug) and render HTML.
+ *
+ * Accepts styles like `_cwp_elmentor_{id}` or `_cwp_elmentor_{slug}`.
+ * Returns rendered HTML string or empty string if not resolved.
+ */
+if (!function_exists('cwp_maybe_render_elementor_postcard_by_style')) {
+	function cwp_maybe_render_elementor_postcard_by_style($style, $post_id, $col_class = 'cwp-col-12 cwp-col-md-6')
+	{
+		if (strpos($style, '_cwp_elmentor_') === false) {
+			return '';
+		}
+		$elementor_key = str_replace('_cwp_elmentor_', '', $style);
+		$elementor_post_id = 0;
+		// If numeric, treat as post ID (backward compatible)
+		if (ctype_digit((string) $elementor_key)) {
+			$elementor_post_id = (int) $elementor_key;
+		} else {
+			// Otherwise treat as slug and resolve to ID
+			$maybe_post = get_page_by_path($elementor_key, OBJECT, 'cubewp-tb');
+			if ($maybe_post && ! is_wp_error($maybe_post)) {
+				$elementor_post_id = (int) $maybe_post->ID;
+			} else {
+				// Fallback resolution by name query
+				$by_name = get_posts(array(
+					'post_type'      => 'cubewp-tb',
+					'name'           => $elementor_key,
+					'posts_per_page' => 1,
+					'fields'         => 'ids',
+				));
+				if (! empty($by_name)) {
+					$elementor_post_id = (int) $by_name[0];
+				}
+			}
+		}
+		if ($elementor_post_id) {
+			return cubewp_elementor_loop_html_process($post_id, $elementor_post_id, $col_class);
+		}
+		return '';
+	}
 }
 
-if ( ! function_exists("cubewp_get_post_thumbnail_url")) {
-	function cubewp_get_post_thumbnail_url($post_id) {
-		$thumbnail_url = get_the_post_thumbnail_url($post_id,'large');
+/**
+ * Method cubewp_elementor_loop_html_process
+ *
+ * @param int    $post_id
+ * @param int    $elementor_template_id
+ * @param string $col_class
+ *
+ * @return string html
+ * @since  1.1.28
+ */
+if (!function_exists("cubewp_elementor_loop_html_process")) {
+	function cubewp_elementor_loop_html_process($post_id, $elementor_template_id, $col_class = 'cwp-col-12 cwp-col-md-6')
+	{
+		static $processed_templates = [];
+
+		$default_col_class = get_post_meta($elementor_template_id, 'default_col_class', true);
+		if (!empty($default_col_class)) {
+			$col_class = $default_col_class;
+		}
+		$col_class .= ' cwp-elementor-post-card';
+
+		ob_start();
+		echo '<div class="' . esc_attr(implode(' ', get_post_class($col_class, $post_id))) . '">';
+
+		// Check if we've already processed this template
+		if (!in_array($elementor_template_id, $processed_templates)) {
+			// First time - output with styles
+			CubeWp_Theme_Builder::do_cubewp_theme_builder('postcard', $elementor_template_id);
+			$processed_templates[] = $elementor_template_id;
+		} else {
+			// Subsequent times - output without styles
+			$content = cwp_get_elementor_content_without_styles($elementor_template_id);
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo $content;
+		}
+
+		echo '</div>';
+		return ob_get_clean();
+	}
+}
+
+/**
+ * Method cwp_get_elementor_content_without_styles
+ *
+ * @param int $template_id
+ *
+ * @return string html
+ * @since  1.1.28
+ */
+if (!function_exists('cwp_get_elementor_content_without_styles')) {
+	function cwp_get_elementor_content_without_styles($template_id)
+	{
+		if (empty($template_id)) return '';
+
+		if (class_exists('\Elementor\Frontend')) {
+			$elementor_frontend_builder = new \Elementor\Frontend();
+			$elementor_frontend_builder->init();
+
+			// Get the content without printing CSS
+			$content = $elementor_frontend_builder->get_builder_content($template_id, false);
+
+			// Remove style tags from the content
+			$content = preg_replace('/<style[^>]*>.*?<\/style>/is', '', $content);
+
+			return $content;
+		}
+
+		return '';
+	}
+}
+
+if (! function_exists('cubewp_get_loop_builder_by_post_type')) {
+	function cubewp_get_loop_builder_by_post_type($post_type, $style = false, $post_id = '')
+	{
+		$form_options = cubewp_post_card_style_output($post_type, $style);
+		$string = '';
+		if (isset($form_options['html']) && ! empty($form_options['html'])) {
+			$string =  cubewp_process_post_card($form_options['html'], $post_id);
+		}
+
+		return $string;
+	}
+}
+
+if (! function_exists("cubewp_get_post_thumbnail_url")) {
+	function cubewp_get_post_thumbnail_url($post_id)
+	{
+		$thumbnail_url = get_the_post_thumbnail_url($post_id, 'large');
 		if (empty($thumbnail_url)) {
 			$thumbnail_url = CWP_PLUGIN_URI . 'cube/assets/frontend/images/default-fet-image.png';
 		}
@@ -540,27 +702,42 @@ if ( ! function_exists("cubewp_get_post_thumbnail_url")) {
  * @return string html
  * @since  1.0.0
  */
-if ( ! function_exists("get_user_details")) {
-	function get_user_details($user_id) {
+if (! function_exists("get_user_details")) {
+	function get_user_details($user_id)
+	{
 		$author_page_url = get_author_posts_url($user_id);
 		ob_start();
-		?>
-        <div class="cwp-single-widget cwp-admin-widget">
-            <div class="cwp-single-author-img">
-                <img src="<?php echo get_avatar_url($user_id, ["size" => "52"]) ?>"
-                     alt="<?php esc_html__("Post Author", "cubewp") ?>"/>
-            </div>
-            <div class="cwp-single-author-detail">
+?>
+		<div class="cwp-single-widget cwp-admin-widget">
+			<div class="cwp-single-author-img">
+				<img src="<?php echo esc_url(get_avatar_url($user_id, ["size" => "52"])) ?>"
+					alt="<?php esc_html__("Post Author", "cubewp-framework") ?>" />
+			</div>
+			<div class="cwp-single-author-detail">
 				<div class="cwp-single-author-name">
-                    <a href="<?php echo esc_url($author_page_url) ?>"><?php echo get_the_author_meta("display_name", $user_id) ?></a>
-                </div>
-                <?php echo get_author_contact_info($user_id); ?>
-            </div>
-        </div>
-		<?php
+					<a href="<?php echo esc_url($author_page_url) ?>"><?php echo esc_html(get_the_author_meta("display_name", $user_id)) ?></a>
+				</div>
+				<?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				echo get_author_contact_info($user_id); ?>
+			</div>
+		</div>
+	<?php
 		return ob_get_clean();
 	}
 }
+
+if (!function_exists('cubewp_get_user_details')) {
+	function cubewp_get_user_details($user_id)
+	{
+		if (empty($user_id)) {
+			return '';
+		}
+		/* Calliing my own function to avoid the deprecated function warning */
+		/* phpcs:ignore WordPress.WP.DeprecatedFunctions.get_user_detailsFound */
+		return get_user_details($user_id);
+	}
+}
+
 /**
  * Method get_author_contact_info
  *
@@ -569,37 +746,39 @@ if ( ! function_exists("get_user_details")) {
  * @return string html
  * @since  1.0.0
  */
-if ( ! function_exists("get_author_contact_info")) {
-	function get_author_contact_info($user_id) {
+if (! function_exists("get_author_contact_info")) {
+	function get_author_contact_info($user_id)
+	{
 		$user_login = get_the_author_meta("user_login", $user_id);
 		$user_email = get_the_author_meta("user_email", $user_id);
 		$user_url   = get_the_author_meta("user_url", $user_id);
-        ob_start();
-        ?>
-        <ul>
-            <li class="cwp-author-username"><p class="cwp-author-uname"><?php echo esc_html($user_login) ?></p>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                     class="bi bi-person-fill" viewBox="0 0 16 16">
-                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-                </svg>
-            </li>
-            <li>
-                <a href="mailto:<?php echo $user_email ?>">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                         viewBox="0 0 16 16">
-                        <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555ZM0 4.697v7.104l5.803-3.558L0 4.697ZM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757Zm3.436-.586L16 11.801V4.697l-5.803 3.546Z"/>
-                    </svg>
-                </a>
-            </li>
-            <?php if(!empty($user_url)){ ?>
-                <li><a target="_blank" href="<?php echo  $user_url ?>"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                    <path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm7.5-6.923c-.67.204-1.335.82-1.887 1.855A7.97 7.97 0 0 0 5.145 4H7.5V1.077zM4.09 4a9.267 9.267 0 0 1 .64-1.539 6.7 6.7 0 0 1 .597-.933A7.025 7.025 0 0 0 2.255 4H4.09zm-.582 3.5c.03-.877.138-1.718.312-2.5H1.674a6.958 6.958 0 0 0-.656 2.5h2.49zM4.847 5a12.5 12.5 0 0 0-.338 2.5H7.5V5H4.847zM8.5 5v2.5h2.99a12.495 12.495 0 0 0-.337-2.5H8.5zM4.51 8.5a12.5 12.5 0 0 0 .337 2.5H7.5V8.5H4.51zm3.99 0V11h2.653c.187-.765.306-1.608.338-2.5H8.5zM5.145 12c.138.386.295.744.468 1.068.552 1.035 1.218 1.65 1.887 1.855V12H5.145zm.182 2.472a6.696 6.696 0 0 1-.597-.933A9.268 9.268 0 0 1 4.09 12H2.255a7.024 7.024 0 0 0 3.072 2.472zM3.82 11a13.652 13.652 0 0 1-.312-2.5h-2.49c.062.89.291 1.733.656 2.5H3.82zm6.853 3.472A7.024 7.024 0 0 0 13.745 12H11.91a9.27 9.27 0 0 1-.64 1.539 6.688 6.688 0 0 1-.597.933zM8.5 12v2.923c.67-.204 1.335-.82 1.887-1.855.173-.324.33-.682.468-1.068H8.5zm3.68-1h2.146c.365-.767.594-1.61.656-2.5h-2.49a13.65 13.65 0 0 1-.312 2.5zm2.802-3.5a6.959 6.959 0 0 0-.656-2.5H12.18c.174.782.282 1.623.312 2.5h2.49zM11.27 2.461c.247.464.462.98.64 1.539h1.835a7.024 7.024 0 0 0-3.072-2.472c.218.284.418.598.597.933zM10.855 4a7.966 7.966 0 0 0-.468-1.068C9.835 1.897 9.17 1.282 8.5 1.077V4h2.355z"/>
-                </svg></a></li>
-            <?php } ?>
-        </ul>
-        <?php
-        return ob_get_clean();
-    }
+		ob_start();
+	?>
+		<ul>
+			<li class="cwp-author-username">
+				<p class="cwp-author-uname"><?php echo esc_html($user_login) ?></p>
+				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+					class="bi bi-person-fill" viewBox="0 0 16 16">
+					<path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+				</svg>
+			</li>
+			<li>
+				<a href="mailto:<?php echo esc_url($user_email) ?>">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+						viewBox="0 0 16 16">
+						<path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555ZM0 4.697v7.104l5.803-3.558L0 4.697ZM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757Zm3.436-.586L16 11.801V4.697l-5.803 3.546Z" />
+					</svg>
+				</a>
+			</li>
+			<?php if (!empty($user_url)) { ?>
+				<li><a target="_blank" href="<?php echo esc_url($user_url) ?>"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+							<path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm7.5-6.923c-.67.204-1.335.82-1.887 1.855A7.97 7.97 0 0 0 5.145 4H7.5V1.077zM4.09 4a9.267 9.267 0 0 1 .64-1.539 6.7 6.7 0 0 1 .597-.933A7.025 7.025 0 0 0 2.255 4H4.09zm-.582 3.5c.03-.877.138-1.718.312-2.5H1.674a6.958 6.958 0 0 0-.656 2.5h2.49zM4.847 5a12.5 12.5 0 0 0-.338 2.5H7.5V5H4.847zM8.5 5v2.5h2.99a12.495 12.495 0 0 0-.337-2.5H8.5zM4.51 8.5a12.5 12.5 0 0 0 .337 2.5H7.5V8.5H4.51zm3.99 0V11h2.653c.187-.765.306-1.608.338-2.5H8.5zM5.145 12c.138.386.295.744.468 1.068.552 1.035 1.218 1.65 1.887 1.855V12H5.145zm.182 2.472a6.696 6.696 0 0 1-.597-.933A9.268 9.268 0 0 1 4.09 12H2.255a7.024 7.024 0 0 0 3.072 2.472zM3.82 11a13.652 13.652 0 0 1-.312-2.5h-2.49c.062.89.291 1.733.656 2.5H3.82zm6.853 3.472A7.024 7.024 0 0 0 13.745 12H11.91a9.27 9.27 0 0 1-.64 1.539 6.688 6.688 0 0 1-.597.933zM8.5 12v2.923c.67-.204 1.335-.82 1.887-1.855.173-.324.33-.682.468-1.068H8.5zm3.68-1h2.146c.365-.767.594-1.61.656-2.5h-2.49a13.65 13.65 0 0 1-.312 2.5zm2.802-3.5a6.959 6.959 0 0 0-.656-2.5H12.18c.174.782.282 1.623.312 2.5h2.49zM11.27 2.461c.247.464.462.98.64 1.539h1.835a7.024 7.024 0 0 0-3.072-2.472c.218.284.418.598.597.933zM10.855 4a7.966 7.966 0 0 0-.468-1.068C9.835 1.897 9.17 1.282 8.5 1.077V4h2.355z" />
+						</svg></a></li>
+			<?php } ?>
+		</ul>
+	<?php
+		return ob_get_clean();
+	}
 }
 
 /**
@@ -609,14 +788,15 @@ if ( ! function_exists("get_author_contact_info")) {
  * @return void
  * @since  1.0.0
  */
-if ( ! function_exists('cubewp_initialize_modules')) {
-	function cubewp_initialize_modules() {
+if (! function_exists('cubewp_initialize_modules')) {
+	function cubewp_initialize_modules()
+	{
 		$modules = CWP()->cubewp_get_modules();
 		foreach ($modules as $index  => $module) {
 			$module_slug      = $module['slug'];
 			$module_class    = $module['load'];
 			$options = CWP()->cubewp_options($module_slug);
-			$validation_property = CubeWp_Add_Ons::LIC.CubeWp_Add_Ons::ENSE;
+			$validation_property = CubeWp_Add_Ons::LIC . CubeWp_Add_Ons::ENSE;
 			if (isset($options->$validation_property) && $options->$validation_property == 'valid') {
 				if (class_exists($module_class)) {
 					$module_class::instance();
@@ -624,7 +804,6 @@ if ( ! function_exists('cubewp_initialize_modules')) {
 			}
 		}
 	}
-
 	add_action('cubewp_loaded', 'cubewp_initialize_modules', 10);
 }
 
@@ -633,20 +812,21 @@ if ( ! function_exists('cubewp_initialize_modules')) {
  *
  * @return array $post_types List of Custom Post Types.
  */
-if ( ! function_exists("CWP_all_post_types")) {
-	function CWP_all_post_types($form = '') {
+if (! function_exists("CWP_all_post_types")) {
+	function CWP_all_post_types($form = '')
+	{
 		global $cwpOptions;
-		if ( empty( $cwpOptions ) || ! is_array( $cwpOptions ) ) {
-			$cwpOptions = get_option( 'cwpOptions' );
+		if (empty($cwpOptions) || ! is_array($cwpOptions)) {
+			$cwpOptions = get_option('cwpOptions');
 		}
-		$post_types = array( 'post' => esc_html__( 'Post', 'cubewp-framework' ) );
-		if ( isset( $cwpOptions['external_cpt_into_cubewp'] ) && $cwpOptions['external_cpt_into_cubewp'] ) {
-			if ( isset( $cwpOptions['external_cpt_for_cubewp_builders'] ) && ! empty( $cwpOptions['external_cpt_for_cubewp_builders'] ) ) {
+		$post_types = array('post' => esc_html__('Post', 'cubewp-framework'));
+		if (isset($cwpOptions['external_cpt_into_cubewp']) && $cwpOptions['external_cpt_into_cubewp']) {
+			if (isset($cwpOptions['external_cpt_for_cubewp_builders']) && ! empty($cwpOptions['external_cpt_for_cubewp_builders'])) {
 				$external_post_types = (array) $cwpOptions['external_cpt_for_cubewp_builders'];
-				foreach ( $external_post_types as $external_post_type ) {
-					if ( post_type_exists( $external_post_type ) ) {
-						$post_type_object = get_post_type_object( $external_post_type );
-						$post_types[ $post_type_object->name ] = $post_type_object->label;
+				foreach ($external_post_types as $external_post_type) {
+					if (post_type_exists($external_post_type)) {
+						$post_type_object = get_post_type_object($external_post_type);
+						$post_types[$post_type_object->name] = $post_type_object->label;
 					}
 				}
 			}
@@ -655,10 +835,10 @@ if ( ! function_exists("CWP_all_post_types")) {
 		$cwp_custom_types = CWP_types();
 		if (isset($cwp_custom_types) && ! empty($cwp_custom_types)) {
 			$types = array();
-            foreach ($cwp_custom_types as $k => $v) {
+			foreach ($cwp_custom_types as $k => $v) {
 				$types[$k] = $v['label'];
 			}
-			if ( ! empty($defaultPost) && is_array($defaultPost)) {
+			if (! empty($defaultPost) && is_array($defaultPost)) {
 				$list = array_merge($defaultPost, $types);
 			} else {
 				$list = $types;
@@ -677,8 +857,9 @@ if ( ! function_exists("CWP_all_post_types")) {
  * @return array
  * @since  1.0.0
  */
-if ( ! function_exists("CWP_types")) {
-	function CWP_types() {
+if (! function_exists("CWP_types")) {
+	function CWP_types()
+	{
 		$types            = array();
 		$cwp_custom_types = get_option('cwp_custom_types');
 		if (isset($cwp_custom_types) && ! empty($cwp_custom_types)) {
@@ -695,8 +876,9 @@ if ( ! function_exists("CWP_types")) {
  * @return array
  * @since  1.0.0
  */
-if ( ! function_exists("CWP_custom_taxonomies")) {
-	function CWP_custom_taxonomies() {
+if (! function_exists("CWP_custom_taxonomies")) {
+	function CWP_custom_taxonomies()
+	{
 		$types            = array();
 		$cwp_custom_types = get_option('cwp_custom_taxonomies');
 		if (isset($cwp_custom_types) && ! empty($cwp_custom_types)) {
@@ -712,8 +894,9 @@ if ( ! function_exists("CWP_custom_taxonomies")) {
  * @return string
  * @since  1.0.0
  */
-if ( ! function_exists("current_cubewp_page")) {
-	function current_cubewp_page() {
+if (! function_exists("current_cubewp_page")) {
+	function current_cubewp_page()
+	{
 		$current_screen = get_current_screen();
 		$screen_pieces  = $current_screen->id;
 		if (0 === strpos($screen_pieces, 'toplevel_page_')) {
@@ -745,14 +928,15 @@ if ( ! function_exists("current_cubewp_page")) {
  *
  * @return array $allGroups List of Group ID's.
  */
-if ( ! function_exists("cwp_get_groups_by_post_type")) {
-	function cwp_get_groups_by_post_type($type = '') {
+if (! function_exists("cwp_get_groups_by_post_type")) {
+	function cwp_get_groups_by_post_type($type = '')
+	{
 		$args = array(
-			'numberposts' => - 1,
+			'numberposts' => -1,
 			'post_type'   => 'cwp_form_fields',
-			'post_status' => array('private','publish'),
+			'post_status' => array('private', 'publish'),
 			'fields'      => 'ids',
-			'meta_query'  => array(
+			'meta_query'  => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 				array(
 					'key'     => '_cwp_group_types',
 					'value'   => $type,
@@ -772,10 +956,11 @@ if ( ! function_exists("cwp_get_groups_by_post_type")) {
  *
  * @return array $allGroups List of Group ID's.
  */
-if ( ! function_exists("cwp_get_groups_of_settings")) {
-	function cwp_get_groups_of_settings() {
+if (! function_exists("cwp_get_groups_of_settings")) {
+	function cwp_get_groups_of_settings()
+	{
 		$args = array(
-			'numberposts' => - 1,
+			'numberposts' => -1,
 			'post_type'   => 'cwp_settings_fields',
 			'fields'      => 'ids',
 		);
@@ -791,12 +976,13 @@ if ( ! function_exists("cwp_get_groups_of_settings")) {
  *
  * @return array $allGroups List of Group ID's.
  */
-if ( ! function_exists("cwp_get_groups_by_post_id")) {
-	function cwp_get_groups_by_post_id($post_id = 0) {
+if (! function_exists("cwp_get_groups_by_post_id")) {
+	function cwp_get_groups_by_post_id($post_id = 0)
+	{
 		if ($post_id == 0) return;
 
-        $post_type = get_post_type( $post_id );
-        return cwp_get_groups_by_post_type( $post_type );
+		$post_type = get_post_type($post_id);
+		return cwp_get_groups_by_post_type($post_type);
 	}
 }
 
@@ -807,9 +993,10 @@ if ( ! function_exists("cwp_get_groups_by_post_id")) {
  *
  * @return array $fields_of_specific_group List of Fields.
  */
-if ( ! function_exists("cwp_get_fields_by_group_id")) {
-	function cwp_get_fields_by_group_id($GroupID = 0) {
-		if ( ! $GroupID) {
+if (! function_exists("cwp_get_fields_by_group_id")) {
+	function cwp_get_fields_by_group_id($GroupID = 0)
+	{
+		if (! $GroupID) {
 			return;
 		}
 		$fields_of_specific_group = get_post_meta($GroupID, '_cwp_group_fields', true);
@@ -826,8 +1013,9 @@ if ( ! function_exists("cwp_get_fields_by_group_id")) {
  * @return mixed
  * @since  1.0.0
  */
-if ( ! function_exists("cubewp_core_data")) {
-	function cubewp_core_data($data = '') {
+if (! function_exists("cubewp_core_data")) {
+	function cubewp_core_data($data = '')
+	{
 		if (empty($data) || is_array($data) || is_object($data)) {
 			return;
 		}
@@ -845,8 +1033,9 @@ if ( ! function_exists("cubewp_core_data")) {
  * @return array
  * @since  1.0.0
  */
-if ( ! function_exists("CubeWp_Sanitize_Custom_Fields")) {
-	function CubeWp_Sanitize_Custom_Fields($input, $fields_of) {
+if (! function_exists("CubeWp_Sanitize_Custom_Fields")) {
+	function CubeWp_Sanitize_Custom_Fields($input, $fields_of)
+	{
 		$sanitize = new CubeWp_Sanitize();
 		$return   = $input;
 		if ($fields_of == 'post_types') {
@@ -868,9 +1057,10 @@ if ( ! function_exists("CubeWp_Sanitize_Custom_Fields")) {
  * @return array
  * @since  1.0.0
  */
-if ( ! function_exists("CubeWp_Sanitize_Fields_Array")) {
-	function CubeWp_Sanitize_Fields_Array($input, $fields_of) {
-		
+if (! function_exists("CubeWp_Sanitize_Fields_Array")) {
+	function CubeWp_Sanitize_Fields_Array($input, $fields_of)
+	{
+
 		$sanitize = new CubeWp_Sanitize();
 		$return   = $input;
 		if ($fields_of == 'taxonomy') {
@@ -893,8 +1083,9 @@ if ( ! function_exists("CubeWp_Sanitize_Fields_Array")) {
  * @return array
  * @since  1.0.0
  */
-if ( ! function_exists("CubeWp_Sanitize_Dynamic_Array")) {
-	function CubeWp_Sanitize_Dynamic_Array($input) {
+if (! function_exists("CubeWp_Sanitize_Dynamic_Array")) {
+	function CubeWp_Sanitize_Dynamic_Array($input)
+	{
 		$result = array();
 		if (is_array($input)) {
 			foreach ($input as $key => $in) {
@@ -926,8 +1117,9 @@ if ( ! function_exists("CubeWp_Sanitize_Dynamic_Array")) {
  * @return array
  * @since  1.0.0
  */
-if ( ! function_exists("CubeWp_Sanitize_dynamic_array_loop")) {
-	function CubeWp_Sanitize_dynamic_array_loop($input) {
+if (! function_exists("CubeWp_Sanitize_dynamic_array_loop")) {
+	function CubeWp_Sanitize_dynamic_array_loop($input)
+	{
 		return CubeWp_Sanitize_Dynamic_Array($input);
 	}
 }
@@ -940,8 +1132,9 @@ if ( ! function_exists("CubeWp_Sanitize_dynamic_array_loop")) {
  * @return array
  * @since  1.0.0
  */
-if ( ! function_exists("CubeWp_Sanitize_text_Array")) {
-	function CubeWp_Sanitize_text_Array($input) {
+if (! function_exists("CubeWp_Sanitize_text_Array")) {
+	function CubeWp_Sanitize_text_Array($input)
+	{
 		$sanitize = new CubeWp_Sanitize();
 
 		return $sanitize->sanitize_text_array($input);
@@ -956,12 +1149,315 @@ if ( ! function_exists("CubeWp_Sanitize_text_Array")) {
  * @return array
  * @since  1.0.0
  */
-if ( ! function_exists("CubeWp_Sanitize_Muli_Array")) {
-	function CubeWp_Sanitize_Muli_Array($input) {
+if (! function_exists("CubeWp_Sanitize_Muli_Array")) {
+	function CubeWp_Sanitize_Muli_Array($input)
+	{
 		$sanitize = new CubeWp_Sanitize();
 
 		return $sanitize->sanitize_multi_array($input);
 	}
+}
+
+/**
+ * Method cubewp_get_safe_svg_file_path
+ *
+ * Validates that a resolved icon path points at a real .svg file inside an
+ * allowed directory before it is read from disk.
+ *
+ * @param string $file_path
+ *
+ * @return string|false Canonicalized path when safe, false otherwise.
+ * @since  1.1.31
+ */
+if (! function_exists("cubewp_get_safe_svg_file_path")) {
+	function cubewp_get_safe_svg_file_path($file_path)
+	{
+		if (! is_string($file_path) || $file_path === '') {
+			return false;
+		}
+		// Refuse traversal sequences before touching the filesystem.
+		if (strpos($file_path, '..') !== false) {
+			return false;
+		}
+		// Only SVG files may be inlined by this helper.
+		if (strtolower((string) pathinfo($file_path, PATHINFO_EXTENSION)) !== 'svg') {
+			return false;
+		}
+		$real_path = realpath($file_path);
+		if (! $real_path || ! is_file($real_path)) {
+			return false;
+		}
+		// Containment: the uploads directory (media library icons) or this plugin's own assets.
+		$allowed_bases = array();
+		$uploads       = wp_get_upload_dir();
+		if (! empty($uploads['basedir'])) {
+			$allowed_bases[] = $uploads['basedir'];
+		}
+		if (defined('CWP_PLUGIN_PATH')) {
+			$allowed_bases[] = CWP_PLUGIN_PATH;
+		}
+		foreach ($allowed_bases as $base) {
+			$real_base = realpath($base);
+			if ($real_base && strpos($real_path, rtrim($real_base, '/\\') . DIRECTORY_SEPARATOR) === 0) {
+				return $real_path;
+			}
+		}
+
+		return false;
+	}
+}
+
+/**
+ * Method cubewp_get_svg_content
+ *
+ * @param array $icon
+ *
+ * @return string
+ * @since  1.1.28
+ */
+if (! function_exists("cubewp_get_svg_content")) {
+	function cubewp_get_svg_content($icon)
+	{
+		// If icon is array, process it
+		if (is_array($icon)) {
+			// First, try to get from attachment ID (most reliable for local files)
+			if (isset($icon['value']['id']) && is_numeric($icon['value']['id'])) {
+				$file_path = get_attached_file(absint($icon['value']['id']));
+				$safe_path = cubewp_get_safe_svg_file_path($file_path);
+				if ($safe_path) {
+					$svg_content = file_get_contents($safe_path);
+					if (!empty($svg_content) && is_string($svg_content)) {
+						return $svg_content;
+					}
+				}
+			}
+
+			// If ID method failed, try to fetch from URL
+			if (isset($icon['value']['url']) && is_string($icon['value']['url'])) {
+				$url = isset($icon['url']) && is_string($icon['url']) ? $icon['url'] : $icon['value']['url'];
+				// For local URLs, try direct file access first
+				if (strpos($url, site_url()) === 0 || strpos($url, home_url()) === 0) {
+					$file_path = str_replace(site_url('/'), ABSPATH, $url);
+					$file_path = str_replace(home_url('/'), ABSPATH, $file_path);
+					$safe_path = cubewp_get_safe_svg_file_path($file_path);
+					if ($safe_path) {
+						$svg_content = file_get_contents($safe_path);
+						if (!empty($svg_content) && is_string($svg_content)) {
+							return $svg_content;
+						}
+					}
+				}
+				// Try remote fetch as fallback, for SVG files only
+				$url_path = (string) wp_parse_url($url, PHP_URL_PATH);
+				if (strtolower((string) pathinfo($url_path, PATHINFO_EXTENSION)) === 'svg') {
+					$response = wp_safe_remote_get($url, array(
+						'timeout' => 10,
+						'sslverify' => false
+					));
+					if (!is_wp_error($response) && 200 === wp_remote_retrieve_response_code($response)) {
+						$svg_content = wp_remote_retrieve_body($response);
+						if (!empty($svg_content) && is_string($svg_content)) {
+							return $svg_content;
+						}
+					}
+				}
+				// Last resort: return the URL as string (for icon classes, not SVG)
+				return $url;
+			}
+
+			// If icon is array with 'value', return it
+			if (isset($icon['value']) && is_string($icon['value'])) {
+				return $icon['value'];
+			}
+
+			// If nothing worked, return empty string
+			return '';
+		}
+
+		// If icon is string, return it
+		if (is_string($icon)) {
+			return $icon;
+		}
+
+		// Fallback: return empty string
+		return '';
+	}
+}
+
+/**
+ * Method cubewp_kses_allowed_svg
+ *
+ * @return array
+ * @since  1.1.28
+ */
+if (! function_exists("cubewp_kses_allowed_svg")) {
+	function cubewp_kses_allowed_svg()
+	{
+		// Start with the allowed HTML for posts (common HTML tags)
+		$allowed = wp_kses_allowed_html('post');
+		// Add commonly used SVG tags and their safe attributes
+		$svg_allowed = array(
+			'svg' => array(
+				'xmlns'       => true,
+				'width'       => true,
+				'height'      => true,
+				'viewBox'     => true,
+				'preserveAspectRatio' => true,
+				'role'        => true,
+				'class'       => true,
+				'aria-hidden' => true,
+				'aria-label'  => true,
+				'focusable'   => true,
+				'fill'        => true,
+				'stroke'      => true,
+				'style'       => true,
+			),
+			'g' => array(
+				'fill'   => true,
+				'stroke' => true,
+				'class'  => true,
+				'style'  => true,
+				'transform' => true,
+			),
+			'path' => array(
+				'd'         => true,
+				'fill'      => true,
+				'stroke'    => true,
+				'class'     => true,
+				'style'     => true,
+				'transform' => true,
+			),
+			'circle' => array(
+				'cx' => true,
+				'cy' => true,
+				'r'  => true,
+				'fill' => true,
+				'stroke' => true,
+				'class' => true,
+				'style' => true,
+			),
+			'rect' => array(
+				'x' => true,
+				'y' => true,
+				'width' => true,
+				'height' => true,
+				'rx' => true,
+				'ry' => true,
+				'fill' => true,
+				'stroke' => true,
+				'class' => true,
+				'style' => true,
+			),
+			'line' => array(
+				'x1' => true,
+				'y1' => true,
+				'x2' => true,
+				'y2' => true,
+				'stroke' => true,
+				'class' => true,
+				'style' => true,
+			),
+			'polyline' => array(
+				'points' => true,
+				'fill' => true,
+				'stroke' => true,
+				'class' => true,
+				'style' => true,
+			),
+			'polygon' => array(
+				'points' => true,
+				'fill' => true,
+				'stroke' => true,
+				'class' => true,
+				'style' => true,
+			),
+			'defs' => array(),
+			'title' => array(),
+			'desc' => array(),
+			'use' => array(
+				'href' => true, // in modern browsers xlink:href is deprecated; if you use xlink, include it explicitly
+				'xlink:href' => true,
+				'x' => true,
+				'y' => true,
+				'width' => true,
+				'height' => true,
+				'class' => true,
+			),
+			'symbol' => array(
+				'id' => true,
+				'viewBox' => true,
+				'preserveAspectRatio' => true,
+				'class' => true,
+			),
+			'linearGradient' => array('id' => true, 'x1' => true, 'x2' => true, 'y1' => true, 'y2' => true),
+			'stop' => array('offset' => true, 'stop-color' => true, 'stop-opacity' => true),
+		);
+
+		return array_merge($allowed, $svg_allowed);
+	}
+}
+
+/**
+ * Method cubewp_kses_allowed_protocols
+ *
+ * @return array
+ * @since  1.1.28
+ */
+if (! function_exists("cubewp_kses_allowed_protocols")) {
+	function cubewp_kses_allowed_protocols($protocols = array())
+	{
+		if (! in_array('data', $protocols, true)) {
+			$protocols[] = 'data';
+		}
+		return $protocols;
+	}
+	add_filter('kses_allowed_protocols', 'cubewp_kses_allowed_protocols', 10, 1);
+}
+
+/**
+ * Method cubewp_kses_allowed_html
+ *
+ * @return array
+ * @since  1.1.28
+ */
+if (! function_exists("cubewp_kses_allowed_html")) {
+	function cubewp_kses_allowed_html($allowed = array(), $context = 'post')
+	{
+		if ($context !== 'post') {
+			return $allowed;
+		}
+		$allowed['svg'] = [
+			'class'       => true,
+			'aria-hidden' => true,
+			'aria-label'  => true,
+			'role'        => true,
+			'xmlns'       => true,
+			'width'       => true,
+			'height'      => true,
+			'viewBox'     => true,
+			'fill'        => true,
+		];
+		$allowed['path'] = [
+			'd'    => true,
+			'fill' => true,
+		];
+		$allowed['span'] = array_merge(
+			isset($allowed['span']) && is_array($allowed['span']) ? $allowed['span'] : [],
+			[
+				'class' => true,
+				'style' => true,
+			]
+		);
+		$allowed['div'] = array_merge(
+			isset($allowed['div']) && is_array($allowed['div']) ? $allowed['div'] : [],
+			[
+				'class' => true,
+				'style' => true,
+			]
+		);
+		return $allowed;
+	}
+	add_filter('wp_kses_allowed_html', 'cubewp_kses_allowed_html', 10, 2);
 }
 
 /**
@@ -972,9 +1468,10 @@ if ( ! function_exists("CubeWp_Sanitize_Muli_Array")) {
  * @return string
  * @since  1.0.0
  */
-if ( ! function_exists("cwp_get_opt_hook")) {
-	function cwp_get_opt_hook($type = '') {
-		$opt_name = CWP()->prefix() . '_'.$type;
+if (! function_exists("cwp_get_opt_hook")) {
+	function cwp_get_opt_hook($type = '')
+	{
+		$opt_name = CWP()->prefix() . '_' . $type;
 		switch ($type) {
 			case 'post_types':
 				$opt_name = CWP()->prefix() . '_custom_fields';
@@ -1001,9 +1498,10 @@ if ( ! function_exists("cwp_get_opt_hook")) {
  *
  * @return array $SingleFieldOptions List of Field Options.
  */
-if ( ! function_exists("get_field_options")) {
-	function get_field_options($fieldID = 0) {
-		if ( ! $fieldID) {
+if (! function_exists("get_field_options")) {
+	function get_field_options($fieldID = 0)
+	{
+		if (! $fieldID) {
 			return;
 		}
 		$fieldOptions = CWP()->get_custom_fields('post_types');
@@ -1019,9 +1517,10 @@ if ( ! function_exists("get_field_options")) {
  *
  * @return array $SingleFieldOptions List of Field Options.
  */
-if ( ! function_exists("get_setting_field_options")) {
-	function get_setting_field_options($fieldID = 0) {
-		if ( ! $fieldID) {
+if (! function_exists("get_setting_field_options")) {
+	function get_setting_field_options($fieldID = 0)
+	{
+		if (! $fieldID) {
 			return;
 		}
 		$fieldOptions = CWP()->get_custom_fields('settings');
@@ -1037,33 +1536,37 @@ if ( ! function_exists("get_setting_field_options")) {
  * @return array/string
  * @since  1.0.0
  */
-if ( ! function_exists("get_field_value")) {
-	function get_field_value($field = '', $render = false , $postID = 0) {
+if (! function_exists("get_field_value")) {
+	function get_field_value($field = '', $render = false, $postID = 0)
+	{
 		if (empty($field)) {
 			return;
 		}
 		$single = CubeWp_frontend::single();
-		if ( cubewp_is_elementor_editing() && cubewp_check_if_elementor_active() && !cubewp_check_if_elementor_active(true) && empty($postID)) {
+
+		if (cubewp_is_elementor_editing() && cubewp_check_if_elementor_active() && !cubewp_check_if_elementor_active(true) && empty($postID)) {
 			$postID = cubewp_get_elementor_preview_post_id();
 			if (empty($postID)) {
 				return esc_html__("Please select preview post from the settings below and reload.", "cubewp-framework");
 			}
 		}
-		if ( ! $postID ) {
+		if (! $postID) {
 			$postID = get_the_ID();
 		}
-	   	if ($postID != 0 && !CubeWp_Frontend::is_cubewp_single() ) {
+	
+		if ($postID != 0 && CubeWp_Frontend::is_cubewp_single()) {
 			CubeWp_Single_Cpt::$post_id = $postID;
-	   	}
-	   	if ( ! is_array($field)) {
-		  	$field = get_field_options($field);
-	   	}
+		}
+		if (! is_array($field)) {
+			$field = get_field_options($field);
+		}
+ 
 		$field_type = isset($field["type"]) ? $field["type"] : "";
 		$meta_key   = isset($field["name"]) ? $field["name"] : "";
 		if ($field_type == 'taxonomy') {
 			$field_type = 'terms';
 		}
-		$value = CubeWp_Single_Cpt::get_single_meta_value($meta_key, $field_type);
+		$value = CubeWp_Single_Cpt::get_single_meta_value($meta_key, $field_type ,$postID);
 		if ($field_type == 'date_picker') {
 			$value = wp_date(get_option('date_format'), $value);
 		}
@@ -1076,37 +1579,111 @@ if ( ! function_exists("get_field_value")) {
 		if ($render == true) {
 			if ($field_type == 'repeating_field') {
 				$field['value'] = $value;
-				$value = call_user_func('CubeWp_Single_Page_Trait::field_' . $field_type,$field );
+				$value = call_user_func('CubeWp_Single_Page_Trait::field_' . $field_type, $field);
 			}
-			if( $field_type == 'terms'){
+			if ($field_type == 'terms') {
 				$value = render_taxonomy_value($value);
 			}
-			if( $field_type == 'post'){
+			if ($field_type == 'post') {
 				$value = render_post_value($value);
 			}
-			if( $field_type == 'user'){
+			if ($field_type == 'user') {
 				$value = render_user_value($value);
 			}
-			if( $field_type == 'image' || $field_type == 'gallery'){
+			if ($field_type == 'image' || $field_type == 'gallery') {
 				$value = render_media_value($value);
 			}
-			if( $field_type == 'file'){
+			if ($field_type == 'file') {
 				$value = render_file_value($value);
 			}
-			if( $field_type == 'google_address'){
+			if ($field_type == 'google_address') {
 				$value = render_map_value($value, $field);
 			}
 		}
-		
+
 		return $value;
 	}
 }
 
-if ( ! function_exists("render_map_value")) {
-	function render_map_value($value = 0, $field = array()) {
-		if($value == 0) return;
+
+/**
+ * Method get_user_field_value
+ *
+ * @param string $field
+ *
+ * @return array/string
+ * @since  1.0.0
+ */
+if (! function_exists("get_user_field_value")) {
+	function get_user_field_value($field = '', $render = false, $userID = 0)
+	{
+		if (empty($field)) {
+			return;
+		}
+		// $single = CubeWp_frontend::single();
+		// if (cubewp_is_elementor_editing() && cubewp_check_if_elementor_active() && !cubewp_check_if_elementor_active(true) && empty($postID)) {
+		// 	$postID = cubewp_get_elementor_tag_user_id();
+		// 	if (empty($postID)) {
+		// 		return esc_html__("Please select preview post from the settings below and reload.", "cubewp-framework");
+		// 	}
+		// }
+		if (! $userID) {
+			$userID = cubewp_get_elementor_tag_user_id();
+		}
+
+		if (! is_array($field)) {
+			$field = get_user_field_options($field);
+		}
+		$field_type = isset($field["type"]) ? $field["type"] : "";
+		$meta_key   = isset($field["name"]) ? $field["name"] : "";
+		if ($field_type == 'taxonomy') {
+			$field_type = 'terms';
+		}
+		$value = get_user_meta($userID, $meta_key, true);
+		if ($field_type == 'date_picker') {
+			$value = wp_date(get_option('date_format'), $value);
+		}
+		if ($field_type == 'time_picker') {
+			$value = wp_date(get_option('time_format'), $value);
+		}
+		if ($field_type == 'date_time_picker') {
+			$value = wp_date(get_option('date_format') . ' ' . get_option('time_format'), $value);
+		}
+		if ($render == true) {
+			if ($field_type == 'repeating_field') {
+				$field['value'] = $value;
+				$value = call_user_func('CubeWp_Single_Page_Trait::field_' . $field_type, $field);
+			}
+			if ($field_type == 'terms') {
+				$value = render_taxonomy_value($value);
+			}
+			if ($field_type == 'post') {
+				$value = render_post_value($value);
+			}
+			if ($field_type == 'user') {
+				$value = render_user_value($value);
+			}
+			if ($field_type == 'image' || $field_type == 'gallery') {
+				$value = render_media_value($value);
+			}
+			if ($field_type == 'file') {
+				$value = render_file_value($value);
+			}
+			if ($field_type == 'google_address') {
+				$value = render_map_value($value, $field);
+			}
+		}
+
+		return $value;
+	}
+}
+
+if (! function_exists("render_map_value")) {
+	function render_map_value($value = 0, $field = array())
+	{
+		if ($value == 0) return;
 		$output = '';
-		if (is_array($value) && (isset($value['address']) && isset($value['lat']) && isset($value['lng'])) && !empty($value['lat']) && !empty($value['lng']) ) {
+		if (is_array($value) && (isset($value['address']) && isset($value['lat']) && isset($value['lng'])) && !empty($value['lat']) && !empty($value['lng'])) {
 			CubeWp_Enqueue::enqueue_style('cwp-map-cluster');
 			CubeWp_Enqueue::enqueue_style('cwp-leaflet-css');
 
@@ -1117,8 +1694,8 @@ if ( ! function_exists("render_map_value")) {
 			$address = $value['address'];
 			$lat     = $value['lat'];
 			$lng     = $value['lng'];
-			$pin     = is_single() ? apply_filters( 'cubewp/search_result/map/pin', '', get_the_ID() ) : '';
-			$output  .= '<div class="cwp-cpt-single-google_address cwp-cpt-single-field-container '.esc_attr($field['container_class']).'">
+			$pin     = is_single() ? apply_filters('cubewp/search_result/map/pin', '', get_the_ID()) : '';
+			$output  .= '<div class="cwp-cpt-single-google_address cwp-cpt-single-field-container ' . esc_attr($field['container_class']) . '">
                 <div class="cwp-single-loc ' . $field['class'] . '">
                     <div class="cpt-single-map" data-latitude="' . $lat . '" data-longitude="' . $lng . '" data-pinicon="' . $pin . '" style="height: 300px;width: 100%;"></div>
                     <div class="cwp-map-address">
@@ -1136,23 +1713,144 @@ if ( ! function_exists("render_map_value")) {
 	}
 }
 
-if ( ! function_exists("render_taxonomy_value")) {
-	function render_taxonomy_value($value = 0) {
+/**
+ * Method cubewp_get_nearby_post_ids
+ *
+ * @param string $lat_meta_key
+ * @param string $lng_meta_key
+ * @param string $lat
+ * @param string $lng
+ * @param string $units
+ * @param int $proximity
+ * @param array $additional_query_args
+ *
+ * @return array Post IDs
+ * @since  1.1.29
+ */
+if (! function_exists('cubewp_get_nearby_post_ids')) {
+	function cubewp_get_nearby_post_ids($lat_meta_key = '', $lng_meta_key = '', $lat = '', $lng = '', $units = 'mi', $proximity = 50, $additional_query_args = array())
+	{
+		global $wpdb;
+
+		$earth_radius = $units == 'mi' ? 3959 : 6371;
+
+		// Base SQL query
+		$sql = "
+        SELECT $wpdb->posts.ID,
+        ( %s * IFNULL( acos(
+            cos( radians(%s) ) *
+            cos( radians( latitude.meta_value ) ) *
+            cos( radians( longitude.meta_value ) - radians(%s) ) +
+            sin( radians(%s) ) *
+            sin( radians( latitude.meta_value ) )
+        ), 0 ) )
+        AS distance, latitude.meta_value AS latitude, longitude.meta_value AS longitude
+        FROM $wpdb->posts
+        INNER JOIN $wpdb->postmeta AS latitude ON $wpdb->posts.ID = latitude.post_id
+        INNER JOIN $wpdb->postmeta AS longitude ON $wpdb->posts.ID = longitude.post_id";
+
+		$sql .= " WHERE 1=1
+            AND ($wpdb->posts.post_status = 'publish' )
+            AND latitude.meta_key = %s
+            AND longitude.meta_key = %s";
+
+		// Finalize SQL query
+		$sql .= "
+        HAVING distance < %s
+        ORDER BY distance ASC";
+		// Prepare the SQL query
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Query is assembled from static fragments above; every dynamic value is passed as a placeholder to prepare() here.
+		$sql = $wpdb->prepare($sql, $earth_radius, $lat, $lng, $lat, $lat_meta_key, $lng_meta_key, $proximity);
+
+		// Execute the query and get the post IDs
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- $sql is the already-prepared statement from prepare() above; geo proximity sorting cannot be expressed via WP_Query, and results must stay live as coordinates change.
+		$post_ids = (array) $wpdb->get_col($sql); // Get only post IDs
+		if (empty($post_ids)) {
+			return;
+		}
+
+		return $post_ids;
+	}
+}
+
+/**
+ * Get latitude and longitude from a post's google address field.
+ *
+ * @param int    $post_id         Post ID.
+ * @param string $address_field_key Meta key of the google_address field (without _lat/_lng).
+ * @return array{lat: float|null, lng: float|null} Lat/lng or nulls if not found.
+ * @since  1.1.29
+ */
+if (! function_exists('cubewp_get_post_address_lat_lng')) {
+	function cubewp_get_post_address_lat_lng($post_id, $address_field_key)
+	{
+		$lat = get_post_meta($post_id, $address_field_key . '_lat', true);
+		$lng = get_post_meta($post_id, $address_field_key . '_lng', true);
+		if (empty($lat) || empty($lng)) {
+			$address_meta = get_post_meta($post_id, $address_field_key, true);
+			if (is_array($address_meta)) {
+				$lat = isset($address_meta['latitude']) ? $address_meta['latitude'] : (isset($address_meta['lat']) ? $address_meta['lat'] : null);
+				$lng = isset($address_meta['longitude']) ? $address_meta['longitude'] : (isset($address_meta['lng']) ? $address_meta['lng'] : null);
+			}
+		}
+		return array(
+			'lat' => $lat !== '' && $lat !== null ? floatval($lat) : null,
+			'lng' => $lng !== '' && $lng !== null ? floatval($lng) : null,
+		);
+	}
+}
+
+/**
+ * Get distance between two posts using the same google_address field (Haversine).
+ *
+ * @param int    $from_post_id    Source/reference post ID.
+ * @param int    $to_post_id      Target post ID (e.g. current post in a loop).
+ * @param string $address_field_key Meta key of the google_address field.
+ * @param string $unit            'km' or 'miles' / 'mi'.
+ * @return float|null Distance in the given unit, or null if coordinates missing.
+ * @since  1.1.29
+ */
+if (! function_exists('cubewp_get_distance_between_posts')) {
+	function cubewp_get_distance_between_posts($from_post_id, $to_post_id, $address_field_key, $unit = 'km')
+	{
+		$from = cubewp_get_post_address_lat_lng($from_post_id, $address_field_key);
+		$to   = cubewp_get_post_address_lat_lng($to_post_id, $address_field_key);
+		if ($from['lat'] === null || $from['lng'] === null || $to['lat'] === null || $to['lng'] === null) {
+			return null;
+		}
+		$earth_radius = ($unit === 'mi' || $unit === 'miles') ? 3959 : 6371;
+		$lat1 = deg2rad($from['lat']);
+		$lat2 = deg2rad($to['lat']);
+		$lng1 = deg2rad($from['lng']);
+		$lng2 = deg2rad($to['lng']);
+		$distance = $earth_radius * acos(
+			min(1, max(
+				-1,
+				cos($lat1) * cos($lat2) * cos($lng2 - $lng1) + sin($lat1) * sin($lat2)
+			))
+		);
+		return round($distance, 2);
+	}
+}
+
+if (! function_exists("render_taxonomy_value")) {
+	function render_taxonomy_value($value = 0)
+	{
 		$output = '';
 		if (is_array($value)) {
 			foreach ($value as $terms) {
 				$terms = get_term($terms);
-				if ( ! empty($terms) && !is_wp_error($terms)) {
-					$output .= '<a href="' . get_term_link( $terms ) . '">
+				if (! empty($terms) && !is_wp_error($terms)) {
+					$output .= '<a href="' . get_term_link($terms) . '">
 							<p>' . $terms->name . '</p>
 						</a>';
 				}
 			}
-		}else {
-			if ( ! empty($value)) {
+		} else {
+			if (! empty($value)) {
 				$value = (int) $value;
 				$terms = get_term($value);
-				if ( ! empty($terms) && !is_wp_error($terms)) {
+				if (! empty($terms) && !is_wp_error($terms)) {
 					$output .= '<a href="' . get_term_link($terms) . '">
 							<p>' . $terms->name . '</p>
 						</a>';
@@ -1163,19 +1861,20 @@ if ( ! function_exists("render_taxonomy_value")) {
 	}
 }
 
-if ( ! function_exists("render_post_value")) {
-	function render_post_value($value = '') {
+if (! function_exists("render_post_value")) {
+	function render_post_value($value = '')
+	{
 		$output = '';
 		if (is_array($value)) {
 			foreach ($value as $post_id) {
-					$output .= '<a href="' . get_the_permalink( $post_id ) . '">
-							<p>' . get_the_title( $post_id ) . '</p>
+				$output .= '<a href="' . get_the_permalink($post_id) . '">
+							<p>' . get_the_title($post_id) . '</p>
 						</a>';
 			}
-		}else {
-			if ( ! empty($value)) {
-				$output .= '<a href="' . get_the_permalink( $value ) . '">
-							<p>' . get_the_title( $value ) . '</p>
+		} else {
+			if (! empty($value)) {
+				$output .= '<a href="' . get_the_permalink($value) . '">
+							<p>' . get_the_title($value) . '</p>
 						</a>';
 			}
 		}
@@ -1183,8 +1882,9 @@ if ( ! function_exists("render_post_value")) {
 	}
 }
 
-if ( ! function_exists("render_user_value")) {
-	function render_user_value($value = '') {
+if (! function_exists("render_user_value")) {
+	function render_user_value($value = '')
+	{
 		$output = '';
 		if (is_array($value)) {
 			foreach ($value as $user_id) {
@@ -1192,8 +1892,8 @@ if ( ! function_exists("render_user_value")) {
 						<p>' . get_the_author_meta("user_login", $user_id) . '</p>
 					</a>';
 			}
-		}else {
-			if ( ! empty($value)) {
+		} else {
+			if (! empty($value)) {
 				$output .= '<a href="' . get_the_author_meta("user_url", $value) . '">
 							<p>' . get_the_author_meta("user_login", $value) . '</p>
 						</a>';
@@ -1203,12 +1903,13 @@ if ( ! function_exists("render_user_value")) {
 	}
 }
 
-if ( ! function_exists("render_file_value")) {
-	function render_file_value($value = '') {
+if (! function_exists("render_file_value")) {
+	function render_file_value($value = '')
+	{
 		$output = '';
 		if (!empty($value)) {
 			$fileItemURL = wp_get_attachment_url($value);
-			if ( ! empty($value)) {
+			if (! empty($value)) {
 				$output .= '<a href="' . esc_url($fileItemURL) . '" download>' . esc_html__('Download File', 'cubewp-framework') . '</a>';
 			}
 		}
@@ -1216,8 +1917,9 @@ if ( ! function_exists("render_file_value")) {
 	}
 }
 
-if ( ! function_exists("render_media_value")) {
-	function render_media_value($value = '') {
+if (! function_exists("render_media_value")) {
+	function render_media_value($value = '')
+	{
 		$output = '';
 		if (is_array($value)) {
 			$output .= '<div class="cwp-cpt-single-gallery">';
@@ -1226,10 +1928,10 @@ if ( ! function_exists("render_media_value")) {
 				$output .= '<img src="' . esc_url($galleryItemURL) . '" alt="Gallery Imag" class="cwp-cpt-single-gallery-item">';
 			}
 			$output .= '</div>';
-		}else{
-			if ( ! empty($value)) {
+		} else {
+			if (! empty($value)) {
 				$imageURL     = wp_get_attachment_url($value);
-				if (isset($value) && !empty ($imageURL)) {
+				if (isset($value) && !empty($imageURL)) {
 					$output .= '<img src="' . esc_url($imageURL) . '" alt="image" class="cwp-cpt-single-image-item">';
 				}
 			}
@@ -1238,41 +1940,42 @@ if ( ! function_exists("render_media_value")) {
 	}
 }
 
-if ( ! function_exists("render_multi_value")) {
-	function render_multi_value($key = '', $value = '', $type = 'post-type') {
+if (! function_exists("render_multi_value")) {
+	function render_multi_value($key = '', $value = '', $type = 'post-type')
+	{
 		$label = '';
 		$array = array();
-		if(empty($key) || empty($value)) return;
-		if($type == 'post-type') $field = get_field_options($key);
-		if($type == 'user') $field = get_user_field_options($key);
-		if(empty($field)) return;
+		if (empty($key) || empty($value)) return;
+		if ($type == 'post-type') $field = get_field_options($key);
+		if ($type == 'user') $field = get_user_field_options($key);
+		if (empty($field)) return;
 		if (is_array($field['options'])) {
-            $options = $field['options'];
-        } else {
-            $options = json_decode($field['options'], true);
-        }
-		if(is_array($value)){
-			foreach($value as $val){
-				if(!empty($val)){
-					
-					if(isset($options['value']) && !empty($options['value'])){
+			$options = $field['options'];
+		} else {
+			$options = json_decode($field['options'], true);
+		}
+		if (is_array($value)) {
+			foreach ($value as $val) {
+				if (!empty($val)) {
+
+					if (isset($options['value']) && !empty($options['value'])) {
 						$key = array_search($val, $options['value']);
 					}
-					if(isset($options['label']) && !empty($options['label'])){
+					if (isset($options['label']) && !empty($options['label'])) {
 						$array[] = $options['label'][$key];
 					}
 				}
 			}
 			$label = implode(", ", $array);
-		}else{
-			if(isset($options['value']) && !empty($options['value'])){
+		} else {
+			if (isset($options['value']) && !empty($options['value'])) {
 				$key = array_search($value, $options['value']);
 			}
-			if(isset($options['label']) && !empty($options['label'])){
+			if (isset($options['label']) && !empty($options['label'])) {
 				$label = $options['label'][$key];
 			}
 		}
-        
+
 		return $label;
 	}
 }
@@ -1285,8 +1988,9 @@ if ( ! function_exists("render_multi_value")) {
  * @return array/string
  * @since  1.0.0
  */
-if ( ! function_exists("have_fields")) {
-	function have_fields($field = '') {
+if (! function_exists("have_fields")) {
+	function have_fields($field = '')
+	{
 		return CubeWp_Frontend::have_fields($field);
 	}
 }
@@ -1297,8 +2001,9 @@ if ( ! function_exists("have_fields")) {
  * @return array/string
  * @since  1.0.0
  */
-if ( ! function_exists("the_subfield")) {
-	function the_subfield() {
+if (! function_exists("the_subfield")) {
+	function the_subfield()
+	{
 		return CubeWp_Frontend::the_subfield();
 	}
 }
@@ -1310,15 +2015,17 @@ if ( ! function_exists("the_subfield")) {
  * @return array/string
  * @since  1.0.0
  */
-if ( ! function_exists("get_subfield_value")) {
-	function get_subfield_value($field = '') {
+if (! function_exists("get_subfield_value")) {
+	function get_subfield_value($field = '')
+	{
 		return CubeWp_Frontend::get_subfield_value($field);
 	}
 }
 
-if ( ! function_exists("cubewp_is_elementor_editing")) {
-	function cubewp_is_elementor_editing() {
-		if(!is_admin()){
+if (! function_exists("cubewp_is_elementor_editing")) {
+	function cubewp_is_elementor_editing()
+	{
+		if (!is_admin()) {
 			return false;
 		}
 		$actions = [
@@ -1332,7 +2039,9 @@ if ( ! function_exists("cubewp_is_elementor_editing")) {
 			'elementor_library_direct_actions',
 		];
 
-		if ( isset( $_REQUEST['action'] ) && in_array( $_REQUEST['action'], $actions ) ) {
+		// Read-only check for Elementor editor context; no data is modified here.
+		$req_action = isset($_REQUEST['action']) ? sanitize_key(wp_unslash($_REQUEST['action'])) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ($req_action && in_array($req_action, $actions, true)) {
 			return true;
 		}
 
@@ -1340,26 +2049,121 @@ if ( ! function_exists("cubewp_is_elementor_editing")) {
 	}
 }
 
-if ( ! function_exists("cubewp_get_elementor_preview_post_id")) {
-    function cubewp_get_elementor_preview_post_id() {
 
-        return (isset($_GET['tb_demo_id']) && !empty($_GET['tb_demo_id'])) ? $_GET['tb_demo_id'] : '';
-    }
+if (! function_exists("cubewp_get_elementor_preview_post_id")) {
+	function cubewp_get_elementor_preview_post_id($post_type = '')
+	{
+
+
+		$post_id = '';
+		if (!empty($post_type)) {
+			$args = array(
+				'post_type'      => $post_type,
+				'posts_per_page' => 1,
+				'fields'         => 'ids',
+				'post_status'    => 'publish',
+			);
+			$posts = get_posts($args);
+			if (! empty($posts)) {
+				return $posts[0]; // Return the first post ID
+			}
+		}
+
+		// Elementor editor
+		if (did_action('elementor/loaded') && \Elementor\Plugin::$instance->editor->is_edit_mode()) {
+			$post_id = \Elementor\Plugin::$instance->editor->get_post_id();
+		}
+
+		if (empty($post_id)) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only use of the admin screen's post ID to pick a template; no state change.
+			$post_id = isset($_GET['post']) ? absint(wp_unslash($_GET['post'])) : get_the_ID();
+		}
+	
+		$template_type = get_post_meta($post_id, 'template_type', true);
+		$template_location = get_post_meta($post_id, 'template_location', true);
+		if (get_post_type($post_id) == 'cubewp-tb' && in_array($template_type, array('single', 'archive', 'postcard'))) {
+
+			if ($template_type == 'postcard' || $template_type == 'single') {
+
+				if($template_type == 'single'){
+                    global $post;
+                    if(isset($post->post_type) && $post->post_type !== 'cubewp-tb'){
+                        return (int) $post->ID;
+                    }
+                } 
+				$preview_post_id      = get_post_meta($post_id, 'preview_post_id', true);
+				if ($preview_post_id) {
+					return (int) $preview_post_id;
+				}
+			}
+			$associated_post_type = $template_location ? str_replace($template_type . '_', '', $template_location) : '';
+			if ($associated_post_type == 'all') {
+				$associated_post_type = 'post';
+			}
+			$args = array(
+				'post_type'      => $associated_post_type,
+				'posts_per_page' => 1,
+				'fields'         => 'ids',
+				'post_status'    => 'publish',
+			);
+			$posts = get_posts($args);
+			if (! empty($posts)) {
+				return $posts[0]; // Return the first post ID
+			}
+		}
+		$post_id = get_the_ID();
+		return apply_filters('cubewp_elementor_preview_post_id', $post_id);
+	}
 }
 
-if ( ! function_exists("cubewp_check_if_elementor_active")) {
-	function cubewp_check_if_elementor_active( $pro = false ) {
-		if ( ! $pro) {
+
+if (! function_exists('cubewp_get_elementor_tag_user_id')) {
+	function cubewp_get_elementor_tag_user_id()
+	{
+
+		$user_id = 0;
+
+		// If it's an author archive page
+		if (is_author()) {
+			$author = get_queried_object();
+
+			if ($author && isset($author->ID)) {
+				$user_id = (int) $author->ID;
+			}
+		} elseif (is_single()) {
+			// If it's a single post/page, get the post author
+			$post = get_post();
+
+			if ($post && isset($post->post_author)) {
+				$user_id = (int) $post->post_author;
+			}
+		} else {
+			// Fallback to current logged-in user
+			$current_user_id = get_current_user_id();
+
+			if ($current_user_id) {
+				$user_id = (int) $current_user_id;
+			}
+		}
+
+		return apply_filters('cubewp_elementor_tag_user_id', $user_id);
+	}
+}
+
+if (! function_exists("cubewp_check_if_elementor_active")) {
+	function cubewp_check_if_elementor_active($pro = false)
+	{
+		if (! $pro) {
 			if (did_action('elementor/loaded')) {
 				return true;
 			}
-		}else {
-			return defined( 'ELEMENTOR_PRO_VERSION' );
+		} else {
+			return defined('ELEMENTOR_PRO_VERSION');
 		}
- 
-	   return false;
+
+		return false;
 	}
- }
+}
 
 /**
  * Method get_fields_by_type
@@ -1369,11 +2173,12 @@ if ( ! function_exists("cubewp_check_if_elementor_active")) {
  * @return array
  * @since  1.0.0
  */
-if ( ! function_exists("get_fields_by_type")) {
-	function get_fields_by_type(array $allowed_types) {
+if (! function_exists("get_fields_by_type")) {
+	function get_fields_by_type(array $allowed_types)
+	{
 		$_data     = array();
 		$args      = array(
-			'numberposts' => - 1,
+			'numberposts' => -1,
 			'fields'      => 'ids',
 			'post_type'   => 'cwp_form_fields'
 		);
@@ -1384,7 +2189,7 @@ if ( ! function_exists("get_fields_by_type")) {
 				$group_fields     = $postCustomFields->get_fields_by_group($group);
 				foreach ($group_fields as $group_field) {
 					$options = get_field_options($group_field);
-					if(isset($options['type'])){
+					if (isset($options['type'])) {
 						if (in_array($options['type'], $allowed_types)) {
 							$title               = $options['label'];
 							$_data[$group_field] = $title;
@@ -1406,19 +2211,20 @@ if ( ! function_exists("get_fields_by_type")) {
  * @return array
  * @since  1.0.0
  */
-if ( ! function_exists("get_fields_by_post_type")) {
-	function get_fields_by_post_type($allowed_types) {
+if (! function_exists("get_fields_by_post_type")) {
+	function get_fields_by_post_type($allowed_types)
+	{
 		$_data = array();
-	
+
 		// Ensure $allowed_types is an array
 		if (!is_array($allowed_types)) {
 			$allowed_types = array($allowed_types);
 		}
-	
+
 		$meta_query = array(
 			'relation' => 'OR',
 		);
-	
+
 		foreach ($allowed_types as $type) {
 			$meta_query[] = array(
 				'key'     => '_cwp_group_types',
@@ -1436,21 +2242,21 @@ if ( ! function_exists("get_fields_by_post_type")) {
 				'compare' => 'IN',
 			);
 		}
-	
+
 		$args = array(
 			'numberposts' => -1,
 			'fields'      => 'ids',
 			'post_type'   => 'cwp_form_fields',
-			'meta_query'  => $meta_query
+			'meta_query'  => $meta_query // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 		);
-	
+
 		$allGroups = get_posts($args);
 		if (!empty($allGroups)) {
 			foreach ($allGroups as $group) {
-				$group_fields     = ( new CubeWp_Custom_Fields_Processor )->get_fields_by_group($group);
+				$group_fields     = (new CubeWp_Custom_Fields_Processor)->get_fields_by_group($group);
 				foreach ($group_fields as $group_field) {
 					$options = get_field_options($group_field);
-					if(isset($options['type'])){
+					if (isset($options['type'])) {
 						$_data[$group_field] = $options['label'];
 					}
 				}
@@ -1467,9 +2273,10 @@ if ( ! function_exists("get_fields_by_post_type")) {
  *
  * @return array $SingleFieldOptions List of Field Options.
  */
-if ( ! function_exists("get_user_field_options")) {
-	function get_user_field_options($fieldID = 0) {
-		if ( ! $fieldID) {
+if (! function_exists("get_user_field_options")) {
+	function get_user_field_options($fieldID = 0)
+	{
+		if (! $fieldID) {
 			return;
 		}
 		$fieldOptions = CWP()->get_custom_fields('user');
@@ -1486,8 +2293,9 @@ if ( ! function_exists("get_user_field_options")) {
  * @return bool
  * @since  1.0.0
  */
-if ( ! function_exists("cwp_boolean_value")) {
-	function cwp_boolean_value($value = '') {
+if (! function_exists("cwp_boolean_value")) {
+	function cwp_boolean_value($value = '')
+	{
 		$value = (string) $value;
 		if (empty($value) || '0' === $value || 'false' === $value) {
 			return false;
@@ -1505,9 +2313,12 @@ if ( ! function_exists("cwp_boolean_value")) {
  *
  * @since  1.0.0
  */
-if ( ! function_exists("cwp_pre")) {
-	function cwp_pre($data = array(), $die = false) {
+if (! function_exists("cwp_pre")) {
+	function cwp_pre($data = array(), $die = false)
+	{
 		echo '<pre>';
+		// Helps to print the data in a readable format.
+		// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
 		print_r($data);
 		echo '</pre>';
 		if ($die == true) {
@@ -1521,8 +2332,9 @@ if ( ! function_exists("cwp_pre")) {
  *
  * @return void
  */
-if ( ! function_exists("cwp_output_buffer")) {
-	function cwp_output_buffer() {
+if (! function_exists("cwp_output_buffer")) {
+	function cwp_output_buffer()
+	{
 		ob_start();
 	}
 
@@ -1538,12 +2350,13 @@ if ( ! function_exists("cwp_output_buffer")) {
  * @return array
  * @since  1.0.0
  */
-if ( ! function_exists("cwp_get_posts")) {
-	function cwp_get_posts($post_types = array(), $first_option = '') {
+if (! function_exists("cwp_get_posts")) {
+	function cwp_get_posts($post_types = array(), $first_option = '')
+	{
 		$args   = array(
 			'post_type'      => array($post_types),
 			'post_status'    => 'publish',
-			'posts_per_page' => - 1,
+			'posts_per_page' => -1,
 			'author'         => get_current_user_id(),
 			'fields'         => 'ids'
 		);
@@ -1563,6 +2376,34 @@ if ( ! function_exists("cwp_get_posts")) {
 }
 
 /**
+ * Method cubewp_get_taxonomy_fields_by_type
+ *
+ * @param array $allowed_types
+ *
+ * @return array
+ * @since  1.1.28
+ */
+if (! function_exists("cubewp_get_taxonomy_fields_by_type")) {
+	function cubewp_get_taxonomy_fields_by_type(array $allowed_types)
+	{
+		$_data = array();
+		$taxonomy_custom_fields = CWP()->get_custom_fields('taxonomy');
+		if (!empty($taxonomy_custom_fields) && is_array($taxonomy_custom_fields)) {
+			foreach ($taxonomy_custom_fields as $taxonomy => $fields) {
+				if (!empty($fields) && is_array($fields)) {
+					foreach ($fields as $field) {
+						if (in_array($field['type'], $allowed_types)) {
+							$_data[$field['slug']] = $field['name'];
+						}
+					}
+				}
+			}
+		}
+		return $_data;
+	}
+}
+
+/**
  * Method cwp_get_categories_by_taxonomy
  *
  * @param array  $taxonomy
@@ -1571,8 +2412,9 @@ if ( ! function_exists("cwp_get_posts")) {
  * @return array
  * @since  1.0.0
  */
-if ( ! function_exists("cwp_get_categories_by_taxonomy")) {
-	function cwp_get_categories_by_taxonomy($taxonomy = array(), $first_option = '') {
+if (! function_exists("cwp_get_categories_by_taxonomy")) {
+	function cwp_get_categories_by_taxonomy($taxonomy = array(), $first_option = '')
+	{
 		$terms  = get_terms(array(
 			'taxonomy'   => $taxonomy,
 			'hide_empty' => false,
@@ -1583,7 +2425,7 @@ if ( ! function_exists("cwp_get_categories_by_taxonomy")) {
 		}
 		if (isset($terms) && ! empty($terms)) {
 			foreach ($terms as $term) {
-				if ( ! empty( $term ) && is_object( $term ) ) {
+				if (! empty($term) && is_object($term)) {
 					$output[$term->term_id] = esc_html($term->name);
 				}
 			}
@@ -1602,8 +2444,9 @@ if ( ! function_exists("cwp_get_categories_by_taxonomy")) {
  * @return array
  * @since  1.0.0
  */
-if ( ! function_exists("cwp_get_users_by_role")) {
-	function cwp_get_users_by_role($role = array(), $first_option = '') {
+if (! function_exists("cwp_get_users_by_role")) {
+	function cwp_get_users_by_role($role = array(), $first_option = '')
+	{
 		$args   = array(
 			'role'    => $role,
 			'orderby' => 'display_name',
@@ -1625,6 +2468,54 @@ if ( ! function_exists("cwp_get_users_by_role")) {
 }
 
 /**
+ * Method get_user_fields_by_type
+ *
+ * @param array $allowed_types
+ *
+ * @return array
+ * @since  1.1.30
+ */
+if (! function_exists("get_user_fields_by_type")) {
+	function get_user_fields_by_type(array $allowed_types)
+	{
+		$_data = array();
+		$args = array(
+			'numberposts' => -1,
+			'fields'      => 'ids',
+			'post_type'   => 'cwp_user_fields'
+		);
+
+		$allGroups = get_posts($args);
+		if (isset($allGroups) && !empty($allGroups)) {
+			foreach ($allGroups as $group) {
+				// First, get the fields assigned to this group
+				$fields_json = get_post_meta($group, '_cwp_group_fields', true);
+				$fields_of_specific_group = json_decode($fields_json, true);
+
+				// If decode failed, try manual parsing
+				if ($fields_of_specific_group === null) {
+					$fields_string = trim($fields_json, '[]" ');
+					$fields_of_specific_group = array_map('trim', explode(',', str_replace('"', '', $fields_string)));
+				}
+				// Process each field in the group
+				foreach ($fields_of_specific_group as $field_name) {
+					// Get the field options from CubeWp
+					$options = get_user_field_options($field_name);
+					if (isset($options['type'])) {
+						if (in_array($options['type'], $allowed_types)) {
+							$title = isset($options['label']) ? $options['label'] : $field_name;
+							$_data[$field_name] = $title;
+						}
+					}
+				}
+			}
+		}
+
+		return $_data;
+	}
+}
+
+/**
  * Method cubewp_get_template_part
  *
  * @param string $slug
@@ -1633,8 +2524,9 @@ if ( ! function_exists("cwp_get_users_by_role")) {
  * @return string
  * @since  1.0.0
  */
-if ( ! function_exists('cubewp_get_template_part')) {
-	function cubewp_get_template_part($slug, $name = null) {
+if (! function_exists('cubewp_get_template_part')) {
+	function cubewp_get_template_part($slug, $name = null)
+	{
 		$templates = array();
 		if (isset($name)) {
 			$templates[] = "{$slug}-{$name}.php";
@@ -1655,11 +2547,12 @@ if ( ! function_exists('cubewp_get_template_part')) {
  * @return string
  * @since  1.0.0
  */
-if ( ! function_exists('cubewp_get_template_path')) {
-	function cubewp_get_template_path($template_names, $load = false, $require_once = true) {
+if (! function_exists('cubewp_get_template_path')) {
+	function cubewp_get_template_path($template_names, $load = false, $require_once = true)
+	{
 		$located = '';
 		foreach ((array) $template_names as $template_name) {
-			if ( ! $template_name) {
+			if (! $template_name) {
 				continue;
 			}
 			if (file_exists(CWP_PLUGIN_PATH . $template_name)) {
@@ -1681,11 +2574,12 @@ if ( ! function_exists('cubewp_get_template_path')) {
  * @return array
  * @since  1.0.0
  */
-if ( ! function_exists("cwp_get_current_user_roles")) {
-	function cwp_get_current_user_roles() {
+if (! function_exists("cwp_get_current_user_roles")) {
+	function cwp_get_current_user_roles()
+	{
 		if (is_user_logged_in()) {
 			$user  = wp_get_current_user();
-			$roles = ( array ) $user->roles;
+			$roles = (array) $user->roles;
 
 			return $roles[0];
 		} else {
@@ -1701,14 +2595,15 @@ if ( ! function_exists("cwp_get_current_user_roles")) {
  * @return array
  * @since  1.0.0
  */
-if ( ! function_exists("cwp_get_user_roles_by_id")) {
-	function cwp_get_user_roles_by_id($user_id) {
-		if ( ! $user_id) {
+if (! function_exists("cwp_get_user_roles_by_id")) {
+	function cwp_get_user_roles_by_id($user_id)
+	{
+		if (! $user_id) {
 			return;
 		}
 		$user_data = get_userdata($user_id);
 		if (!empty($user_data)) {
-			$user_role = ( array ) $user_data->roles;
+			$user_role = (array) $user_data->roles;
 			return $user_role[0];
 		} else {
 			return array();
@@ -1722,8 +2617,9 @@ if ( ! function_exists("cwp_get_user_roles_by_id")) {
  * @return array
  * @since  1.0.0
  */
-if ( ! function_exists("cwp_get_user_roles")) {
-	function cwp_get_user_roles() {
+if (! function_exists("cwp_get_user_roles")) {
+	function cwp_get_user_roles()
+	{
 		global $wp_roles;
 
 		return $wp_roles->roles;
@@ -1736,8 +2632,9 @@ if ( ! function_exists("cwp_get_user_roles")) {
  * @return array
  * @since  1.0.0
  */
-if ( ! function_exists("cwp_get_user_roles_name")) {
-	function cwp_get_user_roles_name() {
+if (! function_exists("cwp_get_user_roles_name")) {
+	function cwp_get_user_roles_name()
+	{
 		return wp_roles()->get_names();
 	}
 }
@@ -1750,13 +2647,14 @@ if ( ! function_exists("cwp_get_user_roles_name")) {
  * @return array
  * @since  1.0.0
  */
-if ( ! function_exists("cwp_get_groups_by_user_role")) {
-	function cwp_get_groups_by_user_role($user_role = '') {
+if (! function_exists("cwp_get_groups_by_user_role")) {
+	function cwp_get_groups_by_user_role($user_role = '')
+	{
 		$args = array(
-			'numberposts' => - 1,
+			'numberposts' => -1,
 			'post_type'   => 'cwp_user_fields',
 			'fields'      => 'ids',
-			'meta_query'  => array(
+			'meta_query'  => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 				array(
 					'key'     => '_cwp_group_user_roles',
 					'value'   => $user_role,
@@ -1776,14 +2674,44 @@ if ( ! function_exists("cwp_get_groups_by_user_role")) {
  *
  * @return array $fields_of_specific_group List of Fields.
  */
-if ( ! function_exists("cwp_get_user_fields_by_group_id")) {
-	function cwp_get_user_fields_by_group_id($GroupID = 0) {
-		if ( ! $GroupID) {
+if (! function_exists("cwp_get_user_fields_by_group_id")) {
+	function cwp_get_user_fields_by_group_id($GroupID = 0)
+	{
+		if (! $GroupID) {
 			return;
 		}
 		$fields_of_specific_group = get_post_meta($GroupID, '_cwp_group_fields', true);
 
 		return json_decode($fields_of_specific_group, true);
+	}
+}
+
+/**
+ * Method get_user_fields_by_user_role
+ *
+ * @param string $user_role
+ *
+ * @return array
+ * @since  1.1.30
+ */
+if (! function_exists("get_user_fields_by_user_role")) {
+	function get_user_fields_by_user_role($user_role)
+	{
+		$_data = array();
+
+		$allGroups = cwp_get_groups_by_user_role($user_role);
+		if (!empty($allGroups)) {
+			foreach ($allGroups as $group) {
+				$group_fields     = cwp_get_user_fields_by_group_id($group);
+				foreach ($group_fields as $group_field) {
+					$options = get_user_field_options($group_field);
+					if (isset($options['type'])) {
+						$_data[$group_field] = $options['label'];
+					}
+				}
+			}
+		}
+		return $_data;
 	}
 }
 
@@ -1795,39 +2723,34 @@ if ( ! function_exists("cwp_get_user_fields_by_group_id")) {
  * @return string
  * @since  1.0.0
  */
-if ( ! function_exists('Builder_field_size_to_text')) {
-	function Builder_field_size_to_text($size = 'size-1-1') {
+if (! function_exists('Builder_field_size_to_text')) {
+	function Builder_field_size_to_text($size = 'size-1-1')
+	{
 		switch ($size) {
-			case'size-1-4' :
-			{
-				$size = '1 / 4';
-				break;
-			}
-			case'size-1-3' :
-			{
-				$size = '1 / 3';
-				break;
-			}
-			case'size-1-2' :
-			{
-				$size = '1 / 2';
-				break;
-			}
-			case'size-2-3' :
-			{
-				$size = '2 / 3';
-				break;
-			}
-			case'size-3-4' :
-			{
-				$size = '3 / 4';
-				break;
-			}
-			case'size-1-1' :
-			{
-				$size = '1 / 1';
-				break;
-			}
+			case 'size-1-4': {
+					$size = '1 / 4';
+					break;
+				}
+			case 'size-1-3': {
+					$size = '1 / 3';
+					break;
+				}
+			case 'size-1-2': {
+					$size = '1 / 2';
+					break;
+				}
+			case 'size-2-3': {
+					$size = '2 / 3';
+					break;
+				}
+			case 'size-3-4': {
+					$size = '3 / 4';
+					break;
+				}
+			case 'size-1-1': {
+					$size = '1 / 1';
+					break;
+				}
 		}
 
 		return $size;
@@ -1840,75 +2763,76 @@ if ( ! function_exists('Builder_field_size_to_text')) {
  * @return array
  * @since  1.0.0
  */
-if ( ! function_exists("cubewp_user_default_fields")) {
-	function cubewp_user_default_fields() {
+if (! function_exists("cubewp_user_default_fields")) {
+	function cubewp_user_default_fields()
+	{
 		$wp_default_fields = array(
-		   'user_login'   => array(
-			  'label'    => __("Username", "cubewp-framework"),
-			  'name'     => 'user_login',
-			  'type'     => 'text',
-			  'required' => 1,
+			'user_login'   => array(
+				'label'    => __("Username", "cubewp-framework"),
+				'name'     => 'user_login',
+				'type'     => 'text',
+				'required' => 1,
 				'validation_msg' => '',
-		   ),
-		   'user_email'   => array(
-			  'label'    => __("Email", "cubewp-framework"),
-			  'name'     => 'user_email',
-			  'type'     => 'email',
-			  'required' => 1,
+			),
+			'user_email'   => array(
+				'label'    => __("Email", "cubewp-framework"),
+				'name'     => 'user_email',
+				'type'     => 'email',
+				'required' => 1,
 				'validation_msg' => '',
-		   ),
-		   'user_pass'    => array(
-			  'label'    => __("Password", "cubewp-framework"),
-			  'name'     => 'user_pass',
-			  'type'     => 'password',
-			  'required' => 0,
+			),
+			'user_pass'    => array(
+				'label'    => __("Password", "cubewp-framework"),
+				'name'     => 'user_pass',
+				'type'     => 'password',
+				'required' => 0,
 				'validation_msg' => '',
-		   ),
-		   'confirm_pass' => array(
-			  'label'    => __("Confirm Password", "cubewp-framework"),
-			  'name'     => 'confirm_pass',
-			  'type'     => 'password',
-			  'required' => 1,
+			),
+			'confirm_pass' => array(
+				'label'    => __("Confirm Password", "cubewp-framework"),
+				'name'     => 'confirm_pass',
+				'type'     => 'password',
+				'required' => 1,
 				'validation_msg' => '',
-		   ),
-		   'user_url'     => array(
-			  'label' => __("Website", "cubewp-framework"),
-			  'name'  => 'user_url',
-			  'type'  => 'url',
+			),
+			'user_url'     => array(
+				'label' => __("Website", "cubewp-framework"),
+				'name'  => 'user_url',
+				'type'  => 'url',
 				'validation_msg' => '',
-		   ),
-		   'display_name' => array(
-			  'label' => __("Display Name", "cubewp-framework"),
-			  'name'  => 'display_name',
-			  'type'  => 'text',
+			),
+			'display_name' => array(
+				'label' => __("Display Name", "cubewp-framework"),
+				'name'  => 'display_name',
+				'type'  => 'text',
 				'validation_msg' => '',
-		   ),
-		   'nickname'     => array(
-			  'label' => __("Nickname", "cubewp-framework"),
-			  'name'  => 'nickname',
-			  'type'  => 'text',
+			),
+			'nickname'     => array(
+				'label' => __("Nickname", "cubewp-framework"),
+				'name'  => 'nickname',
+				'type'  => 'text',
 				'validation_msg' => '',
-		   ),
-		   'first_name'   => array(
-			  'label' => __("First Name", "cubewp-framework"),
-			  'name'  => 'first_name',
-			  'type'  => 'text',
+			),
+			'first_name'   => array(
+				'label' => __("First Name", "cubewp-framework"),
+				'name'  => 'first_name',
+				'type'  => 'text',
 				'validation_msg' => '',
-		   ),
-		   'last_name'    => array(
-			  'label' => __("Last Name", "cubewp-framework"),
-			  'name'  => 'last_name',
-			  'type'  => 'text',
+			),
+			'last_name'    => array(
+				'label' => __("Last Name", "cubewp-framework"),
+				'name'  => 'last_name',
+				'type'  => 'text',
 				'validation_msg' => '',
-		   ),
-		   'description'  => array(
-			  'label' => __("Bio", "cubewp-framework"),
-			  'name'  => 'description',
-			  'type'  => 'textarea',
+			),
+			'description'  => array(
+				'label' => __("Bio", "cubewp-framework"),
+				'name'  => 'description',
+				'type'  => 'textarea',
 				'validation_msg' => '',
-		   ),
+			),
 		);
-	
+
 		return $wp_default_fields;
 	}
 }
@@ -1919,39 +2843,41 @@ if ( ! function_exists("cubewp_user_default_fields")) {
  * @return array
  * @since  1.0.0
  */
-if ( ! function_exists("cubewp_user_login_fields")) {
-	function cubewp_user_login_fields() {
-	   $wp_default_fields = array(
-		  'username' => array(
-			 'label'    => __("Username/Email", "cubewp-framework"),
-			 'name'     => 'user_login',
-			 'type'     => 'text',
-			 'required' => 1,
-			 'class'    => 'required',
-			 'validation_msg' => esc_html__("Please Enter Username Or Email", "cubewp-framework")
-		  ),
-		  'password' => array(
-			 'label'    => __("Password", "cubewp-framework"),
-			 'name'     => 'user_pass',
-			 'type'     => 'password',
-			 'required' => 1,
-			 'class'    => 'required',
-			 'validation_msg' => esc_html__("Please Enter Password", "cubewp-framework")
-		  ),
-	   );
- 
-	   return $wp_default_fields;
+if (! function_exists("cubewp_user_login_fields")) {
+	function cubewp_user_login_fields()
+	{
+		$wp_default_fields = array(
+			'username' => array(
+				'label'    => __("Username/Email", "cubewp-framework"),
+				'name'     => 'user_login',
+				'type'     => 'text',
+				'required' => 1,
+				'class'    => 'required',
+				'validation_msg' => esc_html__("Please Enter Username Or Email", "cubewp-framework")
+			),
+			'password' => array(
+				'label'    => __("Password", "cubewp-framework"),
+				'name'     => 'user_pass',
+				'type'     => 'password',
+				'required' => 1,
+				'class'    => 'required',
+				'validation_msg' => esc_html__("Please Enter Password", "cubewp-framework")
+			),
+		);
+
+		return $wp_default_fields;
 	}
 }
- 
+
 /**
  * Method cubewp_forget_password_fields
-*
-* @return array
-* @since  1.0.0
-*/
-if ( ! function_exists("cubewp_forget_password_fields")) {
-	function cubewp_forget_password_fields() {
+ *
+ * @return array
+ * @since  1.0.0
+ */
+if (! function_exists("cubewp_forget_password_fields")) {
+	function cubewp_forget_password_fields()
+	{
 		return array(
 			'username' => array(
 				'label'    => __("Username/Email", "cubewp-framework"),
@@ -1973,15 +2899,30 @@ if ( ! function_exists("cubewp_forget_password_fields")) {
  * @return string
  * @since  1.0.0
  */
-if ( ! function_exists("_get_post_type")) {
-	function _get_post_type($type = '') {
+if (! function_exists("_get_post_type")) {
+	function _get_post_type($type = '')
+	{
 		if (empty($type)) {
-			if (isset($_GET['post_type']) && $_GET['post_type'] != '') {
-				$post_type = sanitize_text_field($_GET['post_type']);
-			} else if (is_tax()) {
-				$post_type = get_taxonomy(get_queried_object()->taxonomy)->object_type[0];
+			// Read-only context: determining post type; no state mutation.
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$raw_get_post_type = isset($_GET['post_type']) ? sanitize_text_field(wp_unslash($_GET['post_type'])) : '';
+			if ($raw_get_post_type !== '') {
+				$post_type = sanitize_key($raw_get_post_type);
+			} elseif (is_tax()) {
+				$qo  = get_queried_object();
+				$tax = $qo && isset($qo->taxonomy) ? get_taxonomy($qo->taxonomy) : null;
+				if ($tax && ! empty($tax->object_type) && is_array($tax->object_type)) {
+					$post_type = sanitize_key(reset($tax->object_type));
+				} else {
+					$post_type = '';
+				}
 			} else {
-				$post_type = isset($_GET['post_type']) ? sanitize_text_field($_GET['post_type']) : get_queried_object()->name;
+				// Fallback to queried object name if present.
+				$qo        = get_queried_object();
+				$fallback  = ($qo && isset($qo->name)) ? $qo->name : '';
+				// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+				$second_raw = isset($_GET['post_type']) ? sanitize_text_field(wp_unslash($_GET['post_type'])) : '';
+				$post_type  = $second_raw !== '' ? sanitize_key($second_raw) : sanitize_key($fallback);
 			}
 
 			return $post_type;
@@ -1998,24 +2939,26 @@ if ( ! function_exists("_get_post_type")) {
  * @return array
  * @since  1.0.0
  */
-if ( ! function_exists( 'get_single_page_settings' ) ) {
-	function get_single_page_settings( string $post_type ){
-		$form_options = CWP()->get_form( "single_layout" );
+if (! function_exists('get_single_page_settings')) {
+	function get_single_page_settings(string $post_type)
+	{
+		$form_options = CWP()->get_form("single_layout");
 		if (isset($form_options[$post_type]['form']) && ! empty($form_options[$post_type]['form'])) {
-				return $form_options[$post_type]['form'];
+			return $form_options[$post_type]['form'];
 		}
 		return array();
 	}
 }
 
-if ( ! function_exists( 'cubewp_remove_edit_with_elementor' ) ) {
-	function cubewp_remove_edit_with_elementor($settings) {
+if (! function_exists('cubewp_remove_edit_with_elementor')) {
+	function cubewp_remove_edit_with_elementor($settings)
+	{
 		if (is_singular() && isset($settings['elementor_edit_page'])) {
 			unset($settings['elementor_edit_page']);
 		}
 		return $settings;
 	}
- 
+
 	//add_action('elementor/frontend/admin_bar/settings', 'cubewp_remove_edit_with_elementor');
 }
 
@@ -2025,8 +2968,9 @@ if ( ! function_exists( 'cubewp_remove_edit_with_elementor' ) ) {
  * @return array
  * @since  1.0.0
  */
-if ( ! function_exists("_get_map_settings")) {
-	function _get_map_settings() {
+if (! function_exists("_get_map_settings")) {
+	function _get_map_settings()
+	{
 		global $cwpOptions;
 		$map = array();
 		if ($cwpOptions) {
@@ -2062,8 +3006,9 @@ if ( ! function_exists("_get_map_settings")) {
  * @return array
  * @since  1.0.0
  */
-if ( ! function_exists("cwp_custom_mime_types")) {
-	function cwp_custom_mime_types($mimes) {
+if (! function_exists("cwp_custom_mime_types")) {
+	function cwp_custom_mime_types($mimes)
+	{
 		$mimes['json'] = 'application/json';
 
 		return $mimes;
@@ -2072,120 +3017,194 @@ if ( ! function_exists("cwp_custom_mime_types")) {
 	add_filter('upload_mimes', 'cwp_custom_mime_types');
 }
 
-if ( ! function_exists("cubewp_add_user_roles_caps")) {
-	function cubewp_add_user_roles_caps() {
-		$roles = array(
-			"subscriber",
-			"contributor"
-		);
-		foreach ( $roles as $role ) {
-			$role_obj = get_role( $role );
-			if ( ! is_wp_error( $role_obj ) && is_object( $role_obj ) && ! empty( $role_obj ) ) {
-				// Add a new capability.
-				if (cwp()->is_request("frontend")) {
-					$role_obj->add_cap( 'edit_posts' );
-					$role_obj->add_cap( 'read' );
-					$role_obj->add_cap( 'delete_posts' );
-				}else {
-					$role_obj->remove_cap( 'edit_posts' );
-					$role_obj->remove_cap( 'read' );
-					$role_obj->remove_cap( 'delete_posts' );
-				}
+if (! function_exists("cubewp_add_user_roles_caps")) {
+	/**
+	 * Security fix (2026-09-17).
+	 *
+	 * This used to call add_cap()/remove_cap() on the subscriber and contributor
+	 * roles on EVERY request: add edit_posts/read/delete_posts on front-end, AJAX
+	 * and REST requests, remove them on wp-admin requests. add_cap()/remove_cap()
+	 * write the role definitions to the database, so the stored roles flipped with
+	 * each request, and during REST requests every subscriber could create and
+	 * delete posts through /wp-json/wp/v2 (bypassing CubeWP plans and moderation).
+	 *
+	 * The same front-end/admin behaviour is now applied at runtime with the
+	 * user_has_cap filter (nothing is written per request), REST requests are left
+	 * with WordPress's normal role capabilities, and the stored roles are restored
+	 * to WordPress defaults once.
+	 */
+	function cubewp_add_user_roles_caps()
+	{
+		if ('1' !== get_option('cubewp_role_caps_restored')) {
+			$subscriber = get_role('subscriber');
+			if ($subscriber) {
+				$subscriber->remove_cap('edit_posts');
+				$subscriber->remove_cap('delete_posts');
+				$subscriber->add_cap('read');
 			}
-	   }
+			$contributor = get_role('contributor');
+			if ($contributor) {
+				$contributor->add_cap('edit_posts');
+				$contributor->add_cap('delete_posts');
+				$contributor->add_cap('read');
+			}
+			update_option('cubewp_role_caps_restored', '1', true);
+		}
 	}
- 
+
 	add_action('init', 'cubewp_add_user_roles_caps');
 }
 
-if ( ! function_exists("cubewp_custom_field_group_visibility")) {
-	function cubewp_custom_field_group_secure($post_id = 0) {
-		if($post_id == 0)
-		return false;
-		
+if (! function_exists("cubewp_frontend_role_caps")) {
+	/**
+	 * Runtime version of the old per-request role toggle (see cubewp_add_user_roles_caps).
+	 *
+	 * @param array   $allcaps All capabilities of the user.
+	 * @param array   $caps    Required primitive capabilities.
+	 * @param array   $args    Arguments of the capability check.
+	 * @param WP_User $user    User being checked.
+	 * @return array
+	 */
+	function cubewp_frontend_role_caps($allcaps, $caps, $args, $user)
+	{
+		if (! $user instanceof WP_User || ! array_intersect((array) $user->roles, array('subscriber', 'contributor'))) {
+			return $allcaps;
+		}
+		$doing_ajax = function_exists('wp_doing_ajax') ? wp_doing_ajax() : defined('DOING_AJAX');
+		$doing_cron = function_exists('wp_doing_cron') ? wp_doing_cron() : defined('DOING_CRON');
+		// Never widen capabilities for REST, XML-RPC or cron requests.
+		if ((defined('REST_REQUEST') && REST_REQUEST) || (defined('XMLRPC_REQUEST') && XMLRPC_REQUEST) || $doing_cron) {
+			return $allcaps;
+		}
+		if ($doing_ajax) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reading the action name only, to decide whether this is a CubeWP request.
+			$cwp_action = isset($_REQUEST['action']) ? sanitize_key(wp_unslash($_REQUEST['action'])) : '';
+			/**
+			 * Filter the admin-ajax action prefixes that CubeWP widens capabilities for.
+			 *
+			 * @param array $prefixes Action name prefixes.
+			 */
+			$cwp_prefixes = apply_filters('cubewp_frontend_caps_ajax_prefixes', array('cubewp', 'cwp'));
+			$cwp_matched  = false;
+			foreach ((array) $cwp_prefixes as $cwp_prefix) {
+				if ('' !== $cwp_prefix && 0 === strpos($cwp_action, $cwp_prefix)) {
+					$cwp_matched = true;
+					break;
+				}
+			}
+			// Core and third party ajax actions keep the role's own capabilities.
+			if (! $cwp_matched) {
+				return $allcaps;
+			}
+		}
+		if ((! is_admin() || $doing_ajax) && ! $doing_cron) {
+			$allcaps['edit_posts']   = true;
+			$allcaps['delete_posts'] = true;
+			$allcaps['read']         = true;
+		} else {
+			$allcaps['edit_posts']   = false;
+			$allcaps['delete_posts'] = false;
+			$allcaps['read']         = false;
+		}
+		return $allcaps;
+	}
+
+	add_filter('user_has_cap', 'cubewp_frontend_role_caps', 10, 4);
+}
+
+if (! function_exists("cubewp_custom_field_group_visibility")) {
+	function cubewp_custom_field_group_secure($post_id = 0)
+	{
+		if ($post_id == 0)
+			return false;
+
 		$visibility = get_post_meta($post_id, '_cwp_group_visibility', 'true');
-		if(!empty($visibility) && 'secure' == $visibility){
+		if (!empty($visibility) && 'secure' == $visibility) {
 			return true;
 		}
 		return false;
 	}
 }
 
-if ( ! function_exists( 'cubewp_send_mail' ) ) {
-    function cubewp_send_mail( $to, $subject, $message, $headers = array(), $attachments = array() ) {
-       if ( empty( $to ) || empty( $subject ) || empty( $message ) ) {
-          return false;
-       }
-       $website_name = get_bloginfo( 'name' );
-       $admin_email  = apply_filters( "cubewp_emails_from_mail", get_option( 'admin_email' ) );
+if (! function_exists('cubewp_send_mail')) {
+	function cubewp_send_mail($to, $subject, $message, $headers = array(), $attachments = array())
+	{
+		if (empty($to) || empty($subject) || empty($message)) {
+			return false;
+		}
+		$website_name = get_bloginfo('name');
+		$admin_email  = apply_filters("cubewp_emails_from_mail", get_option('admin_email'));
 
-        if ( empty( $headers ) ) {
-            $headers[] = 'Content-Type: text/html; charset=UTF-8';
-            $headers[] = 'From: ' . esc_html( $website_name ) . ' <' . esc_html( $admin_email ) . '>';
-        }else {
-            $from_header = true;
-            $content_type_header = true;
-            foreach ( $headers as $header ) {
-                if ( $from_header && str_contains( $header, 'From:' ) ) {
-                    $from_header = false;
-                }
-               if ( $content_type_header && str_contains( $header, 'Content-Type:' ) ) {
-                  $content_type_header = false;
-               }
-            }
-            if ( $from_header ) {
-                $headers[] = 'From: ' . esc_html( $website_name ) . ' <' . esc_html( $admin_email ) . '>';
-            }
-            if ( $content_type_header ) {
-                $headers[] = 'Content-Type: text/html; charset=UTF-8';
-            }
-        }
+		if (empty($headers)) {
+			$headers[] = 'Content-Type: text/html; charset=UTF-8';
+			$headers[] = 'From: ' . esc_html($website_name) . ' <' . esc_html($admin_email) . '>';
+		} else {
+			$from_header = true;
+			$content_type_header = true;
+			foreach ($headers as $header) {
+				if ($from_header && str_contains($header, 'From:')) {
+					$from_header = false;
+				}
+				if ($content_type_header && str_contains($header, 'Content-Type:')) {
+					$content_type_header = false;
+				}
+			}
+			if ($from_header) {
+				$headers[] = 'From: ' . esc_html($website_name) . ' <' . esc_html($admin_email) . '>';
+			}
+			if ($content_type_header) {
+				$headers[] = 'Content-Type: text/html; charset=UTF-8';
+			}
+		}
 
-       add_filter( 'wp_mail_content_type', function () {
-          return 'text/html';
-       } );
+		add_filter('wp_mail_content_type', function () {
+			return 'text/html';
+		});
 
-       return wp_mail( $to, $subject, $message, $headers, $attachments );
-    }
-}
-
-if ( ! function_exists("cubewp_single_page_template")) {
-    function cubewp_single_page_template( $post_templates, $wp_theme, $post, $post_type ) {
-       $post_templates['cubewp-template-single.php'] = esc_html__("CubeWP Single Post", "cubewp-frontend");
- 
-       return $post_templates;
-    }
-	if ( cubewp_check_if_elementor_active() && !cubewp_check_if_elementor_active(true)) {
-    	add_filter( 'theme_page_templates', 'cubewp_single_page_template', 11, 4 );
-	}
-}
- 
-if ( ! function_exists("cubewp_single_page_template_output")) {
-    function cubewp_single_page_template_output( $page_template ) {
-       if ( get_page_template_slug() == 'cubewp-template-single.php' ) {
-          $page_template = CUBEWP_FILES . 'templates/cubewp-template-single.php';
-       }
- 
-       return $page_template;
-    }
-	if ( cubewp_check_if_elementor_active() && !cubewp_check_if_elementor_active(true)) {
-    	add_filter( 'page_template', 'cubewp_single_page_template_output',200 );
+		return wp_mail($to, $subject, $message, $headers, $attachments);
 	}
 }
 
-if ( ! function_exists('cwp_alert_ui')) {
-    function cwp_alert_ui( $alert_content = '', $alert_type = 'error' ) {
-        $alert_class = 'cwp-alert-danger';
-        if ( $alert_type == 'success' ) {
-        	$alert_class = 'cwp-alert-success';
-        } else if ( $alert_type == 'warning' ) {
-        	$alert_class = 'cwp-alert-warning';
-        } else if ( $alert_type == 'info' ) {
-        	$alert_class = 'cwp-alert-info';
-        }
-        $alert_content = ! empty($alert_content) ? '<div class="cwp-alert-content">' . $alert_content . '</div>' : '';
-    
-        return '<div class="cwp-alert ' . esc_attr( $alert_class ) . '">
+if (! function_exists("cubewp_single_page_template")) {
+	function cubewp_single_page_template($post_templates, $wp_theme, $post, $post_type)
+	{
+		$post_templates['cubewp-template-single.php'] = esc_html__("CubeWP Single Post", "cubewp-framework");
+
+		return $post_templates;
+	}
+	if (cubewp_check_if_elementor_active() && !cubewp_check_if_elementor_active(true)) {
+		add_filter('theme_page_templates', 'cubewp_single_page_template', 11, 4);
+	}
+}
+
+if (! function_exists("cubewp_single_page_template_output")) {
+	function cubewp_single_page_template_output($page_template)
+	{
+		if (get_page_template_slug() == 'cubewp-template-single.php') {
+			$page_template = CUBEWP_FILES . 'templates/cubewp-template-single.php';
+		}
+
+		return $page_template;
+	}
+	if (cubewp_check_if_elementor_active() && !cubewp_check_if_elementor_active(true)) {
+		add_filter('page_template', 'cubewp_single_page_template_output', 200);
+	}
+}
+
+if (! function_exists('cwp_alert_ui')) {
+	function cwp_alert_ui($alert_content = '', $alert_type = 'error')
+	{
+		$alert_class = 'cwp-alert-danger';
+		if ($alert_type == 'success') {
+			$alert_class = 'cwp-alert-success';
+		} else if ($alert_type == 'warning') {
+			$alert_class = 'cwp-alert-warning';
+		} else if ($alert_type == 'info') {
+			$alert_class = 'cwp-alert-info';
+		}
+		$alert_content = ! empty($alert_content) ? '<div class="cwp-alert-content">' . $alert_content . '</div>' : '';
+
+		return '<div class="cwp-alert ' . esc_attr($alert_class) . '">
         <h6 class="cwp-alert-heading">' . $alert_type . '!</h6>
             ' . $alert_content . '
             <button type="button" class="cwp-alert-close">
@@ -2194,10 +3213,10 @@ if ( ! function_exists('cwp_alert_ui')) {
                 </svg>
             </button>
         </div>';
-    }
+	}
 }
 
-add_filter( 'cubewp/custom_fields/user/fields', 'fields_update', 9, 2 );
+add_filter('cubewp/custom_fields/user/fields', 'fields_update', 9, 2);
 /**
  * Method fields_update
  *
@@ -2207,138 +3226,152 @@ add_filter( 'cubewp/custom_fields/user/fields', 'fields_update', 9, 2 );
  * @return string html
  * @since  1.0.0
  */
- function fields_update($fields_settings = array(), $fieldData = array()) {
+function fields_update($fields_settings = array(), $fieldData = array())
+{
 	unset($fields_settings['field_map_use']);
 	return $fields_settings;
 }
 
-if ( ! function_exists('cwp_handle_attachment')) {
-    function cwp_handle_attachment( $file_handler = array(), $post_id = 0, $set_as_featured_image = false ) {
-        
-        require_once( ABSPATH . "/wp-admin/includes/media.php" ); // video functions
-        require_once( ABSPATH . "/wp-admin/includes/file.php" );
-        require_once( ABSPATH . "/wp-admin/includes/image.php" );
+if (! function_exists('cwp_handle_attachment')) {
+	function cwp_handle_attachment($file_handler = array(), $post_id = 0, $set_as_featured_image = false)
+	{
 
-        $upload_overrides = array( 'test_form' => false );
+		require_once(ABSPATH . "/wp-admin/includes/media.php"); // video functions
+		require_once(ABSPATH . "/wp-admin/includes/file.php");
+		require_once(ABSPATH . "/wp-admin/includes/image.php");
 
-        // upload
-        $file = wp_handle_upload( $file_handler, $upload_overrides );
+		$upload_overrides = array('test_form' => false);
 
-        if( isset($file['error']) ) {
-            return $file['error'];
-        }
+		// upload
+		$file = wp_handle_upload($file_handler, $upload_overrides);
 
-        // vars
-        $url = $file['url'];
-        $type = $file['type'];
-        $file = $file['file'];
-        $filename = basename($file);
-
-        // Construct the object array
-        $object = array(
-            'post_title'     => $filename,
-            'post_mime_type' => $type,
-            'guid'           => $url
-        );
-
-        // Save the data
-        $attachment_id = wp_insert_attachment($object, $file, $post_id);
-
-        // Add the meta-data
-        wp_update_attachment_metadata( $attachment_id, wp_generate_attachment_metadata( $attachment_id, $file ) );
-
-        if ($set_as_featured_image) set_post_thumbnail($post_id, $attachment_id);
-        // return new ID
-        return $attachment_id;
-    }
-}
-
-if ( ! function_exists( 'cubewp_get_current_url' ) ) {
-	function cubewp_get_current_url() {
-		if ( isset( $_SERVER['HTTPS'] ) &&
-				( $_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] == 1 ) ||
-				isset( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) &&
-				$_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' ) {
-			$protocol = 'https://';
-		} else {
-			$protocol = 'http://';
+		if (isset($file['error'])) {
+			return $file['error'];
 		}
- 
-	   return esc_url( $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
+
+		// vars
+		$url = $file['url'];
+		$type = $file['type'];
+		$file = $file['file'];
+		$filename = basename($file);
+
+		// Construct the object array
+		$object = array(
+			'post_title'     => $filename,
+			'post_mime_type' => $type,
+			'guid'           => $url
+		);
+
+		// Save the data
+		$attachment_id = wp_insert_attachment($object, $file, $post_id);
+
+		// Add the meta-data
+		wp_update_attachment_metadata($attachment_id, wp_generate_attachment_metadata($attachment_id, $file));
+
+		if ($set_as_featured_image) set_post_thumbnail($post_id, $attachment_id);
+		// return new ID
+		return $attachment_id;
 	}
 }
 
-if ( ! function_exists( 'cwp_get_post_card_view' ) ) {
-	function cwp_get_post_card_view() {
+if (! function_exists('cubewp_get_current_url')) {
+	function cubewp_get_current_url()
+	{
+		// Derive scheme safely.
+		$scheme = is_ssl() ? 'https://' : 'http://';
+		// Build host and request URI from $_SERVER with checks and sanitization.
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Recommended
+		$raw_host = isset($_SERVER['HTTP_HOST']) ? sanitize_text_field(wp_unslash($_SERVER['HTTP_HOST'])) : '';
+		// Sanitize host; fallback to empty string if not present.
+		$host = $raw_host !== '' ? strtolower(sanitize_text_field($raw_host)) : '';
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated,WordPress.Security.NonceVerification.Recommended
+		$raw_uri = isset($_SERVER['REQUEST_URI']) ? sanitize_text_field(wp_unslash($_SERVER['REQUEST_URI'])) : '';
+		// Sanitize path/query portion.
+		$uri = $raw_uri !== '' ? esc_url_raw($raw_uri) : '/';
+
+		$url = $scheme . $host . $uri;
+		return esc_url($url);
+	}
+}
+
+if (! function_exists('cwp_get_post_card_view')) {
+	function cwp_get_post_card_view()
+	{
 		$card_view = 'grid-view';
-		if( isset($_COOKIE['cwp_archive_switcher']) && !empty($_COOKIE['cwp_archive_switcher'])  ){
-			$card_view = esc_html($_COOKIE['cwp_archive_switcher']);
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only use of query vars to render notice; no state change performed.
+		$cookie_value = isset($_COOKIE['cwp_archive_switcher']) ? sanitize_text_field(wp_unslash($_COOKIE['cwp_archive_switcher'])) : '';
+		if ($cookie_value !== '') {
+			$card_view =  $cookie_value;
 		}
 		return $card_view;
 	}
 }
 
-if ( ! function_exists( 'cwp_get_attachment_id' ) ) {
-    function cwp_get_attachment_id( $value ) {
-       if ( empty( $value ) ) {
-          return false;
-       }
-       if ( ! is_numeric( $value ) ) {
-          return attachment_url_to_postid( $value );
-       }
+if (! function_exists('cwp_get_attachment_id')) {
+	function cwp_get_attachment_id($value)
+	{
+		if (empty($value)) {
+			return false;
+		}
+		if (! is_numeric($value)) {
+			return attachment_url_to_postid($value);
+		}
 
-       return $value;
-    }
+		return $value;
+	}
 }
 
-if ( ! function_exists( 'cwp_handle_data_format' ) ) {
-    function cwp_handle_data_format( $data ) {
-       $defaults  = array(
-          'value'                => array(),
-          'files_save_separator' => 'array',
-       );
-       $data      = wp_parse_args( $data, $defaults );
-       $value     = $data['value'];
-       $separator = $data['files_save_separator'];
-       if ( empty( $value ) ) {
-          return array();
-       }
-       if ( is_string( $value ) ) {
-          return explode( $separator, $value );
-       }
+if (! function_exists('cwp_handle_data_format')) {
+	function cwp_handle_data_format($data)
+	{
+		$defaults  = array(
+			'value'                => array(),
+			'files_save_separator' => 'array',
+		);
+		$data      = wp_parse_args($data, $defaults);
+		$value     = $data['value'];
+		$separator = $data['files_save_separator'];
+		if (empty($value)) {
+			return array();
+		}
+		if (is_string($value)) {
+			return explode($separator, $value);
+		}
 
-       return $value;
-    }
+		return $value;
+	}
 }
 
-if ( ! function_exists( 'cubewp_delete_attachments_on_post_delete' ) ) {
-    function cubewp_delete_attachments_on_post_delete( $post_id ) {
-        global $cwpOptions;
-	    $cwpOptions = ! empty( $cwpOptions ) && is_array( $cwpOptions ) ? $cwpOptions : get_option( 'cwpOptions' );
-	    $is_enabled = isset( $cwpOptions['delete_custom_posts_attachments'] ) && ! empty( $cwpOptions['delete_custom_posts_attachments'] ) ? $cwpOptions['delete_custom_posts_attachments'] : false;
-        if ( $is_enabled ) {
-	        $cubewp_types = CWP_all_post_types( 'delete_attachments' );
-            $post_type = get_post_type( $post_id );
-            if ( isset( $cubewp_types[ $post_type ] ) ) {
-	            $attachments = get_attached_media( '', $post_id );
-                if ( ! empty( $attachments ) && is_array( $attachments ) ) {
-	                foreach ( $attachments as $attachment ) {
-		                wp_delete_attachment( $attachment->ID, true );
-	                }
-                }
-            }
-        }
-    }
+if (! function_exists('cubewp_delete_attachments_on_post_delete')) {
+	function cubewp_delete_attachments_on_post_delete($post_id)
+	{
+		global $cwpOptions;
+		$cwpOptions = ! empty($cwpOptions) && is_array($cwpOptions) ? $cwpOptions : get_option('cwpOptions');
+		$is_enabled = isset($cwpOptions['delete_custom_posts_attachments']) && ! empty($cwpOptions['delete_custom_posts_attachments']) ? $cwpOptions['delete_custom_posts_attachments'] : false;
+		if ($is_enabled) {
+			$cubewp_types = CWP_all_post_types('delete_attachments');
+			$post_type = get_post_type($post_id);
+			if (isset($cubewp_types[$post_type])) {
+				$attachments = get_attached_media('', $post_id);
+				if (! empty($attachments) && is_array($attachments)) {
+					foreach ($attachments as $attachment) {
+						wp_delete_attachment($attachment->ID, true);
+					}
+				}
+			}
+		}
+	}
 
 	add_action('before_delete_post', 'cubewp_delete_attachments_on_post_delete');
 }
 
-function get_any_field_value( $request ) {
+function get_any_field_value($request)
+{
 	$field_name  = $request['f_name'];
 	$P_ID        = $request['p_id'];
-	if($request['f_type'] == 'post_custom_fields'){
+	if ($request['f_type'] == 'post_custom_fields') {
 		$value = get_post_meta($P_ID, $field_name, true);
-	}elseif($request['f_type'] == 'user_custom_fields'){
+	} elseif ($request['f_type'] == 'user_custom_fields') {
 
 		$value = get_user_meta($P_ID, $field_name, true);
 	}
@@ -2346,24 +3379,26 @@ function get_any_field_value( $request ) {
 }
 
 // Hide custom post types for subscribers
-function cwp_hide_custom_post_types_for_subscribers() {
-    // Get an array of custom post types
-    $custom_post_types = cwp_post_types();
-    // Check if the current user is a subscriber
-    $user = wp_get_current_user();
-    if (!empty($user->roles) && in_array('subscriber', (array) $user->roles, true) && count($user->roles) === 1) {
-        global $submenu;
-        // Loop through each custom post type
-        foreach ($custom_post_types as $slug => $name) {
-            // Remove the custom post type from the admin menu
-            remove_menu_page('edit.php?post_type=' . $slug);
-            // Redirect subscribers if they try to access the custom post type page directly
-            if (isset($_GET['post_type']) && $_GET['post_type'] == $slug) {
-                wp_redirect(admin_url());
-                exit;
-            }
-        }
-    }
+function cwp_hide_custom_post_types_for_subscribers()
+{
+	// Get an array of custom post types
+	$custom_post_types = cwp_post_types();
+	// Check if the current user is a subscriber
+	$user = wp_get_current_user();
+	if (!empty($user->roles) && in_array('subscriber', (array) $user->roles, true) && count($user->roles) === 1) {
+		global $submenu;
+		// Loop through each custom post type
+		foreach ($custom_post_types as $slug => $name) {
+			// Remove the custom post type from the admin menu
+			remove_menu_page('edit.php?post_type=' . $slug);
+			// Redirect subscribers if they try to access the custom post type page directly
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only use of query vars to render notice; no state change performed.
+			if (isset($_GET['post_type']) && sanitize_text_field(wp_unslash($_GET['post_type'])) == $slug) {
+				wp_safe_redirect(admin_url());
+				exit;
+			}
+		}
+	}
 }
 add_action('admin_menu', 'cwp_hide_custom_post_types_for_subscribers', 9);
 
@@ -2378,22 +3413,27 @@ add_action('admin_menu', 'cwp_hide_custom_post_types_for_subscribers', 9);
  *
  * @return array
  */
-function cubewp_post_card_styles($post_type = '') {
+function cubewp_post_card_styles($post_type = '')
+{
 
-	if($post_type == '') return [];
+	if ($post_type == '') return [];
 
-    $cubewp_styles = $cubewp_cards = [];
-	if(class_exists('CubeWp_Loop_Builder')){
+	$cubewp_styles = $cubewp_cards = [];
+	if (class_exists('CubeWp_Loop_Builder')) {
 		$post_types = CWP_all_post_types();
-		foreach ( $post_types as $_post_type => $label ) {
-			$cubewp_cards[ $_post_type ]['label']       	= $label;
-			$cubewp_cards[ $_post_type ]['loop-styles'] = cwp_get_loop_styles_by_post_type($_post_type);
+		foreach ($post_types as $_post_type => $label) {
+			$cubewp_cards[$_post_type]['label']       	= $label;
+			$cubewp_cards[$_post_type]['loop-styles'] = cwp_get_loop_styles_by_post_type($_post_type);
 		}
-		if(isset($cubewp_cards[$post_type]['loop-styles'])){
-            $cubewp_styles = apply_filters( 'cubewp/post/card/styles', $cubewp_cards[$post_type]['loop-styles'], $post_type);
+		if (isset($cubewp_cards[$post_type]['loop-styles'])) {
+			$cubewp_styles = apply_filters('cubewp/post/card/styles', $cubewp_cards[$post_type]['loop-styles'], $post_type);
 		}
 	}
-    return $cubewp_styles;
+	$elementor_postcard_styles = cwp_get_elemetor_postcards_by_type($post_type);
+	if (!empty($elementor_postcard_styles)) {
+		$cubewp_styles = array_merge($cubewp_styles, $elementor_postcard_styles);
+	}
+	return $cubewp_styles;
 }
 
 /**
@@ -2403,24 +3443,25 @@ function cubewp_post_card_styles($post_type = '') {
  *
  * @return array
  */
-function cwp_get_loop_styles_by_post_type($post_type) {
-    global $cwpOptions;
-    $custom_styles = isset($cwpOptions['cwp_loop_style'][$post_type]) && !empty($cwpOptions['cwp_loop_style'][$post_type]) ? explode(',', $cwpOptions['cwp_loop_style'][$post_type]) : [];
+function cwp_get_loop_styles_by_post_type($post_type)
+{
+	global $cwpOptions;
+	$custom_styles = isset($cwpOptions['cwp_loop_style'][$post_type]) && !empty($cwpOptions['cwp_loop_style'][$post_type]) ? explode(',', $cwpOptions['cwp_loop_style'][$post_type]) : [];
 
-    $default_styles = [
-        'default_style' => esc_html__('Basic Style', 'cubewp-framework')
-    ];
+	$default_styles = [
+		'default_style' => esc_html__('Basic Style', 'cubewp-framework')
+	];
 
-    $_custom_styles = [];
-    foreach ($custom_styles as $style) {
-        $key = str_replace(' ', '_', $style);
-        $_custom_styles[$key] = $style;
-    }
+	$_custom_styles = [];
+	foreach ($custom_styles as $style) {
+		$key = str_replace(' ', '_', $style);
+		$_custom_styles[$key] = $style;
+	}
 
-    $filter_styles = apply_filters("cubewp/loop/builder/{$post_type}/styles", []);
-    $filter_styles = is_array($filter_styles) ? $filter_styles : [];
+	$filter_styles = apply_filters("cubewp/loop/builder/{$post_type}/styles", []);
+	$filter_styles = is_array($filter_styles) ? $filter_styles : [];
 
-    $loop_styles = array_merge($default_styles, $_custom_styles, $filter_styles);
+	$loop_styles = array_merge($default_styles, $_custom_styles, $filter_styles);
 	return $loop_styles;
 }
 
@@ -2433,51 +3474,52 @@ function cwp_get_loop_styles_by_post_type($post_type) {
  *
  * @return array
  */
-function cubewp_post_card_style_output($post_type = '', $style = '') {
-		
-    if(empty($post_type)) return array();
+function cubewp_post_card_style_output($post_type = '', $style = '')
+{
 
-    $default = false;
+	if (empty($post_type)) return array();
 
-    $form_options     = CWP()->get_form( 'loop_builder' );
-    if ( ! $style && isset( $form_options[ $post_type ]) ) {
-        foreach ( $form_options[ $post_type ] as $_style => $option ) {
-            if ( isset( $option['form']['loop-is-primary'] ) && $option['form']['loop-is-primary'] == '1' ) {
-                $style = $_style;
-                break;
-            }
-        }
-    }
+	$default = false;
 
-	if ( isset( $form_options[ $post_type ][ $style ] ) && !empty( $form_options[ $post_type ][ $style ] ) ) {
-        $form_options = $form_options[ $post_type ][ $style ];
-    }
+	$form_options     = CWP()->get_form('loop_builder');
+	if (! $style && isset($form_options[$post_type])) {
+		foreach ($form_options[$post_type] as $_style => $option) {
+			if (isset($option['form']['loop-is-primary']) && $option['form']['loop-is-primary'] == '1') {
+				$style = $_style;
+				break;
+			}
+		}
+	}
 
-    $filePath = ensure_cubewp_post_cards_file();
+	if (isset($form_options[$post_type][$style]) && !empty($form_options[$post_type][$style])) {
+		$form_options = $form_options[$post_type][$style];
+	}
 
-    if (file_exists($filePath)) {
-        $html = include $filePath;
-        if (is_array($html) && isset($html[ $post_type ][ $style ])) {
-            $form_options[ 'html' ] = $html[ $post_type ][ $style ]['loop-layout-html'];
-            $form_options[ 'css' ]  = $html[ $post_type ][ $style ]['loop-layout-css'];
-        }else{
-            $default = true;
-        }
-    }else{
-        $default = true;
-    }
-    if($default == true) {
-        
-        $default_style = apply_filters( "cubewp/loop/builder/{$post_type}/{$style}/markup", '',$post_type, $style  );
-        if ( ! empty( $default_style[ 'html' ] ) ) {
-            $loop_layout_html = stripslashes( $default_style[ 'html'  ] );
-            $loop_layout_css = stripslashes( $default_style[ 'css'  ] );
+	$filePath = ensure_cubewp_post_cards_file();
 
-            $form_options[ 'html' ] = $loop_layout_html;
-            $form_options[ 'css' ]  = $loop_layout_css;
-        }
-    }
-    return $form_options;
+	if (file_exists($filePath)) {
+		$html = include $filePath;
+		if (is_array($html) && isset($html[$post_type][$style])) {
+			$form_options['html'] = $html[$post_type][$style]['loop-layout-html'];
+			$form_options['css']  = $html[$post_type][$style]['loop-layout-css'];
+		} else {
+			$default = true;
+		}
+	} else {
+		$default = true;
+	}
+	if ($default == true) {
+
+		$default_style = apply_filters("cubewp/loop/builder/{$post_type}/{$style}/markup", '', $post_type, $style);
+		if (! empty($default_style['html'])) {
+			$loop_layout_html = stripslashes($default_style['html']);
+			$loop_layout_css = stripslashes($default_style['css']);
+
+			$form_options['html'] = $loop_layout_html;
+			$form_options['css']  = $loop_layout_css;
+		}
+	}
+	return $form_options;
 }
 
 /**
@@ -2485,22 +3527,23 @@ function cubewp_post_card_style_output($post_type = '', $style = '') {
  *
  * @return string
  */
-function ensure_cubewp_post_cards_file() {
-    
-    // Check if the directory exists, if not create it
-    if (!file_exists(CUBEWP_POST_CARDS_DIR)) {
-        wp_mkdir_p(CUBEWP_POST_CARDS_DIR);
-    }
-    $cubewp_post_cards_file = CUBEWP_POST_CARDS_DIR . '/cubewp-post-cards.php';
-    
-    // Check if the file exists, if not create it
-    if (!file_exists($cubewp_post_cards_file)) {
-        // Create an empty file
-        file_put_contents($cubewp_post_cards_file, "<?php\n// cubewp-post-cards.php\n");
-    }
-    
-    // Return the file path
-    return $cubewp_post_cards_file;
+function ensure_cubewp_post_cards_file()
+{
+
+	// Check if the directory exists, if not create it
+	if (!file_exists(CUBEWP_POST_CARDS_DIR)) {
+		wp_mkdir_p(CUBEWP_POST_CARDS_DIR);
+	}
+	$cubewp_post_cards_file = CUBEWP_POST_CARDS_DIR . '/cubewp-post-cards.php';
+
+	// Check if the file exists, if not create it
+	if (!file_exists($cubewp_post_cards_file)) {
+		// Create an empty file
+		file_put_contents($cubewp_post_cards_file, "<?php\n// cubewp-post-cards.php\n");
+	}
+
+	// Return the file path
+	return $cubewp_post_cards_file;
 }
 
 
@@ -2512,27 +3555,28 @@ function ensure_cubewp_post_cards_file() {
  *
  * @return string
  */
-function cubewp_process_post_card( $string = '', $postID = '' ) {
-    if (empty($string)) return '';
+function cubewp_process_post_card($string = '', $postID = '')
+{
+	if (empty($string)) return '';
 
-    $string = stripslashes($string);
-    preg_match_all('/\[loop_([^\{\s\]]+)(?:\{([^\}]*)\})?\]/', $string, $matches, PREG_SET_ORDER);
-    $values = array();
-    if ($matches) {
-        foreach ( $matches as $fields ) {
-            
-            $full_field  = $fields[0];
-            $field       = $fields[1];
-            $attributes  = isset($fields[2]) && !empty($fields[2]) ? str_replace('__', ' ', $fields[2]) : ''; 
-            $values[ $full_field ] = cubewp_get_loop_builder_shortcode_value( $field, $postID, $attributes );
-        }
-        
-        foreach ( $values as $field => $value ) {
-            $string = str_replace( $field, (string) $value, $string );
-        }
-    }
+	$string = stripslashes($string);
+	preg_match_all('/\[loop_([^\{\s\]]+)(?:\{([^\}]*)\})?\]/', $string, $matches, PREG_SET_ORDER);
+	$values = array();
+	if ($matches) {
+		foreach ($matches as $fields) {
 
-    return $string;
+			$full_field  = $fields[0];
+			$field       = $fields[1];
+			$attributes  = isset($fields[2]) && !empty($fields[2]) ? str_replace('__', ' ', $fields[2]) : '';
+			$values[$full_field] = cubewp_get_loop_builder_shortcode_value($field, $postID, $attributes);
+		}
+
+		foreach ($values as $field => $value) {
+			$string = str_replace($field, (string) $value, $string);
+		}
+	}
+
+	return $string;
 }
 
 
@@ -2546,75 +3590,77 @@ function cubewp_process_post_card( $string = '', $postID = '' ) {
  *
  * @return string
  */
-function cubewp_get_loop_builder_shortcode_value( $field, $post_id = null, $attributes ='' ) {
-    
-    if ( empty( $post_id ) ) {
-        $post_id = get_the_ID();
-    }
-    $return = null;
-    if ( $field == 'the_title' ) {
-        $return = get_the_title( $post_id );
-    } else if ( $field == 'the_excerpt' ) {
-        $return = get_the_excerpt( $post_id );
-    } else if ( $field == 'the_content' ) {
-        $post_content = strip_tags(get_the_content('', '', $post_id));
-        $words = str_word_count($post_content, 2);
-        $pos = array_keys($words);
-        $return = substr($post_content, 0, $pos[10]) . '...';
-    } else if ( $field == 'post_link' ) {
-        $return = get_the_permalink( $post_id );
-    } else if ( $field == 'the_date' ) {
-        $return = get_the_date( '', $post_id );
-    }else if ( $field == 'post_class' ) {
-        ob_start();
-        echo post_class($attributes);
-        return ob_get_clean();
-        ob_end_flush();
-    } else if ( $field == 'author_name' ) {
-        $author_id = get_post_field( 'post_author', $post_id );
-        $author    = get_userdata( $author_id );
-        if ( ! empty( $author ) && ! is_wp_error( $author ) ) {
-            $return = $author->display_name;
-        }
-    } else if ( $field == 'author_link' ) {
-        $author_id = get_post_field( 'post_author', $post_id );
-        $return    = get_author_posts_url( $author_id );
-    } else if ( $field == 'author_avatar' ) {
-        $author_id = get_post_field( 'post_author', $post_id );
-        $return    = get_avatar_url( $author_id );
-    } else if ( $field == 'featured_image' ) {
-        $return = cubewp_get_post_thumbnail_url( $post_id );
-    } else if ( taxonomy_exists( $field ) ) {
-        $terms = wp_get_post_terms( $post_id, $field );
-        if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
-            $term   = $terms[0];
-            $return = $term->name;
-        }
-    } else if ( str_contains( $field, '_tax_link' ) ) {
-        $taxonomy = str_replace( '_tax_link', '', $field );
-        $terms    = wp_get_post_terms( $post_id, $taxonomy, array( 'fields' => 'ids' ) );
-        if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
-            $term   = $terms[0];
-            $return = get_term_link( $term );
-        }
-    } else if ( $field == 'post_save' ) {
-        ob_start();
-        get_post_save_button( $post_id );
-        $return = ob_get_clean();
-    } else {
-        $return = get_field_value( $field, false, $post_id );
-        if ( is_array( $return ) ) {
-            $return = isset( $return['address'] ) && ! empty( $return['address'] ) ? $return['address'] : '';
-        }
-    }
-    return apply_filters( 'cubewp/post/card/tags/value', $return, $field, $post_id );
+function cubewp_get_loop_builder_shortcode_value($field, $post_id = null, $attributes = '')
+{
+
+	if (empty($post_id)) {
+		$post_id = get_the_ID();
+	}
+	$return = null;
+	if ($field == 'the_title') {
+		$return = get_the_title($post_id);
+	} else if ($field == 'the_excerpt') {
+		$return = get_the_excerpt($post_id);
+	} else if ($field === 'the_content') {
+		$post_content = get_the_content(null, false, $post_id);
+		$post_content = wp_strip_all_tags($post_content);
+		$return = wp_trim_words($post_content, 10, '...');
+	} else if ($field == 'post_link') {
+		$return = get_the_permalink($post_id);
+	} else if ($field == 'the_date') {
+		$return = get_the_date('', $post_id);
+	} else if ($field == 'post_class') {
+		ob_start();
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo post_class($attributes);
+		return ob_get_clean();
+		ob_end_flush();
+	} else if ($field == 'author_name') {
+		$author_id = get_post_field('post_author', $post_id);
+		$author    = get_userdata($author_id);
+		if (! empty($author) && ! is_wp_error($author)) {
+			$return = $author->display_name;
+		}
+	} else if ($field == 'author_link') {
+		$author_id = get_post_field('post_author', $post_id);
+		$return    = get_author_posts_url($author_id);
+	} else if ($field == 'author_avatar') {
+		$author_id = get_post_field('post_author', $post_id);
+		$return    = get_avatar_url($author_id);
+	} else if ($field == 'featured_image') {
+		$return = cubewp_get_post_thumbnail_url($post_id);
+	} else if (taxonomy_exists($field)) {
+		$terms = wp_get_post_terms($post_id, $field);
+		if (! empty($terms) && ! is_wp_error($terms)) {
+			$term   = $terms[0];
+			$return = $term->name;
+		}
+	} else if (str_contains($field, '_tax_link')) {
+		$taxonomy = str_replace('_tax_link', '', $field);
+		$terms    = wp_get_post_terms($post_id, $taxonomy, array('fields' => 'ids'));
+		if (! empty($terms) && ! is_wp_error($terms)) {
+			$term   = $terms[0];
+			$return = get_term_link($term);
+		}
+	} else if ($field == 'post_save') {
+		ob_start();
+		get_post_save_button($post_id);
+		$return = ob_get_clean();
+	} else {
+		$return = get_field_value($field, false, $post_id);
+		if (is_array($return)) {
+			$return = isset($return['address']) && ! empty($return['address']) ? $return['address'] : '';
+		}
+	}
+	return apply_filters('cubewp/post/card/tags/value', $return, $field, $post_id, $attributes);
 }
 
 /* END OF CUBEWP POST CARD FUNCTIONS */
 
-function cwp_business_hours_status($schedule) {
-	
-	if(!is_array($schedule) || empty($schedule)) return;
+function cwp_business_hours_status($schedule)
+{
+
+	if (!is_array($schedule) || empty($schedule)) return;
 
 	// Get the WordPress timezone
 	$timezone = wp_timezone_string();
@@ -2634,25 +3680,30 @@ function cwp_business_hours_status($schedule) {
 	if (array_key_exists($currentDay, $schedule)) {
 		$isOpen = false;
 		$times = $schedule[$currentDay];
-		
-		if(!is_array($times) && is_string($times) && $times == '24-hours-open'){
+
+		if (!is_array($times) && is_string($times) && $times == '24-hours-open') {
 			$isOpen = true;
-		}else{
-			$openTimes = $times['open'];
-			$closeTimes = $times['close'];
+		} else {
+			/* Same normalisation as the field renderers: a day may hold one slot
+			 * as a scalar or several as an array, and a malformed day may hold
+			 * neither. count() on a string or null is fatal in PHP 8, and this
+			 * helper runs on the public single page. */
+			$openTimes = array_values((array) (isset($times['open']) ? $times['open'] : array()));
+			$closeTimes = array_values((array) (isset($times['close']) ? $times['close'] : array()));
 			// Check if the current time falls within any open and close period
-			for ($i = 0; $i < count($openTimes); $i++) {
+			$slot_count = min(count($openTimes), count($closeTimes));
+			for ($i = 0; $i < $slot_count; $i++) {
 				$openTime = $openTimes[$i];
 				$closeTime = $closeTimes[$i];
-		
+
 				if ($currentTime >= $openTime && $currentTime <= $closeTime) {
 					$isOpen = true;
 					break;
 				}
 			}
 		}
-		
-	
+
+
 		if ($isOpen) {
 			return esc_html__("Open now", "cubewp-framework");
 		} else {
@@ -2663,18 +3714,1901 @@ function cwp_business_hours_status($schedule) {
 	}
 }
 
-function remove_admin_notices_for_custom_page() {
-    // Check if we are on the custom page
-    if(
+function remove_admin_notices_for_custom_page()
+{
+	// Check if we are on the custom page
+	if (
 		CWP()->is_admin_screen('cubewp_loop_builder') ||
 		CWP()->is_admin_screen('cubewp_post_types_form') ||
 		CWP()->is_admin_screen('cubewp_user_profile_form') ||
-		CWP()->is_admin_screen('cubewp_user_registration_form') || 
+		CWP()->is_admin_screen('cubewp_user_registration_form') ||
 		CWP()->is_admin_screen('cubewp_admin_search_filters') ||
 		CWP()->is_admin_screen('cubewp_admin_search_fields') ||
 		CWP()->is_admin_screen('cubewp_single_layout')
-	){
-        remove_all_actions( 'admin_notices' ); // Remove admin notices
-    }
+	) {
+		remove_all_actions('admin_notices'); // Remove admin notices
+	}
 }
-add_action( 'admin_head', 'remove_admin_notices_for_custom_page' );
+add_action('admin_head', 'remove_admin_notices_for_custom_page');
+
+/*---------------- Mega Menu Modules ----------------*/
+if (!function_exists('cubewp_mega_menu_options')) {
+	function cubewp_mega_menu_options($widget, $section_id, $args)
+	{
+		$post_id = get_the_ID();
+		$template_type = get_post_meta($post_id, 'template_type', true);
+		if (get_post_type($post_id) == 'cubewp-tb' && $template_type == 'mega-menu' && 'container' === $widget->get_name()) {
+			if ('section_custom_css_pro' !== $section_id) {
+				return;
+			}
+			$widget->start_controls_section(
+				'enable_mega_container_section',
+				[
+					'label' => __('Mega Menu Options', 'cubewp-framework'),
+					'tab' => \Elementor\Controls_Manager::TAB_ADVANCED,
+				]
+			);
+			// Enable Mega Menu Container Switch
+			$widget->add_control(
+				'enable_mega_menu_container',
+				[
+					'label' => __('Enable this container for Mega Menu', 'cubewp-framework'),
+					'type' => \Elementor\Controls_Manager::SWITCHER,
+					'label_on' => __('Yes', 'cubewp-framework'),
+					'label_off' => __('No', 'cubewp-framework'),
+					'return_value' => 'yes',
+					'description' => __('Use this setting if this container is displayed on mobile or if it is intended for mobile-only usage.', 'cubewp-framework'),
+				]
+			);
+			// Dropdown for selecting trigger type
+			$widget->add_control(
+				'mega_menu_trigger_for',
+				[
+					'label' => __('Trigger For', 'cubewp-framework'),
+					'type' => \Elementor\Controls_Manager::SELECT,
+					'options' => [
+						'container-back-slide' => __('Back', 'cubewp-framework'),
+						'container-next-triger' => __('Next', 'cubewp-framework'),
+						'container-next-screen' => __('Container', 'cubewp-framework'),
+					],
+					'condition' => [
+						'enable_mega_menu_container' => 'yes',
+					],
+				]
+			);
+			// Dynamic Description based on selection
+			$widget->add_control(
+				'mega_menu_trigger_description',
+				[
+					'type' => \Elementor\Controls_Manager::RAW_HTML,
+					'raw' => '<p>' . __('Now this is the Sub menu of your menu', 'cubewp-framework') . '</p>',
+					'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
+					'condition' => [
+						'enable_mega_menu_container' => 'yes',
+						'mega_menu_trigger_for' => 'container-next-screen',
+					],
+				]
+			);
+			$widget->add_control(
+				'mega_menu_trigger_description_back',
+				[
+					'type' => \Elementor\Controls_Manager::RAW_HTML,
+					'raw' => '<p>' . __('Now this container works to go back to the mega sub-menu.', 'cubewp-framework') . '</p>',
+					'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
+					'condition' => [
+						'enable_mega_menu_container' => 'yes',
+						'mega_menu_trigger_for' => 'container-back-slide',
+					],
+				]
+			);
+			$widget->add_control(
+				'mega_menu_trigger_description_next',
+				[
+					'type' => \Elementor\Controls_Manager::RAW_HTML,
+					'raw' => '<p>' . __('Now this container works to go to the next mega sub-menu.', 'cubewp-framework') . '</p>',
+					'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
+					'condition' => [
+						'enable_mega_menu_container' => 'yes',
+						'mega_menu_trigger_for' => 'container-next-triger',
+					],
+				]
+			);
+			$widget->end_controls_section();
+		}
+	}
+	add_action('elementor/element/after_section_end', 'cubewp_mega_menu_options', 25, 3);
+}
+
+if (!function_exists('render_cubewp_mega_menu_options')) {
+	function render_cubewp_mega_menu_options($widget)
+	{
+		$settings = $widget->get_settings_for_display();
+		$get_settings_enable = isset($settings['enable_mega_menu_container']) ? $settings['enable_mega_menu_container'] : '';
+		$trigger_for = isset($settings['mega_menu_trigger_for']) ? $settings['mega_menu_trigger_for'] : '';
+		if ($get_settings_enable === 'yes') {
+			if (!empty($trigger_for)) {
+				$widget->add_render_attribute('_wrapper', 'class', $trigger_for);
+			}
+		}
+	}
+	add_action('elementor/frontend/before_render', 'render_cubewp_mega_menu_options', 25);
+}
+
+if (!function_exists('cubewp_get_get_promotional_cards_list')) {
+	function cubewp_get_get_promotional_cards_list()
+	{
+		$args = array(
+			'post_type'      => 'cubewp-tb',
+			'meta_query'     => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+				array('key' => 'template_location', 'value' => 'cubewp_post_loop_promotional_card', 'compare' => '=',),
+			),
+			'posts_per_page' => -1,
+		);
+
+		$posts = get_posts($args);
+		$cubewp_promotional_cards = [];
+
+		foreach ($posts as $post) {
+			$cubewp_promotional_cards[$post->ID] = array($post->post_title);
+		}
+
+		return $cubewp_promotional_cards;
+	}
+}
+
+if (!function_exists('cubewp_format_promotional_card_slider_width')) {
+	/**
+	 * Format Elementor slider control value as a CSS width string.
+	 *
+	 * @param array|string $slider_value Slider array (size, unit) or pre-formatted string.
+	 * @return string
+	 */
+	function cubewp_format_promotional_card_slider_width($slider_value)
+	{
+		if (is_string($slider_value)) {
+			return $slider_value;
+		}
+		if (empty($slider_value) || !is_array($slider_value) || !isset($slider_value['size']) || $slider_value['size'] === '') {
+			return '';
+		}
+		$unit = isset($slider_value['unit']) ? $slider_value['unit'] : 'px';
+
+		return $slider_value['size'] . $unit;
+	}
+}
+
+if (!function_exists('cubewp_get_promotional_card_responsive_widths')) {
+	/**
+	 * Extract desktop, tablet, and mobile widths from a promotional card repeater item.
+	 *
+	 * @param array $promotional_card Repeater item from Elementor settings.
+	 * @return array{desktop:string,tablet:string,mobile:string}
+	 */
+	function cubewp_get_promotional_card_responsive_widths($promotional_card)
+	{
+		$desktop = cubewp_format_promotional_card_slider_width($promotional_card['cubewp_promotional_card_width'] ?? array());
+		$tablet  = cubewp_format_promotional_card_slider_width($promotional_card['cubewp_promotional_card_width_tablet'] ?? array());
+		$mobile  = cubewp_format_promotional_card_slider_width($promotional_card['cubewp_promotional_card_width_mobile'] ?? array());
+
+		if ($tablet === '') {
+			$tablet = $desktop;
+		}
+		if ($mobile === '') {
+			$mobile = $tablet;
+		}
+
+		return array(
+			'desktop' => $desktop,
+			'tablet'  => $tablet,
+			'mobile'  => $mobile,
+		);
+	}
+}
+
+if (!function_exists('cubewp_promotional_card_output')) {
+	function cubewp_promotional_card_output($promotional_cardID, $width)
+	{
+		ob_start();
+
+		if (empty($width) || empty($promotional_cardID)) {
+			return '';
+		}
+
+		$is_responsive = is_array($width) && isset($width['desktop']);
+		$unique_class  = '';
+		if ($is_responsive) {
+			$desktop_width = $width['desktop'];
+			$tablet_width  = $width['tablet'] ?? $desktop_width;
+			$mobile_width  = $width['mobile'] ?? $tablet_width;
+			if ($desktop_width === '') {
+				return '';
+			}
+			$unique_class  = 'cwp-pcard-' . wp_unique_id();
+			$wrapper_class = 'cubewp-promotional-card ' . $unique_class;
+		} else {
+			$desktop_width = $width;
+			$wrapper_class = 'cubewp-promotional-card';
+		}
+	?>
+		<?php if ($is_responsive && $unique_class !== '' && ($tablet_width !== $desktop_width || $mobile_width !== $desktop_width)) : ?>
+			<style>
+				@media (max-width: 1024px) {
+					.<?php echo esc_attr($unique_class); ?> {
+						width: <?php echo esc_attr($tablet_width); ?> !important;
+					}
+				}
+
+				@media (max-width: 767px) {
+					.<?php echo esc_attr($unique_class); ?> {
+						width: <?php echo esc_attr($mobile_width); ?> !important;
+					}
+				}
+			</style>
+		<?php endif; ?>
+		<div class="<?php echo esc_attr($wrapper_class); ?>" style="width:<?php echo esc_attr($desktop_width); ?>">
+			<?php
+			if (class_exists('\Elementor\Plugin') && \Elementor\Plugin::$instance->documents) {
+				$document = \Elementor\Plugin::$instance->documents->get($promotional_cardID);
+				if ($document && $document->is_built_with_elementor()) {
+					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					echo \Elementor\Plugin::$instance->frontend->get_builder_content_for_display($promotional_cardID);
+				}
+			}
+			?>
+		</div>
+<?php
+
+		return ob_get_clean();
+	}
+}
+
+/** ------------ Theme Builder Post Card & Term Card ------------ */
+
+/**
+ * Method cubewp_register_postcard_page_controls
+ *
+ * @param $element 
+ *
+ * @return void
+ */
+ /**
+ * Register Elementor controls for CubeWP templates
+ */
+if (!function_exists('cubewp_register_postcard_page_controls')) {
+
+	function cubewp_register_postcard_page_controls($element) {
+
+		if (!$element instanceof \Elementor\Core\DocumentTypes\PageBase || !$element::get_property('has_elements')) {
+			return;
+		}
+
+		$post_id       = get_the_ID();
+		$post_type     = get_post_type($post_id);
+		$template_type = get_post_meta($post_id, 'template_type', true);
+
+		if ($post_type !== 'cubewp-tb') {
+			return;
+		}
+
+		$template_location = get_post_meta($post_id, 'template_location', true);
+
+		/**
+		 * Helper: Fetch posts for preview dropdown
+		 */
+		$get_posts_for_preview = function ($post_type) {
+
+			if (!$post_type) {
+				return [];
+			}
+
+			$options = get_posts([
+				'post_type'      => $post_type,
+				'posts_per_page' => 10,
+				'orderby'        => 'date',
+				'order'          => 'DESC',
+				'fields'         => 'ids',
+			]);
+
+			$posts = [];
+
+			if (!empty($options)) {
+				foreach ($options as $id) {
+					$posts[$id] = get_the_title($id);
+				}
+			}
+
+			return $posts;
+		};
+
+		/**
+		 * POSTCARD TEMPLATE
+		 */
+		if ($template_type === 'postcard') {
+
+			$associated_post_type = $template_location ? str_replace('postcard_', '', $template_location) : '';
+			$preview_post_id      = get_post_meta($post_id, 'preview_post_id', true);
+			$primary_post_card    = get_post_meta($post_id, 'primary_post_card', true);
+
+			$posts = $get_posts_for_preview($associated_post_type);
+
+			$element->start_controls_section(
+				'postcard_section',
+				[
+					'label' => __('Post Card Settings', 'cubewp-framework'),
+					'tab'   => \Elementor\Controls_Manager::TAB_SETTINGS,
+				]
+			);
+
+			$element->add_control(
+				'preview_post_id',
+				[
+					'label'              => __('Select Post for Preview', 'cubewp-framework'),
+					'type'               => \Elementor\Controls_Manager::SELECT2,
+					'options'            => $posts,
+					'description'        => __('Select a post to preview the postcard template. This will not affect front-end posts.', 'cubewp-framework'),
+					'default'            => $preview_post_id ?: '',
+					'render_type'        => 'ui',
+					'frontend_available' => true,
+				]
+			);
+
+			$element->add_control(
+				'primary_post_card',
+				[
+					'label'        => __('Make this Post-Card primary for this Post-Type', 'cubewp-framework'),
+					'type'         => \Elementor\Controls_Manager::SWITCHER,
+					'label_on'     => __('Yes', 'cubewp-framework'),
+					'label_off'    => __('No', 'cubewp-framework'),
+					'return_value' => 'yes',
+					'default'      => $primary_post_card ?: 'no',
+					'description'  => __('Enable to make this postcard the primary template.', 'cubewp-framework'),
+				]
+			);
+
+			$element->add_control(
+				'default_col_class',
+				[
+					'label'       => __('Default Column Class', 'cubewp-framework'),
+					'type'        => \Elementor\Controls_Manager::TEXT,
+					'default'     => 'cwp-col-12 cwp-col-md-6 cwp-col-lg-4',
+					'description' => __('Add custom CSS classes to the post card container.', 'cubewp-framework'),
+				]
+			);
+
+			$element->end_controls_section();
+		}
+
+		/**
+		 * SINGLE TEMPLATE
+		 */
+		elseif ($template_type === 'single') {
+
+			$associated_post_type = $template_location ? str_replace('single_', '', $template_location) : '';
+			$preview_post_id      = get_post_meta($post_id, 'preview_post_id', true);
+
+			$posts = $get_posts_for_preview($associated_post_type);
+
+			$element->start_controls_section(
+				'single_section',
+				[
+					'label' => __('CubeWP Single Settings', 'cubewp-framework'),
+					'tab'   => \Elementor\Controls_Manager::TAB_SETTINGS,
+				]
+			);
+
+			$element->add_control(
+				'preview_post_id',
+				[
+					'label'              => __('Select Post for Preview', 'cubewp-framework'),
+					'type'               => \Elementor\Controls_Manager::SELECT2,
+					'options'            => $posts,
+					'description'        => __('Select a post to preview the single template.', 'cubewp-framework'),
+					'default'            => $preview_post_id ?: '',
+					'render_type'        => 'ui',
+					'frontend_available' => true,
+				]
+			);
+
+			$element->end_controls_section();
+		}
+
+		/**
+		 * TERM CARD TEMPLATE
+		 */
+		elseif ($template_type === 'termcard') {
+
+			$associated_taxonomy = $template_location ? str_replace('termcard_', '', $template_location) : '';
+			$preview_term_slug   = get_post_meta($post_id, 'preview_term_slug', true);
+
+			$terms = [];
+
+			if ($associated_taxonomy) {
+
+				$options = get_terms([
+					'taxonomy'   => $associated_taxonomy,
+					'hide_empty' => false,
+					'number'     => 50,
+				]);
+
+				if (!is_wp_error($options) && !empty($options)) {
+					foreach ($options as $term) {
+						$terms[$term->slug] = $term->name;
+					}
+				}
+			}
+
+			if (empty($preview_term_slug) && !empty($terms)) {
+				$preview_term_slug = array_key_first($terms);
+			}
+
+			$element->start_controls_section(
+				'termcard_section',
+				[
+					'label' => __('Term Card Settings', 'cubewp-framework'),
+					'tab'   => \Elementor\Controls_Manager::TAB_SETTINGS,
+				]
+			);
+
+			$element->add_control(
+				'preview_term_slug',
+				[
+					'label'              => __('Select Term for Preview', 'cubewp-framework'),
+					'type'               => \Elementor\Controls_Manager::SELECT2,
+					'options'            => $terms,
+					'description'        => __('Select a term to preview this term card. This only affects the builder view.', 'cubewp-framework'),
+					'default'            => $preview_term_slug ? $preview_term_slug : '',
+					'render_type'        => 'ui',
+					'frontend_available' => true,
+				]
+			);
+
+			$element->end_controls_section();
+		}
+
+		/**
+		 * USER CARD TEMPLATE
+		 */
+		elseif ($template_type === 'usercard') {
+
+			$associated_role   = $template_location ? str_replace('usercard_', '', $template_location) : '';
+			$preview_user_id   = get_post_meta($post_id, 'preview_user_id', true);
+
+			$user_query_args = array(
+				'number'  => 50,
+				'orderby' => 'registered',
+				'order'   => 'DESC',
+			);
+			if ($associated_role && $associated_role !== 'all') {
+				$user_query_args['role'] = $associated_role;
+			}
+			$user_query = new WP_User_Query($user_query_args);
+			$users_list = array();
+			if (! empty($user_query->get_results())) {
+				foreach ($user_query->get_results() as $user_obj) {
+					$users_list[$user_obj->ID] = $user_obj->display_name ? $user_obj->display_name : $user_obj->user_login;
+				}
+			}
+
+			if (empty($preview_user_id) && ! empty($users_list)) {
+				$preview_user_id = (int) array_key_first($users_list);
+			}
+
+			$element->start_controls_section(
+				'usercard_section',
+				array(
+					'label' => __('User Card Settings', 'cubewp-framework'),
+					'tab'   => \Elementor\Controls_Manager::TAB_SETTINGS,
+				)
+			);
+
+			$element->add_control(
+				'preview_user_id',
+				array(
+					'label'              => __('Select User for Preview', 'cubewp-framework'),
+					'type'               => \Elementor\Controls_Manager::SELECT2,
+					'options'            => $users_list,
+					'description'        => __('Select a user to preview this user card. This only affects the builder view.', 'cubewp-framework'),
+					'default'            => $preview_user_id ? $preview_user_id : '',
+					'render_type'        => 'ui',
+					'frontend_available' => true,
+				)
+			);
+
+			$element->end_controls_section();
+		}
+	}
+
+	add_action('elementor/documents/register_controls', 'cubewp_register_postcard_page_controls');
+}
+
+/**
+ * Method cubewp_save_elementor_postcard_settings
+ *
+ * @param $document 
+ * @param $data 
+ *
+ * @return void
+ */
+if (!function_exists('cubewp_save_elementor_postcard_settings')) {
+	function cubewp_save_elementor_postcard_settings($document, $data)
+	{
+		$post_id = $document->get_main_id();
+
+		if (get_post_type($post_id) === 'cubewp-tb') {
+			if (isset($data['settings']['preview_post_id'])) {
+				update_post_meta($post_id, 'preview_post_id', $data['settings']['preview_post_id']);
+			}
+
+			if (isset($data['settings']['default_col_class'])) {
+				update_post_meta($post_id, 'default_col_class', $data['settings']['default_col_class']);
+			}
+
+			/* Handle Primary Postcard Logic — ONLY when the save actually carries
+			 * the setting. Elementor's after_save fires for saves whose payload
+			 * does not include this control, and defaulting the absent case to
+			 * 'no' wrote that default over a card the user had marked Primary:
+			 * the status silently disappeared on an unrelated save. Every other
+			 * setting in this function is already guarded the same way. */
+			if (isset($data['settings']['primary_post_card'])) {
+				$primary_post_card = $data['settings']['primary_post_card'] === 'yes' ? 'yes' : 'no';
+				update_post_meta($post_id, 'primary_post_card', $primary_post_card);
+
+				if ($primary_post_card === 'yes') {
+					cubewp_disable_other_elementor_primary_postcards($post_id);
+				}
+			}
+
+			if (isset($data['settings']['preview_term_slug'])) {
+				update_post_meta($post_id, 'preview_term_slug', $data['settings']['preview_term_slug']);
+			}
+
+			if (isset($data['settings']['preview_user_id'])) {
+				update_post_meta($post_id, 'preview_user_id', absint($data['settings']['preview_user_id']));
+			}
+		}
+	}
+	add_action('elementor/document/after_save', 'cubewp_save_elementor_postcard_settings', 10, 2);
+}
+
+/**
+ * Disable other primary postcards for the same post type
+ *
+ * @param int $current_post_id
+ * @return void
+ */
+if (!function_exists('cubewp_disable_other_elementor_primary_postcards')) {
+	function cubewp_disable_other_elementor_primary_postcards($current_post_id)
+	{
+		$template_location = get_post_meta($current_post_id, 'template_location', true);
+		$associated_post_type = $template_location ? str_replace('postcard_', '', $template_location) : '';
+
+		if (empty($associated_post_type)) {
+			return;
+		}
+
+		$args = array(
+			'post_type'      => 'cubewp-tb',
+			'fields'         => 'ids',
+			'post__not_in'   => array($current_post_id), // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_post__not_in
+			'meta_query'     => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+				'relation' => 'AND',
+				array(
+					'key'     => 'template_type',
+					'value'   => 'postcard',
+					'compare' => '=',
+				),
+				array(
+					'key'     => 'template_location',
+					'value'   => 'postcard_' . $associated_post_type,
+					'compare' => '=',
+				),
+				array(
+					'key'     => 'primary_post_card',
+					'value'   => 'yes',
+					'compare' => '=',
+				),
+			),
+		);
+
+		$other_postcards = get_posts($args);
+
+		if (!empty($other_postcards)) {
+			foreach ($other_postcards as $other_id) {
+				update_post_meta($other_id, 'primary_post_card', 'no');
+			}
+		}
+	}
+}
+
+/**
+ * Method cubewp_elementor_preview_post_id
+ *
+ * @param $preview_id 
+ *
+ * @return int
+ */
+if (!function_exists('cubewp_elementor_post_card_preview_post_id')) {
+	function cubewp_elementor_post_card_preview_post_id($preview_id)
+	{
+		$post_id = get_the_ID();
+		$template_type = get_post_meta($post_id, 'template_type', true);
+		if (get_post_type($post_id) == 'cubewp-tb' && $template_type == 'postcard') {
+			$preview_post_id      = get_post_meta($post_id, 'preview_post_id', true);
+			if ($preview_post_id) {
+				return (int) $preview_post_id;
+			} else {
+				$template_location = get_post_meta($post_id, 'template_location', true);
+				$associated_post_type = $template_location ? str_replace('postcard_', '', $template_location) : '';
+				$args = array(
+					'post_type'      => $associated_post_type,
+					'posts_per_page' => 1,
+					'fields'         => 'ids',
+					'post_status'    => 'publish',
+				);
+				$products = get_posts($args);
+				if (! empty($products)) {
+					return $products[0]; // Return the first product ID
+				}
+			}
+		}
+		return $preview_id;
+	}
+	add_filter('cubewp_elementor_preview_post_id', 'cubewp_elementor_post_card_preview_post_id', 14);
+}
+
+if (! function_exists('cubewp_get_preview_term_id')) {
+	/**
+	 * Get the preview term ID when editing a termcard template in Elementor.
+	 *
+	 * @return int|null Returns the preview term ID if available, otherwise null.
+	 */
+	function cubewp_get_preview_term_id()
+	{
+		// Ensure Elementor is loaded and we’re in editor mode
+		if (! did_action('elementor/loaded')) {
+			return null;
+		}
+
+		$elementor = \Elementor\Plugin::$instance;
+		if (! $elementor->editor || ! $elementor->editor->is_edit_mode()) {
+			return null;
+		}
+
+		$post_id = get_the_ID();
+
+		if (! $post_id || get_post_type($post_id) !== 'cubewp-tb') {
+			return null;
+		}
+
+		// Only proceed for termcard templates
+		$template_type = get_post_meta($post_id, 'template_type', true);
+		if ($template_type !== 'termcard') {
+			return null;
+		}
+
+		// Get related taxonomy and preview term slug
+		$template_location   = get_post_meta($post_id, 'template_location', true);
+		$associated_taxonomy = $template_location ? str_replace('termcard_', '', $template_location) : '';
+		$preview_term_slug   = get_post_meta($post_id, 'preview_term_slug', true);
+		$preview_term_id     = null;
+		if ($associated_taxonomy && taxonomy_exists($associated_taxonomy)) {
+			// Try to get term from slug first
+			if (! empty($preview_term_slug)) {
+				$term = get_term_by('slug', $preview_term_slug, $associated_taxonomy);
+				if ($term && ! is_wp_error($term)) {
+					$preview_term_id = $term->term_id;
+				}
+			}
+
+			// Fallback: use the first available term
+			if (! $preview_term_id) {
+				$terms = get_terms([
+					'taxonomy'   => $associated_taxonomy,
+					'hide_empty' => false,
+					'orderby'    => 'term_id',
+					'order'      => 'ASC',
+				]);
+
+				if (! is_wp_error($terms) && ! empty($terms)) {
+					$first_term = reset($terms);
+					$preview_term_id = $first_term->term_id;
+				}
+			}
+		}
+
+		return $preview_term_id ? absint($preview_term_id) : null;
+	}
+}
+
+if (! function_exists('cubewp_get_preview_user_id')) {
+	/**
+	 * Get the preview user ID when editing a usercard template in Elementor.
+	 *
+	 * @return int|null
+	 */
+	function cubewp_get_preview_user_id()
+	{
+		if (! did_action('elementor/loaded')) {
+			return null;
+		}
+
+		$elementor = \Elementor\Plugin::$instance;
+		if (! $elementor->editor || ! $elementor->editor->is_edit_mode()) {
+			return null;
+		}
+
+		$post_id = get_the_ID();
+		if (! $post_id || get_post_type($post_id) !== 'cubewp-tb') {
+			return null;
+		}
+
+		$template_type = get_post_meta($post_id, 'template_type', true);
+		if ($template_type !== 'usercard') {
+			return null;
+		}
+
+		$template_location = get_post_meta($post_id, 'template_location', true);
+		$associated_role   = $template_location ? str_replace('usercard_', '', $template_location) : '';
+		$preview_user_id   = (int) get_post_meta($post_id, 'preview_user_id', true);
+
+		if ($preview_user_id > 0 && get_user_by('id', $preview_user_id)) {
+			return $preview_user_id;
+		}
+
+		$user_query_args = array('number' => 1, 'orderby' => 'registered', 'order' => 'ASC');
+		if ($associated_role && $associated_role !== 'all') {
+			$user_query_args['role'] = $associated_role;
+		}
+		$user_query = new WP_User_Query($user_query_args);
+		$users      = $user_query->get_results();
+		if (! empty($users[0]) && $users[0] instanceof WP_User) {
+			return (int) $users[0]->ID;
+		}
+
+		return null;
+	}
+}
+
+if (! function_exists('cubewp_elementor_user_card_preview_user_id')) {
+	function cubewp_elementor_user_card_preview_user_id($user_id)
+	{
+		$preview = cubewp_get_preview_user_id();
+		if ($preview) {
+			return $preview;
+		}
+		return $user_id;
+	}
+	add_filter('cubewp_elementor_tag_user_id', 'cubewp_elementor_user_card_preview_user_id', 12);
+}
+
+/**
+ * Method cwp_get_elemetor_postcards_by_type
+ *
+ * @param $post_type 
+ *
+ * @return array
+ */
+if (!function_exists('cwp_get_elemetor_postcards_by_type')) {
+	function cwp_get_elemetor_postcards_by_type($post_type = '')
+	{
+		if (empty($post_type)) return [];
+		$args = array(
+			'post_type'      => 'cubewp-tb',
+			'meta_query'     => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+				array('key' => 'template_location', 'value' => 'postcard_' . $post_type, 'compare' => '=',),
+			),
+			'posts_per_page' => -1,
+		);
+		$posts = get_posts($args);
+		$cubewp_postcards = [];
+		if (!empty($posts) && is_array($posts)) {
+			foreach ($posts as $post) {
+				if (! empty($post->post_name)) {
+					$cubewp_postcards['_cwp_elmentor_' . $post->post_name] = array($post->post_title);
+				}
+			}
+		}
+		return $cubewp_postcards;
+	}
+}
+
+/**
+ * Method cwp_get_elemetor_termcards_by_type
+ *
+ * @param $taxonomy 
+ *
+ * @return array
+ */
+if (! function_exists('cwp_get_elemetor_termcards_by_type')) {
+	function cwp_get_elemetor_termcards_by_type($taxonomy = '')
+	{
+		if (empty($taxonomy)) {
+			return [];
+		}
+
+		$args = [
+			'post_type'      => 'cubewp-tb',
+			'posts_per_page' => -1,
+			'meta_query'     => [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+				[
+					'key'     => 'template_location',
+					'value'   => 'termcard_' . $taxonomy,
+					'compare' => '=',
+				],
+			],
+		];
+
+		$posts = get_posts($args);
+		$termcards = [];
+
+		if (! empty($posts) && is_array($posts)) {
+			foreach ($posts as $post) {
+				$termcards['_vp_elmentor_term_' . $post->post_name] = $post->post_title;
+			}
+		}
+		return $termcards;
+	}
+}
+
+/**
+ * Get editable WordPress roles for user card / users widget selects.
+ *
+ * @return array
+ */
+if (! function_exists('cubewp_get_editable_user_role_options')) {
+	function cubewp_get_editable_user_role_options()
+	{
+		$options = array(
+			'all' => esc_html__('All Roles', 'cubewp-framework'),
+		);
+		if (! function_exists('get_editable_roles')) {
+			require_once ABSPATH . 'wp-admin/includes/user.php';
+		}
+		$roles = get_editable_roles();
+		if (! empty($roles) && is_array($roles)) {
+			foreach ($roles as $role_key => $role_data) {
+				$options[$role_key] = isset($role_data['name']) ? $role_data['name'] : $role_key;
+			}
+		}
+		return apply_filters('cubewp/users/role_options', $options);
+	}
+}
+
+/**
+ * Elementor user card templates for a role.
+ *
+ * @param string $role Role slug or "all".
+ * @return array
+ */
+if (! function_exists('cwp_get_elemetor_usercards_by_type')) {
+	function cwp_get_elemetor_usercards_by_type($role = '')
+	{
+		if (empty($role)) {
+			return array();
+		}
+		$args = array(
+			'post_type'      => 'cubewp-tb',
+			'posts_per_page' => -1,
+			'meta_query'     => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+				array(
+					'key'     => 'template_location',
+					'value'   => 'usercard_' . $role,
+					'compare' => '=',
+				),
+			),
+		);
+		$posts     = get_posts($args);
+		$usercards = array();
+		if (! empty($posts) && is_array($posts)) {
+			foreach ($posts as $post) {
+				$usercards['_vp_elmentor_user_' . $post->post_name] = $post->post_title;
+			}
+		}
+		return $usercards;
+	}
+}
+
+/**
+ * Build WP_User_Query args from CubeWP Users widget/shortcode parameters.
+ *
+ * @param array $parameters Widget or shortcode settings.
+ * @return array
+ */
+if (! function_exists('cubewp_build_users_query_args')) {
+	function cubewp_build_users_query_args($parameters = array())
+	{
+		$user_role = '';
+		if (! empty($parameters['user_role'])) {
+			$user_role = $parameters['user_role'];
+		} elseif (! empty($parameters['taxonomy'])) {
+			$user_role = $parameters['taxonomy'];
+		}
+
+		$users_per_page = isset($parameters['users_per_page']) ? $parameters['users_per_page'] : '0';
+		$users_source   = isset($parameters['users_source']) ? $parameters['users_source'] : 'all';
+		$user_ids_input = isset($parameters['user_ids']) ? trim($parameters['user_ids']) : '';
+		$user_roles_in  = isset($parameters['user_roles']) ? trim($parameters['user_roles']) : '';
+		$orderby        = isset($parameters['orderby']) ? $parameters['orderby'] : 'registered';
+		$order          = isset($parameters['order']) && in_array(strtoupper($parameters['order']), array('ASC', 'DESC'), true) ? strtoupper($parameters['order']) : 'DESC';
+
+		$args = array(
+			'orderby' => $orderby,
+			'order'   => $order,
+		);
+
+		if (is_numeric($users_per_page) && (int) $users_per_page > 0) {
+			$args['number'] = (int) $users_per_page;
+		}
+
+		if ($user_role && $user_role !== 'all') {
+			$args['role'] = sanitize_key($user_role);
+		}
+
+		if ($users_source === 'by_ids' && $user_ids_input !== '') {
+			$args['include'] = array_map('intval', array_filter(array_map('trim', explode(',', $user_ids_input))));
+		} elseif ($users_source === 'by_roles' && $user_roles_in !== '') {
+			$roles = array_map('sanitize_key', array_filter(array_map('trim', explode(',', $user_roles_in))));
+			if (! empty($roles)) {
+				$args['role__in'] = $roles;
+				unset($args['role']);
+			}
+		}
+
+		if (isset($parameters['author_filter']) && $parameters['author_filter'] === 'yes') {
+			$author_filter_type = isset($parameters['author_filter_type']) ? $parameters['author_filter_type'] : 'current_user';
+			$author_id          = 0;
+			if ($author_filter_type === 'custom' && ! empty($parameters['custom_author_id'])) {
+				$author_id = (int) $parameters['custom_author_id'];
+			} elseif ($author_filter_type === 'dynamic') {
+				$author_id = (int) cubewp_get_elementor_tag_user_id();
+			} else {
+				$author_id = (int) get_current_user_id();
+			}
+			if ($author_id > 0) {
+				$args['include'] = array($author_id);
+			}
+		}
+
+		return apply_filters('cubewp/users/query_args', $args, $parameters);
+	}
+}
+
+/**
+ * Resolve users list from widget/shortcode parameters.
+ *
+ * @param array $parameters Settings.
+ * @return WP_User[]
+ */
+if (! function_exists('cubewp_get_users_from_parameters')) {
+	function cubewp_get_users_from_parameters($parameters = array())
+	{
+		$query = new WP_User_Query(cubewp_build_users_query_args($parameters));
+		$users = $query->get_results();
+		return is_array($users) ? $users : array();
+	}
+}
+
+/**
+ * Use loop user context for Elementor dynamic tags inside user cards.
+ */
+if (! function_exists('cubewp_elementor_tag_user_id_from_loop')) {
+	function cubewp_elementor_tag_user_id_from_loop($user_id)
+	{
+		if (! empty($GLOBALS['cubewp_user']) && $GLOBALS['cubewp_user'] instanceof WP_User) {
+			return (int) $GLOBALS['cubewp_user']->ID;
+		}
+		return $user_id;
+	}
+	add_filter('cubewp_elementor_tag_user_id', 'cubewp_elementor_tag_user_id_from_loop', 5);
+}
+
+/**
+ * Method cwp_get_elemetor_postcards_by_type
+ *
+ * @param $post_type 
+ *
+ * @return array
+ */
+if (!function_exists('cwp_get_elemetor_primary_postcards_by_type')) {
+	function cwp_get_elemetor_primary_postcard_by_type($post_type = '')
+	{
+		if (empty($post_type)) return [];
+		$args = array(
+			'post_type'      => 'cubewp-tb',
+			'meta_query'     => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+				array('key' => 'template_location', 'value' => 'postcard_' . $post_type, 'compare' => '=',),
+				array('key' => 'primary_post_card', 'value' => 'yes', 'compare' => '=',),
+			),
+			'posts_per_page' => 1,
+		);
+		$posts = get_posts($args);
+		if (!empty($posts) && is_array($posts)) {
+			return $posts[0]->ID;
+		}
+		return 0;
+	}
+}
+
+/**
+ * Method cubewp_elementor_post_card_preview_styles
+ *
+ * @return void
+ */
+if (!function_exists('cubewp_elementor_post_card_preview_styles')) {
+	function cubewp_elementor_post_card_preview_styles()
+	{
+		$post_id = get_the_ID();
+		if (! $post_id) {
+			return;
+		}
+		$template_type = get_post_meta($post_id, 'template_type', true);
+
+		if (get_post_type($post_id) === 'cubewp-tb' && $template_type === 'postcard') {
+			wp_add_inline_style(
+				'elementor-frontend',
+				'.elementor.elementor-edit-mode { 
+                    max-width: 580px;
+					margin: 0 auto;
+					box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+				}
+				.elementor.elementor-edit-mode::before {
+					content: "CubeWP Post Card Builder";
+					font-size: 20px;
+					font-weight: 600;
+					text-align: center;
+					width: 100%;
+					display: block;
+					padding: 20px;
+					background: #007cba;
+					color: #fff;
+				}
+				.elementor-edit-area-active .elementor-widget.elementor-loading{
+					opacity: 1 !important;
+				}'
+			);
+			wp_add_inline_script(
+				'elementor-frontend',
+				'document.addEventListener("DOMContentLoaded", function() {
+                // Use MutationObserver to watch for Elementor container
+                const observer = new MutationObserver(function(mutations) {
+                    const elementorContainer = document.querySelector(".elementor.elementor-edit-mode");
+                    if (elementorContainer && !elementorContainer.classList.contains("cwp-elementor-post-card")) {
+                        elementorContainer.classList.add("cwp-elementor-post-card");
+                        observer.disconnect(); // Stop observing once we found it
+                    }
+                });
+                
+                // Start observing
+                observer.observe(document.body, {
+                    childList: true,
+                    subtree: true
+                });
+                
+                // Also try immediately and after delays
+                setTimeout(function() {
+                    const elementorContainer = document.querySelector(".elementor.elementor-edit-mode");
+                    if (elementorContainer && !elementorContainer.classList.contains("cwp-elementor-post-card")) {
+                        elementorContainer.classList.add("cwp-elementor-post-card");
+                    }
+                }, 100);
+                
+                setTimeout(function() {
+                    const elementorContainer = document.querySelector(".elementor.elementor-edit-mode");
+                    if (elementorContainer && !elementorContainer.classList.contains("cwp-elementor-post-card")) {
+                        elementorContainer.classList.add("cwp-elementor-post-card");
+                    }
+                }, 1000);
+            });'
+			);
+		}
+		if (get_post_type($post_id) === 'cubewp-tb' && $template_type === 'termcard') {
+			wp_add_inline_style(
+				'elementor-frontend',
+				'.elementor.elementor-edit-mode { 
+                    max-width: 580px;
+					margin: 0 auto;
+					box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+				}
+				.elementor.elementor-edit-mode::before {
+					content: "Term Card Builder";
+					font-size: 20px;
+					font-weight: 600;
+					text-align: center;
+					width: 100%;
+					display: block;
+					padding: 20px;
+					background: #6600e3;
+					color: #fff;
+				}
+				.elementor-edit-area-active .elementor-widget.elementor-loading{
+					opacity: 1 !important;
+				}'
+			);
+			wp_add_inline_script(
+				'elementor-frontend',
+				'document.addEventListener("DOMContentLoaded", function() {
+                // Use MutationObserver to watch for Elementor container
+                const observer = new MutationObserver(function(mutations) {
+                    const elementorContainer = document.querySelector(".elementor.elementor-edit-mode");
+                    if (elementorContainer && !elementorContainer.classList.contains("cwp-elementor-term-card")) {
+                        elementorContainer.classList.add("cwp-elementor-term-card");
+                        observer.disconnect(); // Stop observing once we found it
+                    }
+                });
+                
+                // Start observing
+                observer.observe(document.body, {
+                    childList: true,
+                    subtree: true
+                });
+                
+                // Also try immediately and after delays
+                setTimeout(function() {
+                    const elementorContainer = document.querySelector(".elementor.elementor-edit-mode");
+                    if (elementorContainer && !elementorContainer.classList.contains("cwp-elementor-term-card")) {
+                        elementorContainer.classList.add("cwp-elementor-term-card");
+                    }
+                }, 100);
+                
+                setTimeout(function() {
+                    const elementorContainer = document.querySelector(".elementor.elementor-edit-mode");
+                    if (elementorContainer && !elementorContainer.classList.contains("cwp-elementor-term-card")) {
+                        elementorContainer.classList.add("cwp-elementor-term-card");
+                    }
+                }, 1000);
+            });'
+			);
+		}
+		if (get_post_type($post_id) === 'cubewp-tb' && $template_type === 'usercard') {
+			wp_add_inline_style(
+				'elementor-frontend',
+				'.elementor.elementor-edit-mode { 
+                    max-width: 580px;
+					margin: 0 auto;
+					box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+				}
+				.elementor.elementor-edit-mode::before {
+					content: "User Card Builder";
+					font-size: 20px;
+					font-weight: 600;
+					text-align: center;
+					width: 100%;
+					display: block;
+					padding: 20px;
+					background: #0d7a5f;
+					color: #fff;
+				}
+				.elementor-edit-area-active .elementor-widget.elementor-loading{
+					opacity: 1 !important;
+				}'
+			);
+			wp_add_inline_script(
+				'elementor-frontend',
+				'document.addEventListener("DOMContentLoaded", function() {
+                const observer = new MutationObserver(function(mutations) {
+                    const elementorContainer = document.querySelector(".elementor.elementor-edit-mode");
+                    if (elementorContainer && !elementorContainer.classList.contains("cwp-elementor-user-card")) {
+                        elementorContainer.classList.add("cwp-elementor-user-card");
+                        observer.disconnect();
+                    }
+                });
+                observer.observe(document.body, {
+                    childList: true,
+                    subtree: true
+                });
+                setTimeout(function() {
+                    const elementorContainer = document.querySelector(".elementor.elementor-edit-mode");
+                    if (elementorContainer && !elementorContainer.classList.contains("cwp-elementor-user-card")) {
+                        elementorContainer.classList.add("cwp-elementor-user-card");
+                    }
+                }, 100);
+                setTimeout(function() {
+                    const elementorContainer = document.querySelector(".elementor.elementor-edit-mode");
+                    if (elementorContainer && !elementorContainer.classList.contains("cwp-elementor-user-card")) {
+                        elementorContainer.classList.add("cwp-elementor-user-card");
+                    }
+                }, 1000);
+            });'
+			);
+		}
+	}
+	add_action('elementor/preview/enqueue_styles', 'cubewp_elementor_post_card_preview_styles');
+}
+
+/* Post Card Hover Effect Controls */
+/**
+ * Detect template type: postcard or termcard
+ */
+if (!function_exists('cubewp_get_template_type')) {
+	function cubewp_get_template_type()
+	{
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$post_id = get_the_ID() ?: (isset($_GET['post']) ? absint($_GET['post']) : 0);
+
+		if (! $post_id) return false;
+		if (get_post_type($post_id) !== 'cubewp-tb') return false;
+
+		return get_post_meta($post_id, 'template_type', true); // postcard | termcard | usercard
+	}
+}
+
+/**
+ * Register hover controls for container/button elements
+ */
+if (!function_exists('cubewp_register_hover_controls')) {
+	function cubewp_register_hover_controls($element, $args, $element_type)
+	{
+		$template_type = cubewp_get_template_type();
+
+		if (!in_array($template_type, ['postcard', 'termcard', 'usercard'], true)) {
+			return;
+		}
+
+		if ($template_type === 'postcard') {
+			$label_prefix = 'CubeWP Post Card Hover';
+			$section_id   = 'cwp_postcard_hover_section';
+			$card_class   = 'cwp-elementor-post-card';
+		} elseif ($template_type === 'usercard') {
+			$label_prefix = 'CubeWP User Card Hover Effects';
+			$section_id   = 'cwp_usercard_hover_section';
+			$card_class   = 'cwp-elementor-user-card';
+		} else {
+			$label_prefix = 'CubeWP Term Card Hover Effects';
+			$section_id   = 'cwp_termcard_hover_section';
+			$card_class   = 'cwp-elementor-term-card';
+		}
+
+		$element->start_controls_section(
+			$section_id,
+			[
+				'label' => esc_html__($label_prefix, 'cubewp-framework'), // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
+				'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
+			]
+		);
+
+		/* Common Controls */
+		cubewp_add_common_hover_controls($element);
+
+		/* Button specific controls */
+		if ($element_type === 'button') {
+			$element->add_control(
+				'cwp_hover_button_bg_color',
+				[
+					'label' => __('Background Color', 'cubewp-framework'),
+					'type'  => \Elementor\Controls_Manager::COLOR,
+					'selectors' => [
+						".$card_class:hover .elementor-element-{$element->get_id()} .elementor-button"
+						=> 'background-color: {{VALUE}};',
+					],
+					'frontend_available' => true,
+				]
+			);
+
+			$element->add_control(
+				'cwp_hover_button_icon_color',
+				[
+					'label' => __('Button Text & Icon Color', 'cubewp-framework'),
+					'type'  => \Elementor\Controls_Manager::COLOR,
+					'selectors' => [
+						".$card_class:hover .elementor-element-{$element->get_id()} .elementor-button,
+                         .$card_class:hover .elementor-element-{$element->get_id()} .elementor-button .elementor-button-icon"
+						=> 'color: {{VALUE}};',
+						".$card_class:hover .elementor-element-{$element->get_id()} .elementor-button .elementor-button-icon svg path"
+						=> 'fill: {{VALUE}};',
+					],
+					'frontend_available' => true,
+				]
+			);
+		}
+
+		$element->end_controls_section();
+	}
+}
+
+/**
+ * Hook: Container Controls
+ */
+add_action('elementor/element/container/section_layout/after_section_end', function ($element, $args) {
+	cubewp_register_hover_controls($element, $args, 'container');
+	cubewp_register_click_controls($element, $args, 'container');
+}, 20, 2);
+
+
+/**
+ * Hook: Button Controls
+ */
+add_action('elementor/element/button/section_style/after_section_end', function ($element, $args) {
+	cubewp_register_hover_controls($element, $args, 'button');
+}, 20, 2);
+
+
+/**
+ * Common Hover Controls (shared)
+ */
+if (!function_exists('cubewp_add_common_hover_controls')) {
+	function cubewp_add_common_hover_controls($element)
+	{
+		$element->add_control(
+			'cwp_hover_animation_direction',
+			[
+				'label' => __('Animation Direction', 'cubewp-framework'),
+				'type' => \Elementor\Controls_Manager::SELECT,
+				'default' => 'none',
+				'options' => [
+					'none'   => __('None', 'cubewp-framework'),
+					'top'    => __('Top to Bottom', 'cubewp-framework'),
+					'bottom' => __('Bottom to Top', 'cubewp-framework'),
+					'left'   => __('Left to Right', 'cubewp-framework'),
+					'right'  => __('Right to Left', 'cubewp-framework'),
+					'fade'   => __('Fade In', 'cubewp-framework'),
+					'fadeout' => __('Fade Out', 'cubewp-framework'),
+				],
+				'frontend_available' => true,
+			]
+		);
+
+		$element->add_control(
+			'cwp_hover_translate_distance',
+			[
+				'label' => __('Translate Distance', 'cubewp-framework'),
+				'type' => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => ['px'],
+				'range' => ['px' => ['min' => 0, 'max' => 200]],
+				'default' => ['size' => 30],
+				'condition' => ['cwp_hover_animation_direction!' => ['none', 'fade', 'fadeout']],
+				'frontend_available' => true,
+			]
+		);
+
+		$element->add_control(
+			'cwp_hover_transition_duration',
+			[
+				'label' => __('Transition Duration (s)', 'cubewp-framework'),
+				'type' => \Elementor\Controls_Manager::SLIDER,
+				'range' => ['px' => ['min' => 0.1, 'max' => 3, 'step' => 0.1]],
+				'default' => ['size' => 0.3],
+				'condition' => ['cwp_hover_animation_direction!' => 'none'],
+				'frontend_available' => true,
+			]
+		);
+
+		$element->add_control(
+			'cwp_hover_visibility',
+			[
+				'label' => __('Visibility on Hover', 'cubewp-framework'),
+				'type' => \Elementor\Controls_Manager::SELECT,
+				'default' => 'default',
+				'options' => [
+					'default' => __('No Change', 'cubewp-framework'),
+					'show'    => __('Show on Hover', 'cubewp-framework'),
+					'hide'    => __('Hide on Hover', 'cubewp-framework'),
+				],
+				'condition' => ['cwp_hover_animation_direction' => 'none'],
+				'frontend_available' => true,
+			]
+		);
+	}
+}
+
+
+if (!function_exists('cubewp_register_click_controls')) {
+	function cubewp_register_click_controls($element, $args, $element_type)
+	{
+		$template_type = cubewp_get_template_type();
+		if (!in_array($template_type, ['postcard', 'termcard'])) {
+			return;
+		}
+		$label_prefix = ($template_type === 'postcard') ? 'CubeWP Post Card Popup Options' : 'CubeWP Term Card Click Effects';
+		$section_id = ($template_type === 'postcard')
+			? "cwp_postcard_click_section"
+			: "cwp_termcard_click_section";
+		$element->start_controls_section(
+			$section_id,
+			[
+				'label' => esc_html__($label_prefix, 'cubewp-framework'), // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
+				'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
+			]
+		);
+		cubewp_add_common_click_controls($element);
+		$element->end_controls_section();
+		$element->start_controls_section(
+			'cwp_view_switcher_section',
+			[
+				'label' => esc_html__('CubeWP View Switcher', 'cubewp-framework'), // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
+				'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
+			]
+		);
+		$element->add_control(
+			'cwp_view_switcher_enable',
+			[
+				'label' => __('Enable View Switcher', 'cubewp-framework'),
+				'type' => \Elementor\Controls_Manager::SWITCHER,
+				'default' => 'no',
+				'frontend_available' => true,
+			]
+		);
+		$element->add_control(
+			'cwp_view_switcher_trigger_type',
+			[
+				'label' => __('Trigger Type', 'cubewp-framework'),
+				'type' => \Elementor\Controls_Manager::SELECT,
+				'options' => [
+					'list' => __('List View', 'cubewp-framework'),
+					'grid' => __('Grid View', 'cubewp-framework'),
+				],
+				'default' => 'grid',
+				'condition' => ['cwp_view_switcher_enable' => 'yes'],
+				'frontend_available' => true,
+			]
+		);
+		$element->end_controls_section();
+	}
+}
+
+if (!function_exists('cubewp_add_common_click_controls')) {
+	function cubewp_add_common_click_controls($element)
+	{
+		$element->add_control(
+			'cwp_click_enable',
+			[
+				'label' => __('Enable Click Effects', 'cubewp-framework'),
+				'type' => \Elementor\Controls_Manager::SWITCHER,
+				'default' => 'no',
+				'frontend_available' => true,
+			]
+		);
+
+		$element->add_control(
+			'cwp_click_custom_class',
+			[
+				'label' => __('Custom Class', 'cubewp-framework'),
+				'type' => \Elementor\Controls_Manager::SWITCHER,
+				'default' => 'no',
+				'condition' => ['cwp_click_enable' => 'yes'],
+				'frontend_available' => true,
+			]
+		);
+		$element->add_control(
+			'cwp_click_target_class',
+			[
+				'label' => __('Class', 'cubewp-framework'),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'placeholder' => 'class-name',
+				'description' => __('Class name without dot. All matching elements will react on click.', 'cubewp-framework'),
+				'condition' => ['cwp_click_enable' => 'yes', 'cwp_click_custom_class' => 'yes'],
+				'frontend_available' => true,
+			]
+		);
+
+		$element->add_control(
+			'cwp_click_apply',
+			[
+				'label' => __('Trigger', 'cubewp-framework'),
+				'type' => \Elementor\Controls_Manager::SELECT,
+				'default' => '',
+				'options' => [
+					'Current' => __('Current Element Hide on Click', 'cubewp-framework'),
+					'custom' => __('Custom', 'cubewp-framework'),
+				],
+				'condition' => ['cwp_click_enable' => 'yes'],
+				'frontend_available' => true,
+				'description' => sprintf(
+					'%s<br><span class="elementor-control-description">%s</span>',
+					__('Choose which target to trigger on click.', 'cubewp-framework'),
+					__('When enabled, selecting "Current Element" will hide this section when clicked. If you use "Custom", you can set a custom class to specify the trigger; the action will be performed based on where that class is used.', 'cubewp-framework')
+				),
+			]
+		);
+
+		$element->add_control(
+			'cwp_click_target_apply_class',
+			[
+				'label' => __('Show Class', 'cubewp-framework'),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'placeholder' => 'class-name',
+				'description' => __('Class name to apply on click.', 'cubewp-framework'),
+				'condition' => ['cwp_click_enable' => 'yes', 'cwp_click_apply' => 'custom'],
+				'frontend_available' => true,
+			]
+		);
+
+		// Legacy IDs kept for existing templates / data; defaults: apply = show, remove = hide.
+		$element->add_control(
+			'cwp_click_target_apply_css_controls',
+			[
+				'type' => \Elementor\Controls_Manager::HIDDEN,
+				'default' => 'show',
+				'condition' => ['cwp_click_enable' => 'yes'],
+			]
+		);
+		$element->add_control(
+			'cwp_click_legacy_slider_gate',
+			[
+				'type' => \Elementor\Controls_Manager::HIDDEN,
+				'default' => '',
+			]
+		);
+		$element->add_control(
+			'cwp_click_target_apply_css_transform',
+			[
+				'type' => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => ['px'],
+				'range' => ['px' => ['min' => 0, 'max' => 1000, 'step' => 1]],
+				'default' => ['size' => 0, 'unit' => 'px'],
+				'condition' => ['cwp_click_enable' => 'yes', 'cwp_click_legacy_slider_gate' => 'yes'],
+				'frontend_available' => true,
+			]
+		);
+		$element->add_control(
+			'cwp_click_target_apply_css_transform_x',
+			[
+				'type' => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => ['px'],
+				'range' => ['px' => ['min' => 0, 'max' => 1000, 'step' => 1]],
+				'default' => ['size' => 0, 'unit' => 'px'],
+				'condition' => ['cwp_click_enable' => 'yes', 'cwp_click_legacy_slider_gate' => 'yes'],
+				'frontend_available' => true,
+			]
+		);
+		$element->add_control(
+			'cwp_click_target_apply_css_transition',
+			[
+				'type' => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => ['ms'],
+				'range' => ['ms' => ['min' => 0, 'max' => 1000, 'step' => 1]],
+				'default' => ['size' => 300, 'unit' => 'ms'],
+				'condition' => ['cwp_click_enable' => 'yes', 'cwp_click_legacy_slider_gate' => 'yes'],
+				'frontend_available' => true,
+			]
+		);
+
+		$element->add_control(
+			'cwp_click_target_remove_class',
+			[
+				'label' => __('Remove', 'cubewp-framework'),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'placeholder' => 'class-name',
+				'description' => __('Class name to remove on click.', 'cubewp-framework'),
+				'condition' => ['cwp_click_enable' => 'yes', 'cwp_click_apply' => 'custom'],
+				'frontend_available' => true,
+			]
+		);
+
+		$element->add_control(
+			'cwp_click_target_remove_css_controls',
+			[
+				'type' => \Elementor\Controls_Manager::HIDDEN,
+				'default' => 'hide',
+				'condition' => ['cwp_click_enable' => 'yes'],
+				'frontend_available' => true,
+			]
+		);
+		$element->add_control(
+			'cwp_click_target_remove_css_transform',
+			[
+				'type' => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => ['px'],
+				'range' => ['px' => ['min' => 0, 'max' => 1000, 'step' => 1]],
+				'default' => ['size' => 0, 'unit' => 'px'],
+				'condition' => ['cwp_click_enable' => 'yes', 'cwp_click_apply' => 'custom', 'cwp_click_legacy_slider_gate' => 'yes'],
+				'frontend_available' => true,
+			]
+		);
+		$element->add_control(
+			'cwp_click_target_remove_css_transform_x',
+			[
+				'type' => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => ['px'],
+				'range' => ['px' => ['min' => 0, 'max' => 1000, 'step' => 1]],
+				'default' => ['size' => 0, 'unit' => 'px'],
+				'condition' => ['cwp_click_enable' => 'yes', 'cwp_click_apply' => 'custom', 'cwp_click_legacy_slider_gate' => 'yes'],
+				'frontend_available' => true,
+			]
+		);
+		$element->add_control(
+			'cwp_click_target_remove_css_transition',
+			[
+				'type' => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => ['ms'],
+				'range' => ['ms' => ['min' => 0, 'max' => 1000, 'step' => 1]],
+				'default' => ['size' => 300, 'unit' => 'ms'],
+				'condition' => ['cwp_click_enable' => 'yes', 'cwp_click_apply' => 'custom', 'cwp_click_legacy_slider_gate' => 'yes'],
+				'frontend_available' => true,
+			]
+		);
+	}
+}
+
+/**
+ * Before Render Logic (CSS variables)
+ */
+if (!function_exists('cubewp_woo_elementor_before_render')) {
+	function cubewp_woo_elementor_before_render($element)
+	{
+		if (!in_array($element->get_name(), ['container', 'button', 'icon'])) return;
+
+		$raw = $element->get_settings();
+		$display = $element->get_settings_for_display();
+
+		$fields = [
+			'cwp_hover_animation_direction',
+			'cwp_hover_translate_distance',
+			'cwp_hover_transition_duration',
+			'cwp_hover_visibility',
+			'cwp_hover_button_bg_color',
+			'cwp_hover_button_icon_color',
+			'cwp_click_enable',
+			'cwp_click_custom_class',
+			'cwp_click_target_class',
+			'cwp_click_apply',
+			'cwp_click_target_apply_class',
+			'cwp_click_target_apply_css_controls',
+			'cwp_click_target_apply_css_transform',
+			'cwp_click_target_apply_css_transform_x',
+			'cwp_click_target_apply_css_transition',
+			'cwp_click_target_remove_class',
+			'cwp_click_target_remove_css_controls',
+			'cwp_click_target_remove_css_transform',
+			'cwp_click_target_remove_css_transform_x',
+			'cwp_click_target_remove_css_transition',
+			'cwp_view_switcher_enable',
+			'cwp_view_switcher_trigger_type',
+		];
+
+		$has_settings = false;
+		foreach ($fields as $f) {
+			if (isset($raw[$f])) {
+				$has_settings = true;
+				break;
+			}
+		}
+
+		if (!$has_settings) return;
+
+		$direction  = $display['cwp_hover_animation_direction'] ?? 'none';
+		$distance   = $display['cwp_hover_translate_distance']['size'] ?? 30;
+		$duration   = $display['cwp_hover_transition_duration']['size'] ?? 0.3;
+		$visibility = $display['cwp_hover_visibility'] ?? 'default';
+
+		$css = [];
+		$css2 = [];
+		if (isset($display['cwp_view_switcher_enable']) && $display['cwp_view_switcher_enable'] === 'yes') { 
+			$visibility_list = (isset($display['cwp_view_switcher_trigger_type']) && $display['cwp_view_switcher_trigger_type'] === 'list') 
+				? ' cubewp-view-list' 
+				: ' cubewp-view-grid';
+		
+			$attr = ['class' => 'cwp-hover-element cubewp-view-switcher ' . $visibility_list];
+		} else {
+			$attr = ['class' => 'cwp-hover-element'];
+		}
+
+		if (!($direction === 'none' && $visibility === 'default')) {
+			$css2[] = "--cwp-hover-distance: {$distance}px";
+			$css2[] = "--cwp-hover-duration: {$duration}s";
+
+			$attr['data-cwp-direction']  = $direction;
+			$attr['data-cwp-visibility'] = $visibility;
+			
+		}
+		if ($element->get_name() === 'button') {
+			if (!empty($display['cwp_hover_button_bg_color'])) {
+				$css2[] = "--cwp-hover-bg: {$display['cwp_hover_button_bg_color']}";
+			}
+			if (!empty($display['cwp_hover_button_icon_color'])) {
+				$css2[] = "--cwp-hover-color: {$display['cwp_hover_button_icon_color']}";
+			}
+
+			if (!empty($display['cwp_hover_button_bg_color']) || !empty($display['cwp_hover_button_icon_color'])) {
+				$attr['data-cwp-button-colors'] = 'true';
+			}
+		}
+		/**
+		 * Click data attributes
+		 */
+		$click_enabled = !empty($display['cwp_click_enable']) && $display['cwp_click_enable'] === 'yes';
+		$click_apply = !empty($display['cwp_click_apply']) && $display['cwp_click_apply'] === 'custom';
+		if ($click_enabled) {
+			$attr['class'] .= ' cwp-click-element ';
+			$attr['data-cwp-click-enabled'] = 'true';
+
+			$target_mode_raw = $display['cwp_click_apply'] ?? '';
+			$target_mode = strtolower($target_mode_raw);
+			 
+			$attr['data-cwp-target-mode'] = $target_mode;
+
+			$custom_target =  $display['cwp_click_target_class'] ?? '';
+			if (!empty($custom_target)) {
+				$attr['data-cwp-target-class'] = sanitize_key($custom_target);
+				$attr['class'] .= sanitize_key($custom_target);
+			} 
+			$apply_class  = $display['cwp_click_target_apply_class'] ?? '';
+			$remove_class = $display['cwp_click_target_remove_class'] ?? '';
+			$attr['data-cwp-apply-class']  = $apply_class ? sanitize_html_class($apply_class) : '';
+			$attr['data-cwp-remove-class'] = $remove_class ? sanitize_html_class($remove_class) : ''; 
+			if ($click_apply == 'custom') {
+				$apply_css = "display: block; opacity: 1; visibility: visible;";
+				$remove_css = "display: none; opacity: 0; visibility: hidden;";
+				$attr['data-cwp-apply-css']  = esc_attr($apply_css);
+				$attr['data-cwp-remove-css'] = esc_attr($remove_css);
+			}
+			if($target_mode == 'current') { 
+				$apply_css = "display: none; opacity: 0; visibility: hidden;";
+				$attr['data-cwp-apply-css']  = esc_attr($apply_css); 
+			}
+			// Add remove_css to style attribute as well
+			if (!empty($remove_css)) {
+				$css[] = $remove_css;
+			}
+			if ($click_apply == 'custom') {
+				$attr['style'] = implode('; ', $css);
+			}
+			
+		}
+		if (!empty($css2)) {
+			$attr['style'] = implode('; ', $css2);
+		}
+		$element->add_render_attribute('_wrapper', $attr);
+	}
+
+	add_action('elementor/frontend/widget/before_render', 'cubewp_woo_elementor_before_render', 30);
+	add_action('elementor/frontend/container/before_render', 'cubewp_woo_elementor_before_render', 30);
+}
+
+/**
+ * Method cubewp_get_filters_conditional_taxonomy_terms
+ *
+ * @return json
+ */
+if (!function_exists('cubewp_get_filters_conditional_taxonomy_terms')) {
+	function cubewp_get_filters_conditional_taxonomy_terms()
+	{
+		// Verify nonce
+		if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['nonce'])), 'cubewp_filters_conditional_nonce')) {
+			wp_send_json_error(array('message' => esc_html__('Security check failed.', 'cubewp-framework')));
+		}
+
+		$term_ids = isset($_POST['term_ids']) ? array_map('intval', (array) wp_unslash($_POST['term_ids'])) : array();
+		$term_meta_key = isset($_POST['term_meta_key']) ? sanitize_text_field(wp_unslash($_POST['term_meta_key'])) : '';
+		$taxonomy_name = isset($_POST['taxonomy_name']) ? sanitize_text_field(wp_unslash($_POST['taxonomy_name'])) : '';
+		$display_type = isset($_POST['display_type']) ? sanitize_text_field(wp_unslash($_POST['display_type'])) : '';
+
+		if (empty($term_ids) || empty($term_meta_key) || empty($taxonomy_name)) {
+			wp_send_json_error(array('message' => esc_html__('Invalid parameters.', 'cubewp-framework')));
+		}
+
+		$associated_term_ids = array();
+
+		// Get associated term IDs from term meta
+		foreach ($term_ids as $term_id) {
+			if ($term_id <= 0) {
+				continue;
+			}
+
+			// Get term meta value (should be an array of term IDs)
+			$term_meta_value = get_term_meta($term_id, $term_meta_key, true);
+
+			if (!empty($term_meta_value)) {
+				// Handle both array and comma-separated string
+				if (is_array($term_meta_value)) {
+					$associated_term_ids = array_merge($associated_term_ids, array_map('intval', $term_meta_value));
+				} else if (is_string($term_meta_value)) {
+					$terms_array = explode(',', $term_meta_value);
+					$associated_term_ids = array_merge($associated_term_ids, array_map('intval', $terms_array));
+				} else {
+					$associated_term_ids[] = intval($term_meta_value);
+				}
+			}
+		}
+
+		// Remove duplicates and empty values
+		$associated_term_ids = array_unique(array_filter($associated_term_ids));
+
+		if (!empty($associated_term_ids)) {
+			wp_send_json_success($associated_term_ids);
+		} else {
+			wp_send_json_success(array());
+		}
+	}
+	add_action('wp_ajax_cubewp_get_filters_conditional_taxonomy_terms', 'cubewp_get_filters_conditional_taxonomy_terms');
+	add_action('wp_ajax_nopriv_cubewp_get_filters_conditional_taxonomy_terms', 'cubewp_get_filters_conditional_taxonomy_terms');
+}
+
+/**
+ * Currency symbol from WooCommerce or default "$".
+ *
+ * @return string
+ * @since 1.1.30
+ */
+if (! function_exists('cubewp_get_currency_symbol')) {
+	function cubewp_get_currency_symbol()
+	{
+		if (class_exists('WooCommerce') && function_exists('get_woocommerce_currency_symbol')) {
+			return get_woocommerce_currency_symbol();
+		}
+
+		return apply_filters('cubewp/default_currency_symbol', '$');
+	}
+}
+
+/**
+ * Currency position from WooCommerce settings or default "left".
+ *
+ * @return string left|right|left_space|right_space
+ * @since 1.1.30
+ */
+if (! function_exists('cubewp_get_currency_position')) {
+	function cubewp_get_currency_position()
+	{
+		if (class_exists('WooCommerce')) {
+			$position = get_option('woocommerce_currency_pos', 'left');
+			$allowed  = array('left', 'right', 'left_space', 'right_space');
+			if (in_array($position, $allowed, true)) {
+				return $position;
+			}
+		}
+
+		return apply_filters('cubewp/default_currency_position', 'left');
+	}
+}
+
+/**
+ * Format a number using WooCommerce locale settings when available.
+ *
+ * @param float|int|string $number Number to format.
+ * @return string
+ * @since 1.1.30
+ */
+if (! function_exists('cubewp_format_localized_number')) {
+	function cubewp_format_localized_number($number)
+	{
+		if (! is_numeric($number)) {
+			return (string) $number;
+		}
+
+		if (class_exists('WooCommerce') && function_exists('wc_format_decimal')) {
+			$decimals = function_exists('wc_get_price_decimals') ? wc_get_price_decimals() : 2;
+			return wc_format_decimal($number, $decimals, true);
+		}
+
+		$number = (float) $number;
+		if (floor($number) === $number) {
+			return number_format($number, 0, '.', ',');
+		}
+
+		return number_format($number, 2, '.', ',');
+	}
+}
+
+/**
+ * Prefix or suffix a formatted number with the store currency symbol.
+ *
+ * @param float|int|string $number          Number to format.
+ * @param bool             $enable_currency Whether to add the currency symbol.
+ * @return string
+ * @since 1.1.30
+ */
+if (! function_exists('cubewp_format_number_with_currency')) {
+	function cubewp_format_number_with_currency($number, $enable_currency = false)
+	{
+		$formatted_number = cubewp_format_localized_number($number);
+
+		if (! $enable_currency) {
+			return $formatted_number;
+		}
+
+		$symbol   = cubewp_get_currency_symbol();
+		$position = cubewp_get_currency_position();
+
+		switch ($position) {
+			case 'right':
+				return $formatted_number . $symbol;
+			case 'left_space':
+				return $symbol . ' ' . $formatted_number;
+			case 'right_space':
+				return $formatted_number . ' ' . $symbol;
+			case 'left':
+			default:
+				return $symbol . $formatted_number;
+		}
+	}
+}

@@ -74,15 +74,17 @@ class CubeWp_Frontend_Search_Fields {
      */
     public function cwp_search_form( $params = array() ) {
         
-        $output = '<div class="cwp-frontend-search-form '. esc_attr($this->form_container_class) .'">
+        $output = '<div class="cwp-frontend-form-container">
+        <div class="cwp-frontend-search-form '. esc_attr($this->form_container_class) .'">
             <form method="GET" id="'. esc_attr($this->form_id) .'" class="'. esc_attr($this->form_class) .'" action="'.esc_url(home_url('/')).'" class="cwp-search-form">
                 <input type="hidden" name="post_type" value="'. esc_attr($this->type) .'">
                 <input type="hidden" name="s" value="">';
         
-                $output .= $this->cwp_search_form_fields();
+                $fields_output = $this->cwp_search_form_fields();
+                $output .= is_string($fields_output) ? $fields_output : '';
    
                 $output .= '</form>
-        </div>';
+        </div></div>';
         
         $output = apply_filters('cubewp/frontend/search/form', $output, $params, $this->search_fields);
         
@@ -109,14 +111,21 @@ class CubeWp_Frontend_Search_Fields {
                     $fieldOptions['custom_name_lng'] =   $fieldOptions['name'].'_lng';
                     $fieldOptions['custom_name_range'] =   $fieldOptions['name'].'_range';
                 }
+                $fieldname = $fieldOptions['name'];
                 if($fieldOptions['type'] == 'taxonomy'){
                     $fieldOptions['appearance'] = $fieldOptions['display_ui'];
+                    $fieldname = CubeWp_Frontend_Search_Filter::taxonomy_prefix($fieldname);
                 }
                 $fieldOptions['form_type'] = 'search';
 
                 if( isset($this->custom_fields[$name['name']]) && !empty($this->custom_fields[$name['name']]) ){
                     $fieldOptions = wp_parse_args($fieldOptions, $this->custom_fields[$name['name']]);
                 }
+
+                if(isset($_GET[$fieldname]) && !empty($_GET[$fieldname])){// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+                    $fieldOptions['value'] = sanitize_text_field(wp_unslash($_GET[$fieldname]));// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+                }
+
                 $only_fields[]= $fieldOptions;
                 $output .=  apply_filters("cubewp/frontend/search/{$fieldOptions['type']}/field", '', $fieldOptions);
             }
